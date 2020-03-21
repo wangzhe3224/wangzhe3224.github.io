@@ -1,18 +1,19 @@
 sudo: false
 language: node_js
 node_js:
-  - 10 # use nodejs v10 LTS
+    - 10
 cache: npm
 branches:
-  only:
-    - master # build master branch only
+    only:
+        - hexo-source
 script:
-  - hexo generate # generate static files
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GH_TOKEN
-  keep-history: true
-  on:
-    branch: master
+    - 'hexo generate'
+deploy: 
+    provider: pages
+    skip-cleanup: true
+    github-token: $GH_TOKEN
+    keep-history: true
+    target_branch: master
+    on: 
+        branch: hexo-source
     local-dir: public
