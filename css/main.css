@@ -752,8 +752,9 @@ pre .javascript .function {
   margin-bottom: 20px;
   padding: 1em;
   position: relative;
-  border: 1px solid #eee;
-  border-left-width: 5px;
+  background: #f9f9f9;
+  border: initial;
+  border-left: 3px solid #eee;
 }
 .post-body .note h2,
 .post-body .note h3,
@@ -784,6 +785,7 @@ pre .javascript .function {
   margin-bottom: 0;
 }
 .post-body .note.default {
+  background: #f7f7f7;
   border-left-color: #777;
 }
 .post-body .note.default h2,
@@ -794,6 +796,7 @@ pre .javascript .function {
   color: #777;
 }
 .post-body .note.primary {
+  background: #f5f0fa;
   border-left-color: #6f42c1;
 }
 .post-body .note.primary h2,
@@ -804,6 +807,7 @@ pre .javascript .function {
   color: #6f42c1;
 }
 .post-body .note.info {
+  background: #eef7fa;
   border-left-color: #428bca;
 }
 .post-body .note.info h2,
@@ -814,6 +818,7 @@ pre .javascript .function {
   color: #428bca;
 }
 .post-body .note.success {
+  background: #eff8f0;
   border-left-color: #5cb85c;
 }
 .post-body .note.success h2,
@@ -824,6 +829,7 @@ pre .javascript .function {
   color: #5cb85c;
 }
 .post-body .note.warning {
+  background: #fdf8ea;
   border-left-color: #f0ad4e;
 }
 .post-body .note.warning h2,
@@ -834,6 +840,7 @@ pre .javascript .function {
   color: #f0ad4e;
 }
 .post-body .note.danger {
+  background: #fcf1f2;
   border-left-color: #d9534f;
 }
 .post-body .note.danger h2,
@@ -1167,6 +1174,12 @@ pre .javascript .function {
   max-width: 120px;
   padding: 2px;
 }
+.site-author-image {
+  transition: transform 1s ease-out;
+}
+.site-author-image:hover {
+  transform: rotateZ(360deg);
+}
 .site-author-name {
   color: var(--text-color);
   font-weight: 600;
@@ -1193,7 +1206,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #20540f;
+  background: #d78fff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2394,17 +2407,6 @@ ul.breadcrumb li + li:last-child {
     display: none;
   }
 }
-.menu-item-active a::after {
-  background: #bbb;
-  border-radius: 50%;
-  content: ' ';
-  height: 6px;
-  margin-top: -3px;
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  width: 6px;
-}
 .menu .menu-item {
   display: block;
   margin: 0;
@@ -2449,10 +2451,6 @@ ul.breadcrumb li + li:last-child {
 .sub-menu .menu-item span.exturl:hover {
   background: transparent;
   color: #fc6423;
-}
-.sub-menu .menu-item a::after,
-.sub-menu .menu-item span.exturl::after {
-  content: initial !important;
 }
 .sub-menu .menu-item-active a {
   border-bottom-color: #fc6423;
