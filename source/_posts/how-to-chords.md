@@ -1,6 +1,8 @@
 ---
 title: 配和弦的方法
-tags: Music
+tags: Chord
+categories: Music
+date: 2020-04-05
 ---
 
 ## 配和弦的基本规则
