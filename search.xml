@@ -53,15 +53,21 @@
 <li><a href="https://www.youtube.com/channel/UCVXstWyJeO6No3jYELxYrjg" target="_blank" rel="noopener">好和弦</a></li>
 </ul>
 ]]></content>
+      <categories>
+        <category>Music</category>
+      </categories>
       <tags>
-        <tag>Music</tag>
+        <tag>Chord</tag>
       </tags>
   </entry>
   <entry>
     <title>Major Update</title>
-    <url>/2020/04/05/major-update/</url>
+    <url>/2020/03/29/major-update/</url>
     <content><![CDATA[<p>I updated my blog. Not sure I will move old posts here. But I put them here: <a href="https://github.com/wangzhe3224/wangzhe3224.github.io.backup/tree/master/_posts" target="_blank" rel="noopener">Old post</a>.<br>Just in case. </p>
 <p>Zhe</p>
 ]]></content>
+      <categories>
+        <category>Admin</category>
+      </categories>
   </entry>
 </search>
