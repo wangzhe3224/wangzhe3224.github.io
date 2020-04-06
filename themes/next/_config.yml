@@ -106,11 +106,6 @@ scheme: Gemini
 # Dark Mode
 darkmode: true 
 
-# Automatically Excerpt. Not recommand.
-# Please use <!-- more --> in the post to control excerpt accurately.
-auto_excerpt:
-  enable: false
-  length: 150
 
 # ---------------------------------------------------------------
 # Menu Settings
@@ -238,7 +233,7 @@ chat:
 # ---------------------------------------------------------------
 
 # Automatically excerpt description in homepage as preamble text.
-  excerpt_description: false 
+  excerpt_description: true 
 
 # Read more button
 # If true, the read more button will be displayed in excerpt section.
