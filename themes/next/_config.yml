@@ -999,3 +999,14 @@ vendors:
 css: css
 js: js
 images: images
+# Post wordcount display settings
+# Dependencies: https://github.com/willin/hexo-wordcount
+post_wordcount:
+  item_text: true
+  #字数统计
+  wordcount: true
+  #预览时间
+  min2read: true
+  #总字数,显示在页面底部
+  totalcount: true
+  separated_meta: true
