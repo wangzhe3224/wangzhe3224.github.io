@@ -2,9 +2,10 @@
 title: Audio Signal Processing for Music Applications
 date: 2020-04-06
 categories: Reading
-rags:
+tags:
  - Music
  - Signal Processing
+mathjax: true
 ---
 
 # Audio Signal Processing for Music Applications
