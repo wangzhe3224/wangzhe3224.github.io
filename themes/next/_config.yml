@@ -256,7 +256,7 @@ post_meta:
 symbols_count_time:
   separated_meta: true
   item_text_post: true
-  item_text_total: false
+  item_text_total: true
 
 # Use icon instead of the symbol # to indicate the tag at the bottom of the post
 tag_icon: false
@@ -999,14 +999,3 @@ vendors:
 css: css
 js: js
 images: images
-# Post wordcount display settings
-# Dependencies: https://github.com/willin/hexo-wordcount
-post_wordcount:
-  item_text: true
-  #字数统计
-  wordcount: true
-  #预览时间
-  min2read: true
-  #总字数,显示在页面底部
-  totalcount: true
-  separated_meta: true
