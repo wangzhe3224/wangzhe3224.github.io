@@ -265,134 +265,14 @@
 <blockquote>
 <p>Perhaps most importantly, from the point of view of computer music research, is that the human ear is a kind of spectrum analyzer. That is, the cochlea of the inner ear physically splits sound into its (quasi) sinusoidal components. This is accomplished by the basilar membrane in the inner ear: a sound wave injected at the oval window (which is connected via the bones of the middle ear to the ear drum), travels along the basilar membrane inside the coiled cochlea. The membrane starts out thick and stiff, and gradually becomes thinner and more compliant toward its apex (the helicotrema). A stiff membrane has a high resonance frequency while a thin, compliant membrane has a low resonance frequency (assuming comparable mass per unit length, or at least less of a difference in mass than in compliance). Thus, as the sound wave travels, each frequency in the sound resonates at a particular place along the basilar membrane. The highest audible frequencies resonate right at the entrance, while the lowest frequencies travel the farthest and resonate near the helicotrema. The membrane resonance effectively <code>shorts out&#39;&#39; the signal energy at the resonant frequency, and it travels no further. Along the basilar membrane there are hair cells which</code>feel’’ the resonant vibration and transmit an increased firing rate along the auditory nerve to the brain. Thus, the ear is very literally a Fourier analyzer for sound, albeit nonlinear and using ``analysis’’ parameters that are difficult to match exactly. Nevertheless, by looking at spectra (which display the amount of each sinusoidal frequency present in a sound), we are looking at a representation much more like what the brain receives when we hear.</p>
 </blockquote>
-<p>Discrete Fourier Transform:</p>
-<p>$$X[k]=\sum_{n=0}^{N-1}x[n]e^{-j2\pi kn/N}$$</p>
-<p>Where,<br>$n$: discrete time index(normalized time, T = 1)<br>$k$: discrete frequency index<br>$w_k=2\pi k/N$: frequency in radians per seconds<br>$f_k=f_s k/N$: frequency in Hz ($f_s$ is sampling rate)</p>
-<p>Complex exponentials:</p>
-<p>$$s_k^* = e^{-j2\pi kn/N}$$</p>
-<p>Scalar product:</p>
-<p>$$&lt;x, s_k&gt; = \sum_{n=0}^{N-1}x[n]s_k^*[n]$$</p>
-<p>Real sinusoid:</p>
-<p>$$x[n] = Acos(2\pi fnT + \psi)$$</p>
-<p>where,</p>
-<p>$x$ is the array of real values of the sinusoid<br>$n$ is an integer value expressing the time index<br>$A$ is the amplitude vaclue of the sinusoid<br>$f$ is frequency in Hz<br>$T$ is sampling period, $1/f_s$, $f_s$ is the sampling frequency in Hz<br>$\psi$ is the initial phase in radians</p>
-<p>Complex sinusiod:</p>
-<p>$$x[n]=Ae^{j(wnT+\psi)} = Acos(wnT+\psi) + jAsin(wnT+\psi)$$</p>
-<p>Inverse DFT:</p>
-<p>$$x[n]=\frac{1}{N}\sum_{k=0}^{N-1}X[k]s_k[n]$$<br>where, $s$ is the conjugate of $s^*$.</p>
-<p>The bridge between analog and digial signal.</p>
-<p>$$f = \frac{F_s}{M}$$<br>where, M is period of digital signal, F_s is the sampling frequency in Hz, f is the frequency in analog signal in Hz.</p>
-<p>The discrete-time oscillatory heartbeat:</p>
-<p>$$x[n] = Ae^{j(wn+\psi)} = A[cos(wn+\psi)+jsin(wn+\psi)]$$</p>
-<p>where, $A$ is amplitude, $w$ is frequency in radians, and $\psi$ is initial phase in radians.</p>
-<p>The concept here is that a circular movement, the e part, can always be described as a sin and cos function for two dementions movements.</p>
-<p>Multiple e part will rotate the point. hence:</p>
-<p>$x[n]=e^{jwn}; x[n+1]=e^{jw}x[n]$</p>
-<p>:::warning<br>Not every sinusoid is periodic in discrete time! $e^{jwn}$ is periodic in n, only when $w=\frac{M}{N}2\pi$<br>:::</p>
-<p>If $w &gt; 2\pi$, we have issues.</p>
-<h2 id="Vector-space-in-DSP"><a href="#Vector-space-in-DSP" class="headerlink" title="Vector space in DSP"></a>Vector space in DSP</h2><p>Once we model something in vector space, all the tools in vectors space is open to us!</p>
-<p>:::info<br>The item in vectors, can be any thing! such as functions!<br>:::</p>
-<p>Some examples of vector spaces:</p>
-<ul>
-<li>$\mathbb{R}^2: x=[x_0, x_1]^T$</li>
-<li>$\mathbb{R}^3: x=[x_0, x_1, x_2]^T$</li>
-<li>$L_2(-1, 1): x=x(t), t\in[-1, 1]$</li>
-<li>$\mathbb{R}^N$</li>
-</ul>
-<p>The ingredients of vector space (Data Structure):</p>
-<ul>
-<li>the set of vectors, V</li>
-<li>a set of scalars, say $\mathbb{C}$</li>
-</ul>
-<p>At least to some methods to apply to these Data:</p>
-<ul>
-<li>resize vectors</li>
-<li>combine vectors</li>
-</ul>
-<p>So formal properties of a vector space:</p>
-<ul>
-<li>x + y = y + x</li>
-<li>(x+y)+z = x+(y+z)</li>
-<li>a(x+y)= ax + ay</li>
-<li>inner product, $&lt;.,.&gt;: V*V \to \mathbb{C}$<ul>
-<li>&lt;x+y, z&gt; = &lt;x, y+z&gt;</li>
-<li>….</li>
-</ul>
-</li>
-<li>…</li>
-</ul>
-<p>Inner product reflect the similarity of two vectors! If 0, means orgthogno, or no simalarity! We have <code>norm</code> and <code>distance</code> of two vectors. The <code>distance</code> in $L_2$ function vector space, also called mean square error!</p>
-<h2 id="Signal-Space"><a href="#Signal-Space" class="headerlink" title="Signal Space"></a>Signal Space</h2><p>Finite-length and periodic signals live in $\mathbb{C}^N$. </p>
-<p>The inner product operation is defined:</p>
-<p>$$&lt;x, y&gt; = \sum_{n=0}^{N-1}x^{*}[n]y[n]$$</p>
-<p>By finite, it requires the sequences to be square-summable: $\sum |x[n]|^2&lt;\infty$. This is energy of signal, so finite energy!</p>
-<p>:::info<br>Hilbert Space: $H(V, \mathbb{C})$:</p>
-<ul>
-<li>an inner product is defined</li>
-<li>completeness on all required vector operation<br>:::</li>
-</ul>
-<h2 id="Bases"><a href="#Bases" class="headerlink" title="Bases"></a>Bases</h2><p>Linear combination is the basic operation in vector spaces. How can we find a set of building blocks, vectors, to express all the other vectors in the space??</p>
-<p>Formal definition of bases:</p>
-<p>Given: </p>
-<ul>
-<li>a vector space, H</li>
-<li>a set of K vectors from $W= {w^{(k)}}_{k=0,1,…,K-1}$</li>
-</ul>
-<p>W is a basis for H if:</p>
-<ol>
-<li>we can write all $x\in H$:<br>$$x = \sum_{k=0}^{K-1}\alpha w^, \alpha_k\in\mathbb{C}$$</li>
-<li>$\alpha_k$ are unique</li>
-</ol>
-<p>Orthogonal basis</p>
-<p>Orthonormal basis</p>
-<p>By orthonormal basis, </p>
-<p>$$\alpha_k=&lt;w, x&gt;$$</p>
-<p>Change basis:</p>
-<p><img data-src="https://i.imgur.com/9SdEpoD.png" alt="Change Basis"></p>
-<h2 id="Subspace-bases-approximations"><a href="#Subspace-bases-approximations" class="headerlink" title="Subspace bases approximations"></a>Subspace bases approximations</h2><p>Approximate using sub-space.</p>
-<h3 id="Least-square-approximation"><a href="#Least-square-approximation" class="headerlink" title="Least square approximation"></a>Least square approximation</h3><p>Given $s^{(k)}<em>{k=0,1,…,K-1}$ are orthonormal basis for S,<br>the orthogonal projection:<br>$$\hat{x}=\sum</em>{}^{}&lt;s^{(k)}, x&gt;s^{(k)}$$</p>
-<p>is the best approximation of over S. It has minimum norm error, the error is also orthogonal to approximation, which means this sub space cannot get more information any more.</p>
-<p>Gram-Schmidt orthonormlization procedure.</p>
-<h2 id="Fouries-Analysis"><a href="#Fouries-Analysis" class="headerlink" title="Fouries Analysis"></a>Fouries Analysis</h2><p>Osillations are everywhere. And system does not move in circles, can’t last long.</p>
-<p>Fouries analysis is simply a base change in vector space $\mathbb{C}^N$.</p>
-<p>$$w_k[n]=e^{j\frac{2\pi}{N}nk}$$</p>
-<p>where $n, k = 0,1,…,N-1$.</p>
-<p>Above is an orthogonal basis in $\mathbb{C}$</p>
-<h2 id="DFT-Discrete-Fouries-Transformaion"><a href="#DFT-Discrete-Fouries-Transformaion" class="headerlink" title="DFT, Discrete Fouries Transformaion"></a>DFT, Discrete Fouries Transformaion</h2><p>The analysis formular:</p>
-<p>$$X_k = &lt;w_k, x&gt;$$</p>
-<p>The synthesis formula:</p>
-<p>$$x = \frac{1}{N}\sum_{k=0}^{N-1}X_kw^{(k)}$$</p>
-<h2 id="Interpreting-DFT"><a href="#Interpreting-DFT" class="headerlink" title="Interpreting DFT"></a>Interpreting DFT</h2><p><img data-src="https://i.imgur.com/z5XIDHQ.png" alt=""></p>
-<p><img data-src="https://i.imgur.com/aT146UI.png" alt=""></p>
-<h3 id="How-to-label-DFT-result"><a href="#How-to-label-DFT-result" class="headerlink" title="How to label DFT result?"></a>How to label DFT result?</h3><p>Given sample number is N, sample frequency is $f_s$, if we find a peak in DFT at k = 500, what is the corresponding frequency in Hz? </p>
-<p>The highest freqency in the system is $f_s/2$.</p>
-<p>$f = kf_s/N$</p>
-<h2 id="DFT-in-Music"><a href="#DFT-in-Music" class="headerlink" title="DFT in Music"></a>DFT in Music</h2><p>Frequency, harmonics. timbre is different because of the harmonics. But the pitch is just the first frequency component. </p>
-<p><img data-src="https://i.imgur.com/UnhGofZ.png" alt=""></p>
-<h2 id="DFT-synthesis"><a href="#DFT-synthesis" class="headerlink" title="DFT synthesis"></a>DFT synthesis</h2><p><img data-src="https://i.imgur.com/KfWDMkE.png" alt=""></p>
-<p>Frequency in Hz and in radians:</p>
-<p>$$f = \frac{wf_s}{2\pi}$$</p>
-<h2 id="Convolution"><a href="#Convolution" class="headerlink" title="Convolution???"></a>Convolution???</h2><h2 id="STFT-short-term-fouries-transform"><a href="#STFT-short-term-fouries-transform" class="headerlink" title="STFT, short term fouries transform"></a>STFT, short term fouries transform</h2><p>Spectrogram is a way to show STFT. There are two variables: window and frequency. $X[m;k]$, where m is the window, k is frequency index.</p>
-<p>Spectrogram show time, frequency at the same time. Once we know the sample frequency, we can label the spectrogram.</p>
-<p>$T_s = 1/F_s$, the frequency resolution is $f_s/L Hz$, and the width of time slices is $LT_s$.</p>
-<p>Question to ask:</p>
-<ul>
-<li>width of window?</li>
-<li>position of the window?</li>
-<li>shape of the window?</li>
-</ul>
-<p><img data-src="https://i.imgur.com/A5PBgce.png" alt=""></p>
-<p>Short window gives better time precision, while long window give better frequency precision.</p>
-<p><img data-src="https://i.imgur.com/L2UAe8g.png" alt=""></p>
-<p>STFT leads to wavelet transform.</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h2><ul>
-<li><a href="https://ccrma.stanford.edu/~jos/mdft/" target="_blank" rel="noopener">https://ccrma.stanford.edu/~jos/mdft/</a></li>
-<li><a href="https://www.youtube.com/watch?v=MBnnXbOM5S4" target="_blank" rel="noopener">The more general uncertainty principle, beyond quantum</a></li>
-<li><a href="youtube.com/watch?v=spUNpyF58BY">But what is the Fourier Transform? A visual introduction</a></li>
-<li><a href="https://www.youtube.com/watch?v=r6sGWTCMz2k" target="_blank" rel="noopener">But what is a Fourier series? From heat flow to circle drawings</a></li>
-<li><a href="http://www.jezzamon.com/fourier/index.html" target="_blank" rel="noopener">An Interactive Introduction to Fourier Transforms</a></li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/06/Audio_Signal_Processing_for_Music_Applications/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
