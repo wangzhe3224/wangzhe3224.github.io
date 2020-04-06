@@ -106,6 +106,9 @@ scheme: Gemini
 # Dark Mode
 darkmode: true 
 
+auto_excerpt:
+  enable: true
+  length: 150
 
 # ---------------------------------------------------------------
 # Menu Settings
