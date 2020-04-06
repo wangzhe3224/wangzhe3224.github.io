@@ -256,7 +256,7 @@ symbols_count_time:
   item_text_total: false
 
 # Use icon instead of the symbol # to indicate the tag at the bottom of the post
-tag_icon: true 
+tag_icon: false
 
 # Reward (Donate)
 # Front-matter variable (unsupport animation).
@@ -283,7 +283,7 @@ follow_me:
 # Related popular posts
 # Dependencies: https://github.com/tea3/hexo-related-popular-posts
 related_posts:
-  enable: true 
+  enable: false
   title: # Custom header, leave empty to use the default one
   display_in_home: false
   params:
@@ -501,7 +501,7 @@ math:
 
   # hexo-renderer-pandoc (or hexo-renderer-kramed) required for full MathJax support.
   mathjax:
-    enable: true
+    enable: false
     # See: https://mhchem.github.io/MathJax-mhchem/
     mhchem: false
 
