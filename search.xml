@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Z-backtest</title>
+    <url>/2020/04/07/z_backtesting/</url>
+    <content><![CDATA[<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>Why? bother to create another backtest framework, if we already have plenty of them?</p>
+<ul>
+<li>I can not find even one backtest framework to backtest option (or deriveritive) based strategy properly. (Mix of option and delta one product is a Bigger NO!)</li>
+<li>Debug/Reconcile backtest is painful, because of bad state management</li>
+<li>Logic components are hard to re-use</li>
+<li>And thanks to point 3, strategy code to strategy logic is not easy</li>
+<li>Not easy to do strategy of strategies</li>
+</ul>
+<p>How? to solve above problems?</p>
+<ol>
+<li>Use unified interface for derivertive and delta-one Node (And Event a Strategy!)</li>
+<li>Use explicit state management, things like Redux</li>
+<li>Use Algo stacks to express logics</li>
+<li>Thanks to point 3, this is solved</li>
+<li>Use Tree structure to describe strategy (Check point 1)</li>
+</ol>
+<p>What? we will achieve in this framework?</p>
+<ol>
+<li>Derivertive/Delta-one/Strategy can be backtested together</li>
+<li>Strategy data will be presented as a tree structure</li>
+<li>Common logic can be tested and re-used easily</li>
+<li>Compose common logics creats new strategy easily</li>
+<li>Strategy logic will be explicitly expressed as Algo stucks</li>
+<li>State evolution during backtesting is trasnprent </li>
+</ol>
+<p>What are not our goals (at least for now):</p>
+<ol>
+<li>Spead (If you are simple enough, you should be fast as well)</li>
+<li>Live trading (state =&gt; order =&gt; trade =&gt; state)</li>
+<li>Intraday strategy</li>
+<li>A lot of built in batteries (common logics, or complex derivative Node)</li>
+</ol>
+<h2 id="Concepts"><a href="#Concepts" class="headerlink" title="Concepts"></a>Concepts</h2>]]></content>
+      <categories>
+        <category>Quant</category>
+      </categories>
+      <tags>
+        <tag>Backtest</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Audio Signal Processing for Music Applications</title>
     <url>/2020/04/06/Audio_Signal_Processing_for_Music_Applications/</url>
     <content><![CDATA[<h1 id="Audio-Signal-Processing-for-Music-Applications"><a href="#Audio-Signal-Processing-for-Music-Applications" class="headerlink" title="Audio Signal Processing for Music Applications"></a>Audio Signal Processing for Music Applications</h1><p><a href="https://www.coursera.org/lecture/audio-signal-processing/dft-1-EZRXC" target="_blank" rel="noopener">Course Link</a></p>

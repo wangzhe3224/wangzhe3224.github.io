@@ -200,6 +200,118 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/07/z_backtesting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/07/z_backtesting/" class="post-title-link" itemprop="url">Z-backtest</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-07 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-07T00:00:00Z">2020-04-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Quant/" itemprop="url" rel="index"><span itemprop="name">Quant</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/04/07/z_backtesting/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/07/z_backtesting/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>Why? bother to create another backtest framework, if we already have plenty of them?</p>
+<ul>
+<li>I can not find even one backtest framework to backtest option (or deriveritive) based strategy properly. (Mix of option and delta one product is a Bigger NO!)</li>
+<li>Debug/Reconcile backtest is painful, because of bad state management</li>
+<li>Logic components are hard to re-use</li>
+<li>And thanks to point 3, strategy code to strategy logic is not easy</li>
+<li>Not easy to do strategy of strategies</li>
+</ul>
+<p>How? to solve above problems?</p>
+<ol>
+<li>Use unified interface for derivertive and delta-one Node (And Event a Strategy!)</li>
+<li>Use explicit state management, things like Redux</li>
+<li>Use Algo stacks to express logics</li>
+<li>Thanks to point 3, this is solved</li>
+<li>Use Tree structure to describe strategy (Check point 1)</li>
+</ol>
+<p>What? we will achieve in this framework?</p>
+<ol>
+<li>Derivertive/Delta-one/Strategy can be backtested together</li>
+<li>Strategy data will be presented as a tree structure</li>
+<li>Common logic can be tested and re-used easily</li>
+<li>Compose common logics creats new strategy easily</li>
+<li>Strategy logic will be explicitly expressed as Algo stucks</li>
+<li>State evolution during backtesting is trasnprent </li>
+</ol>
+<p>What are not our goals (at least for now):</p>
+<ol>
+<li>Spead (If you are simple enough, you should be fast as well)</li>
+<li>Live trading (state =&gt; order =&gt; trade =&gt; state)</li>
+<li>Intraday strategy</li>
+<li>A lot of built in batteries (common logics, or complex derivative Node)</li>
+</ol>
+<h2 id="Concepts"><a href="#Concepts" class="headerlink" title="Concepts"></a>Concepts</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/06/Audio_Signal_Processing_for_Music_Applications/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -535,18 +647,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
