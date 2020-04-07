@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>z_backtest</title>
+    <title>Z-backtest</title>
     <url>/2020/04/07/z_backtest/</url>
     <content><![CDATA[]]></content>
+      <categories>
+        <category>Quant</category>
+      </categories>
+      <tags>
+        <tag>Backtest</tag>
+      </tags>
   </entry>
   <entry>
     <title>Audio Signal Processing for Music Applications</title>
