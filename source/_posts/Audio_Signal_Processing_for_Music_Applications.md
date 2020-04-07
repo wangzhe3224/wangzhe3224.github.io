@@ -2,11 +2,11 @@
 title: Audio Signal Processing for Music Applications
 date: 2020-04-06
 categories: Reading
-tags:
- - Music
- - Signal Processing
+tags: Music, Signal Processing
 mathjax: true
 ---
+
+{%hackmd theme-dark %}
 
 # Audio Signal Processing for Music Applications
 
@@ -14,7 +14,9 @@ mathjax: true
 
 > Perhaps most importantly, from the point of view of computer music research, is that the human ear is a kind of spectrum analyzer. That is, the cochlea of the inner ear physically splits sound into its (quasi) sinusoidal components. This is accomplished by the basilar membrane in the inner ear: a sound wave injected at the oval window (which is connected via the bones of the middle ear to the ear drum), travels along the basilar membrane inside the coiled cochlea. The membrane starts out thick and stiff, and gradually becomes thinner and more compliant toward its apex (the helicotrema). A stiff membrane has a high resonance frequency while a thin, compliant membrane has a low resonance frequency (assuming comparable mass per unit length, or at least less of a difference in mass than in compliance). Thus, as the sound wave travels, each frequency in the sound resonates at a particular place along the basilar membrane. The highest audible frequencies resonate right at the entrance, while the lowest frequencies travel the farthest and resonate near the helicotrema. The membrane resonance effectively ``shorts out'' the signal energy at the resonant frequency, and it travels no further. Along the basilar membrane there are hair cells which ``feel'' the resonant vibration and transmit an increased firing rate along the auditory nerve to the brain. Thus, the ear is very literally a Fourier analyzer for sound, albeit nonlinear and using ``analysis'' parameters that are difficult to match exactly. Nevertheless, by looking at spectra (which display the amount of each sinusoidal frequency present in a sound), we are looking at a representation much more like what the brain receives when we hear.
 > 
+
 <!--more-->
+
 Discrete Fourier Transform:
 
 $$X[k]=\sum_{n=0}^{N-1}x[n]e^{-j2\pi kn/N}$$
@@ -241,6 +243,86 @@ Short window gives better time precision, while long window give better frequenc
 ![](https://i.imgur.com/L2UAe8g.png)
 
 STFT leads to wavelet transform.
+
+# The DFT: Numerical Aspects
+ 
+As a quick reminder, the definitions of the direct and inverse DFT for a length-$N$ signal are:
+
+\begin{align*}
+    X[k] &= \sum_{n=0}^{N-1} x[n]\, e^{-j\frac{2\pi}{N}nk}, \quad k=0, \ldots, N-1 \\
+    x[n] &= \frac{1}{N}\sum_{k=0}^{N-1} X[k]\, e^{j\frac{2\pi}{N}nk}, \quad n=0, \ldots, N-1
+\end{align*}
+
+The DFT produces a complex-valued vector that we can represent either via its real and imaginary parts or via its magnitude $|X[k]|$ and phase $\angle X[k] = \arctan \frac{\text{Im}\{X[k]\}}{\text{Re}\{X[k]\}}$.
+
+### Numerical errors in real and imaginary parts
+
+The DFT can be easily implemented using the change of basis matrix ${W}_N$. This is an $N\times N$ complex-valued matrix whose elements are 
+
+$$
+    {W}_N(n,k)=e^{-j\frac{2\pi}{N}nk}
+$$
+
+so that the DFT of a vector $\mathbf{x}$ is simply $\mathbf{X} = W_N\mathbf{x}$. Note that the inverse DFT can be obtained by simply conjugating ${W}_N$ so that $\mathbf{x} = W_N^*\mathbf{X}$.
+
+We can easily generate the matrix ${W}_N$ in Python like so:
+
+```python
+import numpy as np
+def dft_matrix(N):
+    # create a 1xN matrix containing indices 0 to N-1
+    a = np.expand_dims(np.arange(N), 0)
+    
+    # take advantage of numpy broadcasting to create the matrix
+    W = np.exp(-2j * (np.pi / N) * (a.T * a))
+    
+    return W
+
+x = np.array([5, 7, 9])
+
+# DFT matrix
+N = len(x)
+W = dft_matrix(N);
+
+# DFT
+X = np.dot(W, x)
+# inverse DFT
+x_hat = np.dot(W.T.conjugate(), X) / N
+
+print(x-x_hat)
+```
+
+## Fouries representation for signal class
+- N-point finite-length: DFT
+- N-point periodic: DFS
+- infinite length: DTFT
+
+![](https://i.imgur.com/ZnK3RgD.png)
+
+![](https://i.imgur.com/uzP9LOM.png)
+
+![](https://i.imgur.com/AUUxJbD.png)
+
+## Sinusoidal modulation
+
+Based on where most frequencies are located.
+
+- lowpass signal
+- highpass signal
+- bandpass signal
+
+How?
+
+![](https://i.imgur.com/4VwKahL.png)
+
+
+Why?
+
+![](https://i.imgur.com/JZGmVkB.png)
+
+
+
+Why we doing this?
 
 ## Reference:
 
