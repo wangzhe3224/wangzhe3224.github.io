@@ -51,6 +51,7 @@
 <p>Perhaps most importantly, from the point of view of computer music research, is that the human ear is a kind of spectrum analyzer. That is, the cochlea of the inner ear physically splits sound into its (quasi) sinusoidal components. This is accomplished by the basilar membrane in the inner ear: a sound wave injected at the oval window (which is connected via the bones of the middle ear to the ear drum), travels along the basilar membrane inside the coiled cochlea. The membrane starts out thick and stiff, and gradually becomes thinner and more compliant toward its apex (the helicotrema). A stiff membrane has a high resonance frequency while a thin, compliant membrane has a low resonance frequency (assuming comparable mass per unit length, or at least less of a difference in mass than in compliance). Thus, as the sound wave travels, each frequency in the sound resonates at a particular place along the basilar membrane. The highest audible frequencies resonate right at the entrance, while the lowest frequencies travel the farthest and resonate near the helicotrema. The membrane resonance effectively <code>shorts out&#39;&#39; the signal energy at the resonant frequency, and it travels no further. Along the basilar membrane there are hair cells which</code>feel’’ the resonant vibration and transmit an increased firing rate along the auditory nerve to the brain. Thus, the ear is very literally a Fourier analyzer for sound, albeit nonlinear and using ``analysis’’ parameters that are difficult to match exactly. Nevertheless, by looking at spectra (which display the amount of each sinusoidal frequency present in a sound), we are looking at a representation much more like what the brain receives when we hear.</p>
 </blockquote>
 <a id="more"></a>
+
 <p>Discrete Fourier Transform:</p>
 <p>$$X[k]=\sum_{n=0}^{N-1}x[n]e^{-j2\pi kn/N}$$</p>
 <p>Where,<br>$n$: discrete time index(normalized time, T = 1)<br>$k$: discrete frequency index<br>$w_k=2\pi k/N$: frequency in radians per seconds<br>$f_k=f_s k/N$: frequency in Hz ($f_s$ is sampling rate)</p>
@@ -171,6 +172,34 @@
 <p>Short window gives better time precision, while long window give better frequency precision.</p>
 <p><img data-src="https://i.imgur.com/L2UAe8g.png" alt=""></p>
 <p>STFT leads to wavelet transform.</p>
+<h1 id="The-DFT-Numerical-Aspects"><a href="#The-DFT-Numerical-Aspects" class="headerlink" title="The DFT: Numerical Aspects"></a>The DFT: Numerical Aspects</h1><p>As a quick reminder, the definitions of the direct and inverse DFT for a length-$N$ signal are:</p>
+<p>\begin{align<em>}<br>    X[k] &amp;= \sum_{n=0}^{N-1} x[n], e^{-j\frac{2\pi}{N}nk}, \quad k=0, \ldots, N-1 \<br>    x[n] &amp;= \frac{1}{N}\sum_{k=0}^{N-1} X[k], e^{j\frac{2\pi}{N}nk}, \quad n=0, \ldots, N-1<br>\end{align</em>}</p>
+<p>The DFT produces a complex-valued vector that we can represent either via its real and imaginary parts or via its magnitude $|X[k]|$ and phase $\angle X[k] = \arctan \frac{\text{Im}{X[k]}}{\text{Re}{X[k]}}$.</p>
+<h3 id="Numerical-errors-in-real-and-imaginary-parts"><a href="#Numerical-errors-in-real-and-imaginary-parts" class="headerlink" title="Numerical errors in real and imaginary parts"></a>Numerical errors in real and imaginary parts</h3><p>The DFT can be easily implemented using the change of basis matrix ${W}_N$. This is an $N\times N$ complex-valued matrix whose elements are </p>
+<p>$$<br>    {W}_N(n,k)=e^{-j\frac{2\pi}{N}nk}<br>$$</p>
+<p>so that the DFT of a vector $\mathbf{x}$ is simply $\mathbf{X} = W_N\mathbf{x}$. Note that the inverse DFT can be obtained by simply conjugating ${W}_N$ so that $\mathbf{x} = W_N^*\mathbf{X}$.</p>
+<p>We can easily generate the matrix ${W}_N$ in Python like so:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dft_matrix</span><span class="params">(N)</span>:</span></span><br><span class="line">    <span class="comment"># create a 1xN matrix containing indices 0 to N-1</span></span><br><span class="line">    a = np.expand_dims(np.arange(N), <span class="number">0</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># take advantage of numpy broadcasting to create the matrix</span></span><br><span class="line">    W = np.exp(<span class="number">-2j</span> * (np.pi / N) * (a.T * a))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> W</span><br><span class="line"></span><br><span class="line">x = np.array([<span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># DFT matrix</span></span><br><span class="line">N = len(x)</span><br><span class="line">W = dft_matrix(N);</span><br><span class="line"></span><br><span class="line"><span class="comment"># DFT</span></span><br><span class="line">X = np.dot(W, x)</span><br><span class="line"><span class="comment"># inverse DFT</span></span><br><span class="line">x_hat = np.dot(W.T.conjugate(), X) / N</span><br><span class="line"></span><br><span class="line">print(x-x_hat)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Fouries-representation-for-signal-class"><a href="#Fouries-representation-for-signal-class" class="headerlink" title="Fouries representation for signal class"></a>Fouries representation for signal class</h2><ul>
+<li>N-point finite-length: DFT</li>
+<li>N-point periodic: DFS</li>
+<li>infinite length: DTFT</li>
+</ul>
+<p><img data-src="https://i.imgur.com/ZnK3RgD.png" alt=""></p>
+<p><img data-src="https://i.imgur.com/uzP9LOM.png" alt=""></p>
+<p><img data-src="https://i.imgur.com/AUUxJbD.png" alt=""></p>
+<h2 id="Sinusoidal-modulation"><a href="#Sinusoidal-modulation" class="headerlink" title="Sinusoidal modulation"></a>Sinusoidal modulation</h2><p>Based on where most frequencies are located.</p>
+<ul>
+<li>lowpass signal</li>
+<li>highpass signal</li>
+<li>bandpass signal</li>
+</ul>
+<p>How?</p>
+<p><img data-src="https://i.imgur.com/4VwKahL.png" alt=""></p>
+<p>Why?</p>
+<p><img data-src="https://i.imgur.com/JZGmVkB.png" alt=""></p>
+<p>Why we doing this?</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h2><ul>
 <li><a href="https://ccrma.stanford.edu/~jos/mdft/" target="_blank" rel="noopener">https://ccrma.stanford.edu/~jos/mdft/</a></li>
 <li><a href="https://www.youtube.com/watch?v=MBnnXbOM5S4" target="_blank" rel="noopener">The more general uncertainty principle, beyond quantum</a></li>
