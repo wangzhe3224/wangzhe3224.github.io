@@ -219,7 +219,9 @@ Frequency in Hz and in radians:
 
 $$f = \frac{wf_s}{2\pi}$$
 
-## Convolution???
+## Convolution
+
+
 
 ## STFT, short term fouries transform
 
@@ -318,9 +320,55 @@ Why?
 
 ![](https://i.imgur.com/JZGmVkB.png)
 
+## Filters
+
+![Uploading file..._kr65l8uvc]()
 
 
-Why we doing this?
+### Linear time-invariant filters
+
+Linearity
+
+![](https://i.imgur.com/3qUraJ1.png)
+
+Time-invariant
+
+![](https://i.imgur.com/8nz362v.png)
+
+Add them we have
+
+![](https://i.imgur.com/HgmAN8f.png)
+
+In formalar:
+
+![](https://i.imgur.com/htfvgNy.png)
+
+### Convolution
+
+LTI filters are entirely characterized by their impulse reponse, i.e., their response to the impulse delta function $\delta[n]$, the output of an LTI filter y\[n\]  y\[n\] can be computed by convolving the input x\[n\]  x\[n\] with the impulse response,
+
+$$
+\delta[n]=\sum_{k=-\inf}^{inf}x[k]h[n-k]
+$$
+
+### Filter by examples
+
+Moving average: 
+
+![](https://i.imgur.com/C8gsV6B.png)
+
+Leaky integrator: 
+
+![](https://i.imgur.com/5UgmloR.png)
+
+
+### Filter types
+
+- lowpass, MA, leaky
+- highpass
+- bandpass
+- allpass
+
 
 ## Reference:
 
