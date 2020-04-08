@@ -317,7 +317,7 @@
 <h2 id="DFT-synthesis"><a href="#DFT-synthesis" class="headerlink" title="DFT synthesis"></a>DFT synthesis</h2><p><img data-src="https://i.imgur.com/KfWDMkE.png" alt=""></p>
 <p>Frequency in Hz and in radians:</p>
 <p>$$f = \frac{wf_s}{2\pi}$$</p>
-<h2 id="Convolution"><a href="#Convolution" class="headerlink" title="Convolution???"></a>Convolution???</h2><h2 id="STFT-short-term-fouries-transform"><a href="#STFT-short-term-fouries-transform" class="headerlink" title="STFT, short term fouries transform"></a>STFT, short term fouries transform</h2><p>Spectrogram is a way to show STFT. There are two variables: window and frequency. $X[m;k]$, where m is the window, k is frequency index.</p>
+<h2 id="Convolution"><a href="#Convolution" class="headerlink" title="Convolution"></a>Convolution</h2><h2 id="STFT-short-term-fouries-transform"><a href="#STFT-short-term-fouries-transform" class="headerlink" title="STFT, short term fouries transform"></a>STFT, short term fouries transform</h2><p>Spectrogram is a way to show STFT. There are two variables: window and frequency. $X[m;k]$, where m is the window, k is frequency index.</p>
 <p>Spectrogram show time, frequency at the same time. Once we know the sample frequency, we can label the spectrogram.</p>
 <p>$T_s = 1/F_s$, the frequency resolution is $f_s/L Hz$, and the width of time slices is $LT_s$.</p>
 <p>Question to ask:</p>
@@ -357,7 +357,27 @@
 <p><img data-src="https://i.imgur.com/4VwKahL.png" alt=""></p>
 <p>Why?</p>
 <p><img data-src="https://i.imgur.com/JZGmVkB.png" alt=""></p>
-<p>Why we doing this?</p>
+<h2 id="Filters"><a href="#Filters" class="headerlink" title="Filters"></a>Filters</h2><p><img data-src="" alt="Uploading file..._kr65l8uvc"></p>
+<h3 id="Linear-time-invariant-filters"><a href="#Linear-time-invariant-filters" class="headerlink" title="Linear time-invariant filters"></a>Linear time-invariant filters</h3><p>Linearity</p>
+<p><img data-src="https://i.imgur.com/3qUraJ1.png" alt=""></p>
+<p>Time-invariant</p>
+<p><img data-src="https://i.imgur.com/8nz362v.png" alt=""></p>
+<p>Add them we have</p>
+<p><img data-src="https://i.imgur.com/HgmAN8f.png" alt=""></p>
+<p>In formalar:</p>
+<p><img data-src="https://i.imgur.com/htfvgNy.png" alt=""></p>
+<h3 id="Convolution-1"><a href="#Convolution-1" class="headerlink" title="Convolution"></a>Convolution</h3><p>LTI filters are entirely characterized by their impulse reponse, i.e., their response to the impulse delta function $\delta[n]$, the output of an LTI filter y[n]  y[n] can be computed by convolving the input x[n]  x[n] with the impulse response,</p>
+<p>$$<br>\delta[n]=\sum_{k=-\inf}^{inf}x[k]h[n-k]<br>$$</p>
+<h3 id="Filter-by-examples"><a href="#Filter-by-examples" class="headerlink" title="Filter by examples"></a>Filter by examples</h3><p>Moving average: </p>
+<p><img data-src="https://i.imgur.com/C8gsV6B.png" alt=""></p>
+<p>Leaky integrator: </p>
+<p><img data-src="https://i.imgur.com/5UgmloR.png" alt=""></p>
+<h3 id="Filter-types"><a href="#Filter-types" class="headerlink" title="Filter types"></a>Filter types</h3><ul>
+<li>lowpass, MA, leaky</li>
+<li>highpass</li>
+<li>bandpass</li>
+<li>allpass</li>
+</ul>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h2><ul>
 <li><a href="https://ccrma.stanford.edu/~jos/mdft/" target="_blank" rel="noopener">https://ccrma.stanford.edu/~jos/mdft/</a></li>
 <li><a href="https://www.youtube.com/watch?v=MBnnXbOM5S4" target="_blank" rel="noopener">The more general uncertainty principle, beyond quantum</a></li>
