@@ -1027,7 +1027,7 @@ pre .javascript .function {
   color: var(--brand-hover-color);
 }
 .site-title {
-  font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Titillium Web', 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 1.375em;
   font-weight: normal;
   margin: 0;
@@ -1206,7 +1206,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #65c240;
+  background: #8fff54;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1538,7 +1538,7 @@ pre .javascript .function {
   top: 0;
 }
 .post-body {
-  font-family: 'Roboto Mono', 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Encode Sans', 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
@@ -1841,7 +1841,7 @@ pre .javascript .function {
 }
 .posts-expand .post-meta {
   color: #999;
-  font-family: 'Roboto Mono', 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Encode Sans', 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 0.75em;
   margin: 3px 0 60px 0;
   text-align: center;
