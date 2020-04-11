@@ -1,6 +1,6 @@
 ---
 title: 配和弦的方法
-tags: Chord
+tags: [Music, Chord]
 categories: Music
 date: 2020-04-05
 ---
@@ -15,7 +15,6 @@ date: 2020-04-05
 3. 多久换一个和弦？
 4. 递归上面的过程
 
-<!--more-->
 ## 和弦有什么功能
 
 分类1：
@@ -32,6 +31,8 @@ date: 2020-04-05
 
 ![功能](https://i.imgur.com/EFZjJPV.png)
 
+<!--more-->
+
 ## 递归上面的规则！
 
 可以选定目标和弦作为暂时的１级和弦，然后在前面添加该调的常见回家进行，比如ii -> V -> I.
@@ -39,6 +40,11 @@ date: 2020-04-05
 ![](https://i.imgur.com/n1bl3Ou.png)
 ![](https://i.imgur.com/oAuXgIT.png)
 ![](https://i.imgur.com/6buXmP8.png)
+
+当然，使用上面的方法是，临时的V可以被另外一个包含相同三全音的和弦代替，比如比目标I和弦，高半个音的属和弦。比如下面这个例子：
+
+![](https://i.imgur.com/3EzZzZ8.png)
+
 
 还可以通过从平行调中，借用和弦。比如在Ｃ调中，可以借用Ｃｍ中的Ｆｍ和弦，回到Ｃ和弦。
 
