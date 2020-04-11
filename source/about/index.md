@@ -18,6 +18,8 @@ Here are something on github:
 - [pysound: some tool I used to play sounds](https://github.com/wangzhe3224/pysound)
 - [vnpy: a systematic trading tool I used to work with](https://github.com/vnpy/vnpy)
 - [缠论的Python](https://github.com/wangzhe3224/chanlun)
+- [知乎热榜爬虫](https://github.com/wangzhe3224/zhihu-hotlist)
+
 
 Tool I used to create this website:
 
