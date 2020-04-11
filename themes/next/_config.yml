@@ -431,7 +431,7 @@ font:
   # Font settings for site title (.site-title).
   title:
     external: true
-    family:
+    family: Titillium Web
     size:
 
   # Font settings for headlines (<h1> to <h6>).
@@ -443,7 +443,7 @@ font:
   # Font settings for posts (.post-body).
   posts:
     external: true
-    family: Roboto Mono 
+    family: Encode Sans 
 
   # Font settings for <code> and code blocks.
   codes:
