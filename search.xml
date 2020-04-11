@@ -458,7 +458,6 @@
 <li>多久换一个和弦？</li>
 <li>递归上面的过程</li>
 </ol>
-<a id="more"></a>
 <h2 id="和弦有什么功能"><a href="#和弦有什么功能" class="headerlink" title="和弦有什么功能"></a>和弦有什么功能</h2><p>分类1：</p>
 <ul>
 <li>主和弦，Tonic，I</li>
@@ -474,8 +473,12 @@
 <li>暂时的家，或者家的延伸：Em，Am. iii, vi</li>
 </ul>
 <p><img data-src="https://i.imgur.com/EFZjJPV.png" alt="功能"></p>
+<a id="more"></a>
+
 <h2 id="递归上面的规则！"><a href="#递归上面的规则！" class="headerlink" title="递归上面的规则！"></a>递归上面的规则！</h2><p>可以选定目标和弦作为暂时的１级和弦，然后在前面添加该调的常见回家进行，比如ii -&gt; V -&gt; I.</p>
 <p><img data-src="https://i.imgur.com/n1bl3Ou.png" alt=""><br><img data-src="https://i.imgur.com/oAuXgIT.png" alt=""><br><img data-src="https://i.imgur.com/6buXmP8.png" alt=""></p>
+<p>当然，使用上面的方法是，临时的V可以被另外一个包含相同三全音的和弦代替，比如比目标I和弦，高半个音的属和弦。比如下面这个例子：</p>
+<p><img data-src="https://i.imgur.com/3EzZzZ8.png" alt=""></p>
 <p>还可以通过从平行调中，借用和弦。比如在Ｃ调中，可以借用Ｃｍ中的Ｆｍ和弦，回到Ｃ和弦。</p>
 <p><img data-src="https://i.imgur.com/ymKfpIv.png" alt=""></p>
 <h2 id="认识和弦"><a href="#认识和弦" class="headerlink" title="认识和弦"></a>认识和弦</h2><ul>
@@ -502,6 +505,7 @@
         <category>Music</category>
       </categories>
       <tags>
+        <tag>Music</tag>
         <tag>Chord</tag>
       </tags>
   </entry>
