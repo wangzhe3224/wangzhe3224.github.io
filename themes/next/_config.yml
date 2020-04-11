@@ -412,7 +412,7 @@ github_banner:
 # ---------------------------------------------------------------
 
 font:
-  enable: false
+  enable: true
 
   # Uri of fonts host, e.g. https://fonts.googleapis.com (Default).
   host:
@@ -443,12 +443,12 @@ font:
   # Font settings for posts (.post-body).
   posts:
     external: true
-    family:
+    family: Roboto Mono 
 
   # Font settings for <code> and code blocks.
   codes:
     external: true
-    family:
+    family: Source Code Pro
 
 
 # ---------------------------------------------------------------
