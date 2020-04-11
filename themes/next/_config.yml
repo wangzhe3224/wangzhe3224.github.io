@@ -58,9 +58,9 @@ footer:
   icon:
     # Icon name in Font Awesome. See: https://fontawesome.com/v4.7.0/icons/
     # `heart` is recommended with animation in red (#ff0000).
-    name: heart 
+    name: heart
     # If you want to animate the icon, set it to true.
-    animated: true 
+    animated: true
     # Change the color of icon, using Hex Code.
     color: "#808080"
 
@@ -104,7 +104,7 @@ creative_commons:
 scheme: Gemini
 
 # Dark Mode
-darkmode: true 
+darkmode: true
 
 auto_excerpt:
   enable: true
@@ -236,7 +236,7 @@ chat:
 # ---------------------------------------------------------------
 
 # Automatically excerpt description in homepage as preamble text.
-excerpt_description: true 
+excerpt_description: true
 
 # Read more button
 # If true, the read more button will be displayed in excerpt section.
@@ -248,7 +248,7 @@ post_meta:
   created_at: true
   updated_at:
     enable: false
-    another_day: false 
+    another_day: false
   categories: true
 
 # Post wordcount display settings
@@ -316,10 +316,10 @@ post_navigation: left
 # TagCloud settings for tags page.
 tagcloud:
   # All values below are same as default, change them by yourself.
-  min: 12 # Minimun font size in px
-  max: 30 # Maxium font size in px
-  start: "#ccc" # Start color (hex, rgba, hsla or color keywords)
-  end: "#111" # End color (hex, rgba, hsla or color keywords)
+  min: 16 # Minimun font size in px
+  max: 34 # Maxium font size in px
+  start: "#666699" # Start color (hex, rgba, hsla or color keywords)
+  end: "#CCCCFF" # End color (hex, rgba, hsla or color keywords)
   amount: 200 # Amount of tags, change it if you have more than 200 tags
 
 # Google Calendar
@@ -372,7 +372,7 @@ back2top:
   # Back to top in sidebar.
   sidebar: true
   # Scroll percent label in b2t button.
-  scrollpercent: true 
+  scrollpercent: true
 
 # Reading progress bar
 reading_progress:
@@ -443,7 +443,7 @@ font:
   # Font settings for posts (.post-body).
   posts:
     external: true
-    family: Encode Sans 
+    family: Encode Sans
 
   # Font settings for <code> and code blocks.
   codes:
@@ -504,7 +504,7 @@ math:
 
   # hexo-renderer-pandoc (or hexo-renderer-kramed) required for full MathJax support.
   mathjax:
-    enable: true 
+    enable: true
     # See: https://mhchem.github.io/MathJax-mhchem/
     mhchem: false
 
@@ -520,7 +520,7 @@ pjax: true
 
 # FancyBox is a tool that offers a nice and elegant way to add zooming functionality for images.
 # For more information: https://fancyapps.com/fancybox
-fancybox: true 
+fancybox: true
 
 # A JavaScript library for zooming images like Medium.
 # Do not enable both `fancybox` and `mediumzoom`.
@@ -817,7 +817,7 @@ pdf:
 mermaid:
   enable: false
   # Available themes: default | dark | forest | neutral
-  theme: dark 
+  theme: dark
 
 
 # ---------------------------------------------------------------
