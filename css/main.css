@@ -1,21 +1,27 @@
 :root {
-  --body-bg-color: #eee;
-  --content-bg-color: #fff;
-  --card-bg-color: #f5f5f5;
-  --text-color: #555;
-  --link-color: #555;
-  --link-hover-color: #222;
+  --body-bg-color: #121212;
+  --content-bg-color: #1d1d1d;
+  --card-bg-color: #282828;
+  --text-color: #e1e1e1;
+  --link-color: #e1e1e1;
+  --link-hover-color: #fff;
   --brand-color: #fff;
   --brand-hover-color: #fff;
-  --table-row-odd-bg-color: #f9f9f9;
-  --table-row-hover-bg-color: #f5f5f5;
-  --menu-item-bg-color: #f5f5f5;
-  --btn-default-bg: #fff;
-  --btn-default-color: #555;
-  --btn-default-border-color: #555;
-  --btn-default-hover-bg: #222;
-  --btn-default-hover-color: #fff;
-  --btn-default-hover-border-color: #222;
+  --table-row-odd-bg-color: #282828;
+  --table-row-hover-bg-color: #363636;
+  --menu-item-bg-color: #333;
+  --btn-default-bg: #222;
+  --btn-default-color: #e1e1e1;
+  --btn-default-border-color: #333;
+  --btn-default-hover-bg: #555;
+  --btn-default-hover-color: #e1e1e1;
+  --btn-default-hover-border-color: #555;
+}
+:root img {
+  opacity: 0.75;
+}
+:root img:hover {
+  opacity: 1;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -418,7 +424,7 @@ pre {
 }
 pre,
 code {
-  font-family: consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
+  font-family: 'Source Code Pro', consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
 }
 code {
   background: #eee;
@@ -1200,7 +1206,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #b1ff6b;
+  background: #65c240;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1532,7 +1538,7 @@ pre .javascript .function {
   top: 0;
 }
 .post-body {
-  font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Roboto Mono', 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
@@ -1835,7 +1841,7 @@ pre .javascript .function {
 }
 .posts-expand .post-meta {
   color: #999;
-  font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Roboto Mono', 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 0.75em;
   margin: 3px 0 60px 0;
   text-align: center;
