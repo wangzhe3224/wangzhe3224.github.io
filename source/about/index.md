@@ -18,3 +18,11 @@ Here are something on github:
 - [pysound: some tool I used to play sounds](https://github.com/wangzhe3224/pysound)
 - [vnpy: a systematic trading tool I used to work with](https://github.com/vnpy/vnpy)
 - [缠论的Python](https://github.com/wangzhe3224/chanlun)
+
+Tool I used to create this website:
+
+- Github, to host it
+- [hexo-theme-next](https://github.com/theme-next/hexo-theme-next), to make it looks better
+- [hackmd.io](https://hackmd.io/), to create content using markdown
+- Python, to do other stuff..
+
