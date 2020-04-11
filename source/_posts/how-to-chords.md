@@ -47,6 +47,7 @@ date: 2020-04-05
 ![](https://i.imgur.com/3EzZzZ8.png)
 
 
+
 还可以通过从平行调中，借用和弦。比如在Ｃ调中，可以借用Ｃｍ中的Ｆｍ和弦，回到Ｃ和弦。
 
 ![](https://i.imgur.com/ymKfpIv.png)
