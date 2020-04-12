@@ -1,7 +1,7 @@
 ---
 title: 如何阅读一本书
 tags: 读书笔记
-# date: 2019-12-31
+date: 2019-12-31
 categories: Reading
 ---
 
