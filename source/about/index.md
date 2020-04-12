@@ -19,6 +19,8 @@ Here are something on github:
 - [vnpy: a systematic trading tool I used to work with](https://github.com/vnpy/vnpy)
 - [缠论的Python](https://github.com/wangzhe3224/chanlun)
 - [知乎热榜爬虫](https://github.com/wangzhe3224/zhihu-hotlist)
+- [React-Redux-Saga-*？晕了？一篇文章弄懂的实战指南！](https://zhuanlan.zhihu.com/p/82442831)
+
 
 Solution for some books:
 
