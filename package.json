@@ -12,6 +12,7 @@
     "version": "4.2.0"
   },
   "dependencies": {
+    "abcjs": "^6.0.0-beta.8",
     "hexo": "^4.0.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
@@ -22,8 +23,7 @@
     "hexo-renderer-marked": "^2.0.0",
     "hexo-renderer-stylus": "^1.1.0",
     "hexo-server": "^1.0.0",
-    "hexo-tag-abcjs": "^1.0.0",
-    "hexo-tag-aplayer": "^3.0.4",
+    "hexo-tag-scripture": "^1.0.1",
     "hexo-wordcount": "^6.0.1"
   }
 }
