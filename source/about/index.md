@@ -18,6 +18,17 @@ Here are something on github:
 - [pysound: some tool I used to play sounds](https://github.com/wangzhe3224/pysound)
 - [vnpy: a systematic trading tool I used to work with](https://github.com/vnpy/vnpy)
 - [缠论的Python](https://github.com/wangzhe3224/chanlun)
+- [知乎热榜爬虫](https://github.com/wangzhe3224/zhihu-hotlist)
+- [React-Redux-Saga-*？晕了？一篇文章弄懂的实战指南！](https://zhuanlan.zhihu.com/p/82442831)
+
+
+Solution for some books:
+
+- [The C Pragramming Language](https://github.com/wangzhe3224/Solutions_The_C_Programming_Language)
+- [数据结构与算法分析C++实现（第五版](https://github.com/wangzhe3224/DataStructure_Algorithm_cpp)
+- [Primer C++ Plues second](https://github.com/wangzhe3224/PrimerCxxPlusAnswers.git)
+- [Pratical Common lisp code](https://github.com/wangzhe3224/code-for-pratical-common-lisp/settings)
+
 
 Tool I used to create this website:
 

@@ -2,6 +2,7 @@
 title: Road Map for Investment Tool Box
 tags: [Investing, Software]
 categories: Quant
+date: 2020-01-01
 ---
 
 ## Purpose
