@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>很潮的属11和弦</title>
+    <url>/2020/04/13/chord_2/</url>
+    <content><![CDATA[<p>在我们想要结束一段的时候，通常会用V -&gt; I的方式结束。以下我们用C调说明。</p>
+<p>比如，<code>G7 -&gt; C</code>:</p>
+<p><img data-src="https://i.imgur.com/9DPfaZS.png" alt=""></p>
+<p>但是，这种进行显得非常古典。我们可以通过采用属11和弦让进行听起来更加流行。比如<code>F/G</code>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;:[GFAc]</span><br></pre></td></tr></table></figure>
+
+<p>这样我们的和声进行可以变成：</p>
+<p><img data-src="https://i.imgur.com/JqqVIIH.png" alt=""></p>
+<p>这个<code>F/G</code> 也可以理解成G11但是去掉3和5音，也就是缩减版本的属11和弦。</p>
+<p><img data-src="https://i.imgur.com/pp6Q65K.png" alt=""></p>
+<p>也可以记成<code>G9sus</code></p>
+<p><img data-src="https://i.imgur.com/dqPj7q1.png" alt=""></p>
+<p>所以，总结一下：</p>
+<p><img data-src="https://i.imgur.com/NCmERJy.png" alt=""></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.youtube.com/watch?v=EdT1xi4qtT4" target="_blank" rel="noopener">https://www.youtube.com/watch?v=EdT1xi4qtT4</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Music</category>
+      </categories>
+      <tags>
+        <tag>Chord</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>时间的开始：创世纪</title>
     <url>/2020/04/12/genesis_1/</url>
     <content><![CDATA[<h2 id="时间的开始"><a href="#时间的开始" class="headerlink" title="时间的开始"></a>时间的开始</h2><blockquote>
@@ -410,8 +438,8 @@
         <category>Music</category>
       </categories>
       <tags>
-        <tag>Music</tag>
         <tag>Chord</tag>
+        <tag>Music</tag>
       </tags>
   </entry>
   <entry>
