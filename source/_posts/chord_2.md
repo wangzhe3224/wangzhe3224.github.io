@@ -33,21 +33,6 @@ categories: Music
 
 ![](https://i.imgur.com/NCmERJy.png)
 
-{% abcjs autoplay %}
-X: 22
-T:Money Lost
-M:3/4
-L:1/8
-Q:1/4=100
-C:Paul Rosen
-S:Copyright 2007, Paul Rosen
-R:Klezmer
-K:Dm
-Ade|:"Dm"(f2d)e gf|"A7"e2^c4|"Gm"B>>^c BA BG|"A"A3Ade|"Dm"(f2d)e gf|"A7"e2^c4||
-{% endabcjs %}
-
-{% scripture John 3:16 %}
-
 ## 参考
 
 - [https://www.youtube.com/watch?v=EdT1xi4qtT4](https://www.youtube.com/watch?v=EdT1xi4qtT4)
