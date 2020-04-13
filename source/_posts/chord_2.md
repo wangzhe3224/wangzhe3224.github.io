@@ -10,7 +10,7 @@ categories: Music
 比如，`G7 -> C`:
 
 ![](https://i.imgur.com/9DPfaZS.png)
-
+<!--more-->
 但是，这种进行显得非常古典。我们可以通过采用属11和弦让进行听起来更加流行。比如`F/G`:
 
 ```abc
