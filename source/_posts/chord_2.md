@@ -1,7 +1,7 @@
 ---
 title: 很潮的属11和弦
 date: 2020-04-13
-tags: [Chord]
+tags: Chord
 categories: Music
 ---
 
