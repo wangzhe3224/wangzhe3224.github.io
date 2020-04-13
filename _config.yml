@@ -99,3 +99,24 @@ theme: next
 deploy:
   type: ''
 
+## music notation
+abcjs:
+  js: '/js/abcjs_midi_5.9.1-min.js'
+  css: '/css/abcjs-midi.css'
+  midi: true
+  animation: true
+  animationColors: ['#000000', '#3d9afc']
+  options: 
+    startingTune: 0
+    print: false
+    visualTranspose: 0
+    scale: 1
+    responsive: 'resize'
+    inlineControls: 
+      loopToggle: true
+      standard: true
+      tooltipLoop: 'Click to toggle play once/repeat.'
+      tooltipReset: 'Click to go to beginning.'
+      tooltipPlay: 'Click to play/pause.'
+      tooltipProgress: 'Click to change the playback position.'
+  scriptId: 'hexo-tag-abcjs'
