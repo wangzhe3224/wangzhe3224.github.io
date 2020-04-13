@@ -30,6 +30,24 @@
       </tags>
   </entry>
   <entry>
+    <title>为Hexo拓展功能</title>
+    <url>/2020/04/13/chord_3/</url>
+    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
+<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
+<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Js</tag>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>时间的开始：创世纪</title>
     <url>/2020/04/12/genesis_1/</url>
     <content><![CDATA[<h2 id="时间的开始"><a href="#时间的开始" class="headerlink" title="时间的开始"></a>时间的开始</h2><blockquote>
