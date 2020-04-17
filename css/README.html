@@ -1,0 +1,61 @@
+<h1 id="Simple-countdown"><a href="#Simple-countdown" class="headerlink" title="Simple countdown"></a>Simple countdown</h1><p>Just another web countdown. The code is written in Vanilla JS &amp; CSS without any other dependency.<br><a href="https://codepen.io/DazixCZ/pen/BZqjZV" target="_blank" rel="noopener">Live DEMO</a></p>
+<h2 id="Compatibility"><a href="#Compatibility" class="headerlink" title="Compatibility"></a>Compatibility</h2><h3 id="Compiled-state"><a href="#Compiled-state" class="headerlink" title="Compiled state"></a>Compiled state</h3><ul>
+<li>IE 10+</li>
+<li>Firefox 32+ (maybe lower)</li>
+<li>Chrome 32+ (maybe lower)</li>
+<li>Chromium 43+ (I think it will be same like Chrome but I don’t have chance to test lower versions)</li>
+<li>Opera 30+ (maybe lower)</li>
+<li>Edge 14+</li>
+<li>Safari 9+ (awful browser it’s like new IE)</li>
+</ul>
+<h3 id="Uncompiled-state"><a href="#Uncompiled-state" class="headerlink" title="Uncompiled state"></a>Uncompiled state</h3><ul>
+<li><del>IE</del></li>
+<li>Firefox 45+</li>
+<li>Chrome 49+</li>
+<li>Opera 36+</li>
+<li>Edge 14+</li>
+<li>Safari 9+ (awful browser it’s like new IE)</li>
+</ul>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><p>There is more ways how to write the final date. You can pass it as object (as bellow) or<br>as string in one of JS standard <code>Date</code> format or as milliseconds timestamp or as instance<br>of <code>Date</code>. </p>
+<p>Output order/format is set by key <code>outputFormat</code>. Possible values are <code>year</code>, <code>week</code>, <code>day</code>,<br><code>hour</code>, <code>minute</code> and <code>second</code> each separate by pipe char <code>|</code>. Unfortunately there is no option<br>for month because count months is little bit hard-work maybe sometimes in future.</p>
+<p>Option <code>countdown</code> is there for toggling countdown and countup modes. For both modes is posible define date,<br>for <code>countdown: true</code> it means end date and for <code>countdown: false</code> it means start date.</p>
+<pre><code class="javascript"><span class="keyword">let</span> cd = <span class="keyword">new</span> Countdown({
+    cont: <span class="built_in">document</span>.querySelector(<span class="string">'.container'</span>),
+    countdown: <span class="literal">true</span>, <span class="comment">// true for classic countdown, false for countup</span>
+    date: {
+        day: <span class="number">9</span>,
+        month: <span class="number">8</span>,
+        year: <span class="number">2017</span>,
+        hour: <span class="number">20</span>,
+        minute: <span class="number">5</span>,
+        second: <span class="number">0</span>,
+    },
+    <span class="comment">/*</span>
+<span class="comment">    date: "Wednesday March 25 2019",</span>
+<span class="comment">    // or</span>
+<span class="comment">    date: 1553468400000,</span>
+<span class="comment">    // or</span>
+<span class="comment">    date: new Date(1553468400000),</span>
+<span class="comment">    // or</span>
+<span class="comment">    date: null, == for now</span>
+<span class="comment">    // or</span>
+<span class="comment">    missing date key, == for now too</span>
+<span class="comment">     */</span>
+    outputTranslation: {
+        year: <span class="string">'Years'</span>,
+        week: <span class="string">'Weeks'</span>,
+        day: <span class="string">'Days'</span>,
+        hour: <span class="string">'Hours'</span>,
+        minute: <span class="string">'Minutes'</span>,
+        second: <span class="string">'Seconds'</span>
+    },
+    endCallback: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+        <span class="comment">// do something awesome</span>
+    },
+    outputFormat: <span class="string">'week|day|hour|minute|second'</span>,
+});
+
+cd.start();
+<span class="comment">// or</span>
+cd.stop();</code></pre>
+<h2 id="Style"><a href="#Style" class="headerlink" title="Style"></a>Style</h2><p>Every element has his own class with <code>countDown_</code> prefix for non-conflict usage.<br>And also there are some style configuration variables at the beginning of<br>non-compiled <code>style.less</code> file. </p>
