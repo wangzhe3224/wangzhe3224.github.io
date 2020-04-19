@@ -5,8 +5,12 @@ date: 2020-04-19 18:31:09
 
 Art (???) page....
 
-![hmmm](https://i.imgur.com/hTEM0Mu.png)
+Julia fractal
 
+![Julia fractal](https://i.imgur.com/uQFIKDV.png)
+
+
+![hmmm](https://i.imgur.com/hTEM0Mu.png)
 
 Code:
 
