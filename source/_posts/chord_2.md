@@ -25,13 +25,25 @@ categories: Music
 
 ![](https://i.imgur.com/pp6Q65K.png)
 
+吉他版本的 `F/G` and `Cadd2`:
+
+![](https://i.imgur.com/vWQGych.png) ![](https://i.imgur.com/r4rnaoa.png)
+
+
 也可以记成`G9sus`
 
 ![](https://i.imgur.com/dqPj7q1.png)
 
+吉他版本的 `G9sus4` 和 `Cmaj9` : 
+
+![](https://i.imgur.com/hGKcbVN.png) ![](https://i.imgur.com/kxEC3F9.png)
+
+
+
 所以，总结一下：
 
 ![](https://i.imgur.com/NCmERJy.png)
+
 
 ## 参考
 
