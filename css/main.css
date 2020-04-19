@@ -452,9 +452,9 @@ code {
   font-family: 'Source Code Pro', consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
 }
 code {
-  background: #1d1f21;
+  background: #737373;
   border-radius: 3px;
-  color: #555;
+  color: #dedddd;
   padding: 2px 4px;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -1231,7 +1231,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #81bdbb;
+  background: #fff1e7;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
