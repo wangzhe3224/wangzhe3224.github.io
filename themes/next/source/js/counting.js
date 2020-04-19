@@ -1,5 +1,4 @@
 
-alert("Zhe hello");
 class Countdown {
 
     get TIMESTAMP_SECOND() { return 1000; }
@@ -347,6 +346,4 @@ var cd = new Countdown({
     endCallback: null,
     outputFormat: 'week|day|hour|minute|second',
 });
-alert("Zhe hello");
-cd.start();
-alert("he??");
+// cd.start();

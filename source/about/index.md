@@ -2,6 +2,7 @@
 title: about
 date: 2020-03-21 12:28:27
 mathjax: true
+type: about
 ---
 
 My name is Zhe. I am a quant developer at a systematic hedge fund. 
