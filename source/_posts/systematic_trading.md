@@ -1,8 +1,9 @@
 ---
 title: Systematic Trading
-tags: 读书笔记
+tags: [读书笔记,Investing]
 categories: Reading
 date: 2020-04-21
+mathjax: true
 ---
 
 ## 如何阅读
@@ -29,7 +30,7 @@ date: 2020-04-21
 
 ### Layer 3 read: 精读感兴趣的地方，甚至动手操作。
 
-
+<!--more-->
 
 ## Part I: theory
 
