@@ -73,7 +73,21 @@
 </ul>
 <h3 id="Layer-3-read-精读感兴趣的地方，甚至动手操作。"><a href="#Layer-3-read-精读感兴趣的地方，甚至动手操作。" class="headerlink" title="Layer 3 read: 精读感兴趣的地方，甚至动手操作。"></a>Layer 3 read: 精读感兴趣的地方，甚至动手操作。</h3><a id="more"></a>
 
-<h2 id="Part-I-theory"><a href="#Part-I-theory" class="headerlink" title="Part I: theory"></a>Part I: theory</h2><h3 id="Good-system-design"><a href="#Good-system-design" class="headerlink" title="Good system design"></a>Good system design</h3><ul>
+<h2 id="Part-I-theory"><a href="#Part-I-theory" class="headerlink" title="Part I: theory"></a>Part I: theory</h2><h3 id="Cognitive-bias"><a href="#Cognitive-bias" class="headerlink" title="Cognitive bias"></a>Cognitive bias</h3><ol>
+<li>hard to admit failure</li>
+<li>happy to be confirmed</li>
+<li>overconfident</li>
+</ol>
+<blockquote>
+<p>what makes an addictive game:</p>
+<ol>
+<li>an illusion of control</li>
+<li>frequent changes of <em>Almost</em> win big</li>
+<li>rapid and continous to give a constant flow of stimulation</li>
+</ol>
+</blockquote>
+<p>if we know most of player has these bias, we can leverage them by apply trading rules to remove our own bias.</p>
+<h3 id="Good-system-design"><a href="#Good-system-design" class="headerlink" title="Good system design"></a>Good system design</h3><ul>
 <li>objective</li>
 <li>easiy to explain/understand</li>
 <li>avoid over-fitting</li>
@@ -108,6 +122,9 @@
 <li>Forecast weights</li>
 <li>Instrument weights</li>
 </ul>
+<p>The goal here is given some constrains to produce allocation weights on underlyings (instruments or trading rules).</p>
+<p>Portfolio allocation should be tool to control risk, leverage divercification. Optimizaion is good but only when result is still reasonable in terms of diversification. </p>
+<p><strong>question:</strong> how can we quantify diversification?</p>
 <h2 id="Part-III-framework"><a href="#Part-III-framework" class="headerlink" title="Part III: framework"></a>Part III: framework</h2><h3 id="Framework-overview"><a href="#Framework-overview" class="headerlink" title="Framework overview"></a>Framework overview</h3><p>Components:</p>
 <ul>
 <li>Instruments to trade</li>
@@ -194,6 +211,24 @@
       </tags>
   </entry>
   <entry>
+    <title>为Hexo拓展功能</title>
+    <url>/2020/04/13/chord_3/</url>
+    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
+<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
+<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Js</tag>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>很潮的属11和弦</title>
     <url>/2020/04/13/chord_2/</url>
     <content><![CDATA[<p>在我们想要结束一段的时候，通常会用V -&gt; I的方式结束。以下我们用C调说明。</p>
@@ -224,24 +259,6 @@
       </categories>
       <tags>
         <tag>Chord</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>为Hexo拓展功能</title>
-    <url>/2020/04/13/chord_3/</url>
-    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
-<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
-<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Js</tag>
-        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
