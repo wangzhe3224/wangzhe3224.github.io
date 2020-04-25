@@ -34,6 +34,21 @@ mathjax: true
 
 ## Part I: theory
 
+### Cognitive bias
+
+1. hard to admit failure
+2. happy to be confirmed
+3. overconfident
+
+
+> what makes an addictive game:
+> 1. an illusion of control
+> 2. frequent changes of *Almost* win big
+> 3. rapid and continous to give a constant flow of stimulation
+> 
+
+if we know most of player has these bias, we can leverage them by apply trading rules to remove our own bias.
+
 ### Good system design
 
 - objective
@@ -70,6 +85,12 @@ Some points:
 
 - Forecast weights
 - Instrument weights
+
+The goal here is given some constrains to produce allocation weights on underlyings (instruments or trading rules).
+
+Portfolio allocation should be tool to control risk, leverage divercification. Optimizaion is good but only when result is still reasonable in terms of diversification. 
+
+**question:** how can we quantify diversification?
 
 ## Part III: framework
 
