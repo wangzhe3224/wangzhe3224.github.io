@@ -13,7 +13,6 @@ Graph is a mathematical object to model pairwise connections between objects. Th
 
 # 1. Definitions
 
-{% note info %}
 Definition: 
 - A `graph` is a set of vertices and a collection of edges that each connect a pair of vertices.
 - A `Bipartite graph` is a graph whose vertices we can divide into two sets such that all edges connect a vertex in one set with a vertex in the other set.
@@ -36,7 +35,6 @@ Definitions:
 
 Definitions:
 - The `density` of a graph is the proportion of possible pairs of vertices that are connected by edges.
-{% endnote %}
 
 ![Anatomy of a graph](https://i.imgur.com/goP5flX.png)
 
