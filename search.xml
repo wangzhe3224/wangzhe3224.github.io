@@ -53,6 +53,16 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UndirectedGraph</span><span class="params">(GraphOperation)</span>:</span></span><br><span class="line">    <span class="string">"""  """</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">()</span>:</span></span><br><span class="line">        self.__adj_list = []  <span class="comment"># type: List[Vertex]</span></span><br></pre></td></tr></table></figure>
 
 <p><img data-src="https://i.imgur.com/G0aulAp.png" alt="Adjacent list representation"></p>
+<h1 id="4-Design-Pattern-of-graph-processing"><a href="#4-Design-Pattern-of-graph-processing" class="headerlink" title="4. Design Pattern of graph processing"></a>4. Design Pattern of graph processing</h1><p>The idea here is to delegate more complex operations from Graph interface, such as search connected vertex, find path or find shortest path.</p>
+<p>Common algorithms:</p>
+<ul>
+<li>search connected vertex</li>
+<li>find paths</li>
+<li>find shortest path</li>
+<li>is connected components?</li>
+<li>is a acylic graph?</li>
+<li>is graph bipartite?</li>
+</ul>
 ]]></content>
       <categories>
         <category>Coding</category>

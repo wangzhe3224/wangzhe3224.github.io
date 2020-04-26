@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://i.imgur.com/zRy67JE.png">
 <meta property="og:image" content="https://i.imgur.com/G0aulAp.png">
 <meta property="article:published_time" content="2020-04-25T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-04-26T12:10:28.762Z">
+<meta property="article:modified_time" content="2020-04-26T16:44:38.863Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Data Structure">
 <meta property="article:tag" content="Graph">
@@ -332,6 +332,16 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UndirectedGraph</span><span class="params">(GraphOperation)</span>:</span></span><br><span class="line">    <span class="string">"""  """</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">()</span>:</span></span><br><span class="line">        self.__adj_list = []  <span class="comment"># type: List[Vertex]</span></span><br></pre></td></tr></table></figure>
 
 <p><img data-src="https://i.imgur.com/G0aulAp.png" alt="Adjacent list representation"></p>
+<h1 id="4-Design-Pattern-of-graph-processing"><a href="#4-Design-Pattern-of-graph-processing" class="headerlink" title="4. Design Pattern of graph processing"></a>4. Design Pattern of graph processing</h1><p>The idea here is to delegate more complex operations from Graph interface, such as search connected vertex, find path or find shortest path.</p>
+<p>Common algorithms:</p>
+<ul>
+<li>search connected vertex</li>
+<li>find paths</li>
+<li>find shortest path</li>
+<li>is connected components?</li>
+<li>is a acylic graph?</li>
+<li>is graph bipartite?</li>
+</ul>
 
     </div>
 
@@ -421,7 +431,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Definitions"><span class="nav-number">1.</span> <span class="nav-text">1. Definitions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Graph-Interface"><span class="nav-number">2.</span> <span class="nav-text">2. Graph Interface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Data-Structures"><span class="nav-number">3.</span> <span class="nav-text">3. Data Structures</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Definitions"><span class="nav-number">1.</span> <span class="nav-text">1. Definitions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Graph-Interface"><span class="nav-number">2.</span> <span class="nav-text">2. Graph Interface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Data-Structures"><span class="nav-number">3.</span> <span class="nav-text">3. Data Structures</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-Design-Pattern-of-graph-processing"><span class="nav-number">4.</span> <span class="nav-text">4. Design Pattern of graph processing</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
