@@ -7,10 +7,34 @@
 <p><img data-src="https://i.imgur.com/aDYbUMC.png" alt="Typical graph applications"></p>
 <a id="more"></a>
 
-<h1 id="1-Definitions"><a href="#1-Definitions" class="headerlink" title="1. Definitions"></a>1. Definitions</h1><div class="note info">
-            <p>Definition: </p><ul><li>A <code>graph</code> is a set of vertices and a collection of edges that each connect a pair of vertices.</li><li>A <code>Bipartite graph</code> is a graph whose vertices we can divide into two sets such that all edges connect a vertex in one set with a vertex in the other set.</li></ul><p>Definition: </p><ul><li>A <code>path</code> in a graph is a sequence of vertices connected by edges. </li><li>A <code>simple path</code> is one with no repeated vertices. </li><li>A <code>cycle</code> is a path with at least one edge whose first and last vertices are the same.</li><li>A <code>simple cycle</code> is a cycle with no repeated edges or vertices.</li><li><em>length</em> of a path or cycle is its number of edges.</li></ul><p>Definitions:</p><ul><li>A graph is <code>connected</code> if there is a path from every vertex to every other vertex in the graph.</li><li>A graph is <code>not connected</code> consists of a set of connected <code>components</code>, which are maximal connected subgraphs. </li><li>An <code>acyclic</code> graph is graph without cycles.</li></ul><p>Definitions:</p><ul><li>A <code>tree</code> is an <code>acyclic connected</code> graph.</li><li>A disjoint set of trees is called a <code>forest</code>.</li></ul><p>Definitions:</p><ul><li>The <code>density</code> of a graph is the proportion of possible pairs of vertices that are connected by edges.</li></ul>
-          </div>
-
+<h1 id="1-Definitions"><a href="#1-Definitions" class="headerlink" title="1. Definitions"></a>1. Definitions</h1><p>Definition: </p>
+<ul>
+<li>A <code>graph</code> is a set of vertices and a collection of edges that each connect a pair of vertices.</li>
+<li>A <code>Bipartite graph</code> is a graph whose vertices we can divide into two sets such that all edges connect a vertex in one set with a vertex in the other set.</li>
+</ul>
+<p>Definition: </p>
+<ul>
+<li>A <code>path</code> in a graph is a sequence of vertices connected by edges. </li>
+<li>A <code>simple path</code> is one with no repeated vertices. </li>
+<li>A <code>cycle</code> is a path with at least one edge whose first and last vertices are the same.</li>
+<li>A <code>simple cycle</code> is a cycle with no repeated edges or vertices.</li>
+<li><em>length</em> of a path or cycle is its number of edges.</li>
+</ul>
+<p>Definitions:</p>
+<ul>
+<li>A graph is <code>connected</code> if there is a path from every vertex to every other vertex in the graph.</li>
+<li>A graph is <code>not connected</code> consists of a set of connected <code>components</code>, which are maximal connected subgraphs. </li>
+<li>An <code>acyclic</code> graph is graph without cycles.</li>
+</ul>
+<p>Definitions:</p>
+<ul>
+<li>A <code>tree</code> is an <code>acyclic connected</code> graph.</li>
+<li>A disjoint set of trees is called a <code>forest</code>.</li>
+</ul>
+<p>Definitions:</p>
+<ul>
+<li>The <code>density</code> of a graph is the proportion of possible pairs of vertices that are connected by edges.</li>
+</ul>
 <p><img data-src="https://i.imgur.com/goP5flX.png" alt="Anatomy of a graph"></p>
 <p><img data-src="https://i.imgur.com/RHAkNfF.png" alt="A tree"></p>
 <p><img data-src="https://i.imgur.com/zRy67JE.png" alt="A forest"></p>
