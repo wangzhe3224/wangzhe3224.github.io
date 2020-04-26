@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Graph basics - 1 Concepts</title>
+    <url>/2020/04/25/graph1/</url>
+    <content><![CDATA[<p>Graph is a mathematical object to model pairwise connections between objects. There are a lot of applications:</p>
+<p><img data-src="https://i.imgur.com/aDYbUMC.png" alt="Typical graph applications"></p>
+<a id="more"></a>
+
+<h1 id="1-Definitions"><a href="#1-Definitions" class="headerlink" title="1. Definitions"></a>1. Definitions</h1><div class="note info">
+            <p>Definition: </p><ul><li>A <code>graph</code> is a set of vertices and a collection of edges that each connect a pair of vertices.</li><li>A <code>Bipartite graph</code> is a graph whose vertices we can divide into two sets such that all edges connect a vertex in one set with a vertex in the other set.</li></ul><p>Definition: </p><ul><li>A <code>path</code> in a graph is a sequence of vertices connected by edges. </li><li>A <code>simple path</code> is one with no repeated vertices. </li><li>A <code>cycle</code> is a path with at least one edge whose first and last vertices are the same.</li><li>A <code>simple cycle</code> is a cycle with no repeated edges or vertices.</li><li><em>length</em> of a path or cycle is its number of edges.</li></ul><p>Definitions:</p><ul><li>A graph is <code>connected</code> if there is a path from every vertex to every other vertex in the graph.</li><li>A graph is <code>not connected</code> consists of a set of connected <code>components</code>, which are maximal connected subgraphs. </li><li>An <code>acyclic</code> graph is graph without cycles.</li></ul><p>Definitions:</p><ul><li>A <code>tree</code> is an <code>acyclic connected</code> graph.</li><li>A disjoint set of trees is called a <code>forest</code>.</li></ul><p>Definitions:</p><ul><li>The <code>density</code> of a graph is the proportion of possible pairs of vertices that are connected by edges.</li></ul>
+          </div>
+
+<p><img data-src="https://i.imgur.com/goP5flX.png" alt="Anatomy of a graph"></p>
+<p><img data-src="https://i.imgur.com/RHAkNfF.png" alt="A tree"></p>
+<p><img data-src="https://i.imgur.com/zRy67JE.png" alt="A forest"></p>
+<h1 id="2-Graph-Interface"><a href="#2-Graph-Interface" class="headerlink" title="2. Graph Interface"></a>2. Graph Interface</h1><p>We now need to define fundamental graph operation interface and find a data structure to represent undirected graph.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> abc <span class="keyword">import</span> abstractmethod</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vertex</span>:</span></span><br><span class="line">    <span class="string">""" Vertex """</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Edge</span>:</span></span><br><span class="line">    <span class="string">""" Edge """</span></span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GraphOperation</span>:</span></span><br><span class="line">    <span class="string">""" Graph operation interface """</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_edge</span><span class="params">(v: Vertex, m: Vertex)</span>-&gt;<span class="keyword">None</span>:</span></span><br><span class="line">        <span class="string">""""""</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">adj</span><span class="params">(v: Vertex)</span> -&gt; []:</span></span><br><span class="line">        <span class="string">""" find adjacent to v """</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">degree</span><span class="params">(v: Vertex)</span> -&gt; int:</span></span><br><span class="line">        <span class="string">""" get degree of """</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">count_self_loops</span><span class="params">()</span> -&gt; int:</span></span><br><span class="line">        <span class="string">""" number of self loops """</span></span><br></pre></td></tr></table></figure>
+
+<p>In the end, most of the operations can be done via <code>adj</code> method. We could add more operations for graph, but it will depends on the application’s use case. </p>
+<h1 id="3-Data-Structures"><a href="#3-Data-Structures" class="headerlink" title="3. Data Structures"></a>3. Data Structures</h1><p>There are several ways to represent graph, such as adjacent matrix, array of edges, and adjacent list. Here we select adjacent list because it makes <code>adj</code> method very simple and it will also be able to represent parallel edges whereas adjacent matrix cannot do.</p>
+<p><code>adjacent list</code> representation has following characteristics:</p>
+<ul>
+<li>space usage is proportional to V + E</li>
+<li>constant time to add an edge</li>
+<li>constant time per adjacent vertex processed</li>
+</ul>
+<p>However, the order of adjacent vertex is random for now. We could add order for it (but add some time complex).</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UndirectedGraph</span><span class="params">(GraphOperation)</span>:</span></span><br><span class="line">    <span class="string">"""  """</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">()</span>:</span></span><br><span class="line">        self.__adj_list = []  <span class="comment"># type: List[Vertex]</span></span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://i.imgur.com/G0aulAp.png" alt="Adjacent list representation"></p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Data Structure</tag>
+        <tag>Graph</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Risk Is Right</title>
     <url>/2020/04/22/risk_is_right/</url>
     <content><![CDATA[<h1 id="Risk-is-right"><a href="#Risk-is-right" class="headerlink" title="Risk is right"></a>Risk is right</h1><p>Author: John Piper<br>Subtitle: Better to Lose Your Life Than to Waste It</p>
