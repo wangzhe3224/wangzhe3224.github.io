@@ -95,3 +95,16 @@ class UndirectedGraph(GraphOperation):
 ```
 
 ![Adjacent list representation](https://i.imgur.com/G0aulAp.png)
+
+# 4. Design Pattern of graph processing
+
+The idea here is to delegate more complex operations from Graph interface, such as search connected vertex, find path or find shortest path.
+
+Common algorithms:
+- search connected vertex
+- find paths
+- find shortest path
+- is connected components?
+- is a acylic graph?
+- is graph bipartite?
+
