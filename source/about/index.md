@@ -2,7 +2,6 @@
 title: about
 date: 2020-03-21 12:28:27
 mathjax: true
-type: about
 ---
 
 My name is Zhe. I am a quant developer at a systematic hedge fund. 
@@ -15,6 +14,7 @@ I am a Christian for $n$ years. Here is my church family: [https://www.st-helens
 
 Here are something on github:
 
+- [pygraph: a library to interact with graphs in python](https://github.com/wangzhe3224/pygraph)
 - [The code of this website](https://github.com/wangzhe3224/wangzhe3224.github.io/tree/hexo-source)
 - [pysound: some tool I used to play sounds](https://github.com/wangzhe3224/pysound)
 - [vnpy: a systematic trading tool I used to work with](https://github.com/vnpy/vnpy)
