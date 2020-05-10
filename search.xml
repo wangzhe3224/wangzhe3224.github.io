@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Graph - DiGraph</title>
+    <url>/2020/05/09/graph3_digraph/</url>
+    <content><![CDATA[<h1 id="1-Concepts"><a href="#1-Concepts" class="headerlink" title="1. Concepts"></a>1. Concepts</h1><p><strong>Definition.</strong> A <code>directed graph</code> or <code>digraph</code> is a set of nodes and a<br>collection of <code>directed edges</code>. Each directed edge connects an ordered<br>pair of nodes.</p>
+<p><strong>Definition.</strong> A <code>directed path</code> is a path in a digraph is a sequence of nodes in which there is a directed edge pointing from each node in the sequence to its successor in the sequence. A <code>directed cycle</code> is a directed path with at least one edge whose first and last nodes are the same. A <code>simple cycle</code> is a cycle with no repeated edges or nodes. The <code>length</code> of a path is its number of edges.</p>
+<p>With above, we can define that a node a is reachable from node b if there is a directed path from a to b. </p>
+<h1 id="2-Data-Structure"><a href="#2-Data-Structure" class="headerlink" title="2. Data Structure"></a>2. Data Structure</h1><p>Again, before we go to the algorithms of DiGraph, let’s define our data structure representation of digraph. Full code can be found here: <a href="https://github.com/wangzhe3224/pygraph/blob/master/pygraph/entities/digraph.py" target="_blank" rel="noopener">https://github.com/wangzhe3224/pygraph/blob/master/pygraph/entities/digraph.py</a>.</p>
+<p>Here I list the important part. DiGraph is a bit different from Undirected graph in terms of its internal data containers. DiGraph has not only <code>_adj</code> for adjacent list, but also has <code>_succ</code> and <code>_pred</code> which is used to represent the direction of edges. What’s more, there is a <code>reverse</code> function to reverse the direction of the edges in the graph.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> Hashable</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pygraph.entities.graph <span class="keyword">import</span> GraphBase</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DiGraph</span><span class="params">(GraphBase)</span>:</span></span><br><span class="line">    <span class="string">""""""</span></span><br><span class="line"></span><br><span class="line">    dict_dict_dict = dict</span><br><span class="line">    dict_dict = dict</span><br><span class="line">    node_factory = dict</span><br><span class="line">    edge_factory = dict</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, **kwargs)</span>:</span></span><br><span class="line">        <span class="string">""""""</span></span><br><span class="line">        super().__init__(kwargs)</span><br><span class="line">        self._succ = self._adj</span><br><span class="line">        self._pred = self.dict_dict_dict()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_node</span><span class="params">(self, node: Hashable, **kwargs)</span>:</span></span><br><span class="line">        <span class="string">""" Add node to graph,</span></span><br><span class="line"><span class="string">        :param node:</span></span><br><span class="line"><span class="string">        :param kwargs: node's meta data</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> node <span class="keyword">not</span> <span class="keyword">in</span> self._succ:</span><br><span class="line">            self._succ[node] = self.dict_dict()</span><br><span class="line">            self._pred[node] = self.dict_dict()</span><br><span class="line">            attr_dict = self._nodes[node] = self.node_factory()</span><br><span class="line">            attr_dict.update(kwargs)</span><br><span class="line">        <span class="keyword">else</span>:  <span class="comment"># already existed</span></span><br><span class="line">            self._nodes[node].update(kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_edge</span><span class="params">(self, node_a: Hashable, node_b: Hashable, **kwargs)</span>:</span></span><br><span class="line">        <span class="string">""" add edge to graph</span></span><br><span class="line"><span class="string">        :param node_a:</span></span><br><span class="line"><span class="string">        :param node_b:</span></span><br><span class="line"><span class="string">        :param kwargs: meta data for edge, weights can go here!</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> node_a <span class="keyword">not</span> <span class="keyword">in</span> self._succ:</span><br><span class="line">            self._succ[node_a] = self.dict_dict()</span><br><span class="line">            self._pred[node_a] = self.dict_dict()</span><br><span class="line">            self._nodes[node_a] = self.node_factory()</span><br><span class="line">        <span class="keyword">if</span> node_b <span class="keyword">not</span> <span class="keyword">in</span> self._succ:</span><br><span class="line">            self._succ[node_b] = self.dict_dict()</span><br><span class="line">            self._pred[node_b] = self.dict_dict()</span><br><span class="line">            self._nodes[node_b] = self.node_factory()</span><br><span class="line"></span><br><span class="line">        data = self._adj[node_a].get(node_b, self.edge_factory())</span><br><span class="line">        data.update(kwargs)</span><br><span class="line">        self._succ[node_a][node_b] = data</span><br><span class="line">        self._pred[node_b][node_a] = data</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">adj_nodes</span><span class="params">(self, node: Hashable)</span>:</span></span><br><span class="line">        <span class="string">""" find adj nodes view</span></span><br><span class="line"><span class="string">        :param node:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">return</span> self._succ[node]</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverse</span><span class="params">(self)</span> -&gt; GraphBase:</span></span><br><span class="line">    <span class="string">""" reverse the graph """</span></span><br><span class="line">    gp = self.__class__()</span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> self.nodes:</span><br><span class="line">        <span class="keyword">for</span> b <span class="keyword">in</span> self._adj[a]:</span><br><span class="line">            gp.add_edge(b, a)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> gp</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-Problems"><a href="#3-Problems" class="headerlink" title="3. Problems"></a>3. Problems</h1><p>Ok, let’s visit some of the problems around DiGraph:</p>
+<ul>
+<li>Single-source reachability</li>
+<li>Topological sort</li>
+<li>Strong connectivity</li>
+</ul>
+<p>These problem is similar to what we have in <a href="https://wangzhe3224.github.io/2020/05/02/graph2_search/" target="_blank" rel="noopener">undirected graph</a>. </p>
+<h2 id="3-1-Single-source-reachability"><a href="#3-1-Single-source-reachability" class="headerlink" title="3.1 Single-source reachability"></a>3.1 Single-source reachability</h2><blockquote>
+<p>Given a digraph and a source node <em>a</em>, support query of the form: Is there a directed path from <em>a</em> to a given node <em>x</em>?</p>
+</blockquote>
+<p>This problem is solved using the same function as in undirected graph. Both single-source directed path(DFS) and shortest directed path (BFS).</p>
+<p>Related code: <a href="https://github.com/wangzhe3224/pygraph/tree/master/pygraph/algos" target="_blank" rel="noopener">https://github.com/wangzhe3224/pygraph/tree/master/pygraph/algos</a></p>
+<h2 id="3-2-Topological-sort"><a href="#3-2-Topological-sort" class="headerlink" title="3.2 Topological sort"></a>3.2 Topological sort</h2><p>This is a scheduling problem. Defines:</p>
+<blockquote>
+<p>Given a digraph, put the nodes in order such that all its directed edges point from a node earlier in the order to a node later in the order. Or does not exist. </p>
+</blockquote>
+<p>In order to solve this, we first need to make sure, there is no cyclic in the graph. or make sure the graph a DAG, directed acyclic graph. <strong>So first we need a algorithm to detect cyclic in a graph.</strong></p>
+<p>The solution is leverage DFS’s stack, one fact is that all the node in current stack is in the same path, of we find a node that appear twice in the stack, we know there is a cyclic, hence graph is not a DAG.</p>
+<p>Once we know we have a DAG, the next job is to find the order. It turns out that it is another application of DFS.</p>
+<h2 id="3-3-Strong-connection"><a href="#3-3-Strong-connection" class="headerlink" title="3.3 Strong connection"></a>3.3 Strong connection</h2><p>Strong connection between a and b is that they are mutually reachable. </p>
+<p>The solution is similar to cyclic detection in undriected graph, but we need loop through reverse post order in previous section. </p>
+<p>Check code here: <a href="https://github.com/wangzhe3224/pygraph/blob/master/pygraph/algos/cyclic.py#L28" target="_blank" rel="noopener">https://github.com/wangzhe3224/pygraph/blob/master/pygraph/algos/cyclic.py#L28</a></p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Data Structure</tag>
+        <tag>Graph</tag>
+        <tag>Algorithms</tag>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Graph Algorithms - Search</title>
     <url>/2020/05/02/graph2_search/</url>
     <content><![CDATA[<p>When working with graph, search is an important topic. For example, search for connectivity, search for shortest path. There are two basic strategies to do search in graph: Depth-first(DFS) and Breadth-first(BFS). <strong>Note that in this blog, all the discussions are based on undirected graph</strong>. But the strategy can be used to all kind of graphs given they share similar data structures.</p>
@@ -327,24 +370,6 @@
       </tags>
   </entry>
   <entry>
-    <title>为Hexo拓展功能</title>
-    <url>/2020/04/13/chord_3/</url>
-    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
-<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
-<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Js</tag>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>很潮的属11和弦</title>
     <url>/2020/04/13/chord_2/</url>
     <content><![CDATA[<p>在我们想要结束一段的时候，通常会用V -&gt; I的方式结束。以下我们用C调说明。</p>
@@ -375,6 +400,24 @@
       </categories>
       <tags>
         <tag>Chord</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>为Hexo拓展功能</title>
+    <url>/2020/04/13/chord_3/</url>
+    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
+<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
+<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Js</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
