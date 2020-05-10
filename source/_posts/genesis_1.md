@@ -1,7 +1,7 @@
 ---
 title: 时间的开始：创世纪
-tags: [Bible]
-categories: Thought
+tags: [创世纪]
+categories: Bible
 date: 2020-04-12
 ---
 
