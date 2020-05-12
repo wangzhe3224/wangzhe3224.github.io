@@ -1,7 +1,7 @@
 ---
 title: Systematic Trading
 tags: [读书笔记,Investing]
-categories: Reading
+categories: Quant
 date: 2020-04-21
 mathjax: true
 ---
