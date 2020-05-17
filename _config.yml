@@ -101,3 +101,8 @@ deploy:
   type: ''
 
 ## music notation
+emoji:
+  enable: true
+  className: github-emoji
+  styles:
+  customEmojis:
