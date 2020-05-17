@@ -1,6 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>一种新科学</title>
+    <url>/2020/05/17/a_new_kind_of_science/</url>
+    <content><![CDATA[<h1 id="1、新科学的基础"><a href="#1、新科学的基础" class="headerlink" title="1、新科学的基础"></a>1、新科学的基础</h1><p>简单的规则，可以形成复杂的行为。</p>
+<p>如果人也是规则计算的一部分，自由意志又是如何与之协调的？</p>
+<p>数学、物理、生物学、社会学、哲学、计算机科学、艺术的关系。这个系统真的解决了这些领域的基本问题吗？？</p>
+<h1 id="2、关键性的实验"><a href="#2、关键性的实验" class="headerlink" title="2、关键性的实验"></a>2、关键性的实验</h1><p>每一个新的科学产生都起始于某一个现象或者观察。这本书的起点是程序和计算。日常生活中程序通常是为了某些特殊的目的编写的，那么问题来了，如果我们随便选一些程序，而没有明确的目的，这些程序的运行结果会是什么呢？</p>
+<p>上面这个问题，数学很难解决，而最简单的办法就是用计算机进行试验。</p>
+<p>程序从抽象的角度可以理解成为：包含一些规则（Rules），这些会规定每一步做什么。设定规则的方式有很多。比如cellular automata，元细胞自动机。</p>
+<p>重要的发现是：简单的规则，可以产生复杂的模式。这也是本书的所谓新科学的核心思想。</p>
+<p>Rule30，是一个简单的规则，但是产生了随机数。</p>
+<p>问题是当我们观察到非常复杂的行为时，产生这种行为的规则（如果是有规则产生的话）可能非常简单。</p>
+<h1 id="3、简单程序的世界！"><a href="#3、简单程序的世界！" class="headerlink" title="3、简单程序的世界！"></a>3、简单程序的世界！</h1><p>问题：简单程序的一般行为是什么样的？</p>
+<p>作者发现的规律：</p>
+<ul>
+<li>Cellular automata, 不仅可以产生重复的模式，还可以产生随机性</li>
+<li>Substitute system，似乎只能产生重复的模式，而不能产生随机性</li>
+<li>Sequence Substitute system，也可以产生随机性</li>
+<li>Tag system</li>
+<li>Cyclic Tag system</li>
+<li>Symbolic system</li>
+</ul>
+<p>（是吗？）</p>
+<p>作者发现，在很多迥异的系统中，简单的规则总是能够产生复杂的行为，甚至随机性。所以这种简单导致的复杂性普遍存在。下一个问题是：什么时候会出现复杂性？通过目前的实验，如果规则很简单，会出现重复的行为；规则稍微复杂，会出现嵌套类型的现象；当规则进一步复杂，就会出现更加复杂的行为，比如混合和随机性。</p>
+<p>作者发现，出现复杂行为的阈值通常很低。但是，一旦超过阈值，提高规则的复杂度，并不能显著提高系统的复杂性。复杂的系统行为与规则的复杂度并没有显著的关联，也就是说，行为异常复杂的系统，其控制规则可能非常简单。</p>
+<p>据此，作者推断应该存在一般性的原则控制这些系统的复杂度。</p>
+<p>（如何定义复杂度？随机性？熵？）</p>
+<p>这章最后作者提到了一些对传统数学和物理研究方法的看法：<br>他的研究方法在传统领域可能会被认为是不精确的，但是传统方法是从现象出发的，可能不能发现上文的复杂度。作者采用了实验的途径。</p>
+<h1 id="4、基于数字的系统"><a href="#4、基于数字的系统" class="headerlink" title="4、基于数字的系统"></a>4、基于数字的系统</h1><p>基于数字的系统在传统科学和数学领域非常普遍。那么，基于数字的系统是不是能够产生复杂度？作者给出的答案是肯定的。</p>
+<p>（这类系统与细胞自动机系统有什么区别和联系？）</p>
+<p>数学系统的基础是数字系统，而计算系统（比如细胞自动机）的基础是通过一个序列的代码。这种代码的表达方式在自然界非常常见，比如DNA。</p>
+<h2 id="基础代数"><a href="#基础代数" class="headerlink" title="基础代数"></a>基础代数</h2><p>基础代数的操作（operation，也可以看做规则的一种吧）非常简单，但是作者发现即使这种规则也可以产生复杂系统行为，就像上一章的细胞自动机。</p>
+<p>比如，以1作为基，持续加1，就像1，2，3，….从数学的角度看这是一个再简单不过的操作，但是如果我们看这个操作以二进制的形式就会呈现一定的复杂度。</p>
+<p><img data-src="https://i.imgur.com/7yhmZHN.png" alt="简单加法的二进制模式"></p>
+<p>有人可能提出疑问，就是这种复杂度仅仅是看起来而已，并没有本质的复杂度。但是作者提出了新的例子：除法。</p>
+<p>(其实无理数对于数字来说已经非常奇葩了。。。随机性还记得吗？)</p>
+<p><img data-src="https://i.imgur.com/yNSwlnU.png" alt="这个看起来就好像股票价格"></p>
+<p>这些系统与细胞自动机不同，细胞自动机的变化通常是局部的，而数字系统则没有这个限制。</p>
+<h2 id="递归序列"><a href="#递归序列" class="headerlink" title="递归序列"></a>递归序列</h2><p>比如，$f[n] = f[n-1] + f[n-2]$。简单的规则可以发现：</p>
+<p><img data-src="https://i.imgur.com/WCTTJpN.png" alt=""></p>
+<p>但是，如果稍微增加复杂度，我们就会发现复杂系统行为：</p>
+<p><img data-src="https://i.imgur.com/kBF0hMf.png" alt=""></p>
+<h2 id="数学常数"><a href="#数学常数" class="headerlink" title="数学常数"></a>数学常数</h2><p>常数比如$\pi$, $e$，无理数等等。</p>
+<p><img data-src="https://i.imgur.com/GxEXKZd.png" alt=""></p>
+<p>作者表明，不论采用哪种形式表达，数学常数也表现了高的复杂度。</p>
+<h2 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h2><p>一个自然的推广就是函数。简单函数只要稍微叠加，就会出现复杂现象。</p>
+<p><img data-src="https://i.imgur.com/X5ANIxW.png" alt=""></p>
+<h2 id="连续细胞自动机"><a href="#连续细胞自动机" class="headerlink" title="连续细胞自动机"></a>连续细胞自动机</h2><p>目前为止作者讨论的系统全部都是离散系统。</p>
+<p><img data-src="https://i.imgur.com/Wgjq8VT.png" alt=""></p>
+<h2 id="连续系统和离散系统"><a href="#连续系统和离散系统" class="headerlink" title="连续系统和离散系统"></a>连续系统和离散系统</h2><p>区别在哪里呢？</p>
+<h1 id="5、二维和更高维度"><a href="#5、二维和更高维度" class="headerlink" title="5、二维和更高维度"></a>5、二维和更高维度</h1><p>结论是，维度的增加并没有改变复杂度的基本特征。</p>
+<h2 id="高纬度细胞自动机"><a href="#高纬度细胞自动机" class="headerlink" title="高纬度细胞自动机"></a>高纬度细胞自动机</h2><p><img data-src="https://i.imgur.com/wKcVljW.png" alt=""></p>
+<p>这个像不像雪花？自然界的现象。</p>
+<h2 id="图灵机"><a href="#图灵机" class="headerlink" title="图灵机"></a>图灵机</h2><h2 id="Substitute系统和分型"><a href="#Substitute系统和分型" class="headerlink" title="Substitute系统和分型"></a>Substitute系统和分型</h2><h2 id="网络系统"><a href="#网络系统" class="headerlink" title="网络系统"></a>网络系统</h2><p>这个其实已经看到了现在火爆的作者的物理学项目的影子了。</p>
+<h1 id="6、从随机性说起"><a href="#6、从随机性说起" class="headerlink" title="6、从随机性说起"></a>6、从随机性说起</h1><p>作者综合分析了细胞自动机的四类行为，并且认为这些行为具有通用价值。</p>
+<h1 id="7、程序和自然界的机理"><a href="#7、程序和自然界的机理" class="headerlink" title="7、程序和自然界的机理"></a>7、程序和自然界的机理</h1><p>作者让我们看到自然界的很多现象都与之前的介绍的内容非常相似。</p>
+<p><em>随机性</em></p>
+<ul>
+<li>外界注入随机性，通过与系统外界的通讯</li>
+<li>初始条件随机性</li>
+<li>自身演化产生随机性，无外界通讯</li>
+</ul>
+<p>作者认为第三种是控制自然界随机性的主要形式。</p>
+<p>（是否有可能是三者的共同作用呢？）</p>
+<p>（预定论和随机性并不冲突。）</p>
+<p>作者认为随机性是让离散系统看起来像连续系统的原因。（实际上我觉得这个世界本身就是离散的，现代物理学似乎也支持这个观点）</p>
+<h1 id="8、对日常系统的分析"><a href="#8、对日常系统的分析" class="headerlink" title="8、对日常系统的分析"></a>8、对日常系统的分析</h1><h2 id="8-1-建模的问题"><a href="#8-1-建模的问题" class="headerlink" title="8.1 建模的问题"></a>8.1 建模的问题</h2><p>从简单规则演化的角度思考很多系统的现象，似乎可以解释一些基础的问题。</p>
+]]></content>
+      <categories>
+        <category>Reading</category>
+      </categories>
+      <tags>
+        <tag>Computation</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>依靠耶和华的人必重新得力</title>
     <url>/2020/05/10/bible2/</url>
     <content><![CDATA[<h1 id="神的伟大"><a href="#神的伟大" class="headerlink" title="神的伟大"></a>神的伟大</h1><p>先知以赛亚在40章向以色列人描述了神的伟大。他用了一系列惊人的反问句，向人们展示了神的伟大。</p>
@@ -394,6 +469,24 @@
       </tags>
   </entry>
   <entry>
+    <title>为Hexo拓展功能</title>
+    <url>/2020/04/13/chord_3/</url>
+    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
+<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
+<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Js</tag>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>很潮的属11和弦</title>
     <url>/2020/04/13/chord_2/</url>
     <content><![CDATA[<p>在我们想要结束一段的时候，通常会用V -&gt; I的方式结束。以下我们用C调说明。</p>
@@ -424,24 +517,6 @@
       </categories>
       <tags>
         <tag>Chord</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>为Hexo拓展功能</title>
-    <url>/2020/04/13/chord_3/</url>
-    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
-<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
-<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Js</tag>
-        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
