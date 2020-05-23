@@ -5,6 +5,10 @@ date: 2020-04-19 18:31:09
 
 Art (???) page....
 
+2D Cyclic CA
+
+![CA](https://github.com/wangzhe3224/pyca/raw/master/assets/2d_cyclic_ac.gif)
+
 Game of life. Code is here: [pyca](https://github.com/wangzhe3224/pyca/blob/master/example/game_of_life.py)
 
 ![Game of Life](https://i.imgur.com/PiDmmgO.gif)
