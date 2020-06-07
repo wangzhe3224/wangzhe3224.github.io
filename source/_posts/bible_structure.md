@@ -2,6 +2,7 @@
 title: 圣经的结构
 category: Bible
 tags: [Bible]
+date: 2020-05-17
 ---
 
 # :book:基本信息
