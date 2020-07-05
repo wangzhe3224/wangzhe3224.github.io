@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>醒来吧！神的子民 51:9-52</title>
+    <url>/2020/07/05/yisaiya4/</url>
+    <content><![CDATA[<h1 id="旅程"><a href="#旅程" class="headerlink" title="旅程"></a>旅程</h1><p>当我们即将踏上一段新的旅程，我们会准备行囊，心情激动。但是，如果旅程迟迟推迟，我们很可能就会渐渐失去激动的心情，然后把行囊中的种种拿出来。我们可能重新整理床铺，渐渐忘记即将发生的旅程。</p>
+<h1 id="基督徒的旅程"><a href="#基督徒的旅程" class="headerlink" title="基督徒的旅程"></a>基督徒的旅程</h1><h2 id="醒来吧，耶和华的臂膀-51-9-16"><a href="#醒来吧，耶和华的臂膀-51-9-16" class="headerlink" title="醒来吧，耶和华的臂膀!(51:9-16)"></a>醒来吧，耶和华的臂膀!(51:9-16)</h2><blockquote>
+<p>耶和华的膀臂啊，醒来吧!醒来吧!穿上能力吧!像古时的日子，像上古的世代一样醒来吧! 从前砍碎了拉哈伯， 刺透了海龙的，不是你吗?</p>
+</blockquote>
+<p>以色列人终于开始重新呼唤神的帮助，就像当年带以色列出埃及一样，拯救他们。以色列人终于意识到神的能力。</p>
+<p>可是</p>
+<p>该清醒的不是神，而是以色列人。</p>
+<h2 id="醒来吧，耶路撒冷，从醉-罪-中醒来-51-17-23"><a href="#醒来吧，耶路撒冷，从醉-罪-中醒来-51-17-23" class="headerlink" title="醒来吧，耶路撒冷，从醉(罪)中醒来!(51:17-23)"></a>醒来吧，耶路撒冷，从醉(罪)中醒来!(51:17-23)</h2><blockquote>
+<p>17耶路撒冷啊，醒来!醒来!站起来吧! 你从耶和华的手中喝了他烈怒的杯， 喝尽了那使人摇摇摆摆的爵。</p>
+</blockquote>
+<p>以色列人才是应该从醉酒中醒来。他们面临的痛苦都是因为他们喝了耶和华愤怒的杯。正是因为以色列人犯罪，才收到神公义的审判。</p>
+<p>但是，神，决定拿走那愤怒的杯，救赎以色列。（为什么呢？）</p>
+<p>以色列的仇敌将会承担愤怒的杯。（为什么呢？）</p>
+<h2 id="醒来吧，锡安，换衣服准备离开-52-1-12"><a href="#醒来吧，锡安，换衣服准备离开-52-1-12" class="headerlink" title="醒来吧，锡安，换衣服准备离开!(52:1-12)"></a>醒来吧，锡安，换衣服准备离开!(52:1-12)</h2><blockquote>
+<p>1 锡安哪!你要醒来; 醒来，披上你的力量。 圣城耶路撒冷啊! 要穿上你华美的衣服。 因为未受割礼的和不洁净的人， 都再不得进到你那里去。2 耶路撒冷啊!抖下尘土， 起来，坐在位上吧! 锡安被掳的居民哪! 解开你颈项上的锁炼。</p>
+</blockquote>
+<p>耶和华与神的子民住在一起了，耶路撒冷将会成为真正的圣城。这也正是福音的预言。</p>
+<p>要离开，不要触摸不洁净的东西。不要留恋即将毁灭的世界了，因为我们将要去的是圣洁的地方。而且，神会保守：</p>
+<blockquote>
+<p>11 你们要离开，要离开，要从那里出来， 我没有对雅各的后裔说过: 不要触摸不洁净的东西。扛抬耶和华器皿的啊! 我耶和华讲说公义， 你们要从巴比伦城中出来，要自洁。 12 你们出来，不必着急; 以色列的 神必作你们的后盾。向不能拯救人的神祈求的，</p>
+</blockquote>
+<p>基督徒处在同样的世代，救赎的世代，离开巴比伦的世代，我们应该做好准备离开的世代。</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>以赛亚书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>传道人的传承：提摩太后书</title>
     <url>/2020/06/28/timotai2/</url>
     <content><![CDATA[<h1 id="传道人的传承"><a href="#传道人的传承" class="headerlink" title="传道人的传承"></a>传道人的传承</h1><blockquote>
@@ -24,6 +57,33 @@
       </categories>
       <tags>
         <tag>提摩太后书</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python无成本加速技巧</title>
+    <url>/2020/06/14/python_speedup/</url>
+    <content><![CDATA[<p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
+<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
+<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
+
+<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
+<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
+<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
+<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
+<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
@@ -59,33 +119,6 @@
       </categories>
       <tags>
         <tag>以赛亚书</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python无成本加速技巧</title>
-    <url>/2020/06/14/python_speedup/</url>
-    <content><![CDATA[<p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
-<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
-<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
-
-<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
-<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
-<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
-<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
-<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
