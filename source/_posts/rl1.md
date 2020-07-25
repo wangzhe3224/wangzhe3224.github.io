@@ -6,6 +6,9 @@ date: 2020-07-25
 mathjax: true
 ---
 
+[![hackmd-github-sync-badge](https://hackmd.io/EF3LjEjfQtCa-yEZlFNCmQ/badge)](https://hackmd.io/EF3LjEjfQtCa-yEZlFNCmQ)
+
+
 Reinforcement learning, RL is a framework that let an agent to make suitable  decisions to achieve best goal. Underneath math problem to solve is a  Markov Decision Process, MDP.  RL is different from both supervised and unsupervised learning. 
 
 # Elements of RL
@@ -73,6 +76,8 @@ $$Q_{k+1} = (1-\alpha)^kQ_1 + \sum_{i=1}^k\alpha(1-\alpha)^{k-i}R_i$$
 
 $$A_t = argmax_a\Big[Q_t(a) + c\sqrt{\frac{ln t}{N_t(a)}}\Big]$$
 
+The idea here is to add exploration more wisely. So if an action is not selected for a long time, it is more likely to be selected, and if an action has been selected a lot of time, it is more likely to be selected (stick with optimal action, i.e. exploiate. )
+
 ## Gradient Bandits
 
 we can also learn a preference of each action, $H_t(a)$. The more preference, the more change to take that action. But preference is a relative value.
@@ -95,6 +100,190 @@ $$H_{t+1}(a) = H_t(a) + \alpha \frac {\partial {E[R_t]}} {\partial {H_t(a)}}$$
 
 where, $E[R_t] = \sum_{b}\pi_t(b)q(b)$
 
+# Different Agents of Mult-arm Bandits
+
+## Random Agent
+
+The agent pick action randomly from action space, `number_of_arms`.
+
+```python
+class Random(object):
+  """A random agent.
+  
+  This agent returns an action between 0 and 'number_of_arms', 
+  uniformly at random. The 'previous_action' argument of 'step'
+  is ignored.
+  """
+
+  def __init__(self, number_of_arms):
+    self._number_of_arms = number_of_arms
+    self.name = 'random'
+    self.reset()
+
+  def step(self, previous_action, reward):
+    return np.random.randint(self._number_of_arms)
+
+  def reset(self):
+    pass
+```
+
+## Greedy Agent
+
+The agent pick action that has most big expected value.
+
+So pick action as following:
+
+$$A_t = argmax Q_t(a)$$
+
+Every step, update Q value of previous actions and counter of actions:
+
+$$N(A_{t-1}) = N(A_{t-1}) + 1$$
+$$Q(A_{t-1}) = Q(A_{t-1}) + \alpha(R_t - Q(A_{t-1}))$$
+
+```python
+class Greedy(object):
+
+  def __init__(self, number_of_arms):
+    self._number_of_arms = number_of_arms
+    self.name = 'greedy'
+    self.reset()
+  
+  def step(self, previous_action, reward):
+    if type(previous_action) == type(None):
+      return np.random.randint(self._number_of_arms)
+    else:
+      # update values
+      self.N[previous_action] += 1
+      lr = 1./self.N[previous_action]
+      error = reward - self.Q[previous_action]
+      self.Q[previous_action] += lr*error
+      
+      # get new actions
+      return np.argmax(self.Q)
+    
+  def reset(self):
+    self.Q = np.zeros((self._number_of_arms,),dtype='float32')
+    self.N = np.zeros((self._number_of_arms,),dtype='float32')
+```
+
+## $\epsilon$-Greedy Agent
+
+The issue of pure greedy agent is that it may stuck in some false action and never explore. So we add a small change to select action which does not have best q value, but just to explore to gather more information.
+
+The update process is as same as Greedy agent. But the way we choose actions changed:
+
+$$A_t = argmax Q, rand > \epsilon$$
+$$A_t = random action, rand <= \epsilon$$
+
+```python
+class EpsilonGreedy(object):
+
+  def __init__(self, number_of_arms, epsilon=0.1):
+    self._number_of_arms = number_of_arms
+    self._epsilon = epsilon
+    self.name = 'epsilon-greedy epsilon:{}'.format(epsilon)
+    self.reset()
+  
+  def step(self, previous_action, reward):
+    if type(previous_action) == type(None):
+      return np.random.randint(self._number_of_arms)
+    else:
+      # update values
+      self.N[previous_action] += 1
+      lr = 1./self.N[previous_action]
+      error = reward - self.Q[previous_action]
+      self.Q[previous_action] += lr*error
+
+      # get new actions
+      ra = bool( np.random.random() < self._epsilon )
+      return (not ra) * np.argmax(self.Q) + (ra) * np.random.randint(self._number_of_arms)
+      
+  def reset(self):
+    self.Q = np.zeros((self._number_of_arms,),dtype='float32')
+    self.N = np.zeros((self._number_of_arms,),dtype='float32')
+````
+
+## UCB Agent
+
+
+
+```python
+class UCB(object):
+
+  def __init__(self, number_of_arms):
+    self._number_of_arms = number_of_arms
+    self.name = 'ucb'
+    self.reset()
+  
+  def step(self, previous_action, reward):
+    if type(previous_action) == type(None):
+      return np.random.randint(self._number_of_arms)
+    else:
+      self.t += 1
+      # update values
+      self.N[previous_action] += 1
+      lr = 1./self.N[previous_action]
+      error = reward - self.Q[previous_action]
+      self.Q[previous_action] += lr*error
+      
+      # here is the extra bit
+      U = np.sqrt(np.log(self.t)/1./(self.N+1.))
+      
+      # get new actions
+      return np.argmax(self.Q+U)
+      
+  def reset(self):
+    self.Q = np.zeros((self._number_of_arms,),dtype='float32')
+    self.N = np.zeros((self._number_of_arms,),dtype='float32')
+    self.t = 0
+```
+
+## Reinforce Agent 
+
+Base line will not affect mean, but will change the variance of the estimation. 
+
+After we have the policy, we can sample an action from the policy.
+
+```python
+class Reinforce(object):
+ 
+  def __init__(self, number_of_arms, step_size=0.1, baseline=False):
+    self._number_of_arms = number_of_arms
+    self._lr = step_size
+    self.name = 'reinforce, baseline: {}'.format(baseline)
+    self._baseline = baseline
+    self.reset()
+  
+  def step(self, previous_action, reward):
+    if type(previous_action) == type(None):
+      return np.random.randint(self._number_of_arms)
+    else:
+      self.t += 1
+      self.all_reward += reward
+      if self._baseline:
+        base = self.all_reward / (self.t * 1.)
+      else:
+        base = 0
+      # update preferences
+      # this is H_a, reduce others preference
+      self.prob -= self._lr * (reward-base) * self.policy
+      # this is H_A, increase current action preference
+      self.prob[previous_action] += self._lr * (reward-base)
+      x = self.prob
+      y = np.exp(x - np.max(x))
+      self.policy = y / np.sum(y)
+      # get new actions
+      # here we sample an action from the updated policy
+      import bisect
+      acc = np.cumsum(self.policy)
+      return bisect.bisect(acc, np.random.random())
+
+  def reset(self):
+    self.policy = np.ones((self._number_of_arms,),dtype='float32')/self._number_of_arms
+    self.prob = np.zeros((self._number_of_arms,),dtype='float32')
+    self.t = 0
+    self.all_reward = 0 
+```
 
 # Full RL Problem
 
