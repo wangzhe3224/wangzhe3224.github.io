@@ -266,7 +266,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Reinforcement learning, RL is a framework that let an agent to make suitable  decisions to achieve best goal. Underneath math problem to solve is a  Markov Decision Process, MDP.  RL is different from both supervised and unsupervised learning. </p>
+          <p><a href="https://hackmd.io/EF3LjEjfQtCa-yEZlFNCmQ" target="_blank" rel="noopener"><img data-src="https://hackmd.io/EF3LjEjfQtCa-yEZlFNCmQ/badge" alt="hackmd-github-sync-badge"></a></p>
+<p>Reinforcement learning, RL is a framework that let an agent to make suitable  decisions to achieve best goal. Underneath math problem to solve is a  Markov Decision Process, MDP.  RL is different from both supervised and unsupervised learning. </p>
 <h1 id="Elements-of-RL"><a href="#Elements-of-RL" class="headerlink" title="Elements of RL"></a>Elements of RL</h1><p>Apart from Agent and Environment, following elements also play central<br>roles: Policy, Reward Signal, Value Function, and Model of environment. </p>
 <p>Policy, is a map from current states to actions to take. It might be<br>deterministic or stochastic.</p>
 <p>Reword signal, defines the goal of RL. At each step, environment will<br>give agent a single number, a reward.</p>
@@ -289,6 +290,7 @@
 <p>$$Q_{k+1} = Q_k + \alpha [R_k - Q_k]$$</p>
 <p>$$Q_{k+1} = (1-\alpha)^kQ_1 + \sum_{i=1}^k\alpha(1-\alpha)^{k-i}R_i$$</p>
 <h2 id="Upper-Confidence-Bound-Action-Selection"><a href="#Upper-Confidence-Bound-Action-Selection" class="headerlink" title="Upper-Confidence-Bound Action Selection"></a>Upper-Confidence-Bound Action Selection</h2><p>$$A_t = argmax_a\Big[Q_t(a) + c\sqrt{\frac{ln t}{N_t(a)}}\Big]$$</p>
+<p>The idea here is to add exploration more wisely. So if an action is not selected for a long time, it is more likely to be selected, and if an action has been selected a lot of time, it is more likely to be selected (stick with optimal action, i.e. exploiate. )</p>
 <h2 id="Gradient-Bandits"><a href="#Gradient-Bandits" class="headerlink" title="Gradient Bandits"></a>Gradient Bandits</h2><p>we can also learn a preference of each action, $H_t(a)$. The more preference, the more change to take that action. But preference is a relative value.</p>
 <p>$$\pi_{t}(a) = P{A_t=a} = \frac {e^{H_t(a)}}{\sum_{b=1}^{n}e^{H_t(b)}}$$</p>
 <p>So action is a softmax of preferences. We want to learn the preference of each actions.</p>
@@ -299,6 +301,27 @@
 <p>Above is a stochastic approximation to gradient ascent:</p>
 <p>$$H_{t+1}(a) = H_t(a) + \alpha \frac {\partial {E[R_t]}} {\partial {H_t(a)}}$$</p>
 <p>where, $E[R_t] = \sum_{b}\pi_t(b)q(b)$</p>
+<h1 id="Different-Agents-of-Mult-arm-Bandits"><a href="#Different-Agents-of-Mult-arm-Bandits" class="headerlink" title="Different Agents of Mult-arm Bandits"></a>Different Agents of Mult-arm Bandits</h1><h2 id="Random-Agent"><a href="#Random-Agent" class="headerlink" title="Random Agent"></a>Random Agent</h2><p>The agent pick action randomly from action space, <code>number_of_arms</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Random</span><span class="params">(object)</span>:</span></span><br><span class="line">  <span class="string">"""A random agent.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  This agent returns an action between 0 and 'number_of_arms', </span></span><br><span class="line"><span class="string">  uniformly at random. The 'previous_action' argument of 'step'</span></span><br><span class="line"><span class="string">  is ignored.</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, number_of_arms)</span>:</span></span><br><span class="line">    self._number_of_arms = number_of_arms</span><br><span class="line">    self.name = <span class="string">'random'</span></span><br><span class="line">    self.reset()</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">step</span><span class="params">(self, previous_action, reward)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.random.randint(self._number_of_arms)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">reset</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Greedy-Agent"><a href="#Greedy-Agent" class="headerlink" title="Greedy Agent"></a>Greedy Agent</h2><p>The agent pick action that has most big expected value.</p>
+<p>So pick action as following:</p>
+<p>$$A_t = argmax Q_t(a)$$</p>
+<p>Every step, update Q value of previous actions and counter of actions:</p>
+<p>$$N(A_{t-1}) = N(A_{t-1}) + 1$$<br>$$Q(A_{t-1}) = Q(A_{t-1}) + \alpha(R_t - Q(A_{t-1}))$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Greedy</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, number_of_arms)</span>:</span></span><br><span class="line">    self._number_of_arms = number_of_arms</span><br><span class="line">    self.name = <span class="string">'greedy'</span></span><br><span class="line">    self.reset()</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">step</span><span class="params">(self, previous_action, reward)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> type(previous_action) == type(<span class="literal">None</span>):</span><br><span class="line">      <span class="keyword">return</span> np.random.randint(self._number_of_arms)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      <span class="comment"># update values</span></span><br><span class="line">      self.N[previous_action] += <span class="number">1</span></span><br><span class="line">      lr = <span class="number">1.</span>/self.N[previous_action]</span><br><span class="line">      error = reward - self.Q[previous_action]</span><br><span class="line">      self.Q[previous_action] += lr*error</span><br><span class="line">      </span><br><span class="line">      <span class="comment"># get new actions</span></span><br><span class="line">      <span class="keyword">return</span> np.argmax(self.Q)</span><br><span class="line">    </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">reset</span><span class="params">(self)</span>:</span></span><br><span class="line">    self.Q = np.zeros((self._number_of_arms,),dtype=<span class="string">'float32'</span>)</span><br><span class="line">    self.N = np.zeros((self._number_of_arms,),dtype=<span class="string">'float32'</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="epsilon-Greedy-Agent"><a href="#epsilon-Greedy-Agent" class="headerlink" title="$\epsilon$-Greedy Agent"></a>$\epsilon$-Greedy Agent</h2><p>The issue of pure greedy agent is that it may stuck in some false action and never explore. So we add a small change to select action which does not have best q value, but just to explore to gather more information.</p>
+<p>The update process is as same as Greedy agent. But the way we choose actions changed:</p>
+<p>$$A_t = argmax Q, rand &gt; \epsilon$$<br>$$A_t = random action, rand &lt;= \epsilon$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EpsilonGreedy</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, number_of_arms, epsilon=<span class="number">0.1</span>)</span>:</span></span><br><span class="line">    self._number_of_arms = number_of_arms</span><br><span class="line">    self._epsilon = epsilon</span><br><span class="line">    self.name = <span class="string">'epsilon-greedy epsilon:&#123;&#125;'</span>.format(epsilon)</span><br><span class="line">    self.reset()</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">step</span><span class="params">(self, previous_action, reward)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> type(previous_action) == type(<span class="literal">None</span>):</span><br><span class="line">      <span class="keyword">return</span> np.random.randint(self._number_of_arms)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      <span class="comment"># update values</span></span><br><span class="line">      self.N[previous_action] += <span class="number">1</span></span><br><span class="line">      lr = <span class="number">1.</span>/self.N[previous_action]</span><br><span class="line">      error = reward - self.Q[previous_action]</span><br><span class="line">      self.Q[previous_action] += lr*error</span><br><span class="line"></span><br><span class="line">      <span class="comment"># get new actions</span></span><br><span class="line">      ra = bool( np.random.random() &lt; self._epsilon )</span><br><span class="line">      <span class="keyword">return</span> (<span class="keyword">not</span> ra) * np.argmax(self.Q) + (ra) * np.random.randint(self._number_of_arms)</span><br><span class="line">      </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">reset</span><span class="params">(self)</span>:</span></span><br><span class="line">    self.Q = np.zeros((self._number_of_arms,),dtype=<span class="string">'float32'</span>)</span><br><span class="line">    self.N = np.zeros((self._number_of_arms,),dtype=<span class="string">'float32'</span>)</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+
+<h2 id="UCB-Agent"><a href="#UCB-Agent" class="headerlink" title="UCB Agent"></a>UCB Agent</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UCB</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, number_of_arms)</span>:</span></span><br><span class="line">    self._number_of_arms = number_of_arms</span><br><span class="line">    self.name = <span class="string">'ucb'</span></span><br><span class="line">    self.reset()</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">step</span><span class="params">(self, previous_action, reward)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> type(previous_action) == type(<span class="literal">None</span>):</span><br><span class="line">      <span class="keyword">return</span> np.random.randint(self._number_of_arms)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      self.t += <span class="number">1</span></span><br><span class="line">      <span class="comment"># update values</span></span><br><span class="line">      self.N[previous_action] += <span class="number">1</span></span><br><span class="line">      lr = <span class="number">1.</span>/self.N[previous_action]</span><br><span class="line">      error = reward - self.Q[previous_action]</span><br><span class="line">      self.Q[previous_action] += lr*error</span><br><span class="line">      </span><br><span class="line">      <span class="comment"># here is the extra bit</span></span><br><span class="line">      U = np.sqrt(np.log(self.t)/<span class="number">1.</span>/(self.N+<span class="number">1.</span>))</span><br><span class="line">      </span><br><span class="line">      <span class="comment"># get new actions</span></span><br><span class="line">      <span class="keyword">return</span> np.argmax(self.Q+U)</span><br><span class="line">      </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">reset</span><span class="params">(self)</span>:</span></span><br><span class="line">    self.Q = np.zeros((self._number_of_arms,),dtype=<span class="string">'float32'</span>)</span><br><span class="line">    self.N = np.zeros((self._number_of_arms,),dtype=<span class="string">'float32'</span>)</span><br><span class="line">    self.t = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Reinforce-Agent"><a href="#Reinforce-Agent" class="headerlink" title="Reinforce Agent"></a>Reinforce Agent</h2><p>Base line will not affect mean, but will change the variance of the estimation. </p>
+<p>After we have the policy, we can sample an action from the policy.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Reinforce</span><span class="params">(object)</span>:</span></span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, number_of_arms, step_size=<span class="number">0.1</span>, baseline=False)</span>:</span></span><br><span class="line">    self._number_of_arms = number_of_arms</span><br><span class="line">    self._lr = step_size</span><br><span class="line">    self.name = <span class="string">'reinforce, baseline: &#123;&#125;'</span>.format(baseline)</span><br><span class="line">    self._baseline = baseline</span><br><span class="line">    self.reset()</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">step</span><span class="params">(self, previous_action, reward)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> type(previous_action) == type(<span class="literal">None</span>):</span><br><span class="line">      <span class="keyword">return</span> np.random.randint(self._number_of_arms)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      self.t += <span class="number">1</span></span><br><span class="line">      self.all_reward += reward</span><br><span class="line">      <span class="keyword">if</span> self._baseline:</span><br><span class="line">        base = self.all_reward / (self.t * <span class="number">1.</span>)</span><br><span class="line">      <span class="keyword">else</span>:</span><br><span class="line">        base = <span class="number">0</span></span><br><span class="line">      <span class="comment"># update preferences</span></span><br><span class="line">      <span class="comment"># this is H_a, reduce others preference</span></span><br><span class="line">      self.prob -= self._lr * (reward-base) * self.policy</span><br><span class="line">      <span class="comment"># this is H_A, increase current action preference</span></span><br><span class="line">      self.prob[previous_action] += self._lr * (reward-base)</span><br><span class="line">      x = self.prob</span><br><span class="line">      y = np.exp(x - np.max(x))</span><br><span class="line">      self.policy = y / np.sum(y)</span><br><span class="line">      <span class="comment"># get new actions</span></span><br><span class="line">      <span class="comment"># here we sample an action from the updated policy</span></span><br><span class="line">      <span class="keyword">import</span> bisect</span><br><span class="line">      acc = np.cumsum(self.policy)</span><br><span class="line">      <span class="keyword">return</span> bisect.bisect(acc, np.random.random())</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">reset</span><span class="params">(self)</span>:</span></span><br><span class="line">    self.policy = np.ones((self._number_of_arms,),dtype=<span class="string">'float32'</span>)/self._number_of_arms</span><br><span class="line">    self.prob = np.zeros((self._number_of_arms,),dtype=<span class="string">'float32'</span>)</span><br><span class="line">    self.t = <span class="number">0</span></span><br><span class="line">    self.all_reward = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
 <h1 id="Full-RL-Problem"><a href="#Full-RL-Problem" class="headerlink" title="Full RL Problem"></a>Full RL Problem</h1><p>Above problem is not a full RL problem, because there is no association between action and different situations. Full RL problem needs to learn a policy that maps situations to actions.</p>
 
       
@@ -716,102 +739,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/14/python_speedup/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/14/python_speedup/" class="post-title-link" itemprop="url">Python无成本加速技巧</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-06-14 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-14T00:00:00Z">2020-06-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/06/14/python_speedup/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/06/14/python_speedup/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
-<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
-<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
-
-<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
-<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
-<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
-<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
-<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/14/yisaiya3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -897,6 +824,102 @@
 <p>9 对那些被囚的说:‘你们出来吧!’对那些在黑暗中的人说:‘你们现身吧!’<br>他们沿途必得喂养，耶和华这样说: 一切光秃的高处必成为他们的草场。“埃及劳碌得来的和古实所得之利，<br>10 他们必不饥饿，也不口渴，<br>以及身量高大的西巴人，<br>炎热和太阳必不伤害他们，<br>都必过来归你，也要属你;<br>因为那怜悯他们的，要引领他们，<br>他们必带着锁炼过来随从你，<br>带领他们到水泉的旁边。<br>11 我必使我的众山成为道路， 向你恳求，说:<br>我的大道都必被修高。‘ 神真的在你们中间，此外，再没有别的神， 12 看哪!有些人从远方而来;<br>没有别的真神。’” 看哪!有些从北方，从西方而来，拯救者以色列的 神啊! 还有些从色尼姆地而来。”</p>
 </blockquote>
 <p>神的仆人会持续的带领人们走向神的国度。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/14/python_speedup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/14/python_speedup/" class="post-title-link" itemprop="url">Python无成本加速技巧</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-14 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-14T00:00:00Z">2020-06-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/06/14/python_speedup/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/06/14/python_speedup/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
+<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
+<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
+
+<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
+<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
+<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
+<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
+<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
 
       
     </div>
@@ -1015,6 +1038,103 @@
 </blockquote>
 </blockquote>
 <h2 id="要听耶和华的声音，免得失去救恩"><a href="#要听耶和华的声音，免得失去救恩" class="headerlink" title="要听耶和华的声音，免得失去救恩"></a>要听耶和华的声音，免得失去救恩</h2><p>因为他是独一真神，在没有别的神。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/17/yisaiya2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/17/yisaiya2/" class="post-title-link" itemprop="url">“你不要惧怕，我是你的神” - 以赛亚书41</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-17 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-17T00:00:00Z">2020-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bible/" itemprop="url" rel="index"><span itemprop="name">Bible</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/05/17/yisaiya2/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/17/yisaiya2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
+<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
+<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
+<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
+<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
+<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
+<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
+<p>先知以赛亚是这样说的：</p>
+<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
+<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
+<p>我们认为我们只能自己面对一切。</p>
+<p>我们害怕自己不能掌控的事情。</p>
+<p>但是，</p>
+<p>神，掌管一切。</p>
+<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
+<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
+<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
 
       
     </div>
@@ -1183,103 +1303,6 @@
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li>《上帝的蓝图》，Vaughan Roberts</li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/17/yisaiya2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/17/yisaiya2/" class="post-title-link" itemprop="url">“你不要惧怕，我是你的神” - 以赛亚书41</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-05-17 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-17T00:00:00Z">2020-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bible/" itemprop="url" rel="index"><span itemprop="name">Bible</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/05/17/yisaiya2/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/17/yisaiya2/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
-<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
-<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
-<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
-<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
-<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
-<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
-<p>先知以赛亚是这样说的：</p>
-<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
-<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
-<p>我们认为我们只能自己面对一切。</p>
-<p>我们害怕自己不能掌控的事情。</p>
-<p>但是，</p>
-<p>神，掌管一切。</p>
-<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
-<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
-<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
 
       
     </div>
