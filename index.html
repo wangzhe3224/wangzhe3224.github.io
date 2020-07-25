@@ -205,6 +205,120 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/25/rl1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/25/rl1/" class="post-title-link" itemprop="url">Reinforment Learning Introduction 1 - 2</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-25 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-25T00:00:00Z">2020-07-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Quant/" itemprop="url" rel="index"><span itemprop="name">Quant</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/07/25/rl1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/25/rl1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Reinforcement learning, RL is a framework that let an agent to make suitable  decisions to achieve best goal. Underneath math problem to solve is a  Markov Decision Process, MDP.  RL is different from both supervised and unsupervised learning. </p>
+<h1 id="Elements-of-RL"><a href="#Elements-of-RL" class="headerlink" title="Elements of RL"></a>Elements of RL</h1><p>Apart from Agent and Environment, following elements also play central<br>roles: Policy, Reward Signal, Value Function, and Model of environment. </p>
+<p>Policy, is a map from current states to actions to take. It might be<br>deterministic or stochastic.</p>
+<p>Reword signal, defines the goal of RL. At each step, environment will<br>give agent a single number, a reward.</p>
+<p>Value function, specifies what is good in the long run. The estimation<br>of value is in the central part of RL.</p>
+<p>Model, is what the agent think the environment will behave. Basically by<br>building a model of env, the agent can do planning better. But model env<br>sometime is very hard.</p>
+<p>Not all RL model need full set of above. But a good value function does<br>help to make a better decision.In the end, evolutionary and value function methods both search the space of policies, but learning a value function takes advantage of information available during the course of play.</p>
+<h1 id="A-bit-history"><a href="#A-bit-history" class="headerlink" title="A bit history"></a>A bit history</h1><p>There are two threads of RL histories. One thread concerns learning by trial and error that started in the psychology of animal learning. The other thread concerns the problem of optimal control and its solution using value functions and dynamic programming. </p>
+<p>Although the two threads have been largely independent, the exceptions revolve around a third, less distinct thread concerning temporal-difference methods</p>
+<h1 id="Simplest-problem-Multi-arm-Bandits"><a href="#Simplest-problem-Multi-arm-Bandits" class="headerlink" title="Simplest problem: Multi-arm Bandits"></a>Simplest problem: Multi-arm Bandits</h1><p>The most important feature distinguishing reinforcement learning from other types of learning is that it uses training information that evaluates the actions taken rather than instructs by giving correct actions.</p>
+<p>Consider the following learning problem. You are faced repeatedly with a choice among n different options, or actions. After each choice you receive a numerical reward chosen from a stationary probability distribution that depends on the action you selected. Your objective is to maximize the expected total reward over some time period, for example, over 1000 action selections, or time steps.</p>
+<h2 id="Action-Value-method"><a href="#Action-Value-method" class="headerlink" title="Action Value method"></a>Action Value method</h2><p>Assume $q(a)$ is the true value of action a, and the estimation on t step is $Q_t(a)$. Then the simplest idea is average: </p>
+<p>$$Q_t(a) = \frac {R_1+ R_2 + … + R_{N_t(a)}}{N_t(a)}$$</p>
+<p>Once we have $Q_t(a)$, we can then select the action with highest estimated action value. The <em>greedy</em> action selection method can be written as</p>
+<p>$$A_t = argmax Q_t(a)$$</p>
+<p>Greedy means that action selection always <strong>exploits</strong> currently knowledge to max immediate reward. A simple alternative is to behave greedily most of the time, but, <strong>explore</strong> new actions sometimes.</p>
+<h2 id="Incremental-Implementation"><a href="#Incremental-Implementation" class="headerlink" title="Incremental Implementation"></a>Incremental Implementation</h2><p>$$Q_{k+1} = Q_k + \frac {1}{k}[R_k - Q_k]$$</p>
+<p>So esentially, update previous estimation with adjustment of new update.</p>
+<p>$$NewEstimate \leftarrow OldEstimate + StepSize * [Target - OldEstimate]$$</p>
+<h2 id="Nonstationary-Problem"><a href="#Nonstationary-Problem" class="headerlink" title="Nonstationary Problem"></a>Nonstationary Problem</h2><p>For non-stationary problem, it makes more sense to has more weights on recent result.</p>
+<p>$$Q_{k+1} = Q_k + \alpha [R_k - Q_k]$$</p>
+<p>$$Q_{k+1} = (1-\alpha)^kQ_1 + \sum_{i=1}^k\alpha(1-\alpha)^{k-i}R_i$$</p>
+<h2 id="Upper-Confidence-Bound-Action-Selection"><a href="#Upper-Confidence-Bound-Action-Selection" class="headerlink" title="Upper-Confidence-Bound Action Selection"></a>Upper-Confidence-Bound Action Selection</h2><p>$$A_t = argmax_a\Big[Q_t(a) + c\sqrt{\frac{ln t}{N_t(a)}}\Big]$$</p>
+<h2 id="Gradient-Bandits"><a href="#Gradient-Bandits" class="headerlink" title="Gradient Bandits"></a>Gradient Bandits</h2><p>we can also learn a preference of each action, $H_t(a)$. The more preference, the more change to take that action. But preference is a relative value.</p>
+<p>$$\pi_{t}(a) = P{A_t=a} = \frac {e^{H_t(a)}}{\sum_{b=1}^{n}e^{H_t(b)}}$$</p>
+<p>So action is a softmax of preferences. We want to learn the preference of each actions.</p>
+<p>Initially, all preference is 0.</p>
+<p>So the learning/updating process is:</p>
+<p>$$H_{t+1}(A_t) = H_t(A_t) + \alpha(R_t - \bar{R_t})(1 - \pi_{t}(A_t))$$</p>
+<p>$$H_{t+1}(a) = H_t(a) - \alpha(R_t - \bar{R_t}\pi_t(a), \forall{a} \ne A_t$$</p>
+<p>Above is a stochastic approximation to gradient ascent:</p>
+<p>$$H_{t+1}(a) = H_t(a) + \alpha \frac {\partial {E[R_t]}} {\partial {H_t(a)}}$$</p>
+<p>where, $E[R_t] = \sum_{b}\pi_t(b)q(b)$</p>
+<h1 id="Full-RL-Problem"><a href="#Full-RL-Problem" class="headerlink" title="Full RL Problem"></a>Full RL Problem</h1><p>Above problem is not a full RL problem, because there is no association between action and different situations. Full RL problem needs to learn a policy that maps situations to actions.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/19/yisaiya5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -602,6 +716,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/14/python_speedup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/14/python_speedup/" class="post-title-link" itemprop="url">Python无成本加速技巧</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-14 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-14T00:00:00Z">2020-06-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/06/14/python_speedup/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/06/14/python_speedup/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
+<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
+<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
+
+<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
+<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
+<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
+<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
+<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/14/yisaiya3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -687,102 +897,6 @@
 <p>9 对那些被囚的说:‘你们出来吧!’对那些在黑暗中的人说:‘你们现身吧!’<br>他们沿途必得喂养，耶和华这样说: 一切光秃的高处必成为他们的草场。“埃及劳碌得来的和古实所得之利，<br>10 他们必不饥饿，也不口渴，<br>以及身量高大的西巴人，<br>炎热和太阳必不伤害他们，<br>都必过来归你，也要属你;<br>因为那怜悯他们的，要引领他们，<br>他们必带着锁炼过来随从你，<br>带领他们到水泉的旁边。<br>11 我必使我的众山成为道路， 向你恳求，说:<br>我的大道都必被修高。‘ 神真的在你们中间，此外，再没有别的神， 12 看哪!有些人从远方而来;<br>没有别的真神。’” 看哪!有些从北方，从西方而来，拯救者以色列的 神啊! 还有些从色尼姆地而来。”</p>
 </blockquote>
 <p>神的仆人会持续的带领人们走向神的国度。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/14/python_speedup/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/14/python_speedup/" class="post-title-link" itemprop="url">Python无成本加速技巧</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-06-14 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-14T00:00:00Z">2020-06-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/06/14/python_speedup/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/06/14/python_speedup/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
-<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
-<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
-
-<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
-<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
-<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
-<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
-<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
 
       
     </div>
@@ -901,103 +1015,6 @@
 </blockquote>
 </blockquote>
 <h2 id="要听耶和华的声音，免得失去救恩"><a href="#要听耶和华的声音，免得失去救恩" class="headerlink" title="要听耶和华的声音，免得失去救恩"></a>要听耶和华的声音，免得失去救恩</h2><p>因为他是独一真神，在没有别的神。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/17/yisaiya2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/17/yisaiya2/" class="post-title-link" itemprop="url">“你不要惧怕，我是你的神” - 以赛亚书41</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-05-17 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-17T00:00:00Z">2020-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bible/" itemprop="url" rel="index"><span itemprop="name">Bible</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/05/17/yisaiya2/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/17/yisaiya2/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
-<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
-<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
-<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
-<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
-<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
-<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
-<p>先知以赛亚是这样说的：</p>
-<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
-<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
-<p>我们认为我们只能自己面对一切。</p>
-<p>我们害怕自己不能掌控的事情。</p>
-<p>但是，</p>
-<p>神，掌管一切。</p>
-<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
-<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
-<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
 
       
     </div>
@@ -1185,7 +1202,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/16/a_new_kind_of_science/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/17/yisaiya2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/lambda.jpeg">
@@ -1199,7 +1216,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/05/16/a_new_kind_of_science/" class="post-title-link" itemprop="url">一种新科学</a>
+            <a href="/2020/05/17/yisaiya2/" class="post-title-link" itemprop="url">“你不要惧怕，我是你的神” - 以赛亚书41</a>
         </h2>
 
         <div class="post-meta">
@@ -1209,7 +1226,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-05-16 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-16T00:00:00Z">2020-05-16</time>
+              <time title="Created: 2020-05-17 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-17T00:00:00Z">2020-05-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1217,7 +1234,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Reading/" itemprop="url" rel="index"><span itemprop="name">Reading</span></a>
+                  <a href="/categories/Bible/" itemprop="url" rel="index"><span itemprop="name">Bible</span></a>
                 </span>
             </span>
 
@@ -1230,8 +1247,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/05/16/a_new_kind_of_science/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/16/a_new_kind_of_science/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/05/17/yisaiya2/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/17/yisaiya2/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1246,87 +1263,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>一切过程，无论是自然过程还是人工过程，都可以被等价成计算（computation）</p>
-</blockquote>
-<h1 id="1、新科学的基础"><a href="#1、新科学的基础" class="headerlink" title="1、新科学的基础"></a>1、新科学的基础</h1><p>简单的规则，可以形成复杂的行为。</p>
-<p>如果人也是规则计算的一部分，自由意志又是如何与之协调的？</p>
-<p>数学、物理、生物学、社会学、哲学、计算机科学、艺术的关系。这个系统真的解决了这些领域的基本问题吗？？</p>
-<h1 id="2、关键性的实验"><a href="#2、关键性的实验" class="headerlink" title="2、关键性的实验"></a>2、关键性的实验</h1><p>每一个新的科学产生都起始于某一个现象或者观察。这本书的起点是程序和计算。日常生活中程序通常是为了某些特殊的目的编写的，那么问题来了，如果我们随便选一些程序，而没有明确的目的，这些程序的运行结果会是什么呢？</p>
-<p>上面这个问题，数学很难解决，而最简单的办法就是用计算机进行试验。</p>
-<p>程序从抽象的角度可以理解成为：包含一些规则（Rules），这些会规定每一步做什么。设定规则的方式有很多。比如cellular automata，元细胞自动机。</p>
-<p>重要的发现是：简单的规则，可以产生复杂的模式。这也是本书的所谓新科学的核心思想。</p>
-<p>Rule30，是一个简单的规则，但是产生了随机数。</p>
-<p>问题是当我们观察到非常复杂的行为时，产生这种行为的规则（如果是有规则产生的话）可能非常简单。</p>
-<h1 id="3、简单程序的世界！"><a href="#3、简单程序的世界！" class="headerlink" title="3、简单程序的世界！"></a>3、简单程序的世界！</h1><p>问题：简单程序的一般行为是什么样的？</p>
-<p>作者发现的规律：</p>
-<ul>
-<li>Cellular automata, 不仅可以产生重复的模式，还可以产生随机性</li>
-<li>Substitute system，似乎只能产生重复的模式，而不能产生随机性</li>
-<li>Sequence Substitute system，也可以产生随机性</li>
-<li>Tag system</li>
-<li>Cyclic Tag system</li>
-<li>Symbolic system</li>
-</ul>
-<p>（是吗？）</p>
-<p>作者发现，在很多迥异的系统中，简单的规则总是能够产生复杂的行为，甚至随机性。所以这种简单导致的复杂性普遍存在。下一个问题是：什么时候会出现复杂性？通过目前的实验，如果规则很简单，会出现重复的行为；规则稍微复杂，会出现嵌套类型的现象；当规则进一步复杂，就会出现更加复杂的行为，比如混合和随机性。</p>
-<p>作者发现，出现复杂行为的阈值通常很低。但是，一旦超过阈值，提高规则的复杂度，并不能显著提高系统的复杂性。复杂的系统行为与规则的复杂度并没有显著的关联，也就是说，行为异常复杂的系统，其控制规则可能非常简单。</p>
-<p>据此，作者推断应该存在一般性的原则控制这些系统的复杂度。</p>
-<p>（如何定义复杂度？随机性？熵？）</p>
-<p>这章最后作者提到了一些对传统数学和物理研究方法的看法：<br>他的研究方法在传统领域可能会被认为是不精确的，但是传统方法是从现象出发的，可能不能发现上文的复杂度。作者采用了实验的途径。</p>
-<h1 id="4、基于数字的系统"><a href="#4、基于数字的系统" class="headerlink" title="4、基于数字的系统"></a>4、基于数字的系统</h1><p>基于数字的系统在传统科学和数学领域非常普遍。那么，基于数字的系统是不是能够产生复杂度？作者给出的答案是肯定的。</p>
-<p>（这类系统与细胞自动机系统有什么区别和联系？）</p>
-<p>数学系统的基础是数字系统，而计算系统（比如细胞自动机）的基础是通过一个序列的代码。这种代码的表达方式在自然界非常常见，比如DNA。</p>
-<h2 id="基础代数"><a href="#基础代数" class="headerlink" title="基础代数"></a>基础代数</h2><p>基础代数的操作（operation，也可以看做规则的一种吧）非常简单，但是作者发现即使这种规则也可以产生复杂系统行为，就像上一章的细胞自动机。</p>
-<p>比如，以1作为基，持续加1，就像1，2，3，….从数学的角度看这是一个再简单不过的操作，但是如果我们看这个操作以二进制的形式就会呈现一定的复杂度。</p>
-<p><img data-src="https://i.imgur.com/7yhmZHN.png" alt="简单加法的二进制模式"></p>
-<p>有人可能提出疑问，就是这种复杂度仅仅是看起来而已，并没有本质的复杂度。但是作者提出了新的例子：除法。</p>
-<p>(其实无理数对于数字来说已经非常奇葩了。。。随机性还记得吗？)</p>
-<p><img data-src="https://i.imgur.com/yNSwlnU.png" alt="这个看起来就好像股票价格"></p>
-<p>这些系统与细胞自动机不同，细胞自动机的变化通常是局部的，而数字系统则没有这个限制。</p>
-<h2 id="递归序列"><a href="#递归序列" class="headerlink" title="递归序列"></a>递归序列</h2><p>比如，$f[n] = f[n-1] + f[n-2]$。简单的规则可以发现：</p>
-<p><img data-src="https://i.imgur.com/WCTTJpN.png" alt=""></p>
-<p>但是，如果稍微增加复杂度，我们就会发现复杂系统行为：</p>
-<p><img data-src="https://i.imgur.com/kBF0hMf.png" alt=""></p>
-<h2 id="数学常数"><a href="#数学常数" class="headerlink" title="数学常数"></a>数学常数</h2><p>常数比如$\pi$, $e$，无理数等等。</p>
-<p><img data-src="https://i.imgur.com/GxEXKZd.png" alt=""></p>
-<p>作者表明，不论采用哪种形式表达，数学常数也表现了高的复杂度。</p>
-<h2 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h2><p>一个自然的推广就是函数。简单函数只要稍微叠加，就会出现复杂现象。</p>
-<p><img data-src="https://i.imgur.com/X5ANIxW.png" alt=""></p>
-<h2 id="连续细胞自动机"><a href="#连续细胞自动机" class="headerlink" title="连续细胞自动机"></a>连续细胞自动机</h2><p>目前为止作者讨论的系统全部都是离散系统。</p>
-<p><img data-src="https://i.imgur.com/Wgjq8VT.png" alt=""></p>
-<h2 id="连续系统和离散系统"><a href="#连续系统和离散系统" class="headerlink" title="连续系统和离散系统"></a>连续系统和离散系统</h2><p>区别在哪里呢？</p>
-<h1 id="5、二维和更高维度"><a href="#5、二维和更高维度" class="headerlink" title="5、二维和更高维度"></a>5、二维和更高维度</h1><p>结论是，维度的增加并没有改变复杂度的基本特征。</p>
-<h2 id="高纬度细胞自动机"><a href="#高纬度细胞自动机" class="headerlink" title="高纬度细胞自动机"></a>高纬度细胞自动机</h2><p><img data-src="https://i.imgur.com/wKcVljW.png" alt=""></p>
-<p>这个像不像雪花？自然界的现象。</p>
-<h2 id="图灵机"><a href="#图灵机" class="headerlink" title="图灵机"></a>图灵机</h2><h2 id="Substitute系统和分型"><a href="#Substitute系统和分型" class="headerlink" title="Substitute系统和分型"></a>Substitute系统和分型</h2><h2 id="网络系统"><a href="#网络系统" class="headerlink" title="网络系统"></a>网络系统</h2><p>这个其实已经看到了现在火爆的作者的物理学项目的影子了。</p>
-<h1 id="6、从随机性说起"><a href="#6、从随机性说起" class="headerlink" title="6、从随机性说起"></a>6、从随机性说起</h1><p>作者综合分析了细胞自动机的四类行为，并且认为这些行为具有通用价值。</p>
-<h1 id="7、程序和自然界的机理"><a href="#7、程序和自然界的机理" class="headerlink" title="7、程序和自然界的机理"></a>7、程序和自然界的机理</h1><p>作者让我们看到自然界的很多现象都与之前的介绍的内容非常相似。</p>
-<p><em>随机性</em></p>
-<ul>
-<li>外界注入随机性，通过与系统外界的通讯</li>
-<li>初始条件随机性</li>
-<li>自身演化产生随机性，无外界通讯</li>
-</ul>
-<p>作者认为第三种是控制自然界随机性的主要形式。</p>
-<p>（是否有可能是三者的共同作用呢？）</p>
-<p>（预定论和随机性并不冲突。）</p>
-<p>作者认为随机性是让离散系统看起来像连续系统的原因。（实际上我觉得这个世界本身就是离散的，现代物理学似乎也支持这个观点）</p>
-<h1 id="8、对日常系统的分析"><a href="#8、对日常系统的分析" class="headerlink" title="8、对日常系统的分析"></a>8、对日常系统的分析</h1><h2 id="8-1-建模的问题"><a href="#8-1-建模的问题" class="headerlink" title="8.1 建模的问题"></a>8.1 建模的问题</h2><p>从简单规则演化的角度思考很多系统的现象，似乎可以解释一些基础的问题。</p>
-<h1 id="9、物理学的基础"><a href="#9、物理学的基础" class="headerlink" title="9、物理学的基础"></a>9、物理学的基础</h1><p>我们的宇宙看起来异常复杂，那么，我们的宇宙可能是由简单规则经过迭代产生吗？这本书的一个重要发现就是：复杂现象的成因不一定是复杂的。</p>
-<p>值得注意的是，作者指出即使上面这个假设成立，这个系统并不具有可逆性，我们无法通过反向工程我们的宇宙找到对应的法则。</p>
-<p>好，如果我们假设宇宙的演化可以由简单规则表达，那么我们如何找到这些规则？这些规则有什么特征？</p>
-<p>细胞自动机可能不是一个好的选择，因为它的演化被限制在了一些格子里。。（也许这只是编码结构的不同而已，最终他们代表了相同的意义？）</p>
-<p>作者对传统物理提出了挑战，他认为目前的物理定律并没有解释基础问题，而仅仅是规则在大尺度下的一些特征。换句话说，目前的物理定律，对解释基础物理毫无作用！</p>
-<h2 id="空间的本质"><a href="#空间的本质" class="headerlink" title="空间的本质"></a>空间的本质</h2><p>物理学普遍认为空间是连续的，但是对于细胞自动机而言，他们的空间显然是离散的。</p>
-<p>那么问题是：如何对这样的宇宙建模？</p>
-<p>作者选择了用网络的形式表达空间。每一个节点具有三个连接。</p>
-<h2 id="时间和空间的联系"><a href="#时间和空间的联系" class="headerlink" title="时间和空间的联系"></a>时间和空间的联系</h2><p>作者相信时间也是离散的。同样采用网络进行建模：因果网络。</p>
-<h1 id="10、认知与分析"><a href="#10、认知与分析" class="headerlink" title="10、认知与分析"></a>10、认知与分析</h1><p>解释人类感知和分析能力。</p>
-<h1 id="11、计算的语言"><a href="#11、计算的语言" class="headerlink" title="11、计算的语言"></a>11、计算的语言</h1><p>泛化的原细胞自动机。</p>
-<h1 id="12、计算等价原则"><a href="#12、计算等价原则" class="headerlink" title="12、计算等价原则"></a>12、计算等价原则</h1><p>假设: 一切过程，无论是自然过程还是人工过程，都可以被等价成计算（computation）</p>
-<p>自从计算机诞生，计算的对象已经从抽象的数字发展到图像、声音等等。</p>
-<p>从计算的角度看，即使具有截然不同的内部结构的系统仍然具有一定的等价性。</p>
+          <p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
+<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
+<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
+<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
+<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
+<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
+<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
+<p>先知以赛亚是这样说的：</p>
+<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
+<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
+<p>我们认为我们只能自己面对一切。</p>
+<p>我们害怕自己不能掌控的事情。</p>
+<p>但是，</p>
+<p>神，掌管一切。</p>
+<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
+<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
+<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
 
       
     </div>
@@ -1413,7 +1366,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1424,7 +1377,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1632,6 +1585,59 @@ window.addEventListener('pjax:success', () => {
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

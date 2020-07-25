@@ -21,17 +21,21 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Things are correlated">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zhe">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="Reinforcement learning, RL is a framework that let an agent to make suitable  decisions to achieve best goal. Underneath math problem to solve is a  Markov Decision Process, MDP.  RL is different from">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Reinforment Learning Introduction 1 - 2">
+<meta property="og:url" content="http://yoursite.com/2020/07/25/rl1/index.html">
 <meta property="og:site_name" content="Zhe">
-<meta property="og:description" content="Things are correlated">
+<meta property="og:description" content="Reinforcement learning, RL is a framework that let an agent to make suitable  decisions to achieve best goal. Underneath math problem to solve is a  Markov Decision Process, MDP.  RL is different from">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-25T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-07-25T17:06:22.636Z">
 <meta property="article:author" content="Zhe">
+<meta property="article:tag" content="Reinforcement Learning">
+<meta property="article:tag" content="n-arm bandit">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/archives/">
+<link rel="canonical" href="http://yoursite.com/2020/07/25/rl1/">
 
 
 <script id="page-configurations">
@@ -39,12 +43,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Archive | Zhe</title>
+  <title>Reinforment Learning Introduction 1 - 2 | Zhe</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66629043-1"></script>
     <script pjax>
@@ -200,236 +204,155 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/25/rl1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Reinforment Learning Introduction 1 - 2
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-25 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-25T00:00:00Z">2020-07-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Quant/" itemprop="url" rel="index"><span itemprop="name">Quant</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">Um..! 27 posts in total. Keep on posting.</span>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/07/25/rl1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/25/rl1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-25T00:00:00Z"
-              content="2020-07-25">
-          07-25
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/25/rl1/" itemprop="url">
-            <span itemprop="name">Reinforment Learning Introduction 1 - 2</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-19T00:00:00Z"
-              content="2020-07-19">
-          07-19
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/19/yisaiya5/" itemprop="url">
-            <span itemprop="name">神的仆人成就的救恩 - 以赛亚书54</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-08T00:00:00Z"
-              content="2020-07-08">
-          07-08
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/08/shipian/" itemprop="url">
-            <span itemprop="name">神的创造与律法 诗篇19</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T00:00:00Z"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/yisaiya4/" itemprop="url">
-            <span itemprop="name">醒来吧！神的子民 51:9-52</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-06-28T00:00:00Z"
-              content="2020-06-28">
-          06-28
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/06/28/timotai2/" itemprop="url">
-            <span itemprop="name">传道人的传承：提摩太后书</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-06-14T00:00:00Z"
-              content="2020-06-14">
-          06-14
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/06/14/python_speedup/" itemprop="url">
-            <span itemprop="name">Python无成本加速技巧</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-06-14T00:00:00Z"
-              content="2020-06-14">
-          06-14
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/06/14/yisaiya3/" itemprop="url">
-            <span itemprop="name">看哪!万众期待的仆人 - 以赛亚书49</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-06-07T00:00:00Z"
-              content="2020-06-07">
-          06-07
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/06/07/yisaiya_46/" itemprop="url">
-            <span itemprop="name">关于波斯王古烈的预言 - 以赛亚书45</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-05-17T00:00:00Z"
-              content="2020-05-17">
-          05-17
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/05/17/bible_structure/" itemprop="url">
-            <span itemprop="name">圣经的结构</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-05-17T00:00:00Z"
-              content="2020-05-17">
-          05-17
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/05/17/yisaiya2/" itemprop="url">
-            <span itemprop="name">“你不要惧怕，我是你的神” - 以赛亚书41</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        <p>Reinforcement learning, RL is a framework that let an agent to make suitable  decisions to achieve best goal. Underneath math problem to solve is a  Markov Decision Process, MDP.  RL is different from both supervised and unsupervised learning. </p>
+<h1 id="Elements-of-RL"><a href="#Elements-of-RL" class="headerlink" title="Elements of RL"></a>Elements of RL</h1><p>Apart from Agent and Environment, following elements also play central<br>roles: Policy, Reward Signal, Value Function, and Model of environment. </p>
+<p>Policy, is a map from current states to actions to take. It might be<br>deterministic or stochastic.</p>
+<p>Reword signal, defines the goal of RL. At each step, environment will<br>give agent a single number, a reward.</p>
+<p>Value function, specifies what is good in the long run. The estimation<br>of value is in the central part of RL.</p>
+<p>Model, is what the agent think the environment will behave. Basically by<br>building a model of env, the agent can do planning better. But model env<br>sometime is very hard.</p>
+<p>Not all RL model need full set of above. But a good value function does<br>help to make a better decision.In the end, evolutionary and value function methods both search the space of policies, but learning a value function takes advantage of information available during the course of play.</p>
+<h1 id="A-bit-history"><a href="#A-bit-history" class="headerlink" title="A bit history"></a>A bit history</h1><p>There are two threads of RL histories. One thread concerns learning by trial and error that started in the psychology of animal learning. The other thread concerns the problem of optimal control and its solution using value functions and dynamic programming. </p>
+<p>Although the two threads have been largely independent, the exceptions revolve around a third, less distinct thread concerning temporal-difference methods</p>
+<h1 id="Simplest-problem-Multi-arm-Bandits"><a href="#Simplest-problem-Multi-arm-Bandits" class="headerlink" title="Simplest problem: Multi-arm Bandits"></a>Simplest problem: Multi-arm Bandits</h1><p>The most important feature distinguishing reinforcement learning from other types of learning is that it uses training information that evaluates the actions taken rather than instructs by giving correct actions.</p>
+<p>Consider the following learning problem. You are faced repeatedly with a choice among n different options, or actions. After each choice you receive a numerical reward chosen from a stationary probability distribution that depends on the action you selected. Your objective is to maximize the expected total reward over some time period, for example, over 1000 action selections, or time steps.</p>
+<h2 id="Action-Value-method"><a href="#Action-Value-method" class="headerlink" title="Action Value method"></a>Action Value method</h2><p>Assume $q(a)$ is the true value of action a, and the estimation on t step is $Q_t(a)$. Then the simplest idea is average: </p>
+<p>$$Q_t(a) = \frac {R_1+ R_2 + … + R_{N_t(a)}}{N_t(a)}$$</p>
+<p>Once we have $Q_t(a)$, we can then select the action with highest estimated action value. The <em>greedy</em> action selection method can be written as</p>
+<p>$$A_t = argmax Q_t(a)$$</p>
+<p>Greedy means that action selection always <strong>exploits</strong> currently knowledge to max immediate reward. A simple alternative is to behave greedily most of the time, but, <strong>explore</strong> new actions sometimes.</p>
+<h2 id="Incremental-Implementation"><a href="#Incremental-Implementation" class="headerlink" title="Incremental Implementation"></a>Incremental Implementation</h2><p>$$Q_{k+1} = Q_k + \frac {1}{k}[R_k - Q_k]$$</p>
+<p>So esentially, update previous estimation with adjustment of new update.</p>
+<p>$$NewEstimate \leftarrow OldEstimate + StepSize * [Target - OldEstimate]$$</p>
+<h2 id="Nonstationary-Problem"><a href="#Nonstationary-Problem" class="headerlink" title="Nonstationary Problem"></a>Nonstationary Problem</h2><p>For non-stationary problem, it makes more sense to has more weights on recent result.</p>
+<p>$$Q_{k+1} = Q_k + \alpha [R_k - Q_k]$$</p>
+<p>$$Q_{k+1} = (1-\alpha)^kQ_1 + \sum_{i=1}^k\alpha(1-\alpha)^{k-i}R_i$$</p>
+<h2 id="Upper-Confidence-Bound-Action-Selection"><a href="#Upper-Confidence-Bound-Action-Selection" class="headerlink" title="Upper-Confidence-Bound Action Selection"></a>Upper-Confidence-Bound Action Selection</h2><p>$$A_t = argmax_a\Big[Q_t(a) + c\sqrt{\frac{ln t}{N_t(a)}}\Big]$$</p>
+<h2 id="Gradient-Bandits"><a href="#Gradient-Bandits" class="headerlink" title="Gradient Bandits"></a>Gradient Bandits</h2><p>we can also learn a preference of each action, $H_t(a)$. The more preference, the more change to take that action. But preference is a relative value.</p>
+<p>$$\pi_{t}(a) = P{A_t=a} = \frac {e^{H_t(a)}}{\sum_{b=1}^{n}e^{H_t(b)}}$$</p>
+<p>So action is a softmax of preferences. We want to learn the preference of each actions.</p>
+<p>Initially, all preference is 0.</p>
+<p>So the learning/updating process is:</p>
+<p>$$H_{t+1}(A_t) = H_t(A_t) + \alpha(R_t - \bar{R_t})(1 - \pi_{t}(A_t))$$</p>
+<p>$$H_{t+1}(a) = H_t(a) - \alpha(R_t - \bar{R_t}\pi_t(a), \forall{a} \ne A_t$$</p>
+<p>Above is a stochastic approximation to gradient ascent:</p>
+<p>$$H_{t+1}(a) = H_t(a) + \alpha \frac {\partial {E[R_t]}} {\partial {H_t(a)}}$$</p>
+<p>where, $E[R_t] = \sum_{b}\pi_t(b)q(b)$</p>
+<h1 id="Full-RL-Problem"><a href="#Full-RL-Problem" class="headerlink" title="Full RL Problem"></a>Full RL Problem</h1><p>Above problem is not a full RL problem, because there is no association between action and different situations. Full RL problem needs to learn a policy that maps situations to actions.</p>
 
     </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Reinforcement-Learning/" rel="tag"># Reinforcement Learning</a>
+              <a href="/tags/n-arm-bandit/" rel="tag"># n-arm bandit</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/19/yisaiya5/" rel="prev" title="神的仆人成就的救恩 - 以赛亚书54">
+      <i class="fa fa-chevron-left"></i> 神的仆人成就的救恩 - 以赛亚书54
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>
-
 
 
           </div>
           
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -476,6 +399,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Elements-of-RL"><span class="nav-number">1.</span> <span class="nav-text">Elements of RL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A-bit-history"><span class="nav-number">2.</span> <span class="nav-text">A bit history</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Simplest-problem-Multi-arm-Bandits"><span class="nav-number">3.</span> <span class="nav-text">Simplest problem: Multi-arm Bandits</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Action-Value-method"><span class="nav-number">3.1.</span> <span class="nav-text">Action Value method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Incremental-Implementation"><span class="nav-number">3.2.</span> <span class="nav-text">Incremental Implementation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nonstationary-Problem"><span class="nav-number">3.3.</span> <span class="nav-text">Nonstationary Problem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Upper-Confidence-Bound-Action-Selection"><span class="nav-number">3.4.</span> <span class="nav-text">Upper-Confidence-Bound Action Selection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-Bandits"><span class="nav-number">3.5.</span> <span class="nav-text">Gradient Bandits</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Full-RL-Problem"><span class="nav-number">4.</span> <span class="nav-text">Full RL Problem</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -709,6 +633,59 @@ window.addEventListener('pjax:success', () => {
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
@@ -721,6 +698,26 @@ window.addEventListener('pjax:success', () => {
   }
   // defer loading until the whole page loading is completed
   window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2020/07/25/rl1/";
+    this.page.identifier = "2020/07/25/rl1/";
+    this.page.title = "Reinforment Learning Introduction 1 - 2";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://wangzhe.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
 </script>
 
     </div>

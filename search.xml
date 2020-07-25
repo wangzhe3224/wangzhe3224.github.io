@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Reinforment Learning Introduction 1 - 2</title>
+    <url>/2020/07/25/rl1/</url>
+    <content><![CDATA[<p>Reinforcement learning, RL is a framework that let an agent to make suitable  decisions to achieve best goal. Underneath math problem to solve is a  Markov Decision Process, MDP.  RL is different from both supervised and unsupervised learning. </p>
+<h1 id="Elements-of-RL"><a href="#Elements-of-RL" class="headerlink" title="Elements of RL"></a>Elements of RL</h1><p>Apart from Agent and Environment, following elements also play central<br>roles: Policy, Reward Signal, Value Function, and Model of environment. </p>
+<p>Policy, is a map from current states to actions to take. It might be<br>deterministic or stochastic.</p>
+<p>Reword signal, defines the goal of RL. At each step, environment will<br>give agent a single number, a reward.</p>
+<p>Value function, specifies what is good in the long run. The estimation<br>of value is in the central part of RL.</p>
+<p>Model, is what the agent think the environment will behave. Basically by<br>building a model of env, the agent can do planning better. But model env<br>sometime is very hard.</p>
+<p>Not all RL model need full set of above. But a good value function does<br>help to make a better decision.In the end, evolutionary and value function methods both search the space of policies, but learning a value function takes advantage of information available during the course of play.</p>
+<h1 id="A-bit-history"><a href="#A-bit-history" class="headerlink" title="A bit history"></a>A bit history</h1><p>There are two threads of RL histories. One thread concerns learning by trial and error that started in the psychology of animal learning. The other thread concerns the problem of optimal control and its solution using value functions and dynamic programming. </p>
+<p>Although the two threads have been largely independent, the exceptions revolve around a third, less distinct thread concerning temporal-difference methods</p>
+<h1 id="Simplest-problem-Multi-arm-Bandits"><a href="#Simplest-problem-Multi-arm-Bandits" class="headerlink" title="Simplest problem: Multi-arm Bandits"></a>Simplest problem: Multi-arm Bandits</h1><p>The most important feature distinguishing reinforcement learning from other types of learning is that it uses training information that evaluates the actions taken rather than instructs by giving correct actions.</p>
+<p>Consider the following learning problem. You are faced repeatedly with a choice among n different options, or actions. After each choice you receive a numerical reward chosen from a stationary probability distribution that depends on the action you selected. Your objective is to maximize the expected total reward over some time period, for example, over 1000 action selections, or time steps.</p>
+<h2 id="Action-Value-method"><a href="#Action-Value-method" class="headerlink" title="Action Value method"></a>Action Value method</h2><p>Assume $q(a)$ is the true value of action a, and the estimation on t step is $Q_t(a)$. Then the simplest idea is average: </p>
+<p>$$Q_t(a) = \frac {R_1+ R_2 + … + R_{N_t(a)}}{N_t(a)}$$</p>
+<p>Once we have $Q_t(a)$, we can then select the action with highest estimated action value. The <em>greedy</em> action selection method can be written as</p>
+<p>$$A_t = argmax Q_t(a)$$</p>
+<p>Greedy means that action selection always <strong>exploits</strong> currently knowledge to max immediate reward. A simple alternative is to behave greedily most of the time, but, <strong>explore</strong> new actions sometimes.</p>
+<h2 id="Incremental-Implementation"><a href="#Incremental-Implementation" class="headerlink" title="Incremental Implementation"></a>Incremental Implementation</h2><p>$$Q_{k+1} = Q_k + \frac {1}{k}[R_k - Q_k]$$</p>
+<p>So esentially, update previous estimation with adjustment of new update.</p>
+<p>$$NewEstimate \leftarrow OldEstimate + StepSize * [Target - OldEstimate]$$</p>
+<h2 id="Nonstationary-Problem"><a href="#Nonstationary-Problem" class="headerlink" title="Nonstationary Problem"></a>Nonstationary Problem</h2><p>For non-stationary problem, it makes more sense to has more weights on recent result.</p>
+<p>$$Q_{k+1} = Q_k + \alpha [R_k - Q_k]$$</p>
+<p>$$Q_{k+1} = (1-\alpha)^kQ_1 + \sum_{i=1}^k\alpha(1-\alpha)^{k-i}R_i$$</p>
+<h2 id="Upper-Confidence-Bound-Action-Selection"><a href="#Upper-Confidence-Bound-Action-Selection" class="headerlink" title="Upper-Confidence-Bound Action Selection"></a>Upper-Confidence-Bound Action Selection</h2><p>$$A_t = argmax_a\Big[Q_t(a) + c\sqrt{\frac{ln t}{N_t(a)}}\Big]$$</p>
+<h2 id="Gradient-Bandits"><a href="#Gradient-Bandits" class="headerlink" title="Gradient Bandits"></a>Gradient Bandits</h2><p>we can also learn a preference of each action, $H_t(a)$. The more preference, the more change to take that action. But preference is a relative value.</p>
+<p>$$\pi_{t}(a) = P{A_t=a} = \frac {e^{H_t(a)}}{\sum_{b=1}^{n}e^{H_t(b)}}$$</p>
+<p>So action is a softmax of preferences. We want to learn the preference of each actions.</p>
+<p>Initially, all preference is 0.</p>
+<p>So the learning/updating process is:</p>
+<p>$$H_{t+1}(A_t) = H_t(A_t) + \alpha(R_t - \bar{R_t})(1 - \pi_{t}(A_t))$$</p>
+<p>$$H_{t+1}(a) = H_t(a) - \alpha(R_t - \bar{R_t}\pi_t(a), \forall{a} \ne A_t$$</p>
+<p>Above is a stochastic approximation to gradient ascent:</p>
+<p>$$H_{t+1}(a) = H_t(a) + \alpha \frac {\partial {E[R_t]}} {\partial {H_t(a)}}$$</p>
+<p>where, $E[R_t] = \sum_{b}\pi_t(b)q(b)$</p>
+<h1 id="Full-RL-Problem"><a href="#Full-RL-Problem" class="headerlink" title="Full RL Problem"></a>Full RL Problem</h1><p>Above problem is not a full RL problem, because there is no association between action and different situations. Full RL problem needs to learn a policy that maps situations to actions.</p>
+]]></content>
+      <categories>
+        <category>Quant</category>
+      </categories>
+      <tags>
+        <tag>Reinforcement Learning</tag>
+        <tag>n-arm bandit</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>神的仆人成就的救恩 - 以赛亚书54</title>
     <url>/2020/07/19/yisaiya5/</url>
     <content><![CDATA[<p>以赛亚书54章有两个主题，其一，神承诺与他的子民和好；其二，神的城市一定会被重新建立。</p>
@@ -122,6 +168,33 @@
       </tags>
   </entry>
   <entry>
+    <title>Python无成本加速技巧</title>
+    <url>/2020/06/14/python_speedup/</url>
+    <content><![CDATA[<p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
+<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
+<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
+
+<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
+<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
+<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
+<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
+<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>看哪!万众期待的仆人 - 以赛亚书49</title>
     <url>/2020/06/14/yisaiya3/</url>
     <content><![CDATA[<h1 id="预言中新的仆人"><a href="#预言中新的仆人" class="headerlink" title="预言中新的仆人"></a>预言中新的仆人</h1><blockquote>
@@ -154,33 +227,6 @@
       </categories>
       <tags>
         <tag>以赛亚书</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python无成本加速技巧</title>
-    <url>/2020/06/14/python_speedup/</url>
-    <content><![CDATA[<p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
-<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
-<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
-
-<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
-<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
-<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
-<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
-<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
@@ -224,34 +270,6 @@
 </blockquote>
 </blockquote>
 <h2 id="要听耶和华的声音，免得失去救恩"><a href="#要听耶和华的声音，免得失去救恩" class="headerlink" title="要听耶和华的声音，免得失去救恩"></a>要听耶和华的声音，免得失去救恩</h2><p>因为他是独一真神，在没有别的神。</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>以赛亚书</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>“你不要惧怕，我是你的神” - 以赛亚书41</title>
-    <url>/2020/05/17/yisaiya2/</url>
-    <content><![CDATA[<p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
-<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
-<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
-<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
-<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
-<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
-<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
-<p>先知以赛亚是这样说的：</p>
-<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
-<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
-<p>我们认为我们只能自己面对一切。</p>
-<p>我们害怕自己不能掌控的事情。</p>
-<p>但是，</p>
-<p>神，掌管一切。</p>
-<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
-<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
-<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
 ]]></content>
       <categories>
         <category>Bible</category>
@@ -357,6 +375,34 @@
       </categories>
       <tags>
         <tag>Bible</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>“你不要惧怕，我是你的神” - 以赛亚书41</title>
+    <url>/2020/05/17/yisaiya2/</url>
+    <content><![CDATA[<p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
+<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
+<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
+<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
+<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
+<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
+<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
+<p>先知以赛亚是这样说的：</p>
+<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
+<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
+<p>我们认为我们只能自己面对一切。</p>
+<p>我们害怕自己不能掌控的事情。</p>
+<p>但是，</p>
+<p>神，掌管一切。</p>
+<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
+<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
+<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>以赛亚书</tag>
       </tags>
   </entry>
   <entry>
