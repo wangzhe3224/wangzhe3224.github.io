@@ -289,3 +289,43 @@ class Reinforce(object):
 
 Above problem is not a full RL problem, because there is no association between action and different situations. Full RL problem needs to learn a policy that maps situations to actions.
 
+# Bandit Env Code Attached
+
+```python=
+class BernoulliBandit(object):
+  """A stationary multi-armed Bernoulli bandit."""
+  
+  def __init__(self, success_probabilities, success_reward=1., fail_reward=0.):
+    """Constructor of a stationary Bernoulli bandit.
+
+    Args:
+      success_probabilities: A list or numpy array containing the probabilities,
+          for each of the arms, of providing a success reward.
+      success_reward: The reward on success (default: 1.)
+      fail_reward: The reward on failure (default: 0.)
+    """
+    self._probs = success_probabilities
+    self._number_of_arms = len(self._probs)
+    self._s = success_reward
+    self._f = fail_reward
+
+  def step(self, action):
+    """The step function.
+
+    Args:
+      action: An integer or tf.int32 that specifies which arm to pull.
+
+    Returns:
+      A sampled reward according to the success probability of the selected arm.
+
+    Raises:
+      ValueError: when the provided action is out of bounds.
+    """
+    if action < 0 or action >= self._number_of_arms:
+      raise ValueError('Action {} is out of bounds for a '
+                       '{}-armed bandit'.format(action, self._number_of_arms))
+
+    success = bool(np.random.random() < self._probs[action])
+    reward = success * self._s + (not success) * self._f
+    return reward
+```
