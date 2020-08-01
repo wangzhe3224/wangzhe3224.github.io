@@ -1,6 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Reinforment Learning 3 Markov Decision Process</title>
+    <url>/2020/07/31/rl2/</url>
+    <content><![CDATA[<h1 id="Markov-Decision-Process-MDP"><a href="#Markov-Decision-Process-MDP" class="headerlink" title="Markov Decision Process, MDP"></a>Markov Decision Process, MDP</h1><h2 id="High-level-overview-of-RL"><a href="#High-level-overview-of-RL" class="headerlink" title="High level overview of RL"></a>High level overview of RL</h2><p>At the heart of RL theory, it is Markov Decision Process.</p>
+<p>The general rule we follow is that anything that cannot be changed arbitrarily by the agent is considered to be outside of it and thus part of its environment.</p>
+<p>High level description of RL problem: three signals.</p>
+<p>The <strong>representation</strong> of the signals (actions and states) is art! Reword, on the other hand, is always real numbers. (why?? this does not sound good!!! Not consistent with actions and states which have complex representation!!)</p>
+<p>Two types of RL tasks: episodic task and continuing task.</p>
+<p>The reward for both cases: </p>
+<p>$$G_t = \sum_{k=0}^{T-t-1}\gamma^k R_{t+k+1}$$</p>
+<p>where, $T$ can be infinite and $\gamma$ can be 1.</p>
+<h2 id="The-Markov-Property"><a href="#The-Markov-Property" class="headerlink" title="The Markov Property"></a>The Markov Property</h2><p>Here we don’t discuss the design of state signal, because I focus on form the RL problem framework. However, the design of the states representation is very important in terms of make a good RL model.</p>
+<p>State representation can be very complicated and not expected to inform the agent everything about the environment. </p>
+<p>A state signal that succeeds in retaining all relevant information is said to be Markov, or to have the <strong>Markov property</strong>.</p>
+<p>The dynamic of environment is a joint distribution of states and rewards:</p>
+<p>$$Pr{R_{t+1}=r, S_{t+1}=s’|S_0,A_0,R_1,…,S_t, A_t}$$</p>
+<p>If state signal has the Markov property, we have</p>
+<p>$$p(s’,r|s,a) = Pr{R_{t+1}=r, S_{t+1}=s’|S_t, A_t}$$</p>
+<p>In order for these to be effective and informative, the state representation must be informative.</p>
+<h2 id="Markov-Decision-Process"><a href="#Markov-Decision-Process" class="headerlink" title="Markov Decision Process"></a>Markov Decision Process</h2><p>Expected rewords for state-action pairs:</p>
+<p><img data-src="https://i.imgur.com/64vtOf2.png" alt=""></p>
+<p>The state-transition probability:</p>
+<p><img data-src="https://i.imgur.com/eqZhGEy.png" alt=""></p>
+<p>The expected rewards for state-action-next-state triples:</p>
+<p><img data-src="https://i.imgur.com/7xgrcZX.png" alt=""></p>
+<h2 id="Value-functions"><a href="#Value-functions" class="headerlink" title="Value functions"></a>Value functions</h2><p>Value functions estimation how good is a state in terms of the goal. Accordingly, value functions are defined with respect to particular policies.</p>
+<p>For MDPs, we can define $v_{\pi}(s)$ formally as</p>
+<p>$$v_{\pi}(s)=\mathbb{E}_{\pi}[G_t|S_t=s]$$</p>
+<p>where, $G_t = \sum_{k=0}^{\infty}\gamma^kR_{t+k+1}$.</p>
+<p>Similarly, we can define the value of taking action a in state s under a policy:</p>
+<p>$$q_{\pi}(s, a) = \mathbb{E}_{\pi}[G_t | S_t=s, A_t=a]$$</p>
+<p>A fundamental property of value function is that they satisfy particular recursive relationships.</p>
+<p>$$v_{\pi} = \sum_{a}\pi(a|s)\sum_{s’,r}p(s’,r|s,a)[r+\gamma v_{\pi}(s’)]$$</p>
+<p>This is <strong>Bellman equation</strong>.</p>
+<h2 id="Optimal-Value-Functions"><a href="#Optimal-Value-Functions" class="headerlink" title="Optimal Value Functions"></a>Optimal Value Functions</h2><p>Solving a reinforcement learning task means, roughly, finding a policy that achieves a lot of reward over the long run. </p>
+<p>$$q_{<em>}=\mathbb{E}[R_{t+1}+\gamma v_{</em>}(S_{t+1})|S_t=s,A_t=a]$$</p>
+<p>We have</p>
+<p>$$v_{<em>}=max\sum_{s’,r}p(s’,r|s,a)[r+\gamma v_{</em>}(s’)], for all A(s)$$</p>
+<p>$$q_{<em>}(s,a) = \sum_{s’,r}p(s’,r|s,a)[r + \gamma max q_{</em>}(s’,a’)]$$</p>
+<p>These are Bellman optimality equation.</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><ul>
+<li>Reinforcement learning is about learning from interaction how to behave in order to achieve a goal.</li>
+<li>the actions are the choices made by the agent; the states are the basis for making the choices; and the rewards are the basis for evaluating the choices.</li>
+<li>A policy is a stochastic rule by which the agent selects actions as a function of states. The agent’s objective is to maximize the amount of reward it receives over time.</li>
+<li></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Quant</category>
+      </categories>
+      <tags>
+        <tag>Reinforcement Learning</tag>
+        <tag>MDP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>接受来自造物主的邀请 - 以赛亚书 55</title>
     <url>/2020/07/26/yisaiya55/</url>
     <content><![CDATA[<h1 id="接受来自造物主的邀请-以赛亚书-55"><a href="#接受来自造物主的邀请-以赛亚书-55" class="headerlink" title="接受来自造物主的邀请 - 以赛亚书 55"></a>接受来自造物主的邀请 - 以赛亚书 55</h1><h2 id="难以拒绝的邀请-1-5-x1f4e8"><a href="#难以拒绝的邀请-1-5-x1f4e8" class="headerlink" title="难以拒绝的邀请 1-5 &#x1f4e8;"></a>难以拒绝的邀请 1-5 <span class="github-emoji" alias="incoming_envelope" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4e8.png?v8">&#x1f4e8;</span></h2><blockquote>
@@ -335,6 +390,34 @@
       </tags>
   </entry>
   <entry>
+    <title>“你不要惧怕，我是你的神” - 以赛亚书41</title>
+    <url>/2020/05/17/yisaiya2/</url>
+    <content><![CDATA[<p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
+<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
+<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
+<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
+<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
+<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
+<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
+<p>先知以赛亚是这样说的：</p>
+<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
+<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
+<p>我们认为我们只能自己面对一切。</p>
+<p>我们害怕自己不能掌控的事情。</p>
+<p>但是，</p>
+<p>神，掌管一切。</p>
+<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
+<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
+<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>以赛亚书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>圣经的结构</title>
     <url>/2020/05/17/bible_structure/</url>
     <content><![CDATA[<h1 id="x1f4d6-基本信息"><a href="#x1f4d6-基本信息" class="headerlink" title="&#x1f4d6;基本信息"></a><span class="github-emoji" alias="book" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d6.png?v8">&#x1f4d6;</span>基本信息</h1><p>圣经（Bible）是一系列不同文学体裁的书组成，分为新约和旧约两个部分。圣经总共包含了66卷书，成书时间跨越2千余年，由40位作者完成。最初版本的圣经主要由两种语言写成：希伯来语和希腊语。</p>
@@ -431,34 +514,6 @@
       </categories>
       <tags>
         <tag>Bible</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>“你不要惧怕，我是你的神” - 以赛亚书41</title>
-    <url>/2020/05/17/yisaiya2/</url>
-    <content><![CDATA[<p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
-<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
-<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
-<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
-<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
-<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
-<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
-<p>先知以赛亚是这样说的：</p>
-<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
-<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
-<p>我们认为我们只能自己面对一切。</p>
-<p>我们害怕自己不能掌控的事情。</p>
-<p>但是，</p>
-<p>神，掌管一切。</p>
-<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
-<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
-<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>以赛亚书</tag>
       </tags>
   </entry>
   <entry>
