@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Reinforment Learning 4 Dynamic Programming</title>
+    <url>/2020/08/01/rl4/</url>
+    <content><![CDATA[<p>In previous chapter, value functions are defined. Dynamic Programming method is used here to use value functions to organize and structure the search for agent best policy.</p>
+<p><img data-src="https://i.imgur.com/26qVDFu.png" alt=""></p>
+<p><img data-src="https://i.imgur.com/YFH5OcT.png" alt=""></p>
+<p>In other words, DP algorithms are obtained by turning Bellman equations such as these into assignments, that is, into update rules for improving approximations of the desired value functions.</p>
+<h2 id="Policy-Evaluation"><a href="#Policy-Evaluation" class="headerlink" title="Policy Evaluation"></a>Policy Evaluation</h2><p>First thing, how can we compute value function $v_{\pi}$ given a policy? This is also known as <em>prediction problem</em> or <em>policy evaluation</em>. </p>
+<p><img data-src="https://i.imgur.com/GBtvnIv.png" alt=""></p>
+<p>As above, there is a iterative method that we can solve this recursive problem.</p>
+<p><img data-src="https://i.imgur.com/qwEAxdf.png" alt=""></p>
+<p>TODO: code to simulate Grid world value functions</p>
+<h2 id="Policy-Improvement"><a href="#Policy-Improvement" class="headerlink" title="Policy Improvement"></a>Policy Improvement</h2><p>The theory is simple. If $q_{\pi}(s,\pi’(s)) \gt v_{\pi}(s)$, then $\pi’$ must be as good as, or better than, $\pi$ . Hence $v_{\pi’}(s) \gt v_{\pi}(s)$</p>
+<p><img data-src="https://i.imgur.com/Yrw6w2t.png" alt=""></p>
+<p>Or in another equation:</p>
+<p><img data-src="https://i.imgur.com/NMnxuE7.png" alt=""></p>
+<p>TODO：code</p>
+<h2 id="Policy-Iteration"><a href="#Policy-Iteration" class="headerlink" title="Policy Iteration"></a>Policy Iteration</h2><p>Once we know how to compute value function and how to improve a policy using value function, we can iterate the process to get a optimal policy.</p>
+<p><img data-src="https://i.imgur.com/39yUEIw.png" alt=""></p>
+<h2 id="Value-Iteration"><a href="#Value-Iteration" class="headerlink" title="Value Iteration"></a>Value Iteration</h2><p><img data-src="https://i.imgur.com/kfwyLJf.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>Quant</category>
+      </categories>
+      <tags>
+        <tag>Reinforcement Learning</tag>
+        <tag>DP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Reinforment Learning 3 Markov Decision Process</title>
     <url>/2020/07/31/rl2/</url>
     <content><![CDATA[<h1 id="Markov-Decision-Process-MDP"><a href="#Markov-Decision-Process-MDP" class="headerlink" title="Markov Decision Process, MDP"></a>Markov Decision Process, MDP</h1><p><a href="https://hackmd.io/BGkR2gTjTLy6oHBfkQ2EAQ" target="_blank" rel="noopener"><img data-src="https://hackmd.io/BGkR2gTjTLy6oHBfkQ2EAQ/badge" alt="hackmd-github-sync-badge"></a></p>
