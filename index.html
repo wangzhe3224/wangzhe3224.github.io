@@ -266,7 +266,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Markov-Decision-Process-MDP"><a href="#Markov-Decision-Process-MDP" class="headerlink" title="Markov Decision Process, MDP"></a>Markov Decision Process, MDP</h1><h2 id="High-level-overview-of-RL"><a href="#High-level-overview-of-RL" class="headerlink" title="High level overview of RL"></a>High level overview of RL</h2><p>At the heart of RL theory, it is Markov Decision Process.</p>
+          <h1 id="Markov-Decision-Process-MDP"><a href="#Markov-Decision-Process-MDP" class="headerlink" title="Markov Decision Process, MDP"></a>Markov Decision Process, MDP</h1><p><a href="https://hackmd.io/BGkR2gTjTLy6oHBfkQ2EAQ" target="_blank" rel="noopener"><img data-src="https://hackmd.io/BGkR2gTjTLy6oHBfkQ2EAQ/badge" alt="hackmd-github-sync-badge"></a></p>
+<h2 id="High-level-overview-of-RL"><a href="#High-level-overview-of-RL" class="headerlink" title="High level overview of RL"></a>High level overview of RL</h2><p>At the heart of RL theory, it is Markov Decision Process.</p>
 <p>The general rule we follow is that anything that cannot be changed arbitrarily by the agent is considered to be outside of it and thus part of its environment.</p>
 <p>High level description of RL problem: three signals.</p>
 <p>The <strong>representation</strong> of the signals (actions and states) is art! Reword, on the other hand, is always real numbers. (why?? this does not sound good!!! Not consistent with actions and states which have complex representation!!)</p>
@@ -303,11 +304,27 @@
 <p>$$v_{<em>}=max\sum_{s’,r}p(s’,r|s,a)[r+\gamma v_{</em>}(s’)], for all A(s)$$</p>
 <p>$$q_{<em>}(s,a) = \sum_{s’,r}p(s’,r|s,a)[r + \gamma max q_{</em>}(s’,a’)]$$</p>
 <p>These are Bellman optimality equation.</p>
+<h2 id="Bellman-Equations"><a href="#Bellman-Equations" class="headerlink" title="Bellman Equations"></a>Bellman Equations</h2><p><img data-src="https://i.imgur.com/Ln7PnVy.png" alt=""></p>
+<p>The are relationships between value function and q-function:</p>
+<p><img data-src="https://i.imgur.com/YEGGt2x.png" alt=""></p>
+<p>Our goal in RL is to solve Bellman Optimality Equation. There are two ways of solving this non-linear problem:</p>
+<ul>
+<li>Dynamic Programming, this when you have a model of the MDP.<ul>
+<li>Value iteration</li>
+<li>Policy iteration</li>
+</ul>
+</li>
+<li>Sampling <ul>
+<li>Monte Carlo</li>
+<li>Q-learning</li>
+<li>Sarsa</li>
+</ul>
+</li>
+</ul>
 <h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><ul>
 <li>Reinforcement learning is about learning from interaction how to behave in order to achieve a goal.</li>
 <li>the actions are the choices made by the agent; the states are the basis for making the choices; and the rewards are the basis for evaluating the choices.</li>
 <li>A policy is a stochastic rule by which the agent selects actions as a function of states. The agent’s objective is to maximize the amount of reward it receives over time.</li>
-<li></li>
 </ul>
 
       
