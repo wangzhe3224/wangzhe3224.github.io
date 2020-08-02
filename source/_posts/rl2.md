@@ -8,6 +8,9 @@ mathjax: true
 
 # Markov Decision Process, MDP
 
+[![hackmd-github-sync-badge](https://hackmd.io/BGkR2gTjTLy6oHBfkQ2EAQ/badge)](https://hackmd.io/BGkR2gTjTLy6oHBfkQ2EAQ)
+
+
 ## High level overview of RL
 
 At the heart of RL theory, it is Markov Decision Process.
@@ -93,9 +96,26 @@ $$q_{*}(s,a) = \sum_{s',r}p(s',r|s,a)[r + \gamma max q_{*}(s',a')]$$
 
 These are Bellman optimality equation.
 
+## Bellman Equations
+
+![](https://i.imgur.com/Ln7PnVy.png)
+
+The are relationships between value function and q-function:
+
+![](https://i.imgur.com/YEGGt2x.png)
+
+Our goal in RL is to solve Bellman Optimality Equation. There are two ways of solving this non-linear problem:
+
+- Dynamic Programming, this when you have a model of the MDP.
+  * Value iteration
+  * Policy iteration
+- Sampling 
+  * Monte Carlo
+  * Q-learning
+  * Sarsa
+
 ## Summary
 
 - Reinforcement learning is about learning from interaction how to behave in order to achieve a goal.
 - the actions are the choices made by the agent; the states are the basis for making the choices; and the rewards are the basis for evaluating the choices.
 - A policy is a stochastic rule by which the agent selects actions as a function of states. The agent’s objective is to maximize the amount of reward it receives over time.
-- 
