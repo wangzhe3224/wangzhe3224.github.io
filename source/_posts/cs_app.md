@@ -7,6 +7,9 @@ categories: Reading
 
 # Computer System: A Programmer's Perspectives
 
+[![hackmd-github-sync-badge](https://hackmd.io/fzzDuqP9TO2f8MOsqmOxUQ/badge)](https://hackmd.io/fzzDuqP9TO2f8MOsqmOxUQ)
+
+
 一个读书笔记。
 
 ## 总结
