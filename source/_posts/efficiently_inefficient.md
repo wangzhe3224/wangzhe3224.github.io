@@ -3,9 +3,13 @@ title: Efficiently Inefficient Market
 date: 2020-10-03
 tags: [Investing, Hedge Fund]
 categories: Reading
+mathjax: true
 ---
 
 # Efficiently Inefficient Market
+
+[![hackmd-github-sync-badge](https://hackmd.io/DEJL1LPVSd6-XRKV85iEeg/badge)](https://hackmd.io/DEJL1LPVSd6-XRKV85iEeg)
+
 
 # 感受
 
