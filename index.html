@@ -205,6 +205,211 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/03/efficiently_inefficient/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/03/efficiently_inefficient/" class="post-title-link" itemprop="url">Efficiently Inefficient Market</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-10-03 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-03T00:00:00Z">2020-10-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reading/" itemprop="url" rel="index"><span itemprop="name">Reading</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/10/03/efficiently_inefficient/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/10/03/efficiently_inefficient/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Efficiently-Inefficient-Market"><a href="#Efficiently-Inefficient-Market" class="headerlink" title="Efficiently Inefficient Market"></a>Efficiently Inefficient Market</h1><h1 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h1><p>作者认为，市场足够的有效，但是不是完全有效，也正式基金经理的主动挖掘无效性，才进一步促进了市场的有效。只不过，主动投资是有花销的，比如人力、技能、电脑、场地等等，这些都会为主动管理资金设立门槛，导致超过容量有限。</p>
+<p>作者在AQR从事量化投资相关研究，具有很好的学术和工业背景，所以他的见解更加贴合真是市场，但是又包含严谨的说明，没有任何玄学。比如，他就明确的说出：想要盈利就必须要预测，而且要做好的预测。</p>
+<p>这一点我很认同，母我看到太多所谓的“交易”达人胡扯：不预测，只是跟随市场。&lt;—- <strong>扯淡</strong>。</p>
+<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><ul>
+<li>价值</li>
+<li>趋势</li>
+<li>流动性</li>
+<li>Carry</li>
+<li>质量</li>
+</ul>
+<h1 id="1、主动投资活动"><a href="#1、主动投资活动" class="headerlink" title="1、主动投资活动"></a>1、主动投资活动</h1><h2 id="评价策略表现"><a href="#评价策略表现" class="headerlink" title="评价策略表现"></a>评价策略表现</h2><p>Alpha, t-statics, sharpe ratio, information ratio, alpha-to-margin ratio, sortino ratio</p>
+<h2 id="寻找、回测策略"><a href="#寻找、回测策略" class="headerlink" title="寻找、回测策略"></a>寻找、回测策略</h2><p>每一个策略背后都应该有合理的盈利逻辑，因为你的每一笔交易都会存在对手方，如果你的策略真的有效，那么对手会亏损，问题在于他有什么理由一直亏损？</p>
+<p>所以超额利润，alpha，一般来源有两个：流动性的补偿和信息的补偿。</p>
+<p><img data-src="https://i.imgur.com/FRHkc6g.png" alt="Alpha的来源"></p>
+<p><strong>信息</strong></p>
+<p>市场价格如果可以反映该产品的一切信息，那么这个过程不是自动完成的，也不是瞬间完成的，需要有人去交易这些信息，把这些信息反映到市场价格中去。反过来说，如果市场自动、瞬间反映了所有信息，那么不会有人去收集并交易任何信息，因为没有意义。可以，如果是这样的话，市场优又如何可以反映新出现的信息？所以，对冲基金等主动管理者就通过收集和交易信息成全了市场的有效性。</p>
+<p>对冲基金往往也充当了信息的生产者，比如他们会对公司进行深入系统的研究，然后做出对应的交易，从而将这些信息反映到价格中。对冲基金也会高价购买信息，然后通过交易行为，将这些信息反映到价格中，并且从中盈利。同时，对冲基金也会交易一些非理性行为，比如</p>
+<blockquote>
+<p>there is a general tendency of initial underreaction and delayed overreaction that creates trends and momentum.</p>
+</blockquote>
+<p>所以，当一个新的策略形成的时候，问问自己受益从何而来？</p>
+<ul>
+<li>这些信息被大部分人忽略了吗？</li>
+<li>通过整个多种不同的信息，得到了新的信息吗？</li>
+<li>我比其他人更快的获得了这个信息吗？</li>
+<li>这些信息还没有完全反映到市场价格吗？</li>
+</ul>
+<p><strong>风险</strong></p>
+<p>获得超额回报的另一个途径就是承担风险。市场风险不计入。通常对冲基金会通过承担流动性风险获得市场收益意外的超额回报。</p>
+<p>流动性风险会直接影响资产的价格。</p>
+<p><em>市场流动性风险</em>，是指需要花费巨额的费用才能退出某个资产。最常见的情况就是在崩盘的情况下，bid-ask差价非常大，甚至出现没有bid的情况，无人接盘。因此，流动性差的资产通常具有较高的回报率或者比较便宜，这就是市场流动性风险补偿。</p>
+<p><em>资本流动性风险</em>，是指被margin call的风险。换句话说，持有高Margin的资产应该得到相应的回报，因为承担了资本流动性风险。</p>
+<p><em>需求压力</em>，Demand pressure，并购套利就是一个典型的需求压力策略。当一些机构进行风险对冲的时候，也会出现需求压力。在比如需要roll future contract的时候，债券降级的时候，都会产生一些需求压力，通常都是卖出压力。</p>
+<p><strong>回测</strong></p>
+<p>回测的基本组成部分：</p>
+<ul>
+<li>交易池，定义可以交易的资产</li>
+<li>信号，信息输入</li>
+<li>交易规则，包括调仓规则，交易规则等等</li>
+<li>时间延迟，Point-in-time 信息</li>
+<li>交易费用</li>
+</ul>
+<h2 id="回归分析的等效性"><a href="#回归分析的等效性" class="headerlink" title="回归分析的等效性"></a>回归分析的等效性</h2><p>投资组合资产的选择和比较几乎等效于线性回归系数的分析：</p>
+<blockquote>
+<p>任何预测性质的回归分析都可以等效成资产组合选择，任何资产组合选择都可以等效成为预测回归分析。</p>
+</blockquote>
+<ul>
+<li>时间序列回归分析，与择时策略相关</li>
+<li>Corss-sectional回归分析与则产选择策略相关</li>
+<li>单因子回归分析与根据一个信号排序资产相关；而多因子回归则与多因子排序相关</li>
+</ul>
+<h3 id="时间序列回归"><a href="#时间序列回归" class="headerlink" title="时间序列回归"></a>时间序列回归</h3><p>$$R_{t+1}^e = a + bF_t + e_{t+1}$$</p>
+<p><strong>而 $b$ 的最小二乘估计值就可以被看成一个long-short择时策略的累计回报率</strong>：</p>
+<p>$$\hat{b}=\frac{\sum_t(F_t - \bar{F})R_{t+1}}{\sum_t(F_t-\bar{F})^2} = \sum_{t=1}^{T}x_tR_{t+1}$$</p>
+<p>其中，$x_t = k(F_t - \bar{F})$，而$k = 1/\sum(F_t-\bar{F})^2$ 不影响策略的夏普值。</p>
+<p>$x_t$就是实际的交易仓位，当信号$F_t$超过其均值时，x为正，即买入。反之，则卖出。</p>
+<h3 id="Corss-sectional回归与选股"><a href="#Corss-sectional回归与选股" class="headerlink" title="Corss-sectional回归与选股"></a><em>Corss-sectional回归与选股</em></h3><p>$$R_{t+1}^i= a + bF_t^i + e_{t+1}^i$$</p>
+<p>其中，i代表一个资产，F同样代表信号。针对投资组合中的所有资产进行上述回归分析，得到回归系数矩阵：</p>
+<p>$$\hat{b}<em>t=\frac{\sum_i(F_t^i - \bar{F_t})R^i</em>{t+1}}{\sum_i(F_t^i - \bar{F_t})^2} = \sum_{i}x_t^iR_{t+1}^i$$</p>
+<p><strong>这个回归系数 $\hat{b}$ 就代表了一个long-short策略在t和t-1获得的收益</strong>。而资产的权重就是：</p>
+<p>$$x_t^i=k_t(F_t^i-\bar{F_t})$$</p>
+<p>这个回归系数$\hat{b_t}$的平均值，其实就是Fama–MacBeth模型中的系数$\hat{b}$。</p>
+<p>$$\hat{b} = 1/T\sum_{t=1}^T\hat{b}_t$$</p>
+<p>进而，我们可以求出策略的波动率：</p>
+<p>$$\hat{\sigma} = \sqrt{\frac{1}{T-1}\sum_{t=1}^T(\hat{b_t}-\hat{b})^2}$$</p>
+<p>这里如果看一下t-static会发现，其实t-statistics就是高夏普比例的表现。</p>
+<p>$$tstatistics = \sqrt{T}\frac{\hat{b}}{\hat{\sigma}}$$</p>
+<h3 id="多因子回归"><a href="#多因子回归" class="headerlink" title="多因子回归"></a>多因子回归</h3><p>$$R_{t+1}^i= a + b^FF_t^i + b^GG_t^i + e_{t+1}^i$$</p>
+<p>在这种情况下，$b^F$ 代表了同时交易信号F和信号G的时候，信号F的收益。</p>
+<blockquote>
+<p>值得注意的是，时间序列线性回归更加可以，因为用到了信号均值进行计算。而信号均值从回测的角度，属于未来信息。</p>
+</blockquote>
+<h2 id="构建投资组合以及风险管理"><a href="#构建投资组合以及风险管理" class="headerlink" title="构建投资组合以及风险管理"></a>构建投资组合以及风险管理</h2><p>当我们识别出若干可用的信号以后，就需要组合这些信号形成投资组合进行交易。具体方法多种多样，但是总体原则是：</p>
+<ul>
+<li>多样性</li>
+<li>头寸限制</li>
+<li>对信心更强的信号，下注更多</li>
+<li>根据风险指标调整投资组合</li>
+<li>关注相关性</li>
+</ul>
+<h2 id="交易的花费"><a href="#交易的花费" class="headerlink" title="交易的花费"></a>交易的花费</h2><ul>
+<li>交易花费</li>
+<li>funding cost<ul>
+<li>总杠杆</li>
+<li>净杠杆</li>
+</ul>
+</li>
+<li>Margin</li>
+</ul>
+<h1 id="2-股票类策略"><a href="#2-股票类策略" class="headerlink" title="2. 股票类策略"></a>2. 股票类策略</h1><p>主要分为三类：discretionary equity, dedicated short bias, and quantitative equities.</p>
+<blockquote>
+<p>Intrinsic value: It is the discounted value of the cash that can be taken out of a business during its remaining life.</p>
+</blockquote>
+<p>交易股票的基础在于股票估值，即固有价值。估值的核心在于未来现金流的现今折扣价值：</p>
+<p>$$V_t = E_t(\frac{D_{t+1}+V_{t+1}}{1+k_t})$$</p>
+<p>其中，k 即使股票的回报率，D 是股票的分红。</p>
+<p>不过，分红并不容易预测，特别对于有些成长型的公司，股票并没有分红，所以需要Earning和Book value进行替代计算。</p>
+<p>当然，除了上述绝对估值，也可以对股票进行相对估值。</p>
+<h2 id="Discretionary-equity"><a href="#Discretionary-equity" class="headerlink" title="Discretionary equity"></a>Discretionary equity</h2><ul>
+<li>Value</li>
+<li>Growth</li>
+<li>Quality</li>
+</ul>
+<h2 id="Dedicated-short-bias"><a href="#Dedicated-short-bias" class="headerlink" title="Dedicated short bias"></a>Dedicated short bias</h2><h2 id="Quant-equity"><a href="#Quant-equity" class="headerlink" title="Quant equity"></a>Quant equity</h2><ul>
+<li>Fundamental quant<ul>
+<li>value</li>
+<li>quality</li>
+<li>bet against beta</li>
+</ul>
+</li>
+<li>Statistic Arb</li>
+<li>HFT</li>
+</ul>
+<h1 id="3、资产配置和宏观策略"><a href="#3、资产配置和宏观策略" class="headerlink" title="3、资产配置和宏观策略"></a>3、资产配置和宏观策略</h1><p>宏观策略的逻辑是自顶向下的，而股票策略则通常是自底向上的。宏观策略的主要受益来源是各种Risk Premiums，比如股票风险回报、时间结构回报（国债）、信誉风险回报（公司债）、流动性风险回报（房地产等）、其他（比如价值引子、趋势、carry等等）。</p>
+<p><strong>市场择时</strong></p>
+<p>市场择时策略可以通过回归和回测进行分析。</p>
+<p><strong>回报率的来源</strong></p>
+<h2 id="全球资产配置"><a href="#全球资产配置" class="headerlink" title="全球资产配置"></a>全球资产配置</h2><blockquote>
+<p>The whole world is simply nothing more than a flow chart for capital.</p>
+</blockquote>
+<ul>
+<li>Carry</li>
+<li>Central banks</li>
+</ul>
+<h2 id="CTA"><a href="#CTA" class="headerlink" title="CTA"></a>CTA</h2><p>趋势策略，不同时间周期、不同产品的多样性效应。</p>
+<h1 id="4、套利策略"><a href="#4、套利策略" class="headerlink" title="4、套利策略"></a>4、套利策略</h1>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/20/cs_app/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1228,102 +1433,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/14/python_speedup/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/14/python_speedup/" class="post-title-link" itemprop="url">Python无成本加速技巧</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-06-14 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-14T00:00:00Z">2020-06-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/06/14/python_speedup/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/06/14/python_speedup/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
-<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
-<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
-
-<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
-<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
-<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
-<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
-<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1395,7 +1504,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1406,7 +1515,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
