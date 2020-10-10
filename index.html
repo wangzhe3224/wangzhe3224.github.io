@@ -205,6 +205,151 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/mit6828_lab1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/10/mit6828_lab1/" class="post-title-link" itemprop="url">MIT6828 lab 1</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-10-10 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-10T00:00:00Z">2020-10-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/10/10/mit6828_lab1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/10/10/mit6828_lab1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Part-1"><a href="#Part-1" class="headerlink" title="Part 1"></a>Part 1</h2><p>First thing, what does it mean by saying <code>cs:ip</code>?<br>This is a old but still being used memory addressing method. <code>Segment: Offfset</code>. The absolute memory addres = (Segment * 16) + Offset. For example, <code>F000:FFFD</code> means address <code>FFFFD</code>. This strange way of expressing address is due to the fact that in the old days, CPU’s regeisters are only 16bit, which can only address a memeory address of 2^16 (which is 64KiB memory). This is even too small at that age. So CPU manufacturers combines two regiesters to express larger address, which is this <code>segment: offset</code> thing.<br><code>cs</code> means “code segment” and <code>ip</code> means “instruction pointer”. The combination represents the location where CPU is currently fetching instructions to execute.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\</span><br><span class="line">|                  |</span><br><span class="line">|      Unused      |</span><br><span class="line">|                  |</span><br><span class="line">+------------------+  &lt;- depends on amount of RAM</span><br><span class="line">|                  |</span><br><span class="line">|                  |</span><br><span class="line">| Extended Memory  |</span><br><span class="line">|                  |</span><br><span class="line">|                  |</span><br><span class="line">+------------------+  &lt;- 0x00100000 (1MB)                 [Intel 8088]</span><br><span class="line">|     BIOS ROM     |</span><br><span class="line">+------------------+  &lt;- 0x000F0000 (960KB)</span><br><span class="line">|  16-bit devices, |</span><br><span class="line">|  expansion ROMs  |</span><br><span class="line">+------------------+  &lt;- 0x000C0000 (768KB)</span><br><span class="line">|   VGA Display    |</span><br><span class="line">+------------------+  &lt;- 0x000A0000 (640KB)</span><br><span class="line">|                  |</span><br><span class="line">|    Low Memory    |                                      [Conventional Memory]</span><br><span class="line">|                  |</span><br><span class="line">+------------------+  &lt;- 0x00000000</span><br></pre></td></tr></table></figure>
+<h3 id="Exercise-2-debug-boot"><a href="#Exercise-2-debug-boot" class="headerlink" title="Exercise 2: debug boot"></a>Exercise 2: debug boot</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> [CS:IP]    address: command  args</span><br><span class="line">[f000:fff0]    0xffff0: ljmp   $0xf000,$0xe05b   # goto 0xfe05b</span><br><span class="line">[f000:e05b]    0xfe05b: cmpl   $0x0,%cs:0x6c48</span><br><span class="line">[f000:e062]    0xfe062: jne    0xfd2e1</span><br><span class="line">[f000:e066]    0xfe066: xor    %dx,%dx</span><br><span class="line">[f000:e068]    0xfe068: mov    %dx,%ss</span><br><span class="line">[f000:e06a]    0xfe06a: mov    $0x7000,%esp</span><br><span class="line">[f000:e070]    0xfe070: mov    $0xf3691,%edx</span><br><span class="line">[f000:e076]    0xfe076: jmp    0xfd165</span><br><span class="line">[f000:d165]    0xfd165: mov    %eax,%ecx</span><br><span class="line">[f000:d168]    0xfd168: cli</span><br><span class="line">[f000:d169]    0xfd169: cld</span><br><span class="line">[f000:d16a]    0xfd16a: mov    $0x8f,%eax</span><br><span class="line">[f000:d170]    0xfd170: out    %al,$0x70</span><br><span class="line">[f000:d172]    0xfd172: in     $0x71,%al</span><br><span class="line">[f000:d174]    0xfd174: in     $0x92,%al</span><br><span class="line">[f000:d176]    0xfd176: or     $0x2,%al</span><br><span class="line">[f000:d178]    0xfd178: out    %al,$0x92</span><br><span class="line">[f000:d17a]    0xfd17a: lidtw  %cs:0x6c38</span><br><span class="line">[f000:d180]    0xfd180: lgdtw  %cs:0x6bf4</span><br><span class="line">[f000:d186]    0xfd186: mov    %cr0,%eax</span><br><span class="line">[f000:d189]    0xfd189: or     $0x1,%eax</span><br><span class="line">[f000:d18d]    0xfd18d: mov    %eax,%cr0</span><br><span class="line">[f000:d190]    0xfd190: ljmpl  $0x8,$0xfd198</span><br><span class="line">&#x3D;&gt; 0xfd198:     mov    $0x10,%eax</span><br><span class="line">&#x3D;&gt; 0xfd19d:     mov    %eax,%ds</span><br><span class="line">&#x3D;&gt; 0xfd19f:     mov    %eax,%es</span><br><span class="line">&#x3D;&gt; 0xfd1a1:     mov    %eax,%ss</span><br></pre></td></tr></table></figure>
+
+<h2 id="Part-2-Boot-Loader"><a href="#Part-2-Boot-Loader" class="headerlink" title="Part 2 Boot Loader"></a>Part 2 Boot Loader</h2><p>BIOS handle control to boot loader by loading boot loader into memory and jump instruction pointer to <code>0x7C00</code>, where boot<br> loader code started.</p>
+<h3 id="Exercise-3"><a href="#Exercise-3" class="headerlink" title="Exercise 3"></a>Exercise 3</h3><ul>
+<li>At what point does the processor start executing 32-bit code? What exactly causes the switch from 16- to 32-bit mode?</li>
+</ul>
+<p><code>[   0:7c1e] =&gt; 0x7c1e:  lgdtw  0x7c64</code>. Here starting using GDT, Global Descriptor Table.<br>Then mark control regesiter, <code>cr0</code>. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[   0:7c23] &#x3D;&gt; 0x7c23:  mov    %cr0,%eax</span><br><span class="line">[   0:7c26] &#x3D;&gt; 0x7c26:  or     $0x1,%eax</span><br><span class="line">[   0:7c2a] &#x3D;&gt; 0x7c2a:  mov    %eax,%cr0</span><br><span class="line">[   0:7c2d] &#x3D;&gt; 0x7c2d:  ljmp   $0x8,$0x7c32   # &lt;-- Jump to next instruction, which in 32-bit code segment.</span><br><span class="line">&#x3D;&gt; 0x7c32:      mov    $0x10,%ax   # notice that the address format changed.</span><br></pre></td></tr></table></figure>
+
+<p>In <code>boot.S</code> source code, one can see <code>.code16</code> as a sign of 16-bit mode, and <code>.code32</code> as 32-bit mode.</p>
+<ul>
+<li><p>What is the last instruction of the boot loader executed, and what is the first instruction of the kernel it just loaded?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&gt; 0x7c40:      mov    $0x7c00,%esp # setup stack pointer to call boot&#x2F;main.c</span><br><span class="line">&#x3D;&gt; 0x7c45:      call   0x7d15</span><br><span class="line">&#x3D;&gt; 0x7d15:      push   %ebp # here we move to &#96;main.c&#96;. boot.S hands over control to main.c </span><br><span class="line">&#x3D;&gt; 0x7d6b:      call   *0x10018       # this is the last instruction from boot loader</span><br><span class="line">&#x3D;&gt; 0x10000c:    movw   $0x1234,0x472  # this is the first instruction from the kernel.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Where is the first instruction of the kernel? <code>0x10000c</code></p>
+</li>
+<li><p>How does the boot loader decide how many sectors it must read in order to fetch the entire kernel from disk? Where does it find this information?  The boot loader find sector number from </p>
+</li>
+</ul>
+<p>Notes:<br><code>x/i $pc</code>: show current instruction (content that program counter, <code>pc</code>, pointed to)<br><code>si</code>: execute current instruction<br><code>c</code>: execute until next break point<br><code>b *address</code>: set a break point at address</p>
+<h3 id="Exercise-4"><a href="#Exercise-4" class="headerlink" title="Exercise 4"></a>Exercise 4</h3><ul>
+<li>Understand <code>pointer.c</code>. Read K&amp;R Ch5.1 - 5.5.</li>
+</ul>
+<p>Note:</p>
+<ul>
+<li>Unary operators like * and ++ associate right to left. <code>++*p</code> and <code>(*p)++</code> and <code>*p++</code>.</li>
+<li>(int *) ((char *) c) makes the trick, char is 1 byte long whereas int is 4 bytes.</li>
+</ul>
+<h3 id="Exercise-5"><a href="#Exercise-5" class="headerlink" title="Exercise 5"></a>Exercise 5</h3><p>The first instruction that would break will be <code>ljmp $PORT_MODE_CSEG, $protcseg</code>, <code>$protcseg</code> is part of<br>.text segment, and the segement is assumed to be loaded at <code>0x7c00</code>. </p>
+<h3 id="Exercise-6"><a href="#Exercise-6" class="headerlink" title="Exercise 6"></a>Exercise 6</h3><p>Breakpoint 0x7c00</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[   0:7c00] &#x3D;&gt; 0x7c00:  cli</span><br><span class="line">Breakpoint 1, 0x00007c00 in ?? ()</span><br><span class="line">(gdb) x&#x2F;8x 0x00100000</span><br><span class="line">0x100000:       0x00000000      0x00000000      0x00000000      0x00000000</span><br><span class="line">0x100010:       0x00000000      0x00000000      0x00000000      0x00000000</span><br><span class="line"></span><br><span class="line">(gdb) c</span><br><span class="line">&#x3D;&gt; 0x10000c:    movw   $0x1234,0x472</span><br><span class="line">Breakpoint 2, 0x0010000c in ?? ()</span><br><span class="line">0x100000:       0x1badb002      0x00000000      0xe4524ffe      0x7205c766</span><br><span class="line">0x100010:       0x34000004      0x0000b812      0x220f0011      0xc0200fd8</span><br></pre></td></tr></table></figure>
+
+<h2 id="Part-3-The-Kernel"><a href="#Part-3-The-Kernel" class="headerlink" title="Part 3: The Kernel"></a>Part 3: The Kernel</h2><h3 id="Exercise-7"><a href="#Exercise-7" class="headerlink" title="Exercise 7"></a>Exercise 7</h3><p>this bit code activate page:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Turn on paging.</span><br><span class="line">movl    %cr0, %eax</span><br><span class="line">orl $(CR0_PE|CR0_PG|CR0_WP), %eax</span><br><span class="line">movl    %eax, %cr0</span><br></pre></td></tr></table></figure>
+
+<p>Set the breakpoint at 0x00100025 (this is the pysical address of movl %eax, %cr0). We can see:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x&#x2F;8x 0x00100000</span><br><span class="line">0x100000:       0x1badb002      0x00000000      0xe4524ffe      0x7205c766</span><br><span class="line">0x100010:       0x34000004      0x2000b812      0x220f0011      0xc0200fd8</span><br><span class="line">(gdb) x&#x2F;8x 0xf0100000</span><br><span class="line">0xf0100000 &lt;_start+4026531828&gt;: 0x00000000      0x00000000      0x00000000      0x00000000</span><br><span class="line">0xf0100010 &lt;entry+4&gt;:   0x00000000      0x00000000      0x00000000      0x00000000</span><br></pre></td></tr></table></figure>
+
+<p>After execute this line, we can see that both 100000 and f0100000 hold same content.<br> Memory is mapped.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x&#x2F;8x 0x00100000</span><br><span class="line">0x100000:       0x1badb002      0x00000000      0xe4524ffe      0x7205c766</span><br><span class="line">0x100010:       0x34000004      0x2000b812      0x220f0011      0xc0200fd8</span><br><span class="line">(gdb) x&#x2F;8x 0xf0100000</span><br><span class="line">0xf0100000 &lt;_start+4026531828&gt;: 0x1badb002      0x00000000      0xe4524ffe      0x7205c766</span><br><span class="line">0xf0100010 &lt;entry+4&gt;:   0x34000004      0x2000b812      0x220f0011      0xc0200fd8</span><br></pre></td></tr></table></figure>
+
+<p>The next instruction need the virtual memeory setup, otherwise it cannot find the right memory address.<br> 0xf010002f.</p>
+<p><code>f0100028:   b8 2f 00 10 f0          mov    $0xf010002f,%eax</code></p>
+<h3 id="Exercise-8"><a href="#Exercise-8" class="headerlink" title="Exercise 8"></a>Exercise 8</h3><p>The code is similar to unsigned int, just change base to 8:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">num &#x3D; getuint(&amp;ap, lflag);</span><br><span class="line">base &#x3D; 8;</span><br><span class="line">goto number;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Explain the interface between printf.c and console.c. Specifically, what function does console.c export?</strong><br><strong>How is this function used by printf.c?</strong></p>
+<p><code>putch()</code> function in printf.c calls <code>cputchar()</code> in console.c to show chars in concole.</p>
+<p>the following code will give a new page when screen is full.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if (crt_pos &gt;&#x3D; CRT_SIZE) &#123;</span><br><span class="line">    int i;</span><br><span class="line">        memmove(crt_buf, crt_buf + CRT_COLS, (CRT_SIZE - CRT_COLS) * sizeof(uint16_t));</span><br><span class="line">            for (i &#x3D; CRT_SIZE - CRT_COLS; i &lt; CRT_SIZE; i++)</span><br><span class="line">                    crt_buf[i] &#x3D; 0x0700 | &#39; &#39;;</span><br><span class="line">                        crt_pos -&#x3D; CRT_COLS;</span><br><span class="line">                        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Exercies-9-The-Stack"><a href="#Exercies-9-The-Stack" class="headerlink" title="Exercies 9: The Stack"></a>Exercies 9: The Stack</h3><blockquote>
+<p>Determine where the kernel initializes its stack, and exactly where in memory its stack is located. How does the kernel reserve space for its stack? And at which “end” of this reserved area is the stack pointer initialized to point to?</p>
+</blockquote>
+<p>The kernel initialized stack pointer in line 76 of <code>kern/entry.S</code> with <code>movl $(bootstacktop), %esp</code>.<br>By looking at <code>obj/kern/kernel.asm</code> line 57, we know that stack pointer is pointing to <code>0xf0110000</code><br> which is right after the 1MB kernel space.</p>
+<p><code>f0100034:   bc 00 00 11 f0          mov    $0xf0110000,%esp</code></p>
+<h3 id="Exercise-10"><a href="#Exercise-10" class="headerlink" title="Exercise 10"></a>Exercise 10</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span><br><span class="line">mon_backtrace(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv, struct Trapframe *tf)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> *ebp = (<span class="keyword">uint32_t</span> *)read_ebp();</span><br><span class="line">    cprintf(<span class="string">"Stack backtrace:\n"</span>);</span><br><span class="line">    <span class="keyword">while</span> (ebp != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">uint32_t</span> eip = ebp[<span class="number">1</span>];</span><br><span class="line">        cprintf(<span class="string">"  ebp %08x  eip %08x  args %08x %08x %08x %08x %08x\n"</span>, ebp, eip, ebp[<span class="number">2</span>], ebp[<span class="number">3</span>], ebp[<span class="number">4</span>], ebp[<span class="number">5</span>], ebp[<span class="number">6</span>]);</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">Eipdebuginfo</span> <span class="title">info</span>;</span></span><br><span class="line">        <span class="keyword">if</span> (debuginfo_eip(eip, &amp;info) == <span class="number">0</span>) &#123;</span><br><span class="line">            cprintf(<span class="string">"         %s:%d: %.*s+%d\n"</span>, info.eip_file, info.eip_line, info.eip_fn_namelen, info.eip_fn_name, eip - info.eip_fn_addr);</span><br><span class="line">        &#125;</span><br><span class="line">        ebp = (<span class="keyword">uint32_t</span> *)(*ebp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://qiita.com/kagurazakakotori/items/b092fc0dbe3c3ec09e8e" target="_blank" rel="noopener">Solution</a></li>
+<li><a href="https://www.youtube.com/watch?v=Q2sFmqvpBe0" target="_blank" rel="noopener">Call stack video</a></li>
+<li><a href="https://www.youtube.com/watch?v=XbZQ-EonR_I" target="_blank" rel="noopener">Details in stack and register</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/04/luke_18/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1325,108 +1470,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/yisaiya4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/05/yisaiya4/" class="post-title-link" itemprop="url">醒来吧！神的子民 51:9-52</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-05 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-05T00:00:00Z">2020-07-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bible/" itemprop="url" rel="index"><span itemprop="name">Bible</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/05/yisaiya4/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/05/yisaiya4/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="旅程"><a href="#旅程" class="headerlink" title="旅程"></a>旅程</h1><p>当我们即将踏上一段新的旅程，我们会准备行囊，心情激动。但是，如果旅程迟迟推迟，我们很可能就会渐渐失去激动的心情，然后把行囊中的种种拿出来。我们可能重新整理床铺，渐渐忘记即将发生的旅程。</p>
-<h1 id="基督徒的旅程"><a href="#基督徒的旅程" class="headerlink" title="基督徒的旅程"></a>基督徒的旅程</h1><h2 id="醒来吧，耶和华的臂膀-51-9-16"><a href="#醒来吧，耶和华的臂膀-51-9-16" class="headerlink" title="醒来吧，耶和华的臂膀!(51:9-16)"></a>醒来吧，耶和华的臂膀!(51:9-16)</h2><blockquote>
-<p>耶和华的膀臂啊，醒来吧!醒来吧!穿上能力吧!像古时的日子，像上古的世代一样醒来吧! 从前砍碎了拉哈伯， 刺透了海龙的，不是你吗?</p>
-</blockquote>
-<p>以色列人终于开始重新呼唤神的帮助，就像当年带以色列出埃及一样，拯救他们。以色列人终于意识到神的能力。</p>
-<p>可是</p>
-<p>该清醒的不是神，而是以色列人。</p>
-<h2 id="醒来吧，耶路撒冷，从醉-罪-中醒来-51-17-23"><a href="#醒来吧，耶路撒冷，从醉-罪-中醒来-51-17-23" class="headerlink" title="醒来吧，耶路撒冷，从醉(罪)中醒来!(51:17-23)"></a>醒来吧，耶路撒冷，从醉(罪)中醒来!(51:17-23)</h2><blockquote>
-<p>17耶路撒冷啊，醒来!醒来!站起来吧! 你从耶和华的手中喝了他烈怒的杯， 喝尽了那使人摇摇摆摆的爵。</p>
-</blockquote>
-<p>以色列人才是应该从醉酒中醒来。他们面临的痛苦都是因为他们喝了耶和华愤怒的杯。正是因为以色列人犯罪，才收到神公义的审判。</p>
-<p>但是，神，决定拿走那愤怒的杯，救赎以色列。（为什么呢？）</p>
-<p>以色列的仇敌将会承担愤怒的杯。（为什么呢？）</p>
-<h2 id="醒来吧，锡安，换衣服准备离开-52-1-12"><a href="#醒来吧，锡安，换衣服准备离开-52-1-12" class="headerlink" title="醒来吧，锡安，换衣服准备离开!(52:1-12)"></a>醒来吧，锡安，换衣服准备离开!(52:1-12)</h2><blockquote>
-<p>1 锡安哪!你要醒来; 醒来，披上你的力量。 圣城耶路撒冷啊! 要穿上你华美的衣服。 因为未受割礼的和不洁净的人， 都再不得进到你那里去。2 耶路撒冷啊!抖下尘土， 起来，坐在位上吧! 锡安被掳的居民哪! 解开你颈项上的锁炼。</p>
-</blockquote>
-<p>耶和华与神的子民住在一起了，耶路撒冷将会成为真正的圣城。这也正是福音的预言。</p>
-<p>要离开，不要触摸不洁净的东西。不要留恋即将毁灭的世界了，因为我们将要去的是圣洁的地方。而且，神会保守：</p>
-<blockquote>
-<p>11 你们要离开，要离开，要从那里出来， 我没有对雅各的后裔说过: 不要触摸不洁净的东西。扛抬耶和华器皿的啊! 我耶和华讲说公义， 你们要从巴比伦城中出来，要自洁。 12 你们出来，不必着急; 以色列的 神必作你们的后盾。向不能拯救人的神祈求的，</p>
-</blockquote>
-<p>基督徒处在同样的世代，救赎的世代，离开巴比伦的世代，我们应该做好准备离开的世代。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1498,7 +1541,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

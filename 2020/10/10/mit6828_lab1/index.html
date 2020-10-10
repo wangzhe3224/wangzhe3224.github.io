@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic|Encode Sans:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Part 1First thing, what does it mean by saying cs:ip?This is a old but still being used memory addressing method. Segment: Offfset. The absolute memory addres &#x3D; (Segment * 16) + Offset. For example, F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIT6828 lab 1">
+<meta property="og:url" content="http://yoursite.com/2020/10/10/mit6828_lab1/index.html">
+<meta property="og:site_name" content="Zhe">
+<meta property="og:description" content="Part 1First thing, what does it mean by saying cs:ip?This is a old but still being used memory addressing method. Segment: Offfset. The absolute memory addres &#x3D; (Segment * 16) + Offset. For example, F">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-10T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-10-10T15:55:23.573Z">
+<meta property="article:author" content="Zhe">
+<meta property="article:tag" content="Operating System">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/10/mit6828_lab1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>MIT6828 lab 1 | Zhe</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66629043-1"></script>
+    <script pjax>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-66629043-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhe</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Unstable Correlation</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-arts">
+
+    <a href="/arts/" rel="section"><i class="fa fa-fw fa-microchip"></i>Arts</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/mit6828_lab1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MIT6828 lab 1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-10-10 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-10T00:00:00Z">2020-10-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/10/10/mit6828_lab1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/10/10/mit6828_lab1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Part-1"><a href="#Part-1" class="headerlink" title="Part 1"></a>Part 1</h2><p>First thing, what does it mean by saying <code>cs:ip</code>?<br>This is a old but still being used memory addressing method. <code>Segment: Offfset</code>. The absolute memory addres = (Segment * 16) + Offset. For example, <code>F000:FFFD</code> means address <code>FFFFD</code>. This strange way of expressing address is due to the fact that in the old days, CPU’s regeisters are only 16bit, which can only address a memeory address of 2^16 (which is 64KiB memory). This is even too small at that age. So CPU manufacturers combines two regiesters to express larger address, which is this <code>segment: offset</code> thing.<br><code>cs</code> means “code segment” and <code>ip</code> means “instruction pointer”. The combination represents the location where CPU is currently fetching instructions to execute.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\</span><br><span class="line">|                  |</span><br><span class="line">|      Unused      |</span><br><span class="line">|                  |</span><br><span class="line">+------------------+  &lt;- depends on amount of RAM</span><br><span class="line">|                  |</span><br><span class="line">|                  |</span><br><span class="line">| Extended Memory  |</span><br><span class="line">|                  |</span><br><span class="line">|                  |</span><br><span class="line">+------------------+  &lt;- 0x00100000 (1MB)                 [Intel 8088]</span><br><span class="line">|     BIOS ROM     |</span><br><span class="line">+------------------+  &lt;- 0x000F0000 (960KB)</span><br><span class="line">|  16-bit devices, |</span><br><span class="line">|  expansion ROMs  |</span><br><span class="line">+------------------+  &lt;- 0x000C0000 (768KB)</span><br><span class="line">|   VGA Display    |</span><br><span class="line">+------------------+  &lt;- 0x000A0000 (640KB)</span><br><span class="line">|                  |</span><br><span class="line">|    Low Memory    |                                      [Conventional Memory]</span><br><span class="line">|                  |</span><br><span class="line">+------------------+  &lt;- 0x00000000</span><br></pre></td></tr></table></figure>
+<h3 id="Exercise-2-debug-boot"><a href="#Exercise-2-debug-boot" class="headerlink" title="Exercise 2: debug boot"></a>Exercise 2: debug boot</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> [CS:IP]    address: command  args</span><br><span class="line">[f000:fff0]    0xffff0: ljmp   $0xf000,$0xe05b   # goto 0xfe05b</span><br><span class="line">[f000:e05b]    0xfe05b: cmpl   $0x0,%cs:0x6c48</span><br><span class="line">[f000:e062]    0xfe062: jne    0xfd2e1</span><br><span class="line">[f000:e066]    0xfe066: xor    %dx,%dx</span><br><span class="line">[f000:e068]    0xfe068: mov    %dx,%ss</span><br><span class="line">[f000:e06a]    0xfe06a: mov    $0x7000,%esp</span><br><span class="line">[f000:e070]    0xfe070: mov    $0xf3691,%edx</span><br><span class="line">[f000:e076]    0xfe076: jmp    0xfd165</span><br><span class="line">[f000:d165]    0xfd165: mov    %eax,%ecx</span><br><span class="line">[f000:d168]    0xfd168: cli</span><br><span class="line">[f000:d169]    0xfd169: cld</span><br><span class="line">[f000:d16a]    0xfd16a: mov    $0x8f,%eax</span><br><span class="line">[f000:d170]    0xfd170: out    %al,$0x70</span><br><span class="line">[f000:d172]    0xfd172: in     $0x71,%al</span><br><span class="line">[f000:d174]    0xfd174: in     $0x92,%al</span><br><span class="line">[f000:d176]    0xfd176: or     $0x2,%al</span><br><span class="line">[f000:d178]    0xfd178: out    %al,$0x92</span><br><span class="line">[f000:d17a]    0xfd17a: lidtw  %cs:0x6c38</span><br><span class="line">[f000:d180]    0xfd180: lgdtw  %cs:0x6bf4</span><br><span class="line">[f000:d186]    0xfd186: mov    %cr0,%eax</span><br><span class="line">[f000:d189]    0xfd189: or     $0x1,%eax</span><br><span class="line">[f000:d18d]    0xfd18d: mov    %eax,%cr0</span><br><span class="line">[f000:d190]    0xfd190: ljmpl  $0x8,$0xfd198</span><br><span class="line">&#x3D;&gt; 0xfd198:     mov    $0x10,%eax</span><br><span class="line">&#x3D;&gt; 0xfd19d:     mov    %eax,%ds</span><br><span class="line">&#x3D;&gt; 0xfd19f:     mov    %eax,%es</span><br><span class="line">&#x3D;&gt; 0xfd1a1:     mov    %eax,%ss</span><br></pre></td></tr></table></figure>
+
+<h2 id="Part-2-Boot-Loader"><a href="#Part-2-Boot-Loader" class="headerlink" title="Part 2 Boot Loader"></a>Part 2 Boot Loader</h2><p>BIOS handle control to boot loader by loading boot loader into memory and jump instruction pointer to <code>0x7C00</code>, where boot<br> loader code started.</p>
+<h3 id="Exercise-3"><a href="#Exercise-3" class="headerlink" title="Exercise 3"></a>Exercise 3</h3><ul>
+<li>At what point does the processor start executing 32-bit code? What exactly causes the switch from 16- to 32-bit mode?</li>
+</ul>
+<p><code>[   0:7c1e] =&gt; 0x7c1e:  lgdtw  0x7c64</code>. Here starting using GDT, Global Descriptor Table.<br>Then mark control regesiter, <code>cr0</code>. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[   0:7c23] &#x3D;&gt; 0x7c23:  mov    %cr0,%eax</span><br><span class="line">[   0:7c26] &#x3D;&gt; 0x7c26:  or     $0x1,%eax</span><br><span class="line">[   0:7c2a] &#x3D;&gt; 0x7c2a:  mov    %eax,%cr0</span><br><span class="line">[   0:7c2d] &#x3D;&gt; 0x7c2d:  ljmp   $0x8,$0x7c32   # &lt;-- Jump to next instruction, which in 32-bit code segment.</span><br><span class="line">&#x3D;&gt; 0x7c32:      mov    $0x10,%ax   # notice that the address format changed.</span><br></pre></td></tr></table></figure>
+
+<p>In <code>boot.S</code> source code, one can see <code>.code16</code> as a sign of 16-bit mode, and <code>.code32</code> as 32-bit mode.</p>
+<ul>
+<li><p>What is the last instruction of the boot loader executed, and what is the first instruction of the kernel it just loaded?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&gt; 0x7c40:      mov    $0x7c00,%esp # setup stack pointer to call boot&#x2F;main.c</span><br><span class="line">&#x3D;&gt; 0x7c45:      call   0x7d15</span><br><span class="line">&#x3D;&gt; 0x7d15:      push   %ebp # here we move to &#96;main.c&#96;. boot.S hands over control to main.c </span><br><span class="line">&#x3D;&gt; 0x7d6b:      call   *0x10018       # this is the last instruction from boot loader</span><br><span class="line">&#x3D;&gt; 0x10000c:    movw   $0x1234,0x472  # this is the first instruction from the kernel.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Where is the first instruction of the kernel? <code>0x10000c</code></p>
+</li>
+<li><p>How does the boot loader decide how many sectors it must read in order to fetch the entire kernel from disk? Where does it find this information?  The boot loader find sector number from </p>
+</li>
+</ul>
+<p>Notes:<br><code>x/i $pc</code>: show current instruction (content that program counter, <code>pc</code>, pointed to)<br><code>si</code>: execute current instruction<br><code>c</code>: execute until next break point<br><code>b *address</code>: set a break point at address</p>
+<h3 id="Exercise-4"><a href="#Exercise-4" class="headerlink" title="Exercise 4"></a>Exercise 4</h3><ul>
+<li>Understand <code>pointer.c</code>. Read K&amp;R Ch5.1 - 5.5.</li>
+</ul>
+<p>Note:</p>
+<ul>
+<li>Unary operators like * and ++ associate right to left. <code>++*p</code> and <code>(*p)++</code> and <code>*p++</code>.</li>
+<li>(int *) ((char *) c) makes the trick, char is 1 byte long whereas int is 4 bytes.</li>
+</ul>
+<h3 id="Exercise-5"><a href="#Exercise-5" class="headerlink" title="Exercise 5"></a>Exercise 5</h3><p>The first instruction that would break will be <code>ljmp $PORT_MODE_CSEG, $protcseg</code>, <code>$protcseg</code> is part of<br>.text segment, and the segement is assumed to be loaded at <code>0x7c00</code>. </p>
+<h3 id="Exercise-6"><a href="#Exercise-6" class="headerlink" title="Exercise 6"></a>Exercise 6</h3><p>Breakpoint 0x7c00</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[   0:7c00] &#x3D;&gt; 0x7c00:  cli</span><br><span class="line">Breakpoint 1, 0x00007c00 in ?? ()</span><br><span class="line">(gdb) x&#x2F;8x 0x00100000</span><br><span class="line">0x100000:       0x00000000      0x00000000      0x00000000      0x00000000</span><br><span class="line">0x100010:       0x00000000      0x00000000      0x00000000      0x00000000</span><br><span class="line"></span><br><span class="line">(gdb) c</span><br><span class="line">&#x3D;&gt; 0x10000c:    movw   $0x1234,0x472</span><br><span class="line">Breakpoint 2, 0x0010000c in ?? ()</span><br><span class="line">0x100000:       0x1badb002      0x00000000      0xe4524ffe      0x7205c766</span><br><span class="line">0x100010:       0x34000004      0x0000b812      0x220f0011      0xc0200fd8</span><br></pre></td></tr></table></figure>
+
+<h2 id="Part-3-The-Kernel"><a href="#Part-3-The-Kernel" class="headerlink" title="Part 3: The Kernel"></a>Part 3: The Kernel</h2><h3 id="Exercise-7"><a href="#Exercise-7" class="headerlink" title="Exercise 7"></a>Exercise 7</h3><p>this bit code activate page:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Turn on paging.</span><br><span class="line">movl    %cr0, %eax</span><br><span class="line">orl $(CR0_PE|CR0_PG|CR0_WP), %eax</span><br><span class="line">movl    %eax, %cr0</span><br></pre></td></tr></table></figure>
+
+<p>Set the breakpoint at 0x00100025 (this is the pysical address of movl %eax, %cr0). We can see:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x&#x2F;8x 0x00100000</span><br><span class="line">0x100000:       0x1badb002      0x00000000      0xe4524ffe      0x7205c766</span><br><span class="line">0x100010:       0x34000004      0x2000b812      0x220f0011      0xc0200fd8</span><br><span class="line">(gdb) x&#x2F;8x 0xf0100000</span><br><span class="line">0xf0100000 &lt;_start+4026531828&gt;: 0x00000000      0x00000000      0x00000000      0x00000000</span><br><span class="line">0xf0100010 &lt;entry+4&gt;:   0x00000000      0x00000000      0x00000000      0x00000000</span><br></pre></td></tr></table></figure>
+
+<p>After execute this line, we can see that both 100000 and f0100000 hold same content.<br> Memory is mapped.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x&#x2F;8x 0x00100000</span><br><span class="line">0x100000:       0x1badb002      0x00000000      0xe4524ffe      0x7205c766</span><br><span class="line">0x100010:       0x34000004      0x2000b812      0x220f0011      0xc0200fd8</span><br><span class="line">(gdb) x&#x2F;8x 0xf0100000</span><br><span class="line">0xf0100000 &lt;_start+4026531828&gt;: 0x1badb002      0x00000000      0xe4524ffe      0x7205c766</span><br><span class="line">0xf0100010 &lt;entry+4&gt;:   0x34000004      0x2000b812      0x220f0011      0xc0200fd8</span><br></pre></td></tr></table></figure>
+
+<p>The next instruction need the virtual memeory setup, otherwise it cannot find the right memory address.<br> 0xf010002f.</p>
+<p><code>f0100028:   b8 2f 00 10 f0          mov    $0xf010002f,%eax</code></p>
+<h3 id="Exercise-8"><a href="#Exercise-8" class="headerlink" title="Exercise 8"></a>Exercise 8</h3><p>The code is similar to unsigned int, just change base to 8:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">num &#x3D; getuint(&amp;ap, lflag);</span><br><span class="line">base &#x3D; 8;</span><br><span class="line">goto number;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Explain the interface between printf.c and console.c. Specifically, what function does console.c export?</strong><br><strong>How is this function used by printf.c?</strong></p>
+<p><code>putch()</code> function in printf.c calls <code>cputchar()</code> in console.c to show chars in concole.</p>
+<p>the following code will give a new page when screen is full.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if (crt_pos &gt;&#x3D; CRT_SIZE) &#123;</span><br><span class="line">    int i;</span><br><span class="line">        memmove(crt_buf, crt_buf + CRT_COLS, (CRT_SIZE - CRT_COLS) * sizeof(uint16_t));</span><br><span class="line">            for (i &#x3D; CRT_SIZE - CRT_COLS; i &lt; CRT_SIZE; i++)</span><br><span class="line">                    crt_buf[i] &#x3D; 0x0700 | &#39; &#39;;</span><br><span class="line">                        crt_pos -&#x3D; CRT_COLS;</span><br><span class="line">                        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Exercies-9-The-Stack"><a href="#Exercies-9-The-Stack" class="headerlink" title="Exercies 9: The Stack"></a>Exercies 9: The Stack</h3><blockquote>
+<p>Determine where the kernel initializes its stack, and exactly where in memory its stack is located. How does the kernel reserve space for its stack? And at which “end” of this reserved area is the stack pointer initialized to point to?</p>
+</blockquote>
+<p>The kernel initialized stack pointer in line 76 of <code>kern/entry.S</code> with <code>movl $(bootstacktop), %esp</code>.<br>By looking at <code>obj/kern/kernel.asm</code> line 57, we know that stack pointer is pointing to <code>0xf0110000</code><br> which is right after the 1MB kernel space.</p>
+<p><code>f0100034:   bc 00 00 11 f0          mov    $0xf0110000,%esp</code></p>
+<h3 id="Exercise-10"><a href="#Exercise-10" class="headerlink" title="Exercise 10"></a>Exercise 10</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span><br><span class="line">mon_backtrace(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv, struct Trapframe *tf)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> *ebp = (<span class="keyword">uint32_t</span> *)read_ebp();</span><br><span class="line">    cprintf(<span class="string">"Stack backtrace:\n"</span>);</span><br><span class="line">    <span class="keyword">while</span> (ebp != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">uint32_t</span> eip = ebp[<span class="number">1</span>];</span><br><span class="line">        cprintf(<span class="string">"  ebp %08x  eip %08x  args %08x %08x %08x %08x %08x\n"</span>, ebp, eip, ebp[<span class="number">2</span>], ebp[<span class="number">3</span>], ebp[<span class="number">4</span>], ebp[<span class="number">5</span>], ebp[<span class="number">6</span>]);</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">Eipdebuginfo</span> <span class="title">info</span>;</span></span><br><span class="line">        <span class="keyword">if</span> (debuginfo_eip(eip, &amp;info) == <span class="number">0</span>) &#123;</span><br><span class="line">            cprintf(<span class="string">"         %s:%d: %.*s+%d\n"</span>, info.eip_file, info.eip_line, info.eip_fn_namelen, info.eip_fn_name, eip - info.eip_fn_addr);</span><br><span class="line">        &#125;</span><br><span class="line">        ebp = (<span class="keyword">uint32_t</span> *)(*ebp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://qiita.com/kagurazakakotori/items/b092fc0dbe3c3ec09e8e" target="_blank" rel="noopener">Solution</a></li>
+<li><a href="https://www.youtube.com/watch?v=Q2sFmqvpBe0" target="_blank" rel="noopener">Call stack video</a></li>
+<li><a href="https://www.youtube.com/watch?v=XbZQ-EonR_I" target="_blank" rel="noopener">Details in stack and register</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Operating-System/" rel="tag"># Operating System</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/04/luke_18/" rel="prev" title="神的国属于什么样的人？">
+      <i class="fa fa-chevron-left"></i> 神的国属于什么样的人？
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-1"><span class="nav-number">1.</span> <span class="nav-text">Part 1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Exercise-2-debug-boot"><span class="nav-number">1.1.</span> <span class="nav-text">Exercise 2: debug boot</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-2-Boot-Loader"><span class="nav-number">2.</span> <span class="nav-text">Part 2 Boot Loader</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Exercise-3"><span class="nav-number">2.1.</span> <span class="nav-text">Exercise 3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exercise-4"><span class="nav-number">2.2.</span> <span class="nav-text">Exercise 4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exercise-5"><span class="nav-number">2.3.</span> <span class="nav-text">Exercise 5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exercise-6"><span class="nav-number">2.4.</span> <span class="nav-text">Exercise 6</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-3-The-Kernel"><span class="nav-number">3.</span> <span class="nav-text">Part 3: The Kernel</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Exercise-7"><span class="nav-number">3.1.</span> <span class="nav-text">Exercise 7</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exercise-8"><span class="nav-number">3.2.</span> <span class="nav-text">Exercise 8</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exercies-9-The-Stack"><span class="nav-number">3.3.</span> <span class="nav-text">Exercies 9: The Stack</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exercise-10"><span class="nav-number">3.4.</span> <span class="nav-text">Exercise 10</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Zhe"
+      src="/images/lambda.jpeg">
+  <p class="site-author-name" itemprop="name">Zhe</p>
+  <div class="site-description" itemprop="description">Things are correlated</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhe</span>
+</div>
+
+<span id="timeDate">Loding time...</span><span id="times">...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2020 00:00:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "Running for "+dnum+" Days "; 
+        document.getElementById("times").innerHTML = hnum + " Hour " + mnum + " Min " + snum + " Secs"; 
+    } 
+setInterval("createtime()",250);
+</script>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://wangzhe.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2020/10/10/mit6828_lab1/";
+    this.page.identifier = "2020/10/10/mit6828_lab1/";
+    this.page.title = "MIT6828 lab 1";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://wangzhe.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>

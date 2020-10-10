@@ -1,6 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>MIT6828 lab 1</title>
+    <url>/2020/10/10/mit6828_lab1/</url>
+    <content><![CDATA[<h2 id="Part-1"><a href="#Part-1" class="headerlink" title="Part 1"></a>Part 1</h2><p>First thing, what does it mean by saying <code>cs:ip</code>?<br>This is a old but still being used memory addressing method. <code>Segment: Offfset</code>. The absolute memory addres = (Segment * 16) + Offset. For example, <code>F000:FFFD</code> means address <code>FFFFD</code>. This strange way of expressing address is due to the fact that in the old days, CPU’s regeisters are only 16bit, which can only address a memeory address of 2^16 (which is 64KiB memory). This is even too small at that age. So CPU manufacturers combines two regiesters to express larger address, which is this <code>segment: offset</code> thing.<br><code>cs</code> means “code segment” and <code>ip</code> means “instruction pointer”. The combination represents the location where CPU is currently fetching instructions to execute.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\</span><br><span class="line">|                  |</span><br><span class="line">|      Unused      |</span><br><span class="line">|                  |</span><br><span class="line">+------------------+  &lt;- depends on amount of RAM</span><br><span class="line">|                  |</span><br><span class="line">|                  |</span><br><span class="line">| Extended Memory  |</span><br><span class="line">|                  |</span><br><span class="line">|                  |</span><br><span class="line">+------------------+  &lt;- 0x00100000 (1MB)                 [Intel 8088]</span><br><span class="line">|     BIOS ROM     |</span><br><span class="line">+------------------+  &lt;- 0x000F0000 (960KB)</span><br><span class="line">|  16-bit devices, |</span><br><span class="line">|  expansion ROMs  |</span><br><span class="line">+------------------+  &lt;- 0x000C0000 (768KB)</span><br><span class="line">|   VGA Display    |</span><br><span class="line">+------------------+  &lt;- 0x000A0000 (640KB)</span><br><span class="line">|                  |</span><br><span class="line">|    Low Memory    |                                      [Conventional Memory]</span><br><span class="line">|                  |</span><br><span class="line">+------------------+  &lt;- 0x00000000</span><br></pre></td></tr></table></figure>
+<h3 id="Exercise-2-debug-boot"><a href="#Exercise-2-debug-boot" class="headerlink" title="Exercise 2: debug boot"></a>Exercise 2: debug boot</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> [CS:IP]    address: command  args</span><br><span class="line">[f000:fff0]    0xffff0: ljmp   $0xf000,$0xe05b   # goto 0xfe05b</span><br><span class="line">[f000:e05b]    0xfe05b: cmpl   $0x0,%cs:0x6c48</span><br><span class="line">[f000:e062]    0xfe062: jne    0xfd2e1</span><br><span class="line">[f000:e066]    0xfe066: xor    %dx,%dx</span><br><span class="line">[f000:e068]    0xfe068: mov    %dx,%ss</span><br><span class="line">[f000:e06a]    0xfe06a: mov    $0x7000,%esp</span><br><span class="line">[f000:e070]    0xfe070: mov    $0xf3691,%edx</span><br><span class="line">[f000:e076]    0xfe076: jmp    0xfd165</span><br><span class="line">[f000:d165]    0xfd165: mov    %eax,%ecx</span><br><span class="line">[f000:d168]    0xfd168: cli</span><br><span class="line">[f000:d169]    0xfd169: cld</span><br><span class="line">[f000:d16a]    0xfd16a: mov    $0x8f,%eax</span><br><span class="line">[f000:d170]    0xfd170: out    %al,$0x70</span><br><span class="line">[f000:d172]    0xfd172: in     $0x71,%al</span><br><span class="line">[f000:d174]    0xfd174: in     $0x92,%al</span><br><span class="line">[f000:d176]    0xfd176: or     $0x2,%al</span><br><span class="line">[f000:d178]    0xfd178: out    %al,$0x92</span><br><span class="line">[f000:d17a]    0xfd17a: lidtw  %cs:0x6c38</span><br><span class="line">[f000:d180]    0xfd180: lgdtw  %cs:0x6bf4</span><br><span class="line">[f000:d186]    0xfd186: mov    %cr0,%eax</span><br><span class="line">[f000:d189]    0xfd189: or     $0x1,%eax</span><br><span class="line">[f000:d18d]    0xfd18d: mov    %eax,%cr0</span><br><span class="line">[f000:d190]    0xfd190: ljmpl  $0x8,$0xfd198</span><br><span class="line">&#x3D;&gt; 0xfd198:     mov    $0x10,%eax</span><br><span class="line">&#x3D;&gt; 0xfd19d:     mov    %eax,%ds</span><br><span class="line">&#x3D;&gt; 0xfd19f:     mov    %eax,%es</span><br><span class="line">&#x3D;&gt; 0xfd1a1:     mov    %eax,%ss</span><br></pre></td></tr></table></figure>
+
+<h2 id="Part-2-Boot-Loader"><a href="#Part-2-Boot-Loader" class="headerlink" title="Part 2 Boot Loader"></a>Part 2 Boot Loader</h2><p>BIOS handle control to boot loader by loading boot loader into memory and jump instruction pointer to <code>0x7C00</code>, where boot<br> loader code started.</p>
+<h3 id="Exercise-3"><a href="#Exercise-3" class="headerlink" title="Exercise 3"></a>Exercise 3</h3><ul>
+<li>At what point does the processor start executing 32-bit code? What exactly causes the switch from 16- to 32-bit mode?</li>
+</ul>
+<p><code>[   0:7c1e] =&gt; 0x7c1e:  lgdtw  0x7c64</code>. Here starting using GDT, Global Descriptor Table.<br>Then mark control regesiter, <code>cr0</code>. </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[   0:7c23] &#x3D;&gt; 0x7c23:  mov    %cr0,%eax</span><br><span class="line">[   0:7c26] &#x3D;&gt; 0x7c26:  or     $0x1,%eax</span><br><span class="line">[   0:7c2a] &#x3D;&gt; 0x7c2a:  mov    %eax,%cr0</span><br><span class="line">[   0:7c2d] &#x3D;&gt; 0x7c2d:  ljmp   $0x8,$0x7c32   # &lt;-- Jump to next instruction, which in 32-bit code segment.</span><br><span class="line">&#x3D;&gt; 0x7c32:      mov    $0x10,%ax   # notice that the address format changed.</span><br></pre></td></tr></table></figure>
+
+<p>In <code>boot.S</code> source code, one can see <code>.code16</code> as a sign of 16-bit mode, and <code>.code32</code> as 32-bit mode.</p>
+<ul>
+<li><p>What is the last instruction of the boot loader executed, and what is the first instruction of the kernel it just loaded?</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x3D;&gt; 0x7c40:      mov    $0x7c00,%esp # setup stack pointer to call boot&#x2F;main.c</span><br><span class="line">&#x3D;&gt; 0x7c45:      call   0x7d15</span><br><span class="line">&#x3D;&gt; 0x7d15:      push   %ebp # here we move to &#96;main.c&#96;. boot.S hands over control to main.c </span><br><span class="line">&#x3D;&gt; 0x7d6b:      call   *0x10018       # this is the last instruction from boot loader</span><br><span class="line">&#x3D;&gt; 0x10000c:    movw   $0x1234,0x472  # this is the first instruction from the kernel.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Where is the first instruction of the kernel? <code>0x10000c</code></p>
+</li>
+<li><p>How does the boot loader decide how many sectors it must read in order to fetch the entire kernel from disk? Where does it find this information?  The boot loader find sector number from </p>
+</li>
+</ul>
+<p>Notes:<br><code>x/i $pc</code>: show current instruction (content that program counter, <code>pc</code>, pointed to)<br><code>si</code>: execute current instruction<br><code>c</code>: execute until next break point<br><code>b *address</code>: set a break point at address</p>
+<h3 id="Exercise-4"><a href="#Exercise-4" class="headerlink" title="Exercise 4"></a>Exercise 4</h3><ul>
+<li>Understand <code>pointer.c</code>. Read K&amp;R Ch5.1 - 5.5.</li>
+</ul>
+<p>Note:</p>
+<ul>
+<li>Unary operators like * and ++ associate right to left. <code>++*p</code> and <code>(*p)++</code> and <code>*p++</code>.</li>
+<li>(int *) ((char *) c) makes the trick, char is 1 byte long whereas int is 4 bytes.</li>
+</ul>
+<h3 id="Exercise-5"><a href="#Exercise-5" class="headerlink" title="Exercise 5"></a>Exercise 5</h3><p>The first instruction that would break will be <code>ljmp $PORT_MODE_CSEG, $protcseg</code>, <code>$protcseg</code> is part of<br>.text segment, and the segement is assumed to be loaded at <code>0x7c00</code>. </p>
+<h3 id="Exercise-6"><a href="#Exercise-6" class="headerlink" title="Exercise 6"></a>Exercise 6</h3><p>Breakpoint 0x7c00</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[   0:7c00] &#x3D;&gt; 0x7c00:  cli</span><br><span class="line">Breakpoint 1, 0x00007c00 in ?? ()</span><br><span class="line">(gdb) x&#x2F;8x 0x00100000</span><br><span class="line">0x100000:       0x00000000      0x00000000      0x00000000      0x00000000</span><br><span class="line">0x100010:       0x00000000      0x00000000      0x00000000      0x00000000</span><br><span class="line"></span><br><span class="line">(gdb) c</span><br><span class="line">&#x3D;&gt; 0x10000c:    movw   $0x1234,0x472</span><br><span class="line">Breakpoint 2, 0x0010000c in ?? ()</span><br><span class="line">0x100000:       0x1badb002      0x00000000      0xe4524ffe      0x7205c766</span><br><span class="line">0x100010:       0x34000004      0x0000b812      0x220f0011      0xc0200fd8</span><br></pre></td></tr></table></figure>
+
+<h2 id="Part-3-The-Kernel"><a href="#Part-3-The-Kernel" class="headerlink" title="Part 3: The Kernel"></a>Part 3: The Kernel</h2><h3 id="Exercise-7"><a href="#Exercise-7" class="headerlink" title="Exercise 7"></a>Exercise 7</h3><p>this bit code activate page:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Turn on paging.</span><br><span class="line">movl    %cr0, %eax</span><br><span class="line">orl $(CR0_PE|CR0_PG|CR0_WP), %eax</span><br><span class="line">movl    %eax, %cr0</span><br></pre></td></tr></table></figure>
+
+<p>Set the breakpoint at 0x00100025 (this is the pysical address of movl %eax, %cr0). We can see:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(gdb) x&#x2F;8x 0x00100000</span><br><span class="line">0x100000:       0x1badb002      0x00000000      0xe4524ffe      0x7205c766</span><br><span class="line">0x100010:       0x34000004      0x2000b812      0x220f0011      0xc0200fd8</span><br><span class="line">(gdb) x&#x2F;8x 0xf0100000</span><br><span class="line">0xf0100000 &lt;_start+4026531828&gt;: 0x00000000      0x00000000      0x00000000      0x00000000</span><br><span class="line">0xf0100010 &lt;entry+4&gt;:   0x00000000      0x00000000      0x00000000      0x00000000</span><br></pre></td></tr></table></figure>
+
+<p>After execute this line, we can see that both 100000 and f0100000 hold same content.<br> Memory is mapped.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(gdb) x&#x2F;8x 0x00100000</span><br><span class="line">0x100000:       0x1badb002      0x00000000      0xe4524ffe      0x7205c766</span><br><span class="line">0x100010:       0x34000004      0x2000b812      0x220f0011      0xc0200fd8</span><br><span class="line">(gdb) x&#x2F;8x 0xf0100000</span><br><span class="line">0xf0100000 &lt;_start+4026531828&gt;: 0x1badb002      0x00000000      0xe4524ffe      0x7205c766</span><br><span class="line">0xf0100010 &lt;entry+4&gt;:   0x34000004      0x2000b812      0x220f0011      0xc0200fd8</span><br></pre></td></tr></table></figure>
+
+<p>The next instruction need the virtual memeory setup, otherwise it cannot find the right memory address.<br> 0xf010002f.</p>
+<p><code>f0100028:   b8 2f 00 10 f0          mov    $0xf010002f,%eax</code></p>
+<h3 id="Exercise-8"><a href="#Exercise-8" class="headerlink" title="Exercise 8"></a>Exercise 8</h3><p>The code is similar to unsigned int, just change base to 8:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">num &#x3D; getuint(&amp;ap, lflag);</span><br><span class="line">base &#x3D; 8;</span><br><span class="line">goto number;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Explain the interface between printf.c and console.c. Specifically, what function does console.c export?</strong><br><strong>How is this function used by printf.c?</strong></p>
+<p><code>putch()</code> function in printf.c calls <code>cputchar()</code> in console.c to show chars in concole.</p>
+<p>the following code will give a new page when screen is full.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if (crt_pos &gt;&#x3D; CRT_SIZE) &#123;</span><br><span class="line">    int i;</span><br><span class="line">        memmove(crt_buf, crt_buf + CRT_COLS, (CRT_SIZE - CRT_COLS) * sizeof(uint16_t));</span><br><span class="line">            for (i &#x3D; CRT_SIZE - CRT_COLS; i &lt; CRT_SIZE; i++)</span><br><span class="line">                    crt_buf[i] &#x3D; 0x0700 | &#39; &#39;;</span><br><span class="line">                        crt_pos -&#x3D; CRT_COLS;</span><br><span class="line">                        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Exercies-9-The-Stack"><a href="#Exercies-9-The-Stack" class="headerlink" title="Exercies 9: The Stack"></a>Exercies 9: The Stack</h3><blockquote>
+<p>Determine where the kernel initializes its stack, and exactly where in memory its stack is located. How does the kernel reserve space for its stack? And at which “end” of this reserved area is the stack pointer initialized to point to?</p>
+</blockquote>
+<p>The kernel initialized stack pointer in line 76 of <code>kern/entry.S</code> with <code>movl $(bootstacktop), %esp</code>.<br>By looking at <code>obj/kern/kernel.asm</code> line 57, we know that stack pointer is pointing to <code>0xf0110000</code><br> which is right after the 1MB kernel space.</p>
+<p><code>f0100034:   bc 00 00 11 f0          mov    $0xf0110000,%esp</code></p>
+<h3 id="Exercise-10"><a href="#Exercise-10" class="headerlink" title="Exercise 10"></a>Exercise 10</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span></span><br><span class="line">mon_backtrace(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv, struct Trapframe *tf)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> *ebp = (<span class="keyword">uint32_t</span> *)read_ebp();</span><br><span class="line">    cprintf(<span class="string">"Stack backtrace:\n"</span>);</span><br><span class="line">    <span class="keyword">while</span> (ebp != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">uint32_t</span> eip = ebp[<span class="number">1</span>];</span><br><span class="line">        cprintf(<span class="string">"  ebp %08x  eip %08x  args %08x %08x %08x %08x %08x\n"</span>, ebp, eip, ebp[<span class="number">2</span>], ebp[<span class="number">3</span>], ebp[<span class="number">4</span>], ebp[<span class="number">5</span>], ebp[<span class="number">6</span>]);</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">Eipdebuginfo</span> <span class="title">info</span>;</span></span><br><span class="line">        <span class="keyword">if</span> (debuginfo_eip(eip, &amp;info) == <span class="number">0</span>) &#123;</span><br><span class="line">            cprintf(<span class="string">"         %s:%d: %.*s+%d\n"</span>, info.eip_file, info.eip_line, info.eip_fn_namelen, info.eip_fn_name, eip - info.eip_fn_addr);</span><br><span class="line">        &#125;</span><br><span class="line">        ebp = (<span class="keyword">uint32_t</span> *)(*ebp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://qiita.com/kagurazakakotori/items/b092fc0dbe3c3ec09e8e" target="_blank" rel="noopener">Solution</a></li>
+<li><a href="https://www.youtube.com/watch?v=Q2sFmqvpBe0" target="_blank" rel="noopener">Call stack video</a></li>
+<li><a href="https://www.youtube.com/watch?v=XbZQ-EonR_I" target="_blank" rel="noopener">Details in stack and register</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>神的国属于什么样的人？</title>
     <url>/2020/10/04/luke_18/</url>
     <content><![CDATA[<h1 id="神的国属于什么样的人？"><a href="#神的国属于什么样的人？" class="headerlink" title="神的国属于什么样的人？"></a>神的国属于什么样的人？</h1><p>路加福音 18：15，1：46</p>
@@ -678,6 +754,34 @@
       </tags>
   </entry>
   <entry>
+    <title>“你不要惧怕，我是你的神” - 以赛亚书41</title>
+    <url>/2020/05/17/yisaiya2/</url>
+    <content><![CDATA[<p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
+<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
+<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
+<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
+<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
+<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
+<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
+<p>先知以赛亚是这样说的：</p>
+<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
+<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
+<p>我们认为我们只能自己面对一切。</p>
+<p>我们害怕自己不能掌控的事情。</p>
+<p>但是，</p>
+<p>神，掌管一切。</p>
+<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
+<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
+<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>以赛亚书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>圣经的结构</title>
     <url>/2020/05/17/bible_structure/</url>
     <content><![CDATA[<h1 id="x1f4d6-基本信息"><a href="#x1f4d6-基本信息" class="headerlink" title="&#x1f4d6;基本信息"></a><span class="github-emoji" alias="book" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d6.png?v8">&#x1f4d6;</span>基本信息</h1><p>圣经（Bible）是一系列不同文学体裁的书组成，分为新约和旧约两个部分。圣经总共包含了66卷书，成书时间跨越2千余年，由40位作者完成。最初版本的圣经主要由两种语言写成：希伯来语和希腊语。</p>
@@ -774,34 +878,6 @@
       </categories>
       <tags>
         <tag>Bible</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>“你不要惧怕，我是你的神” - 以赛亚书41</title>
-    <url>/2020/05/17/yisaiya2/</url>
-    <content><![CDATA[<p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
-<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
-<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
-<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
-<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
-<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
-<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
-<p>先知以赛亚是这样说的：</p>
-<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
-<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
-<p>我们认为我们只能自己面对一切。</p>
-<p>我们害怕自己不能掌控的事情。</p>
-<p>但是，</p>
-<p>神，掌管一切。</p>
-<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
-<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
-<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>以赛亚书</tag>
       </tags>
   </entry>
   <entry>
@@ -1290,24 +1366,6 @@
       </tags>
   </entry>
   <entry>
-    <title>为Hexo拓展功能</title>
-    <url>/2020/04/13/chord_3/</url>
-    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
-<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
-<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Js</tag>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>很潮的属11和弦</title>
     <url>/2020/04/13/chord_2/</url>
     <content><![CDATA[<p>在我们想要结束一段的时候，通常会用V -&gt; I的方式结束。以下我们用C调说明。</p>
@@ -1338,6 +1396,24 @@
       </categories>
       <tags>
         <tag>Chord</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>为Hexo拓展功能</title>
+    <url>/2020/04/13/chord_3/</url>
+    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
+<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
+<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Js</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
