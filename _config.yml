@@ -94,7 +94,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 excerpt:
-  depth: 10
+  depth: 5 
   excerpt_excludes: []
   more_excludes: []
   hideWholePostExcerpts: true
