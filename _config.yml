@@ -93,6 +93,11 @@ ignore:
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
+excerpt:
+  depth: 10
+  excerpt_excludes: []
+  more_excludes: []
+  hideWholePostExcerpts: true
 ## Themes: https://hexo.io/themes/
 theme: next
 # Deployment
