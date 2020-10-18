@@ -106,9 +106,14 @@ scheme: Gemini
 # Dark Mode
 darkmode: true
 
-auto_excerpt:
-  enable: true
-  length: 80
+# auto_excerpt:
+#   enable: true
+#   length: 150 
+excerpt:
+  depth: 10
+  excerpt_excludes: []
+  more_excludes: []
+  hideWholePostExcerpts: true
 
 # ---------------------------------------------------------------
 # Menu Settings
