@@ -102,19 +102,6 @@
   </div>
 {%- endif %}
 
-{% if site.tags.length > 1 %}
-<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
-<div class="widget-wrap">
-    <h4 class="widget-title" style="font-size:20px;text-align:center;color:#0080FF;margin:20px 0 0px;">Tag Cloud</h4>
-    <div id="myCanvasContainer" class="widget tagcloud" style="font-size:20px;">
-        <canvas width="220" height="200" id="resCanvas" style="width=100%">
-            {{ list_tags() }}
-        </canvas>
-    </div>
-</div>
-{% endif %}
-
 {# Blogroll #}
 {%- if theme.links %}
   <div class="links-of-blogroll motion-element">
