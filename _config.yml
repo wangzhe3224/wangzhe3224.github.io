@@ -105,6 +105,9 @@ theme: next
 deploy:
   type: ''
 
+symbols_count_time:
+  symbols: true
+
 ## music notation
 emoji:
   enable: true
