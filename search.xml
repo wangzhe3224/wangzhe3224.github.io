@@ -1,6 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CS3110总结</title>
+    <url>/2020/11/09/cs3110/</url>
+    <content><![CDATA[<h2 id="总体感觉"><a href="#总体感觉" class="headerlink" title="总体感觉"></a>总体感觉</h2><p>总体感觉CS3110这门课程像是一个关于Coding的“大杂烩”，这里完全没有贬义，相反这门课对我这种转行背景的程序员非常有帮助。<br>正如这么课程介绍中说：</p>
+<blockquote>
+<p>This course is about making you a better programmer. </p>
+</blockquote>
+<p>为了实现这一目的，这门课程的内容涉及了较多方面的内容，而且每一个部分都有为这个目的贡献了力量：</p>
+<ul>
+<li>Functional Programming with Ocaml：为了说明如何系统化学习任何一门新的计算机预言</li>
+<li>Modular Programming: 为了说明如何构建大型程序</li>
+<li>Data Structures: 深度讲解了基本的数据结构,Mutable and Immutable, 比如流、红黑树、哈希表等等</li>
+<li>Interpreter: 讲解了计算机预言解释器，即更加了解程序员的工具：计算机语言</li>
+<li>Formal Methods: 讲解进行软件Formal verification</li>
+</ul>
+<p>课程虽然选择Ocaml，但是讲解的内容多数可以应用于任何语言，通过学习背后动机，可以帮助学习和理解其他计算机语言。</p>
+<p>同时，这门课的很多主题为深入学习其他领域奠定了基础，比如：</p>
+<ul>
+<li>CS4110/6110 Programming Languages and Logics，如何设计一门语言</li>
+<li>CS4120 Compilers，如何实现一门语言</li>
+<li>CS4160 Formal Verification，如何证明程序的正确性 :+1: </li>
+</ul>
+<h2 id="几个大的主题"><a href="#几个大的主题" class="headerlink" title="几个大的主题"></a>几个大的主题</h2><h3 id="语言可以系统化学习"><a href="#语言可以系统化学习" class="headerlink" title="语言可以系统化学习"></a>语言可以系统化学习</h3><p>计算机语言可以有系统化的学习方法，任何一门计算机语言特性都可有通过如下三个规则进行分析：</p>
+<ul>
+<li>语法，Syntax</li>
+<li>静态语义，static semantic, 即 typing rule</li>
+<li>动态语义，dynamic semantic，即 Evaluation rule</li>
+</ul>
+<p>分治，Divide-and-conquer，无处不在。</p>
+<p>计算机语言可以从数学的角度精确定义。</p>
+<h3 id="计算机语言不是魔法"><a href="#计算机语言不是魔法" class="headerlink" title="计算机语言不是魔法"></a>计算机语言不是魔法</h3><ul>
+<li>编写一个语言的解释器非常简单！</li>
+<li>DSL，可能是一个好的选择</li>
+</ul>
+<h3 id="优雅的抽象确实是魔法"><a href="#优雅的抽象确实是魔法" class="headerlink" title="优雅的抽象确实是魔法"></a>优雅的抽象确实是魔法</h3><ul>
+<li>语言特征：product types, union types</li>
+<li>Higher order functions: map, fold..</li>
+<li>Data structures: lists, tree, dictionary, monad</li>
+<li>Module system: abstraction, functors</li>
+<li>Use abstraction and decomposition</li>
+<li>Think in multiple levels of abstractions</li>
+</ul>
+<h3 id="编写软件需要系统化的方法"><a href="#编写软件需要系统化的方法" class="headerlink" title="编写软件需要系统化的方法"></a>编写软件需要系统化的方法</h3><ul>
+<li>设计：动手编程以前，先想。</li>
+<li>同理心：编写可以被人轻易看懂的代码</li>
+<li>保证：测试和证明</li>
+<li>团队合作</li>
+</ul>
+<h3 id="这门课教给我的"><a href="#这门课教给我的" class="headerlink" title="这门课教给我的"></a>这门课教给我的</h3><ul>
+<li>复杂的系统可以被分解成小的、容易理解的部分</li>
+<li>学习小的部分更加容易</li>
+<li>学习小的部分如何配合形成复杂系统</li>
+</ul>
+<h2 id="模块化编程"><a href="#模块化编程" class="headerlink" title="模块化编程"></a>模块化编程</h2><p>模块化编程的核心在于，通过构建抽象以实现局部化。具体实现的工具包括：</p>
+<ul>
+<li>命名空间，Namespace，把相关的数据结构和函数放在一起</li>
+<li>抽象，Abstraction，隐藏具体的数据结构和函数实现，仅保留<strong>接口和文档</strong></li>
+<li>代码复用，Code reuse</li>
+</ul>
+<p>这些概念通常在OO中已经比较常见和熟悉，但是这门课程同时强调了文档和测试的重要性。</p>
+<p>好的文档应该区别对待接口和实现，接口文档是写给Client看的，而实现文档是写给内部程序员。</p>
+<p>好的接口文档应该包含：</p>
+<ul>
+<li>Return clause</li>
+<li>Requires clause</li>
+<li>Raises clause</li>
+<li>Example clause</li>
+</ul>
+<p>好的实现文档应该包含：</p>
+<ul>
+<li>AF, Abstract Function，实现数据结构到抽象结构的映射关系</li>
+<li>RI, Representation Invariant， 那些实现数据结构是合法的抽象结构</li>
+</ul>
+<h2 id="解释器"><a href="#解释器" class="headerlink" title="解释器"></a>解释器</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Lexing -&gt; (Tokens) -&gt; Parsing -&gt; (AST) -&gt; Semantic Check ...</span><br><span class="line">         -&gt; (Intermediate Representation) -&gt; (Target code)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Lab-解答"><a href="#Lab-解答" class="headerlink" title="Lab 解答"></a>Lab 解答</h2><p><a href="https://github.com/wangzhe3224/cs3110" target="_blank" rel="noopener">CS3110 Labs</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.cs.cornell.edu/courses/cs3110/2020sp/textbook" target="_blank" rel="noopener">https://www.cs.cornell.edu/courses/cs3110/2020sp/textbook</a></li>
+<li><a href="https://www.cs.cornell.edu/courses/cs3110/2018sp/" target="_blank" rel="noopener">https://www.cs.cornell.edu/courses/cs3110/2018sp/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Ocaml</tag>
+        <tag>CS3110</tag>
+        <tag>Data Structure</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>路加福音 19:1-27</title>
     <url>/2020/11/08/luke_19_1_27/</url>
     <content><![CDATA[<p><strong>十个仆人的比喻</strong></p>
@@ -811,6 +901,33 @@
       </tags>
   </entry>
   <entry>
+    <title>Python无成本加速技巧</title>
+    <url>/2020/06/14/python_speedup/</url>
+    <content><![CDATA[<p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
+<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
+<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
+
+<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
+<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
+<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
+<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
+<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>看哪!万众期待的仆人 - 以赛亚书49</title>
     <url>/2020/06/14/yisaiya3/</url>
     <content><![CDATA[<h1 id="预言中新的仆人"><a href="#预言中新的仆人" class="headerlink" title="预言中新的仆人"></a>预言中新的仆人</h1><blockquote>
@@ -843,33 +960,6 @@
       </categories>
       <tags>
         <tag>以赛亚书</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python无成本加速技巧</title>
-    <url>/2020/06/14/python_speedup/</url>
-    <content><![CDATA[<p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
-<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
-<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
-
-<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
-<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
-<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
-<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
-<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
