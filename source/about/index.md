@@ -26,6 +26,7 @@ Here are something on github:
 
 Solution for some books:
 
+- [CS3110 lab solutions](https://github.com/wangzhe3224/cs3110)
 - [The C Pragramming Language](https://github.com/wangzhe3224/Solutions_The_C_Programming_Language)
 - [数据结构与算法分析C++实现（第五版](https://github.com/wangzhe3224/DataStructure_Algorithm_cpp)
 - [Primer C++ Plues second](https://github.com/wangzhe3224/PrimerCxxPlusAnswers.git)
