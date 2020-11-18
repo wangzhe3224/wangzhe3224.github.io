@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Vim增加定制帮助文件</title>
+    <url>/2020/11/18/vim_tags/</url>
+    <content><![CDATA[<h1 id="Vim增加自定义帮助文件"><a href="#Vim增加自定义帮助文件" class="headerlink" title="Vim增加自定义帮助文件"></a>Vim增加自定义帮助文件</h1><p>首先，准备一份帮助文件，文件名必须是 <code>*.txt</code>，然后该文件必须存放在vim的<code>runtimepath</code>。可以通过 <code>:echo &amp;runtimepath</code> 查看，通常就是在<br><code>~/.vim/doc</code> 或者 如果是 neovim 在 <code>~/.config/nvim/</code>。</p>
+<p>帮助文件的首行第一个字符必须是 <code>*</code>，文件的其余部分不限。但是文件中所有<br>包含在<code>**</code>内部的单词，都会被检索。所以应该注意不要与其他部分冲突。</p>
+<p>一个帮助文件例子：</p>
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">*tidal.txt* Tidal documentation</span><br><span class="line"></span><br><span class="line">this <span class="keyword">file</span> <span class="keyword">is</span> <span class="keyword">a</span> consolidation of the official tidalCycles documentation : http<span class="variable">s:</span>//tidalcycles.org/<span class="built_in">index</span>.php/Userbase</span><br><span class="line"></span><br><span class="line"><span class="built_in">type</span> Time = Rational</span><br><span class="line"></span><br><span class="line">## CORE</span><br><span class="line"></span><br><span class="line">*(&lt;~)*:: Pattern Time -&gt; Pattern <span class="keyword">a</span> -&gt; Pattern <span class="keyword">a</span></span><br><span class="line">&lt;~ <span class="keyword">is</span> <span class="keyword">an</span> operator that shifts <span class="keyword">a</span> pattern backward in time, by the given amount.</span><br><span class="line">For example, <span class="keyword">to</span> shift <span class="keyword">a</span> pattern by <span class="keyword">a</span> quarter of <span class="keyword">a</span> cycle, every fourth cycle:</span><br><span class="line">d1 $ every <span class="number">4</span> (<span class="number">0.25</span> &lt;~) $ sound (<span class="string">"arpy arpy:1 arpy:2 arpy:3"</span>)</span><br><span class="line">Or <span class="keyword">to</span> alternate between different shift<span class="variable">s:</span></span><br><span class="line">d1 $ <span class="string">"&lt;0 0.5 0.125&gt;"</span> &lt;~ sound (<span class="string">"arpy arpy:1 arpy:2 arpy:3"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这里面的 <code>tidal.txt</code> 和 <code>(&lt;~)</code> 将来都会被检索。</p>
+<p>完成上述后，运行 <code>:helptags ~/.vim/doc</code>，这样就会为新的帮助文件生成Tag检索。</p>
+<p>检索完成后，就可以运行 <code>:h tidal.txt</code> 来显示对应的帮助文件定位了，同时也支持<br>自动补全，在 intert 模式下， <code>C-N</code> 就可以进行补全。</p>
+<p>也可以增加如下段落在 <code>.vimrc</code>里面支持 K 键 阅读文件：</p>
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">nnoremap</span> <span class="symbol">&lt;silent&gt;</span> K :<span class="keyword">call</span> <span class="symbol">&lt;SID&gt;</span>show_documentation()<span class="symbol">&lt;CR&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>! <span class="title">s</span>:<span class="title">show_documentation</span><span class="params">()</span></span></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">index</span>([<span class="string">'vim'</span>,<span class="string">'help'</span>, <span class="string">'tidal'</span>], &amp;<span class="keyword">filetype</span>) &gt;= <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">execute</span> <span class="string">'h '</span>.<span class="built_in">expand</span>(<span class="string">'&lt;cword&gt;'</span>)</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">call</span> CocAction(<span class="string">'doHover'</span>)</span><br><span class="line">  <span class="keyword">endif</span></span><br><span class="line"><span class="keyword">endfunction</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>诗篇1 简单的智慧</title>
     <url>/2020/11/15/shipian_1/</url>
     <content><![CDATA[<h1 id="诗篇1：终极智慧-人生二路"><a href="#诗篇1：终极智慧-人生二路" class="headerlink" title="诗篇1：终极智慧 人生二路"></a>诗篇1：终极智慧 人生二路</h1><blockquote>
