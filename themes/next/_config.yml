@@ -131,9 +131,8 @@ menu:
   Categories: /categories/ || th
   Archives: /archives/ || archive
   Arts: /arts/ || microchip 
-  #schedule: /schedule/ || calendar
-  #sitemap: /sitemap.xml || sitemap
-  #commonweal: /404/ || heartbeat
+  Readings: /readings/ || archive
+
 
 # Enable / Disable menu icons / item badges.
 menu_settings:
