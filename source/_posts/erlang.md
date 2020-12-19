@@ -2,7 +2,7 @@
 title: 被时间“埋没”的分布式王者：Erlang
 date: 2020-12-11
 categories: Coding
-tags: [Erlang, Distributed System，Concurrency]
+tags: [Erlang, Distributed System, Concurrency]
 ---
 
 # 被时间“埋没”的高并发王者：Erlang
