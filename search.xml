@@ -1,29 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>6.004 Basic of information</title>
-    <url>/2020/12/19/6004_1/</url>
-    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
-<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
-<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
-<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
-<p>the unit is bits, the number of bits required to encode the choice.</p>
-<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
-<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
-<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
-<p>Encoding as binary tree is a good way to think. </p>
-<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
-<p>If we do same algorithm but using multiple symbols, we can do better.</p>
-<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
-<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
-<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/" target="_blank" rel="noopener">6.004</a></p>
-<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
+    <title>2020总结</title>
+    <url>/2020/12/24/summary_2020/</url>
+    <content><![CDATA[<h1 id="2020-年总结"><a href="#2020-年总结" class="headerlink" title="2020 年总结"></a>2020 年总结</h1><h2 id="世界"><a href="#世界" class="headerlink" title="世界"></a>世界</h2><p>今年对世界很独特。2020年1月，新冠（COVID-19）在武汉首先爆发，3月疫情拓展至美国、英国、欧洲等世界各地。在我写下这篇博客的时候，中国的疫情已经得到了完全控制，而欧洲、美国正处在新兴变种病毒的第三波高峰期。</p>
+<p><img data-src="https://i.imgur.com/v3YNSlk.png" alt="日新增病例"></p>
+<p>在新冠疫情的影响下，美股出现了前所未有的崩盘运动。2020年2月到3月之间，标普500期货连熔断三次，跌幅高达40%。</p>
+<p><img data-src="https://i.imgur.com/HRqM9sy.png" alt="标普500"></p>
+<p>连带影响，原油期货价格更是出现了前所未有的负值。</p>
+<p><img data-src="https://i.imgur.com/znXcKtx.png" alt="原油期货"></p>
+<p>不过，这种独特的情况也成就了某些公司，比如Zoom。Zoom的股票一年翻了8倍！</p>
+<p><img data-src="https://i.imgur.com/GDHzSob.png" alt="Zoom股票"></p>
+<p>年末另一个引起我注意的是比特币。比特币在18年泡沫破裂后，在2020年12月再创新高，达到了24000美金。。。</p>
+<p><img data-src="https://i.imgur.com/M2Fh105.png" alt="比特币"></p>
+<p><strong>这些事情基本都在告诉我：黑天鹅事件必然会发生，而且概率远远超过统计数据。</strong><br>这不仅仅针对金融市场，世界的各个领域正在更加紧密的连接，不同领域的黑天鹅很可能对其他领域产生连锁效应。</p>
+<p>应对黑天鹅存在的世界，控制风险异常重要，预测异常困难。多样性仍然是在尽可能少的依赖预测前提下最好的风控方式。但是多样性有成本，无限多样得不偿失。</p>
+<p>多样性的本质是相关性，也许也有因果关系。</p>
+<p>多样性同样体现在多个方面：个人的资产管理、技能管理、人际关系管理等等。</p>
+<h2 id="知识"><a href="#知识" class="headerlink" title="知识"></a>知识</h2><p>今年还处于我的计算机科学探索期，我对很多计算机科学很多方面进行了非常简略的学习和了解，从硬件层面的ISA到操作系统，简单的探索了编译器，以及各种范式的计算机语言，比如函数式和过程式；探索了不同的编程范式，比如基于Actor的并发编程、分布式编程等等；探索了数据库的设计，实现部分目前还没有涉及。</p>
+<p>发现了一个有趣的东西：Live music coding。目前主要用的库是FoxDot和TidalCycles，一个是Python写的，一个是Haskell写的。</p>
+<p>研究生课程：</p>
+<ul>
+<li>Embedded System</li>
+<li>Database Design</li>
+<li>Concurrent Programming</li>
+</ul>
+<p>自学课程：</p>
+<ul>
+<li><a href="https://www.cs.cornell.edu/courses/cs3110/2018sp/" target="_blank" rel="noopener">Data Structures and Functional Programming</a></li>
+<li>[On going] <a href="https://pdos.csail.mit.edu/6.828/2020/schedule.html" target="_blank" rel="noopener">Operating System</a></li>
+<li>[On going] <a href="https://pdos.csail.mit.edu/6.824/schedule.html" target="_blank" rel="noopener">Distributed System</a></li>
+</ul>
+<p>语言表 (按照熟悉程度排序）：</p>
+<ul>
+<li>Python</li>
+<li>Erlang/Elixir</li>
+<li>Ocaml</li>
+<li>Haskell</li>
+<li>Javascript</li>
+<li>C</li>
+<li>Go</li>
+<li>Ruby</li>
+</ul>
+<p>书籍：</p>
+<ul>
+<li><a href="https://hackmd.io/Ii5bK9VfSdiUkqKcRjOecg" target="_blank" rel="noopener">The C Programming Language</a></li>
+<li><a href="https://drive.google.com/drive/folders/1JWyvQk9QWAnce2da2boiiSDh3oK5yFU6" target="_blank" rel="noopener">Systematic Trading</a></li>
+<li><a href="https://wangzhe3224.github.io/2020/10/03/efficiently_inefficient/" target="_blank" rel="noopener">Efficiently Inefficient: How Smart Money Invests and Market Prices Are Determined</a></li>
+<li><a href="https://wangzhe3224.github.io/2020/09/20/cs_app/" target="_blank" rel="noopener">Computer System: A Programmer’s Perspectives</a></li>
+<li><a href="https://wangzhe3224.github.io/2020/05/16/a_new_kind_of_science/" target="_blank" rel="noopener">A New Kind of Science</a></li>
+<li><a href="https://www.amazon.co.uk/Erlang-OTP-Action-Martin-Logan/dp/1933988789/ref=sr_1_1?adgrpid=52230164094&dchild=1&gclid=Cj0KCQiA5vb-BRCRARIsAJBKc6K6xWXN5HxiyPiartNJjscP2mEpuBZGAr6JrvLZPgUH3ostwAjG3V4aAg5aEALw_wcB&hvadid=259088862228&hvdev=c&hvlocphy=9044953&hvnetw=g&hvqmt=e&hvrand=12324936168106335447&hvtargid=kwd-300183560570&hydadcr=17611_1775466&keywords=erlang+and+otp+in+action&qid=1608382554&sr=8-1&tag=googhydr-21" target="_blank" rel="noopener">Erlang and OTP in Action</a></li>
+<li><a href="">A Pragmatic Programmer</a></li>
+</ul>
+<p><strong>多样性思考</strong></p>
+<p>在知识领域，多样性的成本主要是时间且成本巨大。但是，由于我是转行学习计算机科学，还处于一个然所学科的阶段。目前多样性体现如下几个大领域：</p>
+<ul>
+<li>理论层<ul>
+<li>离散数学</li>
+<li>计算机语言和类型理论</li>
+<li>算法理论</li>
+<li>数据库理论</li>
+<li>并发理论</li>
+</ul>
+</li>
+<li>硬件层<ul>
+<li>编译器</li>
+<li>虚拟机实现</li>
+<li>数据库实现</li>
+<li>操作系统</li>
+</ul>
+</li>
+<li>软件层<ul>
+<li>各种语言的使用</li>
+<li>分布式系统设计</li>
+<li>并发系统设计</li>
+</ul>
+</li>
+<li>Domain知识<ul>
+<li>量化交易</li>
+<li>量化科技</li>
+</ul>
+</li>
+</ul>
+<p>探索期过后，需要寻找一个部分深入学习、研究和应用。对于Domain知识也需要进一步加强，今年没有太多关注，主要是完成工作任务，养家糊口。。。</p>
+<h2 id="生活"><a href="#生活" class="headerlink" title="生活"></a>生活</h2><p>因为疫情的原因，整整一年都在家里远程工作。因为减少了上下班交通的时间，自己多了很多时间可以支配。也许，等疫情过去，这种远程工作的模式会成为常态。</p>
+<p>当然除了工作，教会的活动也都变成了线上。不过线上模式反而增加了很多拓展福音的机会。我们组织了两期线上的圣经课程，讨论福音书。因为是线上，我们可以跟更多不同地方的人交流。</p>
+]]></content>
       <categories>
-        <category>Computing</category>
+        <category>Admin</category>
       </categories>
       <tags>
-        <tag>6.004</tag>
-        <tag>Information</tag>
+        <tag>总结</tag>
       </tags>
   </entry>
   <entry>
@@ -53,6 +120,32 @@
 </blockquote>
 <p><img data-src="https://i.imgur.com/NMkOpar.png" alt=""></p>
 ]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>6.004</tag>
+        <tag>Information</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>6.004 Basic of information</title>
+    <url>/2020/12/19/6004_1/</url>
+    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
+<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
+<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
+<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
+<p>the unit is bits, the number of bits required to encode the choice.</p>
+<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
+<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
+<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
+<p>Encoding as binary tree is a good way to think. </p>
+<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
+<p>If we do same algorithm but using multiple symbols, we can do better.</p>
+<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
+<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/" target="_blank" rel="noopener">6.004</a></p>
+<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
       <categories>
         <category>Computing</category>
       </categories>
@@ -1159,33 +1252,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python无成本加速技巧</title>
-    <url>/2020/06/14/python_speedup/</url>
-    <content><![CDATA[<p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
-<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
-<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
-
-<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
-<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
-<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
-<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
-<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>看哪!万众期待的仆人 - 以赛亚书49</title>
     <url>/2020/06/14/yisaiya3/</url>
     <content><![CDATA[<h1 id="预言中新的仆人"><a href="#预言中新的仆人" class="headerlink" title="预言中新的仆人"></a>预言中新的仆人</h1><blockquote>
@@ -1218,6 +1284,33 @@
       </categories>
       <tags>
         <tag>以赛亚书</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python无成本加速技巧</title>
+    <url>/2020/06/14/python_speedup/</url>
+    <content><![CDATA[<p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
+<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
+<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
+
+<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
+<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
+<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
+<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
+<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
