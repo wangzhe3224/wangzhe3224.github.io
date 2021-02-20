@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic|Encode Sans:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="类型系统是什么 类型系统是一个有多个规则组成的逻辑系统，系统内的规则会给程序中的每一个组成部分，包括变量、表达式、函数、甚至模块等等，制定一个 类型 属性。  通俗的讲，类型系统是为了赋予程序或者数据意义。因为任何值或者一个函数，在内存里面都只是一串bits，而类型就是要给这串bits意义。例如，10 是的类型是一个奇怪的 int 类型，这个int只有两位。类型系统会给你加额外的信息让他变成一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于类型系统的一些思考">
+<meta property="og:url" content="http://yoursite.com/2021/02/20/type_system/index.html">
+<meta property="og:site_name" content="Zhe">
+<meta property="og:description" content="类型系统是什么 类型系统是一个有多个规则组成的逻辑系统，系统内的规则会给程序中的每一个组成部分，包括变量、表达式、函数、甚至模块等等，制定一个 类型 属性。  通俗的讲，类型系统是为了赋予程序或者数据意义。因为任何值或者一个函数，在内存里面都只是一串bits，而类型就是要给这串bits意义。例如，10 是的类型是一个奇怪的 int 类型，这个int只有两位。类型系统会给你加额外的信息让他变成一个">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-02-20T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-20T19:15:55.309Z">
+<meta property="article:author" content="Zhe">
+<meta property="article:tag" content="Ocaml">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Haskell">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/02/20/type_system/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>关于类型系统的一些思考 | Zhe</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66629043-1"></script>
+    <script pjax>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-66629043-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhe</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Unstable Correlation</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-arts">
+
+    <a href="/arts/" rel="section"><i class="fa fa-fw fa-microchip"></i>Arts</a>
+
+  </li>
+        <li class="menu-item menu-item-readings">
+
+    <a href="/readings/" rel="section"><i class="fa fa-fw fa-archive"></i>Readings</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/20/type_system/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于类型系统的一些思考
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-02-20 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-20T00:00:00Z">2021-02-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/02/20/type_system/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/20/type_system/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>4.6k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>4 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="类型系统是什么"><a href="#类型系统是什么" class="headerlink" title="类型系统是什么"></a>类型系统是什么</h2><blockquote>
+<p>类型系统是一个有多个规则组成的逻辑系统，系统内的规则会给程序中的每一个组成部分，包括变量、表达式、函数、甚至模块等等，制定一个 类型 属性。</p>
+</blockquote>
+<p>通俗的讲，类型系统是为了赋予程序或者数据意义。因为任何值或者一个函数，在内存里面都只是一串bits，而类型就是要给这串bits意义。例如，<code>10</code> 是的类型是一个奇怪的 int 类型，这个int只有两位。类型系统会给你加额外的信息让他变成一个 int，<code>01|10</code>，这里我们假设类型占两位，01就是int的bit表达，| 用来区分类型和值。这是，10就有了意义，而且程序在编译阶段或者运行时就可以通过这个类型标识确保采用合法的操作来操作这个值。</p>
+<p>换句话说，类型系统形成了一个除了语法（syntax）和语义（semantic）以外的另一套可以用来分析代码的系统。刚才我们也提到了，类型系统属于逻辑系统，就是通过规则（rule）可以进行推到和证明。所以我们可以肯定的说，好的类型系统可以帮助我们从逻辑角度分析程序，减少bug。因为语法和语义其实并没有办法从逻辑层面表达任何关于程序本身要做的事情。而类型系统可以发现一些逻辑错误，至少在他的rule可以推导的范围内。</p>
+<p>有些语言只会给变量制定类型，而表达式、函数则没有类型。比如 Python 中，<code>if a == 1: 1 else: 2</code> 这个表达式是没有类型的概念的。而在 Ocaml 中，<code>if a=1 then 1 else 2</code> 这个表达式有类型 int。事实上一般函数式语言的类型覆盖会更加广泛，而过程式语言覆盖则低很多，比如表达式基本都是没有类型的。显然，类型覆盖约广泛，这个逻辑系统能提供的帮助就越多。</p>
+<p>在实际工程中，好的类型系统会提高编译优化能力，甚至对代码重构、测试都有重要的作用。简单来讲，类型系统不但可以减少运行时的bug，还可以协助程序员进行开发。</p>
+<p>当然，设计好的类型系统比较复杂，类型系统设计的有问题，反而会增加程序员的负担。</p>
+<h2 id="语言分类"><a href="#语言分类" class="headerlink" title="语言分类"></a>语言分类</h2><p>当我们从类型系统的角度讨论计算机语言的时候，可以从如下四个维度看：</p>
+<ul>
+<li>类型安全(type safe)，分为强和弱</li>
+<li>类型表达(type expression), 分为显式和隐式</li>
+<li>类型比较(type compatibility)， 一般可以有结构式(structural)和Norminal</li>
+<li>类型检查(type checking), 分为静态和动态</li>
+</ul>
+<p>我举几个例子帮助大家对上面四点有个感性的认知：</p>
+<p>语言 | 类型安全 | 类型表达 | 类型比较 | 类型检查 |<br>| ——– | ——– | ——– | ——– | ——- |<br>| C        | 弱       | 显式       | Nominal  | 静态  |<br>| Python   | 强       | 隐式或者显式 | Structural       | 动态  |<br>| Java     | 强       | 显式      | Nominal  | 静态 |<br>| Ocaml    | 强       | 隐式或者显式 | Nominal/Structural | 静态 |</p>
+<p>为了进一步理解，我们需要知道这四个维度的定义。</p>
+<p><strong>类型安全</strong></p>
+<p>一个语言是强类型安全，必须保证代码只能读取自己可以读取的内存区域，并且类型安全的代码不能对一个对象进行不合法的操作。这种保证可以是静态的，即在编译阶段，也可以是动态的，即在运行时。换个说法，类型</p>
+<p>C语言的大部分代码是类型安全的，但是C语言的运行时不能保证类型安全，主要是因为可以进行cast操作。比如，要把指针放入array的时候，需要将指针cast成 <code>void*</code>，但是这个操作会丢失所有类型信息，当取回时，有需要 cast 回到原来的类型。由于这些cast的存在，系统运行时可能会出现意想不到的的行为。比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">char</span> y[] = <span class="string">"37"</span>;</span><br><span class="line"><span class="keyword">char</span>* z = x + y;</span><br></pre></td></tr></table></figure>
+
+<p>这段c代码中，<code>z</code> 会指向一个内存地址，这个地址是比 <code>y</code> 地址+5 char的一个位置，这个位置可能是任何数据，但是程序本身不会直接崩溃，直到使用z的时候导致更加严重的问题，导致崩溃。而在Java中上述代码会在编译阶段报错。Python属于动态类型，类型安全也只能在运行时抛出异常。</p>
+<p>当然这只是很简单的情况，Ocaml其实有用更加的强大的类型系统，能发现比上面这种明显问题更加不显然的逻辑错误。我们后面举例。</p>
+<p><strong>类型表达</strong></p>
+<p>所谓显示，就是指必须在代码中现实的写出变量的类型，比如C语言中，需要 <code>int a = 1;</code>；而在隐式语言中，比如Python，可以直接写 <code>a = 1</code>。当然对于带有类型推断的语言，比如Ocaml也可以写 <code>let a = 1</code>，不过Ocaml的类型系统已经推断出a的类型是int。Python的情况，只有在运行时才能解释器才能确定a的类型。</p>
+<p><strong>类型比较</strong></p>
+<p>这里主要在讨论如何说明两个变量的类型是相同的？对于Nominal类型系统，比较非常简单，只要两个类型的名字不一样，他们就是不一样的！无论他们的行为如何。但是对于Structural 类型系统，也叫 property based，只要两个类型的行为一样，他们就是一样的。对于一些存在集成的系统，比较就更加复杂了，需要更多的规则。</p>
+<p>结构化类型最好的代表其实Python，在Python的世界里更喜欢被叫做 duck typing。我举个栗子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.a = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.a = <span class="number">1</span>   </span><br><span class="line">        </span><br><span class="line">a = A()</span><br><span class="line">b = B()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dummy</span><span class="params">(o)</span>:</span></span><br><span class="line">    print(o.a)</span><br><span class="line">    </span><br><span class="line">dummy(a)</span><br><span class="line">dummy(b)</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码运行完全没有问题，但是dummy函数的参数o却支持不同的类型（A和B），这就是所谓的 duck typing。</p>
+<p><strong>类型检查</strong></p>
+<p>这个很好理解，类型检查就是确保类型安全的过程。如果类型检查发生在编译阶段，那么就是静态类型；反之则是动态类型。</p>
+<p>当然，也可以有另一个层面的理解，就是如果类型可以在运行时发生改变，那么就属于动态类型。Python毫无争议属于动态类型，但是Java在引入反射后，反而变得更加动态了。。。另一方面 Ocaml 的类型是完全静态的。</p>
+<h2 id="类型系统痛点"><a href="#类型系统痛点" class="headerlink" title="类型系统痛点"></a>类型系统痛点</h2><p>带来了那些痛点？</p>
+<ul>
+<li>（通常）需要更多的代码</li>
+<li>奇葩的编译错误</li>
+</ul>
+<p><em>举例1：需要更多的代码</em></p>
+<p><strong>Python</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">truncate_reminder</span><span class="params">(x)</span>:</span></span><br><span class="line">    int_part = int(x)</span><br><span class="line">    <span class="keyword">return</span> (int_part, x - int_part)</span><br></pre></td></tr></table></figure>
+<p><strong>Java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 应该感谢Java终于有了泛型。。。不然这段代码的长度会扩大两倍。。。。</span></span><br><span class="line"><span class="comment"> * 泛型算是类型系统一个改善，Java之前的类型系统表达能力真的非常有限 。。。 */</span></span><br><span class="line"><span class="function">Pair&lt;Int, Float&gt; <span class="title">truncateReminder</span><span class="params">(Float x)</span> </span>&#123;</span><br><span class="line">    Int intPart = Int(x);</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">new</span> Pair&lt;Int, Float&gt;(intPart, x - intPart));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Ocaml</strong></p>
+<figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> truncate_reminder x = </span><br><span class="line">  <span class="keyword">let</span> int_part = truncate x <span class="keyword">in</span></span><br><span class="line">    (int_part, x -. <span class="built_in">float</span> int_part)</span><br><span class="line">    <span class="comment">(* float 需要显式的写出来，不然编译器也会告诉你这个 *)</span></span><br></pre></td></tr></table></figure>
+
+<p>上面可以发现，Python代码显然是最简洁的，Ocaml其次，Java则多了很多类型标识符+泛型。Ocaml的类型系统可以进行推断，如果推断失败了，它会告诉你它需要哪些提示来完成推断，这样就即有了动态语言的简洁，又可以有用静态类型系统的好处。</p>
+<p><em>举例2： 奇葩的错误</em></p>
+<p><strong>Python</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">len([<span class="number">1</span>])</span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line">len(<span class="number">1</span>)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">---------------------------------------------------------------------------</span></span><br><span class="line"><span class="string">TypeError                                 Traceback (most recent call last)</span></span><br><span class="line"><span class="string">&lt;ipython-input-2-1cf91bb60cc0&gt; in &lt;module&gt;</span></span><br><span class="line"><span class="string">----&gt; 1 len(1)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">TypeError: object of type 'int' has no len()</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+<p>Ok，Python的类型错误提示还是很友好的。</p>
+<p><strong>Ocaml</strong></p>
+<figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>.length([<span class="number">1</span>])</span><br><span class="line"><span class="comment">(* 1 *)</span></span><br><span class="line"><span class="type">List</span>.length(<span class="number">1</span>)</span><br><span class="line"><span class="comment">(*</span></span><br><span class="line"><span class="comment">Line 1, characters 11-14:</span></span><br><span class="line"><span class="comment">Error: This expression has type int but an expression was expected of type</span></span><br><span class="line"><span class="comment">         'a list</span></span><br><span class="line"><span class="comment">*)</span></span><br></pre></td></tr></table></figure>
+
+<p>hmm，看起来更复杂一点了，比如<code>&#39;a list</code>是啥？需要更多关于带参类型的理解，才能读懂这段错误提示。但是起码，你看到表达式的类型是int，然而这个函数需要 类型 <code>a list</code>。（不懂无所谓现在）但是显然，类型系统需要更多的学习。</p>
+<p>让我们来看看更加先进的Haskell:</p>
+<p><strong>Haskell</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Prelude&gt; :t length</span><br><span class="line">length :: Foldable t &#x3D;&gt; t a -&gt; Int</span><br><span class="line"></span><br><span class="line">-- hmm Foldable 是啥？ lenght这个函数的类型是 Foldable t &#x3D;&gt; t a -&gt; Int。 ok</span><br><span class="line">-- 在看</span><br><span class="line">Prelude&gt; length [1]</span><br><span class="line">1</span><br><span class="line">-- ok 结果正确，但是。。。</span><br><span class="line">Prelude&gt; length 1</span><br><span class="line"></span><br><span class="line">&lt;interactive&gt;:4:8: error:</span><br><span class="line">    • No instance for (Num [a0]) arising from the literal ‘1’</span><br><span class="line">    • In the first argument of ‘length’, namely ‘1’</span><br><span class="line">      In the expression: length 1</span><br><span class="line">      In an equation for ‘it’: it &#x3D; length 1</span><br></pre></td></tr></table></figure>
+
+<p>看到最后的错误提示，你是什么感觉呢？你只是想求一个int 的长度而已。。。</p>
+<h2 id="类型系统好处"><a href="#类型系统好处" class="headerlink" title="类型系统好处"></a>类型系统好处</h2><ul>
+<li>提高程序的性能</li>
+<li>检测错误</li>
+<li>指导代码重构</li>
+<li>强迫不变量(Invariants)</li>
+<li>让tooling变得更加简单</li>
+</ul>
+<p>工程经验表明，类型系统带来的好处，远远超过了痛点。特别是对于大型、需要多人合作的项目。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><ul>
+<li>选择类型安全的语言，除非你知道你面对的是什么</li>
+<li>动态类型和静态类型各有利弊</li>
+<li>不同的类型系统带来的表达能力和优势完全不一样</li>
+<li>类型系统也不是越复杂越高级越好</li>
+</ul>
+<p>动态语言非常灵活，代码更加简洁，非常适合快速原型或者一些对正确性要求不高的项目。动态语言也更适合开发人员较少的项目。而静态类型语言则更加注重代码的正确性和性能，良好的类型系统对大型项目管理和重构都有很重要的意义，但是类型系统也意味着更多的学习。</p>
+<p>我们从举例1可以看到，Ocaml的类型系统显然比Java的类型系统表达能力更强，更加先进。但是相应的也带来了一些学习曲线，比如 <code>&#39;a list</code>。当然，在实际工程中，我们也要取舍选择合适复杂度的类型系统，Haskell的类型系统显然过于先进了，学习成本可能更高。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://wanwenli.com/programming/2013/12/27/Type-Systems.html" target="_blank" rel="noopener">https://wanwenli.com/programming/2013/12/27/Type-Systems.html</a></li>
+<li><a href="https://www.youtube.com/watch?v=0arFPIQatCU" target="_blank" rel="noopener">https://www.youtube.com/watch?v=0arFPIQatCU</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Comparison_of_programming_languages_by_type_system" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Comparison_of_programming_languages_by_type_system</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Type_system#Explicit_or_implicit_declaration_and_inference" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Type_system#Explicit_or_implicit_declaration_and_inference</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ocaml/" rel="tag"># Ocaml</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Haskell/" rel="tag"># Haskell</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/18/python_memory_mgt/" rel="prev" title="重新认识 Python（2）内存管理">
+      <i class="fa fa-chevron-left"></i> 重新认识 Python（2）内存管理
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类型系统是什么"><span class="nav-number">1.</span> <span class="nav-text">类型系统是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语言分类"><span class="nav-number">2.</span> <span class="nav-text">语言分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型系统痛点"><span class="nav-number">3.</span> <span class="nav-text">类型系统痛点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型系统好处"><span class="nav-number">4.</span> <span class="nav-text">类型系统好处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后"><span class="nav-number">5.</span> <span class="nav-text">写在最后</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Zhe"
+      src="/images/lambda.jpeg">
+  <p class="site-author-name" itemprop="name">Zhe</p>
+  <div class="site-description" itemprop="description">Things are correlated</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhe</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">130k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">1:58</span>
+</div>
+
+<span id="timeDate">Loding time...</span><span id="times">...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2020 00:00:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "Running for "+dnum+" Days "; 
+        document.getElementById("times").innerHTML = hnum + " Hour " + mnum + " Min " + snum + " Secs"; 
+    } 
+setInterval("createtime()",250);
+</script>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://wangzhe.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2021/02/20/type_system/";
+    this.page.identifier = "2021/02/20/type_system/";
+    this.page.title = "关于类型系统的一些思考";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://wangzhe.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>
