@@ -7,7 +7,15 @@ date: 2020-12-19 12:28:27
 
 ## Life Readings
 
-- [x][Bible](https://www.bible.com/bible/)
+- [x] [Bible](https://www.bible.com/bible/)
+
+## 2021
+
+- [x] [Structure and Interpretation of Computer Programs](https://hackmd.io/TeQqwfkSTSOYKx19_wlBSg)
+- [ ] [Seven concurrency models in seven weeks](https://pragprog.com/titles/pb7con/seven-concurrency-models-in-seven-weeks/#:~:text=You'll%20learn%20about%20seven,parallelism%2C%20and%20the%20lambda%20architecture.)
+- [ ] [Inside The Python Virtual Machine](https://leanpub.com/insidethepythonvirtualmachine)
+- [ ] [Modern Compiler Implementation in ML](https://www.cs.princeton.edu/~appel/modern/ml/)
+- [ ] [<re-read>Computer System: A Programmer’s Perspectives](https://wangzhe3224.github.io/2020/09/20/cs_app/)
 
 ## 2020
 - [The C Programming Language](https://hackmd.io/Ii5bK9VfSdiUkqKcRjOecg)
@@ -28,7 +36,3 @@ date: 2020-12-19 12:28:27
 - [The Art of Unix Programming](https://hackmd.io/aA3HCnhiSzqYU8seW26iEg)
 
 ## backlog
-
-- [ ][Structure and Interpretation of Computer Programs](https://hackmd.io/TeQqwfkSTSOYKx19_wlBSg)
-- [ ][Practical Common Lisp](http://www.gigamonkeys.com/book/)
-- [ ][How to Design Programs](https://htdp.org/2019-02-24/index.html)
