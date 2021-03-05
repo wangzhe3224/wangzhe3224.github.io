@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic|Encode Sans:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="重新认识 Python（4）并发模型并发是什么？并发一般是指多个计算在时间上无固定先后顺序的执行。并发程序不一定存在并行。举个例子reference:   上面的例子中我们有三个任务，T1~3，这三个任务就属于并发执行，而且因为有两个CPU，所以存在一定的并行。左图是每一个任务在CPU核心的执行情况，而右图是从任务自身的时间线角度表达任务的执行情况。可以看到任务通常不是连续执行，而是根据调度情况间">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重新认识 Python（4）并发模型">
+<meta property="og:url" content="http://yoursite.com/2021/02/18/python_concurrent/index.html">
+<meta property="og:site_name" content="Zhe">
+<meta property="og:description" content="重新认识 Python（4）并发模型并发是什么？并发一般是指多个计算在时间上无固定先后顺序的执行。并发程序不一定存在并行。举个例子reference:   上面的例子中我们有三个任务，T1~3，这三个任务就属于并发执行，而且因为有两个CPU，所以存在一定的并行。左图是每一个任务在CPU核心的执行情况，而右图是从任务自身的时间线角度表达任务的执行情况。可以看到任务通常不是连续执行，而是根据调度情况间">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/LG0PL9t.png">
+<meta property="article:published_time" content="2021-02-18T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-05T21:35:15.652Z">
+<meta property="article:author" content="Zhe">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Concurrent">
+<meta property="article:tag" content="Generator">
+<meta property="article:tag" content="Async">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/LG0PL9t.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/02/18/python_concurrent/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>重新认识 Python（4）并发模型 | Zhe</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66629043-1"></script>
+    <script pjax>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-66629043-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhe</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Unstable Correlation</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-arts">
+
+    <a href="/arts/" rel="section"><i class="fa fa-fw fa-microchip"></i>Arts</a>
+
+  </li>
+        <li class="menu-item menu-item-readings">
+
+    <a href="/readings/" rel="section"><i class="fa fa-fw fa-archive"></i>Readings</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/18/python_concurrent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          重新认识 Python（4）并发模型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-02-18 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-18T00:00:00Z">2021-02-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/02/18/python_concurrent/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/18/python_concurrent/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>5.5k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>5 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="重新认识-Python（4）并发模型"><a href="#重新认识-Python（4）并发模型" class="headerlink" title="重新认识 Python（4）并发模型"></a>重新认识 Python（4）并发模型</h1><h2 id="并发是什么？"><a href="#并发是什么？" class="headerlink" title="并发是什么？"></a>并发是什么？</h2><p>并发一般是指多个计算在时间上无固定先后顺序的执行。并发程序不一定存在并行。举个例子<a href="https://web.mit.edu/6.005/www/fa14/classes/17-concurrency/#message_passing_example" target="_blank" rel="noopener">reference</a>: </p>
+<p><img data-src="https://i.imgur.com/LG0PL9t.png" alt="并发实例"></p>
+<p>上面的例子中我们有三个任务，T1~3，这三个任务就属于并发执行，而且因为有两个CPU，所以存在一定的并行。左图是每一个任务在CPU核心的执行情况，而右图是从任务自身的时间线角度表达任务的执行情况。可以看到任务通常不是连续执行，而是根据调度情况间断执行。</p>
+<p>并发编程的一个好处就是可以让数量有限的CPU核心，“看起来”同时执行数量远远大于核心数量的任务，换句话说，增加系统的对请求的响应程度。</p>
+<p>并发模型最常见的程序其实就是操作系统，一个普通的操作系统运行在一个8核CPU上，却可以“看起来”同时执行成千上万个任务，这就是并发模型的效果。</p>
+<p>如果不谈操作系统，而是其他基于操作系统的应用的例子，比如Web 服务器，需要同时对众多请求作出回应。</p>
+<h2 id="Python怎么搞并发？"><a href="#Python怎么搞并发？" class="headerlink" title="Python怎么搞并发？"></a>Python怎么搞并发？</h2><p>Python提供了三种并发的工具：多线程（threading）、多进程（process）和协程（Coroutine）。前两种其实就是利用了操作系统提供的并发模型。</p>
+<h3 id="线程和进程"><a href="#线程和进程" class="headerlink" title="线程和进程"></a>线程和进程</h3><p>CPython的Thread其实就是操作系统的线程，基本没有overhead。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(_POSIX_THREADS)</span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">define</span> PYTHREAD_NAME <span class="meta-string">"pthread"</span></span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">include</span> <span class="meta-string">"thread_pthread.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined(NT_THREADS)</span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">define</span> PYTHREAD_NAME <span class="meta-string">"nt"</span></span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">include</span> <span class="meta-string">"thread_nt.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">error</span> <span class="meta-string">"Require native threads. See https://bugs.python.org/issue31370"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码可见，Python会根据操作系统调用对应系统的线程API，然后把调度工作移交OS。这里需要注意的是，由于GIL的存在，每一个Python解释器进程中，同一时间只能有一个线程执行。这意味着，在这种情况下，利用线程实现的并发模型中，不存在并行。</p>
+<p>线程实现的并发模型比较容易理解：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    target = <span class="keyword">lambda</span> : print(<span class="string">'Hello from NEW thread\n'</span>)</span><br><span class="line">    my_thread = threading.Thread(target=target)</span><br><span class="line">    my_thread.start()</span><br><span class="line">    print(<span class="string">'Hello from MAIN thread\n'</span>)</span><br><span class="line">    my_thread.join()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>开进程，指定任务，执行就可以了。其余的调度工作完全移交操作系统统一管理。当然，这样做的弊端也很明显：</p>
+<ul>
+<li>线程创建和切换的开销都比较大，数量有限</li>
+<li>移交操作系统调度后，程序员基本失去了对任务的控制，属于抢占式</li>
+</ul>
+<h3 id="协程，Coroutine"><a href="#协程，Coroutine" class="headerlink" title="协程，Coroutine"></a>协程，Coroutine</h3><p>为了解决上面的弊端，Python也给出了协程的方案。协程跟线程的最大区别就是：协程是协作式的，线程是抢占式的。具体讲就是一个协程会在预订的位置让出执行权，并且主动的移交给其他协程，而线程则是抢占式的，一个线程会在任意时间被夺去执行权。</p>
+<p>协程可以理解成是一般函数的泛化。一般的函数只有一个入口和若干个出口，协程具有多个入口和出口。</p>
+<p>在Python中主要涉及到<code>yield</code> 和 <code>yield from</code> 关键字。</p>
+<p>下面举几个简单的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello_world</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="string">"Hello "</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="string">"World!"</span></span><br><span class="line"></span><br><span class="line">hw = hello_world()</span><br><span class="line">print(next(hw))</span><br><span class="line">print(next(hw))</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    print(next(hw))</span><br><span class="line"><span class="keyword">except</span> StopIteration:</span><br><span class="line">    print(<span class="string">'Finished'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出：</span></span><br><span class="line"><span class="comment"># Hello </span></span><br><span class="line"><span class="comment"># World!</span></span><br><span class="line"><span class="comment"># Finished</span></span><br></pre></td></tr></table></figure>
+
+<p><code>next</code> 函数会逐一访问到每一个yield点，知道没有其他 yield 为止。而 yield 的功能就是让函数交出执行权，知道下一次被调用，他会从上一个yield点开始执行。严格来讲，上面这个 hello_world 还不是完整的协程，因为 yield 仅仅把执行权交还给调用方，而不是任意其它协程。我们看下一个例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">co1</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'World'</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">'co1'</span></span><br><span class="line"></span><br><span class="line">c1 = co1()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">co2</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'Hello'</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> c1</span><br><span class="line"></span><br><span class="line">c2 = co2()</span><br><span class="line">next(c2)</span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># Hello</span></span><br><span class="line"><span class="comment"># World</span></span><br><span class="line"><span class="comment"># co1</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，协程 co2 把执行权主动交给 co1 而不是交还给调用方。</p>
+<p>不过，Python 3.5以后引入了<code>asnyc/await</code> 作为协程的原生支持。其实就是是避免写 <code>yield</code> 与 生成器混淆，如果你trace down代码的话，所有的 await 最后都会在某处出现 <code>yield</code> 关键字。我们举个例子就会发现其实 async/await 就是 yield 的语法糖，表明函数时协程，而不是普通函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Awaitable</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__await__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">yield_</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> Awaitable()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">a1</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"Hello "</span>)</span><br><span class="line">    <span class="keyword">await</span> yield_()</span><br><span class="line">    print(<span class="string">"World!"</span>)</span><br><span class="line"></span><br><span class="line">a = a1()</span><br><span class="line">a.send(<span class="literal">None</span>)</span><br><span class="line">a.send(<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># Hello</span></span><br><span class="line"><span class="comment"># World!</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看出，async 定义的函数就是一个协程。</p>
+<p>至此，我们已经了解协程的基本原理，下面我们来看一下如何利用协程实现并发。</p>
+<h3 id="协程并发"><a href="#协程并发" class="headerlink" title="协程并发"></a>协程并发</h3><p>假设我们有两个任务需要并发执行，一个向上数，一个向下数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countdown</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'Down'</span>, n)</span><br><span class="line">        sleep(<span class="number">1</span>)</span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countup</span><span class="params">(stop)</span>:</span></span><br><span class="line">    x = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> x &lt; stop:</span><br><span class="line">        print(<span class="string">'Up'</span>, x)</span><br><span class="line">        sleep(<span class="number">1</span>)</span><br><span class="line">        x += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">countdown(<span class="number">5</span>)</span><br><span class="line">countup(<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行上面程序肯定无法实现并发，而是顺序执行。由于loop和sleep的存在程序也会block。那么我们如何实现并发？</p>
+<p>首先，我们需要把函数改写成 协程 ，这样这两个任务就可以主动交出执行权。然后需要我们自己写一个 调度器 来实现不同任务的并发调度。最后我们还需要处理一下sleep的block问题。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countdown</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'Down'</span>, n)</span><br><span class="line">        sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">yield</span>  <span class="comment"># 这样，函数就可以在loop的途中交出执行权</span></span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countup</span><span class="params">(stop)</span>:</span></span><br><span class="line">    x = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> x &lt; stop:</span><br><span class="line">        print(<span class="string">'Up'</span>, x)</span><br><span class="line">        sleep(<span class="number">0.2</span>)</span><br><span class="line">        <span class="keyword">yield</span>  <span class="comment"># 这样，函数就可以在loop的途中交出执行权</span></span><br><span class="line">        x += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>通过加入 yield，这两个任务现在会在每一次loop的时候主动交出控制权。接下来，我们来实现一个简单的调度器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scheduler1</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.ready = deque()</span><br><span class="line">        self.current = <span class="literal">None</span>  <span class="comment"># 当前任务的指针</span></span><br><span class="line">        self.sequence = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">new_task</span><span class="params">(self, coro)</span>:</span></span><br><span class="line">        self.ready.append(coro)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> self.ready:</span><br><span class="line"></span><br><span class="line">            self.current = self.ready.popleft()</span><br><span class="line">            <span class="comment"># 执行下一步</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                self.current.send(<span class="literal">None</span>)</span><br><span class="line">                <span class="keyword">if</span> self.current:</span><br><span class="line">                    self.ready.append(self.current)</span><br><span class="line">            <span class="keyword">except</span> StopIteration:</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countdown</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'Down'</span>, n)</span><br><span class="line">        sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countup</span><span class="params">(stop)</span>:</span></span><br><span class="line">    x = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> x &lt; stop:</span><br><span class="line">        print(<span class="string">'Up'</span>, x)</span><br><span class="line">        sleep(<span class="number">0.2</span>)</span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line">        x += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">sched = Scheduler1()</span><br><span class="line">sched.new_task(countdown(<span class="number">5</span>))</span><br><span class="line">sched.new_task(countup(<span class="number">5</span>))</span><br><span class="line">sched.run()</span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">Down 5</span></span><br><span class="line"><span class="string">Up 0</span></span><br><span class="line"><span class="string">Down 4</span></span><br><span class="line"><span class="string">Up 1</span></span><br><span class="line"><span class="string">Down 3</span></span><br><span class="line"><span class="string">Up 2</span></span><br><span class="line"><span class="string">Down 2</span></span><br><span class="line"><span class="string">Up 3</span></span><br><span class="line"><span class="string">Down 1</span></span><br><span class="line"><span class="string">Up 4</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看出，通过简单的调度，我们就实现了两个任务的并发执行。调度器本身的原理非常简单，就是一个循环，不断检查是否有活跃的任务，如果有，就通过 send 执行任务，如果没有异常，就说明任务没有完成，再把任务放回队列。循环。</p>
+<p>现在我们还有一个问题，就是sleep的问题，现在sleep还是block的。我们需要在 调度器 中处理这种情况。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scheduler2</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.ready = deque()</span><br><span class="line">        self.sleeping = []</span><br><span class="line">        self.current = <span class="literal">None</span>  <span class="comment"># 当前任务的指针</span></span><br><span class="line">        self.sequence = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sleep</span><span class="params">(self, delay)</span>:</span></span><br><span class="line">        deadline = time.time() + delay</span><br><span class="line">        self.sequence += <span class="number">1</span>  <span class="comment"># 这个是为了 heap 排序</span></span><br><span class="line">        heapq.heappush(self.sleeping, (deadline, self.sequence, self.current))</span><br><span class="line">        self.current = <span class="literal">None</span>  </span><br><span class="line">        <span class="keyword">yield</span>  <span class="comment"># 交出控制权限</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">new_task</span><span class="params">(self, coro)</span>:</span></span><br><span class="line">        self.ready.append(coro)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> self.ready <span class="keyword">or</span> self.sleeping:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> self.ready:</span><br><span class="line">                deadline, _, coro = heapq.heappop(self.sleeping)</span><br><span class="line">                delta = deadline - time.time()</span><br><span class="line">                <span class="keyword">if</span> delta &gt; <span class="number">0</span>:</span><br><span class="line">                    time.sleep(delta)</span><br><span class="line">                self.ready.append(coro)</span><br><span class="line"></span><br><span class="line">            self.current = self.ready.popleft()</span><br><span class="line">            <span class="comment"># 执行下一步</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                self.current.send(<span class="literal">None</span>)</span><br><span class="line">                <span class="keyword">if</span> self.current:</span><br><span class="line">                    self.ready.append(self.current)</span><br><span class="line">            <span class="keyword">except</span> StopIteration:</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">                </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countdown</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'Down'</span>, n)</span><br><span class="line">        <span class="keyword">yield</span> <span class="keyword">from</span> sched.sleep(<span class="number">1</span>)  <span class="comment"># 注意这里，协程主动把执行权交给 sleep，就是另一个协程</span></span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countup</span><span class="params">(stop)</span>:</span></span><br><span class="line">    x = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> x &lt; stop:</span><br><span class="line">        print(<span class="string">'Up'</span>, x)</span><br><span class="line">        <span class="keyword">yield</span> <span class="keyword">from</span> sched.sleep(<span class="number">0.2</span>)</span><br><span class="line">        x += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">Down 5</span></span><br><span class="line"><span class="string">Up 0</span></span><br><span class="line"><span class="string">Down 4</span></span><br><span class="line"><span class="string">Up 1</span></span><br><span class="line"><span class="string">Up 2</span></span><br><span class="line"><span class="string">Up 3</span></span><br><span class="line"><span class="string">Up 4</span></span><br><span class="line"><span class="string">Up 5</span></span><br><span class="line"><span class="string">Down 3</span></span><br><span class="line"><span class="string">Up 6</span></span><br><span class="line"><span class="string">Up 7</span></span><br><span class="line"><span class="string">Up 8</span></span><br><span class="line"><span class="string">Up 9</span></span><br><span class="line"><span class="string">Up 10</span></span><br><span class="line"><span class="string">Down 2</span></span><br><span class="line"><span class="string">Up 11</span></span><br><span class="line"><span class="string">Up 12</span></span><br><span class="line"><span class="string">Up 13</span></span><br><span class="line"><span class="string">Up 14</span></span><br><span class="line"><span class="string">Up 15</span></span><br><span class="line"><span class="string">Down 1</span></span><br><span class="line"><span class="string">Up 16</span></span><br><span class="line"><span class="string">Up 17</span></span><br><span class="line"><span class="string">Up 18</span></span><br><span class="line"><span class="string">Up 19</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，调度器通过一个 sleep 协程实现了非阻塞的睡眠。<code>yield from</code> 可以把执行权交给另一个协程，而不是调度器。</p>
+<p>其实，如果你用过 <code>asyncio</code> 库，就会发现这个库的核心就是一个类似的调度器。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'hello'</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">1</span>)</span><br><span class="line">    print(<span class="string">'world'</span>)</span><br><span class="line"></span><br><span class="line">asyncio.run(main())</span><br></pre></td></tr></table></figure>
+
+<p>这里面的 <code>await</code> 就是 <code>yield from</code> 的功能，即把执行权移交另一个协程。而 <code>async</code> 的主要目的是规范化协程语法，与一般函数进行区别。当然，Python内部有后来慢慢加入了不同的类型。比如 <code>async</code> 定义的协程的类型是： async_generator， 而 yield 定义的类型为： generator。</p>
+<h2 id="Python并发还能怎么搞？"><a href="#Python并发还能怎么搞？" class="headerlink" title="Python并发还能怎么搞？"></a>Python并发还能怎么搞？</h2><p>上面提到的都是一些比较常见的方法。当然Python里面还有一些不太常用到的模型。比如</p>
+<ul>
+<li>Actor Model</li>
+<li>CSP</li>
+<li>Multiple Interpreters，<a href="https://www.python.org/dev/peps/pep-0554/#id56" target="_blank" rel="noopener">https://www.python.org/dev/peps/pep-0554/#id56</a></li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.youtube.com/watch?v=Y4Gt3Xjd7G8" target="_blank" rel="noopener">https://www.youtube.com/watch?v=Y4Gt3Xjd7G8</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Concurrent/" rel="tag"># Concurrent</a>
+              <a href="/tags/Generator/" rel="tag"># Generator</a>
+              <a href="/tags/Async/" rel="tag"># Async</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/18/python_memory_mgt/" rel="prev" title="重新认识 Python（2）内存管理">
+      <i class="fa fa-chevron-left"></i> 重新认识 Python（2）内存管理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/20/type_system/" rel="next" title="关于类型系统的一些思考">
+      关于类型系统的一些思考 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#重新认识-Python（4）并发模型"><span class="nav-number">1.</span> <span class="nav-text">重新认识 Python（4）并发模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#并发是什么？"><span class="nav-number">1.1.</span> <span class="nav-text">并发是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python怎么搞并发？"><span class="nav-number">1.2.</span> <span class="nav-text">Python怎么搞并发？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程和进程"><span class="nav-number">1.2.1.</span> <span class="nav-text">线程和进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协程，Coroutine"><span class="nav-number">1.2.2.</span> <span class="nav-text">协程，Coroutine</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协程并发"><span class="nav-number">1.2.3.</span> <span class="nav-text">协程并发</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python并发还能怎么搞？"><span class="nav-number">1.3.</span> <span class="nav-text">Python并发还能怎么搞？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Zhe"
+      src="/images/lambda.jpeg">
+  <p class="site-author-name" itemprop="name">Zhe</p>
+  <div class="site-description" itemprop="description">Things are correlated</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhe</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">136k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">2:03</span>
+</div>
+
+<span id="timeDate">Loding time...</span><span id="times">...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2020 00:00:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "Running for "+dnum+" Days "; 
+        document.getElementById("times").innerHTML = hnum + " Hour " + mnum + " Min " + snum + " Secs"; 
+    } 
+setInterval("createtime()",250);
+</script>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://wangzhe.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2021/02/18/python_concurrent/";
+    this.page.identifier = "2021/02/18/python_concurrent/";
+    this.page.title = "重新认识 Python（4）并发模型";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://wangzhe.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>

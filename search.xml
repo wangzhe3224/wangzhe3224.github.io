@@ -101,6 +101,82 @@
       </tags>
   </entry>
   <entry>
+    <title>重新认识 Python（4）并发模型</title>
+    <url>/2021/02/18/python_concurrent/</url>
+    <content><![CDATA[<h1 id="重新认识-Python（4）并发模型"><a href="#重新认识-Python（4）并发模型" class="headerlink" title="重新认识 Python（4）并发模型"></a>重新认识 Python（4）并发模型</h1><h2 id="并发是什么？"><a href="#并发是什么？" class="headerlink" title="并发是什么？"></a>并发是什么？</h2><p>并发一般是指多个计算在时间上无固定先后顺序的执行。并发程序不一定存在并行。举个例子<a href="https://web.mit.edu/6.005/www/fa14/classes/17-concurrency/#message_passing_example" target="_blank" rel="noopener">reference</a>: </p>
+<p><img data-src="https://i.imgur.com/LG0PL9t.png" alt="并发实例"></p>
+<p>上面的例子中我们有三个任务，T1~3，这三个任务就属于并发执行，而且因为有两个CPU，所以存在一定的并行。左图是每一个任务在CPU核心的执行情况，而右图是从任务自身的时间线角度表达任务的执行情况。可以看到任务通常不是连续执行，而是根据调度情况间断执行。</p>
+<p>并发编程的一个好处就是可以让数量有限的CPU核心，“看起来”同时执行数量远远大于核心数量的任务，换句话说，增加系统的对请求的响应程度。</p>
+<p>并发模型最常见的程序其实就是操作系统，一个普通的操作系统运行在一个8核CPU上，却可以“看起来”同时执行成千上万个任务，这就是并发模型的效果。</p>
+<p>如果不谈操作系统，而是其他基于操作系统的应用的例子，比如Web 服务器，需要同时对众多请求作出回应。</p>
+<h2 id="Python怎么搞并发？"><a href="#Python怎么搞并发？" class="headerlink" title="Python怎么搞并发？"></a>Python怎么搞并发？</h2><p>Python提供了三种并发的工具：多线程（threading）、多进程（process）和协程（Coroutine）。前两种其实就是利用了操作系统提供的并发模型。</p>
+<h3 id="线程和进程"><a href="#线程和进程" class="headerlink" title="线程和进程"></a>线程和进程</h3><p>CPython的Thread其实就是操作系统的线程，基本没有overhead。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(_POSIX_THREADS)</span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">define</span> PYTHREAD_NAME <span class="meta-string">"pthread"</span></span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">include</span> <span class="meta-string">"thread_pthread.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined(NT_THREADS)</span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">define</span> PYTHREAD_NAME <span class="meta-string">"nt"</span></span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">include</span> <span class="meta-string">"thread_nt.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#   <span class="meta-keyword">error</span> <span class="meta-string">"Require native threads. See https://bugs.python.org/issue31370"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码可见，Python会根据操作系统调用对应系统的线程API，然后把调度工作移交OS。这里需要注意的是，由于GIL的存在，每一个Python解释器进程中，同一时间只能有一个线程执行。这意味着，在这种情况下，利用线程实现的并发模型中，不存在并行。</p>
+<p>线程实现的并发模型比较容易理解：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    target = <span class="keyword">lambda</span> : print(<span class="string">'Hello from NEW thread\n'</span>)</span><br><span class="line">    my_thread = threading.Thread(target=target)</span><br><span class="line">    my_thread.start()</span><br><span class="line">    print(<span class="string">'Hello from MAIN thread\n'</span>)</span><br><span class="line">    my_thread.join()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>开进程，指定任务，执行就可以了。其余的调度工作完全移交操作系统统一管理。当然，这样做的弊端也很明显：</p>
+<ul>
+<li>线程创建和切换的开销都比较大，数量有限</li>
+<li>移交操作系统调度后，程序员基本失去了对任务的控制，属于抢占式</li>
+</ul>
+<h3 id="协程，Coroutine"><a href="#协程，Coroutine" class="headerlink" title="协程，Coroutine"></a>协程，Coroutine</h3><p>为了解决上面的弊端，Python也给出了协程的方案。协程跟线程的最大区别就是：协程是协作式的，线程是抢占式的。具体讲就是一个协程会在预订的位置让出执行权，并且主动的移交给其他协程，而线程则是抢占式的，一个线程会在任意时间被夺去执行权。</p>
+<p>协程可以理解成是一般函数的泛化。一般的函数只有一个入口和若干个出口，协程具有多个入口和出口。</p>
+<p>在Python中主要涉及到<code>yield</code> 和 <code>yield from</code> 关键字。</p>
+<p>下面举几个简单的例子：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello_world</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="string">"Hello "</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="string">"World!"</span></span><br><span class="line"></span><br><span class="line">hw = hello_world()</span><br><span class="line">print(next(hw))</span><br><span class="line">print(next(hw))</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    print(next(hw))</span><br><span class="line"><span class="keyword">except</span> StopIteration:</span><br><span class="line">    print(<span class="string">'Finished'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出：</span></span><br><span class="line"><span class="comment"># Hello </span></span><br><span class="line"><span class="comment"># World!</span></span><br><span class="line"><span class="comment"># Finished</span></span><br></pre></td></tr></table></figure>
+
+<p><code>next</code> 函数会逐一访问到每一个yield点，知道没有其他 yield 为止。而 yield 的功能就是让函数交出执行权，知道下一次被调用，他会从上一个yield点开始执行。严格来讲，上面这个 hello_world 还不是完整的协程，因为 yield 仅仅把执行权交还给调用方，而不是任意其它协程。我们看下一个例子：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">co1</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'World'</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">'co1'</span></span><br><span class="line"></span><br><span class="line">c1 = co1()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">co2</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'Hello'</span>)</span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> c1</span><br><span class="line"></span><br><span class="line">c2 = co2()</span><br><span class="line">next(c2)</span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># Hello</span></span><br><span class="line"><span class="comment"># World</span></span><br><span class="line"><span class="comment"># co1</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，协程 co2 把执行权主动交给 co1 而不是交还给调用方。</p>
+<p>不过，Python 3.5以后引入了<code>asnyc/await</code> 作为协程的原生支持。其实就是是避免写 <code>yield</code> 与 生成器混淆，如果你trace down代码的话，所有的 await 最后都会在某处出现 <code>yield</code> 关键字。我们举个例子就会发现其实 async/await 就是 yield 的语法糖，表明函数时协程，而不是普通函数。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Awaitable</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__await__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">yield_</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> Awaitable()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">a1</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"Hello "</span>)</span><br><span class="line">    <span class="keyword">await</span> yield_()</span><br><span class="line">    print(<span class="string">"World!"</span>)</span><br><span class="line"></span><br><span class="line">a = a1()</span><br><span class="line">a.send(<span class="literal">None</span>)</span><br><span class="line">a.send(<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># Hello</span></span><br><span class="line"><span class="comment"># World!</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看出，async 定义的函数就是一个协程。</p>
+<p>至此，我们已经了解协程的基本原理，下面我们来看一下如何利用协程实现并发。</p>
+<h3 id="协程并发"><a href="#协程并发" class="headerlink" title="协程并发"></a>协程并发</h3><p>假设我们有两个任务需要并发执行，一个向上数，一个向下数。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countdown</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'Down'</span>, n)</span><br><span class="line">        sleep(<span class="number">1</span>)</span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countup</span><span class="params">(stop)</span>:</span></span><br><span class="line">    x = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> x &lt; stop:</span><br><span class="line">        print(<span class="string">'Up'</span>, x)</span><br><span class="line">        sleep(<span class="number">1</span>)</span><br><span class="line">        x += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">countdown(<span class="number">5</span>)</span><br><span class="line">countup(<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行上面程序肯定无法实现并发，而是顺序执行。由于loop和sleep的存在程序也会block。那么我们如何实现并发？</p>
+<p>首先，我们需要把函数改写成 协程 ，这样这两个任务就可以主动交出执行权。然后需要我们自己写一个 调度器 来实现不同任务的并发调度。最后我们还需要处理一下sleep的block问题。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countdown</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'Down'</span>, n)</span><br><span class="line">        sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">yield</span>  <span class="comment"># 这样，函数就可以在loop的途中交出执行权</span></span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countup</span><span class="params">(stop)</span>:</span></span><br><span class="line">    x = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> x &lt; stop:</span><br><span class="line">        print(<span class="string">'Up'</span>, x)</span><br><span class="line">        sleep(<span class="number">0.2</span>)</span><br><span class="line">        <span class="keyword">yield</span>  <span class="comment"># 这样，函数就可以在loop的途中交出执行权</span></span><br><span class="line">        x += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>通过加入 yield，这两个任务现在会在每一次loop的时候主动交出控制权。接下来，我们来实现一个简单的调度器：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scheduler1</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.ready = deque()</span><br><span class="line">        self.current = <span class="literal">None</span>  <span class="comment"># 当前任务的指针</span></span><br><span class="line">        self.sequence = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">new_task</span><span class="params">(self, coro)</span>:</span></span><br><span class="line">        self.ready.append(coro)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> self.ready:</span><br><span class="line"></span><br><span class="line">            self.current = self.ready.popleft()</span><br><span class="line">            <span class="comment"># 执行下一步</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                self.current.send(<span class="literal">None</span>)</span><br><span class="line">                <span class="keyword">if</span> self.current:</span><br><span class="line">                    self.ready.append(self.current)</span><br><span class="line">            <span class="keyword">except</span> StopIteration:</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countdown</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'Down'</span>, n)</span><br><span class="line">        sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countup</span><span class="params">(stop)</span>:</span></span><br><span class="line">    x = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> x &lt; stop:</span><br><span class="line">        print(<span class="string">'Up'</span>, x)</span><br><span class="line">        sleep(<span class="number">0.2</span>)</span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line">        x += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">sched = Scheduler1()</span><br><span class="line">sched.new_task(countdown(<span class="number">5</span>))</span><br><span class="line">sched.new_task(countup(<span class="number">5</span>))</span><br><span class="line">sched.run()</span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">Down 5</span></span><br><span class="line"><span class="string">Up 0</span></span><br><span class="line"><span class="string">Down 4</span></span><br><span class="line"><span class="string">Up 1</span></span><br><span class="line"><span class="string">Down 3</span></span><br><span class="line"><span class="string">Up 2</span></span><br><span class="line"><span class="string">Down 2</span></span><br><span class="line"><span class="string">Up 3</span></span><br><span class="line"><span class="string">Down 1</span></span><br><span class="line"><span class="string">Up 4</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看出，通过简单的调度，我们就实现了两个任务的并发执行。调度器本身的原理非常简单，就是一个循环，不断检查是否有活跃的任务，如果有，就通过 send 执行任务，如果没有异常，就说明任务没有完成，再把任务放回队列。循环。</p>
+<p>现在我们还有一个问题，就是sleep的问题，现在sleep还是block的。我们需要在 调度器 中处理这种情况。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scheduler2</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.ready = deque()</span><br><span class="line">        self.sleeping = []</span><br><span class="line">        self.current = <span class="literal">None</span>  <span class="comment"># 当前任务的指针</span></span><br><span class="line">        self.sequence = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sleep</span><span class="params">(self, delay)</span>:</span></span><br><span class="line">        deadline = time.time() + delay</span><br><span class="line">        self.sequence += <span class="number">1</span>  <span class="comment"># 这个是为了 heap 排序</span></span><br><span class="line">        heapq.heappush(self.sleeping, (deadline, self.sequence, self.current))</span><br><span class="line">        self.current = <span class="literal">None</span>  </span><br><span class="line">        <span class="keyword">yield</span>  <span class="comment"># 交出控制权限</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">new_task</span><span class="params">(self, coro)</span>:</span></span><br><span class="line">        self.ready.append(coro)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> self.ready <span class="keyword">or</span> self.sleeping:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> self.ready:</span><br><span class="line">                deadline, _, coro = heapq.heappop(self.sleeping)</span><br><span class="line">                delta = deadline - time.time()</span><br><span class="line">                <span class="keyword">if</span> delta &gt; <span class="number">0</span>:</span><br><span class="line">                    time.sleep(delta)</span><br><span class="line">                self.ready.append(coro)</span><br><span class="line"></span><br><span class="line">            self.current = self.ready.popleft()</span><br><span class="line">            <span class="comment"># 执行下一步</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                self.current.send(<span class="literal">None</span>)</span><br><span class="line">                <span class="keyword">if</span> self.current:</span><br><span class="line">                    self.ready.append(self.current)</span><br><span class="line">            <span class="keyword">except</span> StopIteration:</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">                </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countdown</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'Down'</span>, n)</span><br><span class="line">        <span class="keyword">yield</span> <span class="keyword">from</span> sched.sleep(<span class="number">1</span>)  <span class="comment"># 注意这里，协程主动把执行权交给 sleep，就是另一个协程</span></span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countup</span><span class="params">(stop)</span>:</span></span><br><span class="line">    x = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> x &lt; stop:</span><br><span class="line">        print(<span class="string">'Up'</span>, x)</span><br><span class="line">        <span class="keyword">yield</span> <span class="keyword">from</span> sched.sleep(<span class="number">0.2</span>)</span><br><span class="line">        x += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">Down 5</span></span><br><span class="line"><span class="string">Up 0</span></span><br><span class="line"><span class="string">Down 4</span></span><br><span class="line"><span class="string">Up 1</span></span><br><span class="line"><span class="string">Up 2</span></span><br><span class="line"><span class="string">Up 3</span></span><br><span class="line"><span class="string">Up 4</span></span><br><span class="line"><span class="string">Up 5</span></span><br><span class="line"><span class="string">Down 3</span></span><br><span class="line"><span class="string">Up 6</span></span><br><span class="line"><span class="string">Up 7</span></span><br><span class="line"><span class="string">Up 8</span></span><br><span class="line"><span class="string">Up 9</span></span><br><span class="line"><span class="string">Up 10</span></span><br><span class="line"><span class="string">Down 2</span></span><br><span class="line"><span class="string">Up 11</span></span><br><span class="line"><span class="string">Up 12</span></span><br><span class="line"><span class="string">Up 13</span></span><br><span class="line"><span class="string">Up 14</span></span><br><span class="line"><span class="string">Up 15</span></span><br><span class="line"><span class="string">Down 1</span></span><br><span class="line"><span class="string">Up 16</span></span><br><span class="line"><span class="string">Up 17</span></span><br><span class="line"><span class="string">Up 18</span></span><br><span class="line"><span class="string">Up 19</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，调度器通过一个 sleep 协程实现了非阻塞的睡眠。<code>yield from</code> 可以把执行权交给另一个协程，而不是调度器。</p>
+<p>其实，如果你用过 <code>asyncio</code> 库，就会发现这个库的核心就是一个类似的调度器。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'hello'</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">1</span>)</span><br><span class="line">    print(<span class="string">'world'</span>)</span><br><span class="line"></span><br><span class="line">asyncio.run(main())</span><br></pre></td></tr></table></figure>
+
+<p>这里面的 <code>await</code> 就是 <code>yield from</code> 的功能，即把执行权移交另一个协程。而 <code>async</code> 的主要目的是规范化协程语法，与一般函数进行区别。当然，Python内部有后来慢慢加入了不同的类型。比如 <code>async</code> 定义的协程的类型是： async_generator， 而 yield 定义的类型为： generator。</p>
+<h2 id="Python并发还能怎么搞？"><a href="#Python并发还能怎么搞？" class="headerlink" title="Python并发还能怎么搞？"></a>Python并发还能怎么搞？</h2><p>上面提到的都是一些比较常见的方法。当然Python里面还有一些不太常用到的模型。比如</p>
+<ul>
+<li>Actor Model</li>
+<li>CSP</li>
+<li>Multiple Interpreters，<a href="https://www.python.org/dev/peps/pep-0554/#id56" target="_blank" rel="noopener">https://www.python.org/dev/peps/pep-0554/#id56</a></li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.youtube.com/watch?v=Y4Gt3Xjd7G8" target="_blank" rel="noopener">https://www.youtube.com/watch?v=Y4Gt3Xjd7G8</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>Concurrent</tag>
+        <tag>Generator</tag>
+        <tag>Async</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>重新认识 Python（2）内存管理</title>
     <url>/2021/02/18/python_memory_mgt/</url>
     <content><![CDATA[<h1 id="重新认识-Python（2）：内存管理"><a href="#重新认识-Python（2）：内存管理" class="headerlink" title="重新认识 Python（2）：内存管理"></a>重新认识 Python（2）：内存管理</h1><p>理解内存管理需要知道通常内存使用的基本规则。一般来说，一个进程的内存会被划分成两个部分，堆（heap）和栈（stack）。栈的结构相对简单，本质上就是一个先进后出队列，所有被分配在栈上的值必须是确定大小的、静态的。栈的功能主要是临时存储函数运行时的参数、临时变量和结果。显然，在程序运行的时候，我们需要产生许多大小不固定且动态的值，比如对象、列表、字典等等，这些数据结构不能直接分配到栈上，因此我们需要堆来存放这些值。相应的，堆的内存空间往往比栈大的多。</p>
@@ -1813,33 +1889,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python无成本加速技巧</title>
-    <url>/2020/06/14/python_speedup/</url>
-    <content><![CDATA[<p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
-<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
-<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
-
-<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
-<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
-<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
-<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
-<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>看哪!万众期待的仆人 - 以赛亚书49</title>
     <url>/2020/06/14/yisaiya3/</url>
     <content><![CDATA[<h1 id="预言中新的仆人"><a href="#预言中新的仆人" class="headerlink" title="预言中新的仆人"></a>预言中新的仆人</h1><blockquote>
@@ -1872,6 +1921,33 @@
       </categories>
       <tags>
         <tag>以赛亚书</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python无成本加速技巧</title>
+    <url>/2020/06/14/python_speedup/</url>
+    <content><![CDATA[<p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
+<h1 id="x1f334-Python到底慢在哪里？"><a href="#x1f334-Python到底慢在哪里？" class="headerlink" title="&#x1f334; Python到底慢在哪里？"></a><span class="github-emoji" alias="palm_tree" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png?v8">&#x1f334;</span> Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
+<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
+
+<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
+<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
+<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
+<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
+<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span><span class="params">(size: float)</span> -&gt; int:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">        sum += i</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(size):</span><br><span class="line">        sum = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
@@ -1915,34 +1991,6 @@
 </blockquote>
 </blockquote>
 <h2 id="要听耶和华的声音，免得失去救恩"><a href="#要听耶和华的声音，免得失去救恩" class="headerlink" title="要听耶和华的声音，免得失去救恩"></a>要听耶和华的声音，免得失去救恩</h2><p>因为他是独一真神，在没有别的神。</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>以赛亚书</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>“你不要惧怕，我是你的神” - 以赛亚书41</title>
-    <url>/2020/05/17/yisaiya2/</url>
-    <content><![CDATA[<p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
-<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
-<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
-<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
-<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
-<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
-<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
-<p>先知以赛亚是这样说的：</p>
-<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
-<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
-<p>我们认为我们只能自己面对一切。</p>
-<p>我们害怕自己不能掌控的事情。</p>
-<p>但是，</p>
-<p>神，掌管一切。</p>
-<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
-<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
-<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
 ]]></content>
       <categories>
         <category>Bible</category>
@@ -2048,6 +2096,34 @@
       </categories>
       <tags>
         <tag>Bible</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>“你不要惧怕，我是你的神” - 以赛亚书41</title>
+    <url>/2020/05/17/yisaiya2/</url>
+    <content><![CDATA[<p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
+<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
+<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
+<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
+<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
+<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
+<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
+<p>先知以赛亚是这样说的：</p>
+<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
+<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
+<p>我们认为我们只能自己面对一切。</p>
+<p>我们害怕自己不能掌控的事情。</p>
+<p>但是，</p>
+<p>神，掌管一切。</p>
+<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
+<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
+<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>以赛亚书</tag>
       </tags>
   </entry>
   <entry>
@@ -2536,24 +2612,6 @@
       </tags>
   </entry>
   <entry>
-    <title>为Hexo拓展功能</title>
-    <url>/2020/04/13/chord_3/</url>
-    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
-<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
-<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Js</tag>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>很潮的属11和弦</title>
     <url>/2020/04/13/chord_2/</url>
     <content><![CDATA[<p>在我们想要结束一段的时候，通常会用V -&gt; I的方式结束。以下我们用C调说明。</p>
@@ -2584,6 +2642,24 @@
       </categories>
       <tags>
         <tag>Chord</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>为Hexo拓展功能</title>
+    <url>/2020/04/13/chord_3/</url>
+    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
+<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
+<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Js</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
