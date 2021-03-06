@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic|Encode Sans:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="PyOS - 一个Python写的OS（1） 引用自David Beazley的视频PPT  PyOS 这个系列，我们进一步利用协程的特性，一步一步的构建一个多任务操作系统。系列的最后，我们会在我们自己写的PyOS上实现一个 Web Client&#x2F;Server。 当然，这不是真正的操作系统，而是一个操作系统上的操作系统。。哈哈。完成这个系列可以对并发编程、协程、操作系统多任务管理、IO有更深刻的认">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编程101 PyOS 一个Python写的OS">
+<meta property="og:url" content="http://yoursite.com/2021/03/06/pyos_1/index.html">
+<meta property="og:site_name" content="Zhe">
+<meta property="og:description" content="PyOS - 一个Python写的OS（1） 引用自David Beazley的视频PPT  PyOS 这个系列，我们进一步利用协程的特性，一步一步的构建一个多任务操作系统。系列的最后，我们会在我们自己写的PyOS上实现一个 Web Client&#x2F;Server。 当然，这不是真正的操作系统，而是一个操作系统上的操作系统。。哈哈。完成这个系列可以对并发编程、协程、操作系统多任务管理、IO有更深刻的认">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/pYNOZgW.png">
+<meta property="article:published_time" content="2021-03-06T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-06T22:10:57.677Z">
+<meta property="article:author" content="Zhe">
+<meta property="article:tag" content="Operating System">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Concurrent">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/pYNOZgW.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/03/06/pyos_1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>编程101 PyOS 一个Python写的OS | Zhe</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66629043-1"></script>
+    <script pjax>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-66629043-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhe</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Unstable Correlation</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-arts">
+
+    <a href="/arts/" rel="section"><i class="fa fa-fw fa-microchip"></i>Arts</a>
+
+  </li>
+        <li class="menu-item menu-item-readings">
+
+    <a href="/readings/" rel="section"><i class="fa fa-fw fa-archive"></i>Readings</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/06/pyos_1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          编程101 PyOS 一个Python写的OS
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-03-06 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-06T00:00:00Z">2021-03-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/03/06/pyos_1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/06/pyos_1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>4 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="PyOS-一个Python写的OS（1）"><a href="#PyOS-一个Python写的OS（1）" class="headerlink" title="PyOS - 一个Python写的OS（1）"></a>PyOS - 一个Python写的OS（1）</h1><blockquote>
+<p>引用自David Beazley的视频PPT</p>
+</blockquote>
+<p>PyOS 这个系列，我们进一步利用协程的特性，一步一步的构建一个多任务操作系统。系列的最后，我们会在我们自己写的PyOS上实现一个 Web Client/Server。</p>
+<p>当然，这不是真正的操作系统，而是一个操作系统上的操作系统。。哈哈。完成这个系列可以对并发编程、协程、操作系统多任务管理、IO有更深刻的认识。当然，你还会收货成就感。</p>
+<p>对协程不太了解的同学请看：<a href="https://zhuanlan.zhihu.com/p/354982602" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/354982602</a></p>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><p>需要指出的是，当CPU（假设只有一个核心）运行你的代码时，OS自己的代码就不可能被执行。那么，操作系统是如何拿回控制权的呢？通常，操作系统有两种方式拿回CPU的控制权：Interrupt和Traps。Interrupt通常是IO或者计时器发出的，而Trap是其他软件生成的给CPU的信号。当CPU收到这两种信号后，会挺会手上的活，移交执行权给OS代码。当应用程序调用OS提供的底层函数时，通常会产生Trap，从而把执行权交还OS。</p>
+<p>所以，某种程度上说，OS的一个重要的组成部分就是多任务切换和管理，充分利用有限的CPU资源。</p>
+<p><img data-src="https://i.imgur.com/pYNOZgW.png" alt="OS多任务"></p>
+<h2 id="用-协程-构建OS"><a href="#用-协程-构建OS" class="headerlink" title="用 协程 构建OS"></a>用 协程 构建OS</h2><p>如果你还记得上一次我们讲到的<code>yield</code>关键字，你会发现他就是一个Trap，一个协程会在 yield的时候交出执行权！利用这点，我们就可以用 协程 构建一个多任务操作系统！不需要线程、进程。</p>
+<p>首先，既然是多任务系统，我们首先要抽象一个Task对象出来，代表任务。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Task</span><span class="params">(object)</span>:</span></span><br><span class="line">    taskid = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,target)</span>:</span></span><br><span class="line">        <span class="comment"># class variable</span></span><br><span class="line">        Task.taskid += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># object</span></span><br><span class="line">        self.tid     = Task.taskid   <span class="comment"># Task ID</span></span><br><span class="line">        self.target  = target        <span class="comment"># Target coroutine</span></span><br><span class="line">        self.sendval = <span class="literal">None</span>          <span class="comment"># Value to send</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Run a task until it hits the next yield statement</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.target.send(self.sendval)</span><br><span class="line"></span><br><span class="line"><span class="comment"># A simple generator/coroutine function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">print</span> ( <span class="string">"Part 1"</span> )</span><br><span class="line">    <span class="keyword">yield</span></span><br><span class="line">    <span class="keyword">print</span> ( <span class="string">"Part 2"</span> )</span><br><span class="line">    <span class="keyword">yield</span></span><br><span class="line"></span><br><span class="line">t1 = Task(foo())</span><br><span class="line"><span class="keyword">print</span> ( <span class="string">"Running foo()"</span> )</span><br><span class="line">t1.run()</span><br><span class="line"><span class="keyword">print</span> ( <span class="string">"Resuming foo()"</span> )</span><br><span class="line">t1.run()</span><br></pre></td></tr></table></figure>
+
+<p>上面的例子中，<code>foo</code> 是一个 协程，然后被放入Task中，foo 会在 yield 的地方把执行权交还系统。接下来，我们需要实现一个 调度器，对任务进行管理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Task</span><span class="params">(object)</span>:</span></span><br><span class="line">    taskid = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,target)</span>:</span></span><br><span class="line">        <span class="comment"># class variable</span></span><br><span class="line">        Task.taskid += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># object</span></span><br><span class="line">        self.tid     = Task.taskid   <span class="comment"># Task ID</span></span><br><span class="line">        self.target  = target        <span class="comment"># Target coroutine</span></span><br><span class="line">        self.sendval = <span class="literal">None</span>          <span class="comment"># Value to send</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Run a task until it hits the next yield statement</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.target.send(self.sendval)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ------------------------------------------------------------</span></span><br><span class="line"><span class="comment">#                      === Scheduler ===</span></span><br><span class="line"><span class="comment"># ------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">from</span> queue <span class="keyword">import</span> Queue</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scheduler</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># ready 就是 任务 队列</span></span><br><span class="line">        self.ready   = Queue()</span><br><span class="line">        <span class="comment"># taskmap 是一个字典，用来记录任务ID 和 任务实例</span></span><br><span class="line">        self.taskmap = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">new</span><span class="params">(self, target)</span>:</span></span><br><span class="line">        <span class="comment"># 向系统增加新的任务，并返回生成的任务ID</span></span><br><span class="line">        newtask = Task(target)</span><br><span class="line">        self.taskmap[newtask.tid] = newtask</span><br><span class="line">        self.schedule(newtask)</span><br><span class="line">        <span class="keyword">return</span> newtask.tid</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">schedule</span><span class="params">(self, task)</span>:</span></span><br><span class="line">        <span class="comment"># 将任务放入执行队列等待执行</span></span><br><span class="line">        self.ready.put(task)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mainloop</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> self.taskmap:</span><br><span class="line">           <span class="comment"># 系统的主循环，不断轮训任务队列，并执行直到任务的下一个yield（ trap ）</span></span><br><span class="line">            task = self.ready.get()</span><br><span class="line">            result = task.run()</span><br><span class="line">            self.schedule(task)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Two tasks</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">print</span> ( <span class="string">"I'm foo"</span> )</span><br><span class="line">            <span class="keyword">yield</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">print</span> ( <span class="string">"I'm bar"</span> )</span><br><span class="line">            <span class="keyword">yield</span></span><br><span class="line">            </span><br><span class="line">    <span class="comment"># Run them</span></span><br><span class="line">    sched = Scheduler()</span><br><span class="line">    sched.new(foo())</span><br><span class="line">    sched.new(bar())</span><br><span class="line">    sched.mainloop()</span><br></pre></td></tr></table></figure>
+
+<p>上面的例子中，foo bar程序会在调度器的控制下交替执行，直到永远。。对应的代码即见注释。简单来说，就是系统会不断轮训任务队列，并执行任务，直到任务的下一个 yield，系统进入新的循环。</p>
+<p>现在有一个问题，就是我们的 任务其实是协程，Python的协程在执行接触后，会抛出<code>StopIteration</code> 异常，我们的系统主循环就会crash。所以，我们需要一个优雅的结束任务的方式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scheduler</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># ready 就是 任务 队列</span></span><br><span class="line">        self.ready   = Queue()</span><br><span class="line">        <span class="comment"># taskmap 是一个字典，用来记录任务ID 和 任务实例</span></span><br><span class="line">        self.taskmap = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">new</span><span class="params">(self, target)</span>:</span></span><br><span class="line">        <span class="comment"># 向系统增加新的任务，并返回生成的任务ID</span></span><br><span class="line">        newtask = Task(target)</span><br><span class="line">        self.taskmap[newtask.tid] = newtask</span><br><span class="line">        self.schedule(newtask)</span><br><span class="line">        <span class="keyword">return</span> newtask.tid</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">exit</span><span class="params">(self, task)</span>:</span></span><br><span class="line">        <span class="comment"># 优雅的结束任务！</span></span><br><span class="line">        print(<span class="string">'Task %d terminated'</span> % task.taskid)</span><br><span class="line">        <span class="keyword">del</span> self.taskmap[task.taskid]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">schedule</span><span class="params">(self, task)</span>:</span></span><br><span class="line">        <span class="comment"># 将任务放入执行队列等待执行</span></span><br><span class="line">        self.ready.put(task)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mainloop</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> self.taskmap:</span><br><span class="line">            <span class="comment"># 系统的主循环，不断轮训任务队列，并执行直到任务的下一个yield（ trap ）</span></span><br><span class="line">            task = self.ready.get()</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                result = task.run()</span><br><span class="line">            <span class="keyword">except</span> StopIteration:</span><br><span class="line">                self.exit(task)</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            self.schedule(task)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">            print(<span class="string">"I'm foo"</span>)</span><br><span class="line">            <span class="keyword">yield</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">            print(<span class="string">"I'm bar"</span>)</span><br><span class="line">            <span class="keyword">yield</span></span><br><span class="line"></span><br><span class="line">    sched = Scheduler()</span><br><span class="line">    sched.new(foo())</span><br><span class="line">    sched.new(bar())</span><br><span class="line">    sched.mainloop()</span><br></pre></td></tr></table></figure>
+
+<h2 id="OS-call"><a href="#OS-call" class="headerlink" title="OS call"></a>OS call</h2><p>是不是很有成就感？我们的多任务OS已经基本可以运行了！其实，这里的 Scheduler 就是我们的OS，而Task就是跑在系统中的一个个进程。现在，我们给我们的OS提供一些基本的 System Call。因为在现实的OS中，应用程序需要 system call 来操作系统资源。为了请求系统资源，任务会用到带值的 yield 。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SystemCall</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>首先，我们 写一个 system call 的基类作为其他 OS call 的接口。然后，我们需要修改OS 的循环来处理 OS call。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 注意这里仅给出了 mainloop 部分。</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mainloop</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> self.taskmap:</span><br><span class="line">            <span class="comment"># 系统的主循环，不断轮训任务队列，并执行直到任务的下一个yield（ trap ）</span></span><br><span class="line">            task = self.ready.get()</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                result = task.run()</span><br><span class="line">                <span class="keyword">if</span> isinstance(result, SystemCall):</span><br><span class="line">                    result.task  = task</span><br><span class="line">                    result.sched = self</span><br><span class="line">                    result.handle()</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                    </span><br><span class="line">            <span class="keyword">except</span> StopIteration:</span><br><span class="line">                self.exit(task)</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            self.schedule(task)</span><br></pre></td></tr></table></figure>
+
+<p>ok，框架搭好了，我们来实现第一个 OS call： GetTid，向系统请求任务ID。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Return a task's ID number</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetTid</span><span class="params">(SystemCall)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.task.sendval = self.task.tid</span><br><span class="line">        self.sched.schedule(self.task)</span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">        mytid = <span class="keyword">yield</span> GetTid()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">5</span>):</span><br><span class="line">            <span class="keyword">print</span> <span class="string">"I'm foo"</span>, mytid</span><br><span class="line">            <span class="keyword">yield</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">()</span>:</span></span><br><span class="line">        mytid = <span class="keyword">yield</span> GetTid()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">10</span>):</span><br><span class="line">            <span class="keyword">print</span> <span class="string">"I'm bar"</span>, mytid</span><br><span class="line">            <span class="keyword">yield</span></span><br><span class="line"></span><br><span class="line">    sched = Scheduler()</span><br><span class="line">    sched.new(foo())</span><br><span class="line">    sched.new(bar())</span><br><span class="line">    sched.mainloop()</span><br><span class="line"><span class="comment"># 输出：</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">I'm foo 1</span></span><br><span class="line"><span class="string">I'm bar 2</span></span><br><span class="line"><span class="string">I'm foo 1</span></span><br><span class="line"><span class="string">I'm bar 2</span></span><br><span class="line"><span class="string">I'm foo 1</span></span><br><span class="line"><span class="string">I'm bar 2</span></span><br><span class="line"><span class="string">I'm foo 1</span></span><br><span class="line"><span class="string">I'm bar 2</span></span><br><span class="line"><span class="string">I'm foo 1</span></span><br><span class="line"><span class="string">I'm bar 2</span></span><br><span class="line"><span class="string">I'm foo 1</span></span><br><span class="line"><span class="string">Task 2 terminated</span></span><br><span class="line"><span class="string">I'm foo 1</span></span><br><span class="line"><span class="string">I'm foo 1</span></span><br><span class="line"><span class="string">I'm foo 1</span></span><br><span class="line"><span class="string">I'm foo 1</span></span><br><span class="line"><span class="string">Task 1 terminated</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p>恭喜你！PyOS 0.1 已经实现了！</p>
+<p>接下来我们会增加更多的 OS call，然后我们会进入 I/O 相关的任务，最后，我们会在PyOS上跑一个web server。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Operating-System/" rel="tag"># Operating System</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Concurrent/" rel="tag"># Concurrent</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/05/python_concurrent/" rel="prev" title="重新认识 Python（4）并发模型">
+      <i class="fa fa-chevron-left"></i> 重新认识 Python（4）并发模型
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PyOS-一个Python写的OS（1）"><span class="nav-number">1.</span> <span class="nav-text">PyOS - 一个Python写的OS（1）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统"><span class="nav-number">1.1.</span> <span class="nav-text">操作系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用-协程-构建OS"><span class="nav-number">1.2.</span> <span class="nav-text">用 协程 构建OS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OS-call"><span class="nav-number">1.3.</span> <span class="nav-text">OS call</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Zhe"
+      src="/images/lambda.jpeg">
+  <p class="site-author-name" itemprop="name">Zhe</p>
+  <div class="site-description" itemprop="description">Things are correlated</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhe</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">140k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">2:08</span>
+</div>
+
+<span id="timeDate">Loding time...</span><span id="times">...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2020 00:00:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "Running for "+dnum+" Days "; 
+        document.getElementById("times").innerHTML = hnum + " Hour " + mnum + " Min " + snum + " Secs"; 
+    } 
+setInterval("createtime()",250);
+</script>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://wangzhe.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2021/03/06/pyos_1/";
+    this.page.identifier = "2021/03/06/pyos_1/";
+    this.page.title = "编程101 PyOS 一个Python写的OS";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://wangzhe.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>
