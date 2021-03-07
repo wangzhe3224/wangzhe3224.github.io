@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>编程101 PyOS 一个Python写的OS 3</title>
+    <url>/2021/03/07/pyos_3/</url>
+    <content><![CDATA[<blockquote>
+<p>PyOS 0.3</p>
+</blockquote>
+<h1 id="PyOS-一个Python写的OS（3）"><a href="#PyOS-一个Python写的OS（3）" class="headerlink" title="PyOS - 一个Python写的OS（3）"></a>PyOS - 一个Python写的OS（3）</h1><p>目录：</p>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/355189750" target="_blank" rel="noopener">PyOS - 一个Python写的OS（1）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/355297680" target="_blank" rel="noopener">PyOS - 一个Python写的OS（2）</a></li>
+</ul>
+<h2 id="实现子函数"><a href="#实现子函数" class="headerlink" title="实现子函数"></a>实现子函数</h2><p>在之前实现的OS中，我们的任务存在一个问题，就是不能进行非阻塞子函数调用。为啥呢？看如下例子：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    <span class="keyword">yield</span> a + b</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    y = <span class="keyword">yield</span> add(<span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">    print(y)</span><br><span class="line">    <span class="keyword">yield</span></span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">    m      = main()       </span><br><span class="line">    sub    = m.send(<span class="literal">None</span>)             </span><br><span class="line">    result = sub.send(<span class="literal">None</span>)</span><br><span class="line">    m.send(result)</span><br><span class="line">    </span><br><span class="line">run()</span><br></pre></td></tr></table></figure>
+
+<p>上面这段函数的调用过程如下图：</p>
+<p><img data-src="https://i.imgur.com/WBtCFuj.png" alt="Copyright (C) 2009, David Beazley, http://www.dabeaz.com"></p>
+<p>问题出在我们的 Task 的结构，如果我们想要进行子函数调用，我们就需要一个 栈。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Task</span><span class="params">(object)</span>:</span></span><br><span class="line">    taskid = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,target)</span>:</span></span><br><span class="line">        Task.taskid += <span class="number">1</span></span><br><span class="line">        self.tid     = Task.taskid   <span class="comment"># Task ID</span></span><br><span class="line">        self.target  = target        <span class="comment"># Target coroutine</span></span><br><span class="line">        self.sendval = <span class="literal">None</span>          <span class="comment"># Value to send</span></span><br><span class="line">        self.stack   = []            <span class="comment"># Call stack</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 加入 栈 后我们需要更新 task 的运行</span></span><br><span class="line">    <span class="comment"># 之前我们只需要直接通过send 触发 协程，现在我们需要考虑函数栈的值</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="comment"># 执行到下一个 yield</span></span><br><span class="line">                result = self.target.send(self.sendval)</span><br><span class="line">                <span class="comment"># 检查结果</span></span><br><span class="line">                <span class="keyword">if</span> isinstance(result, SystemCall): <span class="keyword">return</span> result</span><br><span class="line">                <span class="comment"># 我们关心返回值为协程的调用，意味着发生了子函数调用</span></span><br><span class="line">                <span class="keyword">if</span> isinstance(result, types.GeneratorType):</span><br><span class="line">                    <span class="comment"># 我们需要把 主函数 进栈，把执行对象换成 子函数</span></span><br><span class="line">                    self.stack.append(self.target)</span><br><span class="line">                    self.sendval = <span class="literal">None</span></span><br><span class="line">                    self.target  = result</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment"># 如果返回值不是协程，说明子函数已经返回了</span></span><br><span class="line">                    <span class="keyword">if</span> <span class="keyword">not</span> self.stack: <span class="keyword">return</span></span><br><span class="line">                    <span class="comment"># 这时，我们把子函数的返回值发送给 主函数，并把当前执行对象换成主函数</span></span><br><span class="line">                    self.sendval = result</span><br><span class="line">                    self.target  = self.stack.pop()</span><br><span class="line">            <span class="keyword">except</span> StopIteration:</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> self.stack: <span class="keyword">raise</span></span><br><span class="line">                self.sendval = <span class="literal">None</span></span><br><span class="line">                self.target = self.stack.pop()</span><br></pre></td></tr></table></figure>
+
+<p>具体解释在注释里。</p>
+<h2 id="封装一些IO操作"><a href="#封装一些IO操作" class="headerlink" title="封装一些IO操作"></a>封装一些IO操作</h2><p>有了子函数后，我们就可以对之前的一些 IO 操作进行封装，隐藏 具体的 yield 信息。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ------------------------------------------------------------</span></span><br><span class="line"><span class="comment">#                      === Library Functions ===</span></span><br><span class="line"><span class="comment"># ------------------------------------------------------------</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Accept</span><span class="params">(sock)</span>:</span></span><br><span class="line">    <span class="keyword">yield</span> ReadWait(sock)</span><br><span class="line">    <span class="keyword">yield</span> sock.accept()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Send</span><span class="params">(sock,buffer)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> buffer:</span><br><span class="line">        <span class="keyword">yield</span> WriteWait(sock)</span><br><span class="line">        len = sock.send(buffer)</span><br><span class="line">        buffer = buffer[len:]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Recv</span><span class="params">(sock,maxbytes)</span>:</span></span><br><span class="line">    <span class="keyword">yield</span> ReadWait(sock)</span><br><span class="line">    <span class="keyword">yield</span> sock.recv(maxbytes)</span><br></pre></td></tr></table></figure>
+
+<p>比如上面就是三个Socket相关的函数，现在我们可以用这些系统库重写我们上一次的 Echo Server。</p>
+<h2 id="重写-Echo-Server"><a href="#重写-Echo-Server" class="headerlink" title="重写 Echo Server"></a>重写 Echo Server</h2><p>这里我们不再需要直接OS call，而是使用一些封装的库函数：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> coroutine.os.pyos1 <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_client</span><span class="params">(client, addr)</span>:</span></span><br><span class="line">    print(<span class="string">'Connection from '</span>, addr)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># OS call： read</span></span><br><span class="line">        <span class="comment"># 注意这里不再是OS call， 而是一个OS 的library call</span></span><br><span class="line">        data = <span class="keyword">yield</span> Recv(client,<span class="number">65536</span>)</span><br><span class="line">        print(<span class="string">'Server receive '</span>, data)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> data:</span><br><span class="line">            <span class="comment"># FD 已经关闭了</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="comment"># Echo</span></span><br><span class="line">        <span class="comment"># 注意这里不再是OS call， 而是一个OS 的library call</span></span><br><span class="line">        print(<span class="string">'Server echo back'</span>, data)</span><br><span class="line">        <span class="keyword">yield</span> Send(client,data)</span><br><span class="line"></span><br><span class="line">    client.close()</span><br><span class="line">    print(<span class="string">'Client closed.'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">server</span><span class="params">(port)</span>:</span></span><br><span class="line">    <span class="comment"># 这是一个支持并发的 echo server</span></span><br><span class="line">    print(<span class="string">'Server start..'</span>)</span><br><span class="line">    sock = socket(AF_INET, SOCK_STREAM)</span><br><span class="line">    sock.setsockopt(SOL_SOCKET,SO_REUSEADDR,<span class="number">1</span>)</span><br><span class="line">    sock.bind((<span class="string">""</span>,port))</span><br><span class="line">    sock.listen(<span class="number">1024</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">yield</span> ReadWait(sock)</span><br><span class="line">        client, addr = sock.accept()</span><br><span class="line">        <span class="keyword">yield</span> NewTask(handle_client(client, addr))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sched = Scheduler()</span><br><span class="line">sched.schedule(Task(server(<span class="number">45000</span>)))</span><br><span class="line"><span class="comment"># 启动系统</span></span><br><span class="line">sched.mainloop()</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>这个系列就高于段落了，我们的PyOS停留在了0.3，其实还有很多东西可以考虑，比如：</p>
+<ul>
+<li>任务之间的通讯</li>
+<li>阻塞任务，比如数据库读取</li>
+<li>任务和线程结合</li>
+<li>异常处理</li>
+</ul>
+<h2 id="最后最后"><a href="#最后最后" class="headerlink" title="最后最后"></a>最后最后</h2><p>其实，这个系列主要是想探索Python的协程并发编程，Python 3.5 以后引入了 <code>async/await</code> 关键字和一个相关的异步IO库 <code>asyncio</code>，这些内容都跟这个系列有些许的联系。</p>
+<p>关于Python的并发，如果感兴趣还可以看：</p>
+<ul>
+<li>Stackless Python</li>
+<li>Greenlet</li>
+<li>Eventlet</li>
+<li>Cogen</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Operating System</tag>
+        <tag>Python</tag>
+        <tag>Concurrent</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>雅各书 3-4</title>
     <url>/2021/03/07/yageshu_13/</url>
     <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
@@ -284,6 +337,54 @@
       </tags>
   </entry>
   <entry>
+    <title>重新认识 Python（3）GIL</title>
+    <url>/2021/02/18/python_gil/</url>
+    <content><![CDATA[<h1 id="重新认识Python（3）：GIL，Global-Interpreter-Lock"><a href="#重新认识Python（3）：GIL，Global-Interpreter-Lock" class="headerlink" title="重新认识Python（3）：GIL，Global Interpreter Lock"></a>重新认识Python（3）：GIL，Global Interpreter Lock</h1><p>之前的两个文章主要简述了Python的内存管理模型和对应的GC模型。今天我们来看看Python的另一个“著名”特征：GIL，全局解释器锁。GIL长久以来被各种内行、外行诟病，可是很多人并不清楚GIL究竟是什么？为什么当初要设计GIL？GIL的优势在哪里？</p>
+<h2 id="Python-是如何工作的？"><a href="#Python-是如何工作的？" class="headerlink" title="Python 是如何工作的？"></a>Python 是如何工作的？</h2><p>要理解 GIL 需要知道一些Python解释器的运行原理。Python的解释器其实一个循环，循环里是一系列的cases，逐行读取编译后的Opcode进行计算，每一个线程都有独立的这么一个循环。这里插一嘴，其实Python不是解释型语言，起码不是纯粹的解释型，Python源代码会被编译成Python自己的byte code，就是上面循环中的那些opcode。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (;;) &#123;</span><br><span class="line">    assert(stack_pointer &gt;= f-&gt;f_valuestack); <span class="comment">/* else underflow */</span></span><br><span class="line">    assert(STACK_LEVEL() &lt;= co-&gt;co_stacksize);  <span class="comment">/* else overflow */</span></span><br><span class="line">    assert(!PyErr_Occurred());</span><br><span class="line">    <span class="comment">// 这部分省略的代码就是后面GIL的关键。。我们先来看看解释器的循环</span></span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">    <span class="comment">/* Extract opcode and argument */</span></span><br><span class="line"></span><br><span class="line">        NEXTOPARG();</span><br><span class="line">    dispatch_opcode:</span><br><span class="line">      <span class="keyword">switch</span> (opcode) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* BEWARE!</span></span><br><span class="line"><span class="comment">           It is essential that any operation that fails sets either</span></span><br><span class="line"><span class="comment">           x to NULL, err to nonzero, or why to anything but WHY_NOT,</span></span><br><span class="line"><span class="comment">           and that no operation that succeeds does this! */</span></span><br><span class="line"></span><br><span class="line">        TARGET(NOP)</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line"></span><br><span class="line">        TARGET(LOAD_FAST) &#123;</span><br><span class="line">            PyObject *value = GETLOCAL(oparg);</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="literal">NULL</span>) &#123;</span><br><span class="line">                format_exc_check_arg(PyExc_UnboundLocalError,</span><br><span class="line">                                     UNBOUNDLOCAL_ERROR_MSG,</span><br><span class="line">                                     PyTuple_GetItem(co-&gt;co_varnames, oparg));</span><br><span class="line">                <span class="keyword">goto</span> error;</span><br><span class="line">            &#125;</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        PREDICTED(LOAD_CONST);</span><br><span class="line">        TARGET(LOAD_CONST) &#123;</span><br><span class="line">            PyObject *value = GETITEM(consts, oparg);</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
+
+<p>主要参考的<a href="https://github.com/python/cpython/blob/ef5f4ba96e05f61ad3baca502012085f31e99342/Python/ceval.c#L930-L1064" target="_blank" rel="noopener">源代码</a>在这里。</p>
+<p>当然，为了支持计算Python的runtime还会准备对应的Frame、全局变量等等。</p>
+<h2 id="GIL-是什么？"><a href="#GIL-是什么？" class="headerlink" title="GIL 是什么？"></a>GIL 是什么？</h2><p>上面我们提到，每一个线程都有自己独立的执行循环，但是这些执行循环并不是相互独立的，他们必然会共享一些内存，这里起就是经典的并发问题，比如race condition等等。并发模型的实现由很多方法，我们听到最多、看起来也最简单的方法就是基于锁的方法。Python其实就选择这个方法，GIL也就诞生了。</p>
+<p>GIL就是一个锁，每一个线程的执行循环，只有拿到GIL，才可以执行，否则就要等待，而一个Python进程只有一个GIL锁，所以它才叫全局锁。GIL可以保证，在同一时间，只有一个线程可以拿到这个锁。</p>
+<p>这里我参考了一个小哥的代码，他简单的实现了Python版本的GIL，方便我们理解GIL。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> SimpleNamespace</span><br><span class="line"></span><br><span class="line">DEFAULT_INTERVAL = <span class="number">0.05</span></span><br><span class="line"></span><br><span class="line">gil_mutex = threading.RLock()</span><br><span class="line">gil_condition = threading.Condition(lock=gil_mutex)</span><br><span class="line">switch_condition = threading.Condition()</span><br><span class="line"></span><br><span class="line"><span class="comment"># dictionary-like object that supports dot (attribute) syntax</span></span><br><span class="line">gil = SimpleNamespace(</span><br><span class="line">    drop_request=<span class="literal">False</span>,</span><br><span class="line">    locked=<span class="literal">True</span>,</span><br><span class="line">    switch_number=<span class="number">0</span>,</span><br><span class="line">    last_holder=<span class="literal">None</span>,</span><br><span class="line">    eval_breaker=<span class="literal">True</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">drop_gil</span><span class="params">(thread_id)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> gil.locked:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">"GIL is not locked"</span>)</span><br><span class="line"></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    gil.last_holder = thread_id</span><br><span class="line">    gil.locked = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Signals that the GIL is now available for acquiring to the first awaiting thread</span></span><br><span class="line">    gil_condition.notify()</span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching</span></span><br><span class="line">    <span class="comment"># Lock current thread so it will not immediately reacquire the GIL</span></span><br><span class="line">    <span class="comment"># this ensures that another GIL-awaiting thread have a chance to get scheduled</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        switch_condition.acquire()</span><br><span class="line">        <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">            gil.drop_request = <span class="literal">False</span></span><br><span class="line">            switch_condition.wait()</span><br><span class="line"></span><br><span class="line">        switch_condition.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">take_gil</span><span class="params">(thread_id)</span>:</span></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> gil.locked:</span><br><span class="line">        saved_switchnum = gil.switch_number</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Release the lock and wait for a signal from a GIL holding thread,</span></span><br><span class="line">        <span class="comment"># set drop_request=True if the wait is timed out</span></span><br><span class="line"></span><br><span class="line">        timed_out = <span class="keyword">not</span> gil_condition.wait(timeout=DEFAULT_INTERVAL)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> timed_out <span class="keyword">and</span> gil.locked <span class="keyword">and</span> gil.switch_number == saved_switchnum:</span><br><span class="line">            gil.drop_request = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># lock for force switching</span></span><br><span class="line">    switch_condition.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Now we hold the GIL</span></span><br><span class="line">    gil.locked = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.last_holder != thread_id:</span><br><span class="line">        gil.last_holder = thread_id</span><br><span class="line">        gil.switch_number += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching, send signal to drop_gil</span></span><br><span class="line">    switch_condition.notify()</span><br><span class="line">    switch_condition.release()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execution_loop</span><span class="params">(target_function, thread_id)</span>:</span></span><br><span class="line">    <span class="comment"># Compile Python function down to bytecode and execute it in the while loop</span></span><br><span class="line"></span><br><span class="line">    bytecode = compile(target_function)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># drop_request indicates that one or more threads are awaiting for the GIL</span></span><br><span class="line">        <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">            <span class="comment"># release the gil from the current thread</span></span><br><span class="line">            drop_gil(thread_id)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># immediately request the GIL for the current thread</span></span><br><span class="line">            <span class="comment"># at this point the thread will be waiting for GIL and suspended until the function return</span></span><br><span class="line">            take_gil(thread_id)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># bytecode execution logic, executes one instruction at a time</span></span><br><span class="line">        instruction = bytecode.next_instruction()</span><br><span class="line">        <span class="keyword">if</span> instruction <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            execute_opcode(instruction)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p>看代码我们可以知道：</p>
+<ul>
+<li>Python创建一个新的thread的时候，会首先call <code>take_gil</code> 尝试得到 GIL，然后才进入执行循环</li>
+<li>通过在循环的开始部分检查gil状态，可以确保只有一个线程在执行</li>
+</ul>
+<p>目前这个版本的GIL其实也实现一些scheduler的功能，比如：</p>
+<p><code>gil.drop_request</code> 为True就表明有其他的线程在等待执行，当前进程就会首先尝试放弃gil，给其他线程机会，然后他会立刻尝试夺回gil，以便自己可以继续运行。聪明的你可能想问，马上尝试夺回，那别的进程怎么办啊？</p>
+<p>仔细看 <code>drop_gil</code> 函数:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> gil.drop_request:</span><br><span class="line">    switch_condition.acquire()</span><br><span class="line">    <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line">        switch_condition.wait()</span><br><span class="line"></span><br><span class="line">    switch_condition.release()</span><br></pre></td></tr></table></figure>
+
+<p>这段代码确保如果，OS分配的下一个线程还是自己，该线程就会被迫等待，确保其他进程有机会被系统的线程调度器分配。</p>
+<p>CPython的源码在<a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h" target="_blank" rel="noopener">这里</a></p>
+<h2 id="关于GIL的思考"><a href="#关于GIL的思考" class="headerlink" title="关于GIL的思考"></a>关于GIL的思考</h2><p>GIL从1992年诞生到现在，其实经历一些变化。在GIL被设计的年代，多核CPU基本不存在，当时的线程也主要是用来做IO类型的工作，所以GIL的设计处理多线程IO效率非常高。</p>
+<p>GIL的存在也让Python的单核性能大大增加，其实GIL是Python成功的一个重要原因。后来GIL加入了 <code>switch_condition</code>, <code>switch_number</code>, <code>timeout</code> 等参数，很大程度改善了多核处理下GIL线程schedule的问题。Python3以后的GIL仍然无法实现真正的CPU密集并行的多线程。不过这里说的线程都是OS线程，这不妨碍实现软件线程。</p>
+<p>GIL难以被完全移除有很多原因，比如</p>
+<ul>
+<li>移除GIL，就需要修改Python的GC机制，特别是reference counting</li>
+<li>GIL移除，会降低单核性能。因为移除全局锁，必然要引入粒度更小的锁</li>
+<li>可以考虑其他的同步机制，比如Software transactional memory，那么就要修改整个C API，基本上所有的C-API库都废了。。。。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.youtube.com/watch?v=7RlqbHCCVyc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=7RlqbHCCVyc</a></li>
+<li><a href="https://www.youtube.com/watch?v=4zeHStBowEk" target="_blank" rel="noopener">https://www.youtube.com/watch?v=4zeHStBowEk</a></li>
+<li><a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h" target="_blank" rel="noopener">https://github.com/python/cpython/blob/master/Python/ceval_gil.h</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>CPython</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>重新认识 Python（2）内存管理</title>
     <url>/2021/02/18/python_memory_mgt/</url>
     <content><![CDATA[<h1 id="重新认识-Python（2）：内存管理"><a href="#重新认识-Python（2）：内存管理" class="headerlink" title="重新认识 Python（2）：内存管理"></a>重新认识 Python（2）：内存管理</h1><p>理解内存管理需要知道通常内存使用的基本规则。一般来说，一个进程的内存会被划分成两个部分，堆（heap）和栈（stack）。栈的结构相对简单，本质上就是一个先进后出队列，所有被分配在栈上的值必须是确定大小的、静态的。栈的功能主要是临时存储函数运行时的参数、临时变量和结果。显然，在程序运行的时候，我们需要产生许多大小不固定且动态的值，比如对象、列表、字典等等，这些数据结构不能直接分配到栈上，因此我们需要堆来存放这些值。相应的，堆的内存空间往往比栈大的多。</p>
@@ -348,54 +449,6 @@
 <li><a href="https://github.com/python/cpython/blob/master/Include/object.h" target="_blank" rel="noopener">https://github.com/python/cpython/blob/master/Include/object.h</a></li>
 <li><a href="https://github.com/python/cpython/blob/ad051cbce1360ad3055a048506c09bc2a5442474/Objects/obmalloc.c#L534" target="_blank" rel="noopener">https://github.com/python/cpython/blob/ad051cbce1360ad3055a048506c09bc2a5442474/Objects/obmalloc.c#L534</a></li>
 <li><a href="https://rushter.com/blog/python-memory-managment/" target="_blank" rel="noopener">https://rushter.com/blog/python-memory-managment/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>CPython</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>重新认识 Python（3）GIL</title>
-    <url>/2021/02/18/python_gil/</url>
-    <content><![CDATA[<h1 id="重新认识Python（3）：GIL，Global-Interpreter-Lock"><a href="#重新认识Python（3）：GIL，Global-Interpreter-Lock" class="headerlink" title="重新认识Python（3）：GIL，Global Interpreter Lock"></a>重新认识Python（3）：GIL，Global Interpreter Lock</h1><p>之前的两个文章主要简述了Python的内存管理模型和对应的GC模型。今天我们来看看Python的另一个“著名”特征：GIL，全局解释器锁。GIL长久以来被各种内行、外行诟病，可是很多人并不清楚GIL究竟是什么？为什么当初要设计GIL？GIL的优势在哪里？</p>
-<h2 id="Python-是如何工作的？"><a href="#Python-是如何工作的？" class="headerlink" title="Python 是如何工作的？"></a>Python 是如何工作的？</h2><p>要理解 GIL 需要知道一些Python解释器的运行原理。Python的解释器其实一个循环，循环里是一系列的cases，逐行读取编译后的Opcode进行计算，每一个线程都有独立的这么一个循环。这里插一嘴，其实Python不是解释型语言，起码不是纯粹的解释型，Python源代码会被编译成Python自己的byte code，就是上面循环中的那些opcode。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (;;) &#123;</span><br><span class="line">    assert(stack_pointer &gt;= f-&gt;f_valuestack); <span class="comment">/* else underflow */</span></span><br><span class="line">    assert(STACK_LEVEL() &lt;= co-&gt;co_stacksize);  <span class="comment">/* else overflow */</span></span><br><span class="line">    assert(!PyErr_Occurred());</span><br><span class="line">    <span class="comment">// 这部分省略的代码就是后面GIL的关键。。我们先来看看解释器的循环</span></span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">    <span class="comment">/* Extract opcode and argument */</span></span><br><span class="line"></span><br><span class="line">        NEXTOPARG();</span><br><span class="line">    dispatch_opcode:</span><br><span class="line">      <span class="keyword">switch</span> (opcode) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* BEWARE!</span></span><br><span class="line"><span class="comment">           It is essential that any operation that fails sets either</span></span><br><span class="line"><span class="comment">           x to NULL, err to nonzero, or why to anything but WHY_NOT,</span></span><br><span class="line"><span class="comment">           and that no operation that succeeds does this! */</span></span><br><span class="line"></span><br><span class="line">        TARGET(NOP)</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line"></span><br><span class="line">        TARGET(LOAD_FAST) &#123;</span><br><span class="line">            PyObject *value = GETLOCAL(oparg);</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="literal">NULL</span>) &#123;</span><br><span class="line">                format_exc_check_arg(PyExc_UnboundLocalError,</span><br><span class="line">                                     UNBOUNDLOCAL_ERROR_MSG,</span><br><span class="line">                                     PyTuple_GetItem(co-&gt;co_varnames, oparg));</span><br><span class="line">                <span class="keyword">goto</span> error;</span><br><span class="line">            &#125;</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        PREDICTED(LOAD_CONST);</span><br><span class="line">        TARGET(LOAD_CONST) &#123;</span><br><span class="line">            PyObject *value = GETITEM(consts, oparg);</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
-
-<p>主要参考的<a href="https://github.com/python/cpython/blob/ef5f4ba96e05f61ad3baca502012085f31e99342/Python/ceval.c#L930-L1064" target="_blank" rel="noopener">源代码</a>在这里。</p>
-<p>当然，为了支持计算Python的runtime还会准备对应的Frame、全局变量等等。</p>
-<h2 id="GIL-是什么？"><a href="#GIL-是什么？" class="headerlink" title="GIL 是什么？"></a>GIL 是什么？</h2><p>上面我们提到，每一个线程都有自己独立的执行循环，但是这些执行循环并不是相互独立的，他们必然会共享一些内存，这里起就是经典的并发问题，比如race condition等等。并发模型的实现由很多方法，我们听到最多、看起来也最简单的方法就是基于锁的方法。Python其实就选择这个方法，GIL也就诞生了。</p>
-<p>GIL就是一个锁，每一个线程的执行循环，只有拿到GIL，才可以执行，否则就要等待，而一个Python进程只有一个GIL锁，所以它才叫全局锁。GIL可以保证，在同一时间，只有一个线程可以拿到这个锁。</p>
-<p>这里我参考了一个小哥的代码，他简单的实现了Python版本的GIL，方便我们理解GIL。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> SimpleNamespace</span><br><span class="line"></span><br><span class="line">DEFAULT_INTERVAL = <span class="number">0.05</span></span><br><span class="line"></span><br><span class="line">gil_mutex = threading.RLock()</span><br><span class="line">gil_condition = threading.Condition(lock=gil_mutex)</span><br><span class="line">switch_condition = threading.Condition()</span><br><span class="line"></span><br><span class="line"><span class="comment"># dictionary-like object that supports dot (attribute) syntax</span></span><br><span class="line">gil = SimpleNamespace(</span><br><span class="line">    drop_request=<span class="literal">False</span>,</span><br><span class="line">    locked=<span class="literal">True</span>,</span><br><span class="line">    switch_number=<span class="number">0</span>,</span><br><span class="line">    last_holder=<span class="literal">None</span>,</span><br><span class="line">    eval_breaker=<span class="literal">True</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">drop_gil</span><span class="params">(thread_id)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> gil.locked:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">"GIL is not locked"</span>)</span><br><span class="line"></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    gil.last_holder = thread_id</span><br><span class="line">    gil.locked = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Signals that the GIL is now available for acquiring to the first awaiting thread</span></span><br><span class="line">    gil_condition.notify()</span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching</span></span><br><span class="line">    <span class="comment"># Lock current thread so it will not immediately reacquire the GIL</span></span><br><span class="line">    <span class="comment"># this ensures that another GIL-awaiting thread have a chance to get scheduled</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        switch_condition.acquire()</span><br><span class="line">        <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">            gil.drop_request = <span class="literal">False</span></span><br><span class="line">            switch_condition.wait()</span><br><span class="line"></span><br><span class="line">        switch_condition.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">take_gil</span><span class="params">(thread_id)</span>:</span></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> gil.locked:</span><br><span class="line">        saved_switchnum = gil.switch_number</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Release the lock and wait for a signal from a GIL holding thread,</span></span><br><span class="line">        <span class="comment"># set drop_request=True if the wait is timed out</span></span><br><span class="line"></span><br><span class="line">        timed_out = <span class="keyword">not</span> gil_condition.wait(timeout=DEFAULT_INTERVAL)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> timed_out <span class="keyword">and</span> gil.locked <span class="keyword">and</span> gil.switch_number == saved_switchnum:</span><br><span class="line">            gil.drop_request = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># lock for force switching</span></span><br><span class="line">    switch_condition.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Now we hold the GIL</span></span><br><span class="line">    gil.locked = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.last_holder != thread_id:</span><br><span class="line">        gil.last_holder = thread_id</span><br><span class="line">        gil.switch_number += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching, send signal to drop_gil</span></span><br><span class="line">    switch_condition.notify()</span><br><span class="line">    switch_condition.release()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execution_loop</span><span class="params">(target_function, thread_id)</span>:</span></span><br><span class="line">    <span class="comment"># Compile Python function down to bytecode and execute it in the while loop</span></span><br><span class="line"></span><br><span class="line">    bytecode = compile(target_function)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># drop_request indicates that one or more threads are awaiting for the GIL</span></span><br><span class="line">        <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">            <span class="comment"># release the gil from the current thread</span></span><br><span class="line">            drop_gil(thread_id)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># immediately request the GIL for the current thread</span></span><br><span class="line">            <span class="comment"># at this point the thread will be waiting for GIL and suspended until the function return</span></span><br><span class="line">            take_gil(thread_id)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># bytecode execution logic, executes one instruction at a time</span></span><br><span class="line">        instruction = bytecode.next_instruction()</span><br><span class="line">        <span class="keyword">if</span> instruction <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            execute_opcode(instruction)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
-
-<p>看代码我们可以知道：</p>
-<ul>
-<li>Python创建一个新的thread的时候，会首先call <code>take_gil</code> 尝试得到 GIL，然后才进入执行循环</li>
-<li>通过在循环的开始部分检查gil状态，可以确保只有一个线程在执行</li>
-</ul>
-<p>目前这个版本的GIL其实也实现一些scheduler的功能，比如：</p>
-<p><code>gil.drop_request</code> 为True就表明有其他的线程在等待执行，当前进程就会首先尝试放弃gil，给其他线程机会，然后他会立刻尝试夺回gil，以便自己可以继续运行。聪明的你可能想问，马上尝试夺回，那别的进程怎么办啊？</p>
-<p>仔细看 <code>drop_gil</code> 函数:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> gil.drop_request:</span><br><span class="line">    switch_condition.acquire()</span><br><span class="line">    <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line">        switch_condition.wait()</span><br><span class="line"></span><br><span class="line">    switch_condition.release()</span><br></pre></td></tr></table></figure>
-
-<p>这段代码确保如果，OS分配的下一个线程还是自己，该线程就会被迫等待，确保其他进程有机会被系统的线程调度器分配。</p>
-<p>CPython的源码在<a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h" target="_blank" rel="noopener">这里</a></p>
-<h2 id="关于GIL的思考"><a href="#关于GIL的思考" class="headerlink" title="关于GIL的思考"></a>关于GIL的思考</h2><p>GIL从1992年诞生到现在，其实经历一些变化。在GIL被设计的年代，多核CPU基本不存在，当时的线程也主要是用来做IO类型的工作，所以GIL的设计处理多线程IO效率非常高。</p>
-<p>GIL的存在也让Python的单核性能大大增加，其实GIL是Python成功的一个重要原因。后来GIL加入了 <code>switch_condition</code>, <code>switch_number</code>, <code>timeout</code> 等参数，很大程度改善了多核处理下GIL线程schedule的问题。Python3以后的GIL仍然无法实现真正的CPU密集并行的多线程。不过这里说的线程都是OS线程，这不妨碍实现软件线程。</p>
-<p>GIL难以被完全移除有很多原因，比如</p>
-<ul>
-<li>移除GIL，就需要修改Python的GC机制，特别是reference counting</li>
-<li>GIL移除，会降低单核性能。因为移除全局锁，必然要引入粒度更小的锁</li>
-<li>可以考虑其他的同步机制，比如Software transactional memory，那么就要修改整个C API，基本上所有的C-API库都废了。。。。</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://www.youtube.com/watch?v=7RlqbHCCVyc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=7RlqbHCCVyc</a></li>
-<li><a href="https://www.youtube.com/watch?v=4zeHStBowEk" target="_blank" rel="noopener">https://www.youtube.com/watch?v=4zeHStBowEk</a></li>
-<li><a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h" target="_blank" rel="noopener">https://github.com/python/cpython/blob/master/Python/ceval_gil.h</a></li>
 </ul>
 ]]></content>
       <categories>
@@ -838,32 +891,6 @@
       </tags>
   </entry>
   <entry>
-    <title>6.004 Basic of information</title>
-    <url>/2020/12/19/6004_1/</url>
-    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
-<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
-<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
-<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
-<p>the unit is bits, the number of bits required to encode the choice.</p>
-<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
-<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
-<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
-<p>Encoding as binary tree is a good way to think. </p>
-<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
-<p>If we do same algorithm but using multiple symbols, we can do better.</p>
-<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
-<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
-<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/" target="_blank" rel="noopener">6.004</a></p>
-<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
-      <categories>
-        <category>Computing</category>
-      </categories>
-      <tags>
-        <tag>6.004</tag>
-        <tag>Information</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>6.004 The Digital Abstraction</title>
     <url>/2020/12/19/6004-2/</url>
     <content><![CDATA[<h1 id="The-Digital-Abstraction"><a href="#The-Digital-Abstraction" class="headerlink" title="The Digital Abstraction"></a>The Digital Abstraction</h1><p>Q: the physical representation of bits?</p>
@@ -890,6 +917,32 @@
 </blockquote>
 <p><img data-src="https://i.imgur.com/NMkOpar.png" alt=""></p>
 ]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>6.004</tag>
+        <tag>Information</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>6.004 Basic of information</title>
+    <url>/2020/12/19/6004_1/</url>
+    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
+<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
+<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
+<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
+<p>the unit is bits, the number of bits required to encode the choice.</p>
+<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
+<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
+<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
+<p>Encoding as binary tree is a good way to think. </p>
+<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
+<p>If we do same algorithm but using multiple symbols, we can do better.</p>
+<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
+<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/" target="_blank" rel="noopener">6.004</a></p>
+<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
       <categories>
         <category>Computing</category>
       </categories>
@@ -2107,6 +2160,34 @@
       </tags>
   </entry>
   <entry>
+    <title>“你不要惧怕，我是你的神” - 以赛亚书41</title>
+    <url>/2020/05/17/yisaiya2/</url>
+    <content><![CDATA[<p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
+<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
+<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
+<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
+<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
+<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
+<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
+<p>先知以赛亚是这样说的：</p>
+<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
+<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
+<p>我们认为我们只能自己面对一切。</p>
+<p>我们害怕自己不能掌控的事情。</p>
+<p>但是，</p>
+<p>神，掌管一切。</p>
+<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
+<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
+<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>以赛亚书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>圣经的结构</title>
     <url>/2020/05/17/bible_structure/</url>
     <content><![CDATA[<h1 id="x1f4d6-基本信息"><a href="#x1f4d6-基本信息" class="headerlink" title="&#x1f4d6;基本信息"></a><span class="github-emoji" alias="book" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d6.png?v8">&#x1f4d6;</span>基本信息</h1><p>圣经（Bible）是一系列不同文学体裁的书组成，分为新约和旧约两个部分。圣经总共包含了66卷书，成书时间跨越2千余年，由40位作者完成。最初版本的圣经主要由两种语言写成：希伯来语和希腊语。</p>
@@ -2203,34 +2284,6 @@
       </categories>
       <tags>
         <tag>Bible</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>“你不要惧怕，我是你的神” - 以赛亚书41</title>
-    <url>/2020/05/17/yisaiya2/</url>
-    <content><![CDATA[<p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
-<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
-<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
-<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
-<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
-<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
-<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
-<p>先知以赛亚是这样说的：</p>
-<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
-<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
-<p>我们认为我们只能自己面对一切。</p>
-<p>我们害怕自己不能掌控的事情。</p>
-<p>但是，</p>
-<p>神，掌管一切。</p>
-<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
-<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
-<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>以赛亚书</tag>
       </tags>
   </entry>
   <entry>
@@ -2719,24 +2772,6 @@
       </tags>
   </entry>
   <entry>
-    <title>为Hexo拓展功能</title>
-    <url>/2020/04/13/chord_3/</url>
-    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
-<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
-<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Js</tag>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>很潮的属11和弦</title>
     <url>/2020/04/13/chord_2/</url>
     <content><![CDATA[<p>在我们想要结束一段的时候，通常会用V -&gt; I的方式结束。以下我们用C调说明。</p>
@@ -2767,6 +2802,24 @@
       </categories>
       <tags>
         <tag>Chord</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>为Hexo拓展功能</title>
+    <url>/2020/04/13/chord_3/</url>
+    <content><![CDATA[<p>目前，<code>abcjs</code> 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://dustinpfister.github.io/2018/01/03/hexo-plugins/" target="_blank" rel="noopener">https://dustinpfister.github.io/2018/01/03/hexo-plugins/</a></li>
+<li><a href="https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html" target="_blank" rel="noopener">https://blog.bitbadger.solutions/2017/writing-a-hexo-tag-plugin.html</a></li>
+<li><a href="https://hexo.io/api/" target="_blank" rel="noopener">https://hexo.io/api/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Js</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
