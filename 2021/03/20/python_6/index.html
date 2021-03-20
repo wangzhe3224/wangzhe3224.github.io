@@ -24,18 +24,18 @@
   <meta name="description" content="重新认识 Python（6）多进程编程这一期我们谈谈 Python 的多进程。之前在聊到 GIL 的时候，我们知道 Python 的多线程可以实现并发，但是不能实现并行，因为同一时间只能有一个线程获得 GIL 进行计算。因此，Python 的多线程不能有效利用多个CPU核心，不适合做 CPU 密集的活动。而多进程，multiprocessing，刚好解决了这个问题，能够实现并行并发编程，充分利用多">
 <meta property="og:type" content="article">
 <meta property="og:title" content="重新认识 Python（6）多进程编程">
-<meta property="og:url" content="http://yoursite.com/2021/03/11/python_6/index.html">
+<meta property="og:url" content="http://yoursite.com/2021/03/20/python_6/index.html">
 <meta property="og:site_name" content="Zhe">
 <meta property="og:description" content="重新认识 Python（6）多进程编程这一期我们谈谈 Python 的多进程。之前在聊到 GIL 的时候，我们知道 Python 的多线程可以实现并发，但是不能实现并行，因为同一时间只能有一个线程获得 GIL 进行计算。因此，Python 的多线程不能有效利用多个CPU核心，不适合做 CPU 密集的活动。而多进程，multiprocessing，刚好解决了这个问题，能够实现并行并发编程，充分利用多">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-03-11T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-20T15:13:16.940Z">
+<meta property="article:published_time" content="2021-03-20T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-20T15:22:33.208Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="Multiprocessing">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2021/03/11/python_6/">
+<link rel="canonical" href="http://yoursite.com/2021/03/20/python_6/">
 
 
 <script id="page-configurations">
@@ -214,7 +214,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/11/python_6/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/20/python_6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/lambda.jpeg">
@@ -237,7 +237,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-03-11 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-11T00:00:00Z">2021-03-11</time>
+              <time title="Created: 2021-03-20 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-20T00:00:00Z">2021-03-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -265,8 +265,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/03/11/python_6/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/11/python_6/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/03/20/python_6/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/20/python_6/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -372,13 +372,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/07/pyos_3/" rel="prev" title="编程101 PyOS 一个Python写的OS 3">
-      <i class="fa fa-chevron-left"></i> 编程101 PyOS 一个Python写的OS 3
+    <a href="/2021/03/11/python_5/" rel="prev" title="重新认识 Python（5）再谈并发">
+      <i class="fa fa-chevron-left"></i> 重新认识 Python（5）再谈并发
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/03/11/python_5/" rel="next" title="重新认识 Python（5）再谈并发">
-      重新认识 Python（5）再谈并发 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -706,8 +703,8 @@ window.addEventListener('pjax:success', () => {
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2021/03/11/python_6/";
-    this.page.identifier = "2021/03/11/python_6/";
+    this.page.url = "http://yoursite.com/2021/03/20/python_6/";
+    this.page.identifier = "2021/03/20/python_6/";
     this.page.title = "重新认识 Python（6）多进程编程";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
