@@ -224,7 +224,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/03/20/python_6/" class="post-title-link" itemprop="url">重新认识 Python（6）多进程编程</a>
+            <a href="/2021/03/20/python_6/" class="post-title-link" itemprop="url">重新认识 Python（7）CPython初探</a>
         </h2>
 
         <div class="post-meta">
@@ -266,14 +266,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>6.2k</span>
+              <span>7.6k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>6 mins.</span>
+              <span>7 mins.</span>
             </span>
 
         </div>
@@ -285,9 +285,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="重新认识-Python（6）多进程编程"><a href="#重新认识-Python（6）多进程编程" class="headerlink" title="重新认识 Python（6）多进程编程"></a>重新认识 Python（6）多进程编程</h1><p>这一期我们谈谈 Python 的多进程。之前在聊到 GIL 的时候，我们知道 Python 的多线程可以实现并发，但是不能实现并行，因为同一时间只能有一个线程获得 GIL 进行计算。因此，Python 的多线程不能有效利用多个CPU核心，不适合做 CPU 密集的活动。而多进程，multiprocessing，刚好解决了这个问题，能够实现并行并发编程，充分利用多个CPU核心。</p>
-<p>接下来我们首先分析一下 Python 中的进程基本构成，然后介绍一下常见的多进程编程模型。</p>
-<h2 id="multiprocessing"><a href="#multiprocessing" class="headerlink" title="multiprocessing"></a><code>multiprocessing</code></h2><p>Python 启动进程有三种方式：</p>
+          <h1 id="重新认识-Python（7）CPython初探"><a href="#重新认识-Python（7）CPython初探" class="headerlink" title="重新认识 Python（7）CPython初探"></a>重新认识 Python（7）CPython初探</h1><p>CPython 是 Python 社区的标准，其他版本的 Python，比如 pypy，都会遵行 CPython 的标准API实现。想要更深入的认识 Python，就需要了解 CPython 实现。这一期，我就带大家认识一下 CPython 源代码，为日后改造 Python 做准备。首先，展示如何本地编译最新的 CPython代码。然后，展示如何 debug 编译好的解释器。最后我们会利用 CPython 实现简单的函数调用。</p>
+<p>本文会为你揭开 CPython 的面纱，带你进入 C + Python 的世界。文章的最后，你也会对 Python 中最重要的概念：一切皆对象（object）有更深刻的认识；你还会发现一点点线索，为什么Python用起来比其他语言，比如 C 慢很多。</p>
+<p>请打开编辑器和命令行，我们开始。（本文主要使用MacOS，Windows 不一定可以直接实现）。</p>
+<h2 id="当我们再说-Python，我们在说什么？"><a href="#当我们再说-Python，我们在说什么？" class="headerlink" title="当我们再说 Python，我们在说什么？"></a>当我们再说 Python，我们在说什么？</h2>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/03/20/python_6/#more" rel="contents">
@@ -1342,7 +1343,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-count">48</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1397,13 +1398,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">164k</span>
+    <span title="Symbols count total">166k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">2:30</span>
+    <span title="Reading time total">2:31</span>
 </div>
 
 <span id="timeDate">Loding time...</span><span id="times">...</span>
