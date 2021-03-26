@@ -24,22 +24,22 @@
   <meta name="description" content="重新认识 Python（8）PyObject 开发环境设置和入门请看：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;358690339  本片主要介绍 Python 对象的内存构成，以及如何组织对象的方法。更多内容可以看： https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F; PyObject 和 PyTypeObjectPyObject 可说是 CPython 最核心的数据结">
 <meta property="og:type" content="article">
 <meta property="og:title" content="重新认识 Python（8）PyObject">
-<meta property="og:url" content="http://yoursite.com/2021/03/20/python_8/index.html">
+<meta property="og:url" content="http://yoursite.com/2021/03/26/python_8/index.html">
 <meta property="og:site_name" content="Zhe">
 <meta property="og:description" content="重新认识 Python（8）PyObject 开发环境设置和入门请看：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;358690339  本片主要介绍 Python 对象的内存构成，以及如何组织对象的方法。更多内容可以看： https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F; PyObject 和 PyTypeObjectPyObject 可说是 CPython 最核心的数据结">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.imgur.com/qBt3pvW.png">
 <meta property="og:image" content="https://i.imgur.com/D3euvFc.png">
 <meta property="og:image" content="https://i.imgur.com/LxvTRK4.png">
-<meta property="article:published_time" content="2021-03-20T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-26T20:14:11.384Z">
+<meta property="article:published_time" content="2021-03-26T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-26T20:52:11.586Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="CPython">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.imgur.com/qBt3pvW.png">
 
-<link rel="canonical" href="http://yoursite.com/2021/03/20/python_8/">
+<link rel="canonical" href="http://yoursite.com/2021/03/26/python_8/">
 
 
 <script id="page-configurations">
@@ -218,7 +218,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/20/python_8/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/26/python_8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/lambda.jpeg">
@@ -241,7 +241,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-03-20 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-20T00:00:00Z">2021-03-20</time>
+              <time title="Created: 2021-03-26 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-26T00:00:00Z">2021-03-26</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -269,8 +269,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/03/20/python_8/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/20/python_8/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/03/26/python_8/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/26/python_8/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -364,13 +364,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/20/python_6/" rel="prev" title="重新认识 Python（7）CPython初探">
-      <i class="fa fa-chevron-left"></i> 重新认识 Python（7）CPython初探
+    <a href="/2021/03/21/python_spped/" rel="prev" title="让 Python 加速飞">
+      <i class="fa fa-chevron-left"></i> 让 Python 加速飞
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/03/21/python_spped/" rel="next" title="让 Python 加速飞">
-      让 Python 加速飞 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -698,8 +695,8 @@ window.addEventListener('pjax:success', () => {
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2021/03/20/python_8/";
-    this.page.identifier = "2021/03/20/python_8/";
+    this.page.url = "http://yoursite.com/2021/03/26/python_8/";
+    this.page.identifier = "2021/03/26/python_8/";
     this.page.title = "重新认识 Python（8）PyObject";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
