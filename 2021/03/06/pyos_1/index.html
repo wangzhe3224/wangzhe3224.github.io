@@ -30,7 +30,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.imgur.com/pYNOZgW.png">
 <meta property="article:published_time" content="2021-03-06T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-28T16:11:28.648Z">
+<meta property="article:modified_time" content="2021-03-28T16:24:35.217Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Operating System">
 <meta property="article:tag" content="Python">
@@ -53,14 +53,21 @@
 
   <title>编程101 PyOS 一个Python写的OS | Zhe</title>
   
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66629043-1"></script>
-    <script pjax>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-66629043-1');
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-66629043-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
       }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
     </script>
 
 

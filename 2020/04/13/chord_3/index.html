@@ -29,7 +29,7 @@
 <meta property="og:description" content="目前，abcjs 还不支持非浏览器环境的使用，所以，目前似乎没办法变成 Hexo Tag。 Reference https:&#x2F;&#x2F;dustinpfister.github.io&#x2F;2018&#x2F;01&#x2F;03&#x2F;hexo-plugins&#x2F; https:&#x2F;&#x2F;blog.bitbadger.solutions&#x2F;2017&#x2F;writing-a-hexo-tag-plugin.html https:&#x2F;&#x2F;hexo.io&#x2F;ap">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-13T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-28T16:11:28.648Z">
+<meta property="article:modified_time" content="2021-03-28T16:24:35.217Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Js">
 <meta property="article:tag" content="Hexo">
@@ -50,14 +50,21 @@
 
   <title>为Hexo拓展功能 | Zhe</title>
   
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66629043-1"></script>
-    <script pjax>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-66629043-1');
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-66629043-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
       }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
     </script>
 
 
