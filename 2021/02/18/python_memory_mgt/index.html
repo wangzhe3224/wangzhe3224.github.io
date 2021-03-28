@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -30,7 +30,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.imgur.com/Hg7D3Rl.png">
 <meta property="article:published_time" content="2021-02-18T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-28T13:58:06.304Z">
+<meta property="article:modified_time" content="2021-03-28T14:48:21.060Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="CPython">
@@ -331,7 +331,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">* Request in bytes     Size of allocated block      Size class idx</span><br><span class="line">* ----------------------------------------------------------------</span><br><span class="line">*        1-8                     8                       0</span><br><span class="line">*        9-16                   16                       1</span><br><span class="line">*       17-24                   24                       2</span><br><span class="line">*       25-32                   32                       3</span><br><span class="line">*       33-40                   40                       4</span><br><span class="line">*       41-48                   48                       5</span><br><span class="line">*       49-56                   56                       6</span><br><span class="line">*       57-64                   64                       7</span><br><span class="line">*       65-72                   72                       8</span><br><span class="line">*        ...                   ...                     ...</span><br><span class="line">*      497-504                 504                      62</span><br><span class="line">*      505-512                 512                      63</span><br></pre></td></tr></table></figure>
 
 <h3 id="pool"><a href="#pool" class="headerlink" title="pool"></a>pool</h3><p><code>pool</code> 是相同分组（大小） <code>block</code> 的集合。一般，pool的大小为4kb（内存分页的大小），这主要是为了方便处理内存的fragmentation。如果一个对象被回收了，内存管理器可以再次利用这部分内存存储其他合适大小的对象。pool的结构如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Pool for small blocks. */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pool_header</span> &#123;</span></span><br><span class="line">    <span class="keyword">union</span> &#123; block *_padding;</span><br><span class="line">            uint count; &#125; ref;          <span class="comment">/* number of allocated blocks    */</span></span><br><span class="line">    block *freeblock;                   <span class="comment">/* pool's free list head         */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pool_header</span> *<span class="title">nextpool</span>;</span>       <span class="comment">/* next pool of this size class  */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pool_header</span> *<span class="title">prevpool</span>;</span>       <span class="comment">/* previous pool       ""        */</span></span><br><span class="line">    uint arenaindex;                    <span class="comment">/* index into arenas of base adr */</span></span><br><span class="line">    uint szidx;                         <span class="comment">/* block size class index        */</span></span><br><span class="line">    uint nextoffset;                    <span class="comment">/* bytes to virgin block         */</span></span><br><span class="line">    uint maxnextoffset;                 <span class="comment">/* largest valid nextoffset      */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Pool for small blocks. */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pool_header</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span> &#123;</span> block *_padding;</span><br><span class="line">            uint count; &#125; ref;          <span class="comment">/* number of allocated blocks    */</span></span><br><span class="line">    block *freeblock;                   <span class="comment">/* pool&#x27;s free list head         */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pool_header</span> *<span class="title">nextpool</span>;</span>       <span class="comment">/* next pool of this size class  */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pool_header</span> *<span class="title">prevpool</span>;</span>       <span class="comment">/* previous pool       &quot;&quot;        */</span></span><br><span class="line">    uint arenaindex;                    <span class="comment">/* index into arenas of base adr */</span></span><br><span class="line">    uint szidx;                         <span class="comment">/* block size class index        */</span></span><br><span class="line">    uint nextoffset;                    <span class="comment">/* bytes to virgin block         */</span></span><br><span class="line">    uint maxnextoffset;                 <span class="comment">/* largest valid nextoffset      */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>可以看到，每一个pool通过双链表连接在一起，<code>szidx</code> 记录了这个pool下面的block的size，<code>ref.count</code> 记录了已经被使用的blocks，<code>arenaindex</code> 则记录了这个pool所属的 <code>arena</code> 地址。<code>freeblock</code> 是当前可用的第一个block的地址。值得注意的是，如果一个block是空的，那么它会存储下一个空block的地址，这样方便寻址。</p>
 <p>每一个pool包含三个状态：</p>
@@ -355,10 +355,10 @@
 
 
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://github.com/python/cpython/blob/cc54001c2eb3b14320c1667b22602d69c90d5865/Objects/object.c" target="_blank" rel="noopener">https://github.com/python/cpython/blob/cc54001c2eb3b14320c1667b22602d69c90d5865/Objects/object.c</a></li>
-<li><a href="https://github.com/python/cpython/blob/master/Include/object.h" target="_blank" rel="noopener">https://github.com/python/cpython/blob/master/Include/object.h</a></li>
-<li><a href="https://github.com/python/cpython/blob/ad051cbce1360ad3055a048506c09bc2a5442474/Objects/obmalloc.c#L534" target="_blank" rel="noopener">https://github.com/python/cpython/blob/ad051cbce1360ad3055a048506c09bc2a5442474/Objects/obmalloc.c#L534</a></li>
-<li><a href="https://rushter.com/blog/python-memory-managment/" target="_blank" rel="noopener">https://rushter.com/blog/python-memory-managment/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/python/cpython/blob/cc54001c2eb3b14320c1667b22602d69c90d5865/Objects/object.c">https://github.com/python/cpython/blob/cc54001c2eb3b14320c1667b22602d69c90d5865/Objects/object.c</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/python/cpython/blob/master/Include/object.h">https://github.com/python/cpython/blob/master/Include/object.h</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/python/cpython/blob/ad051cbce1360ad3055a048506c09bc2a5442474/Objects/obmalloc.c#L534">https://github.com/python/cpython/blob/ad051cbce1360ad3055a048506c09bc2a5442474/Objects/obmalloc.c#L534</a></li>
+<li><a target="_blank" rel="noopener" href="https://rushter.com/blog/python-memory-managment/">https://rushter.com/blog/python-memory-managment/</a></li>
 </ul>
 
     </div>
@@ -366,6 +366,26 @@
     
     
     
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/20/python_6/" rel="bookmark">重新认识 Python（7）CPython初探</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/26/python_8/" rel="bookmark">重新认识 Python（8）PyObject</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/02/18/python_gil/" rel="bookmark">重新认识 Python（3）GIL</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/06/pyos_2/" rel="bookmark">编程101 PyOS 一个Python写的OS 2</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/07/pyos_3/" rel="bookmark">编程101 PyOS 一个Python写的OS 3</a></div>
+    </li>
+  </ul>
+
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -379,12 +399,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/02/16/python_1_gc/" rel="prev" title="重新认识 Python（1）GC，垃圾回收">
-      <i class="fa fa-chevron-left"></i> 重新认识 Python（1）GC，垃圾回收
+    <a href="/2021/02/18/python_gil/" rel="prev" title="重新认识 Python（3）GIL">
+      <i class="fa fa-chevron-left"></i> 重新认识 Python（3）GIL
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/02/18/python_gil/" rel="next" title="重新认识 Python（3）GIL">
-      重新认识 Python（3）GIL <i class="fa fa-chevron-right"></i>
+    <a href="/2021/02/20/type_system/" rel="next" title="关于类型系统的一些思考">
+      关于类型系统的一些思考 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -452,7 +472,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#重新认识-Python（2）：内存管理"><span class="nav-number">1.</span> <span class="nav-text">重新认识 Python（2）：内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对象，Object"><span class="nav-number">1.1.</span> <span class="nav-text">对象，Object</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理架构"><span class="nav-number">1.2.</span> <span class="nav-text">内存管理架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小对象的内存管理"><span class="nav-number">1.3.</span> <span class="nav-text">小对象的内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#block"><span class="nav-number">1.3.1.</span> <span class="nav-text">block</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pool"><span class="nav-number">1.3.2.</span> <span class="nav-text">pool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Arena"><span class="nav-number">1.3.3.</span> <span class="nav-text">Arena</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存使用"><span class="nav-number">1.4.</span> <span class="nav-text">内存使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.5.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%A4%E8%AF%86-Python%EF%BC%882%EF%BC%89%EF%BC%9A%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">重新认识 Python（2）：内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%EF%BC%8CObject"><span class="nav-number">1.1.</span> <span class="nav-text">对象，Object</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">内存管理架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">小对象的内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#block"><span class="nav-number">1.3.1.</span> <span class="nav-text">block</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pool"><span class="nav-number">1.3.2.</span> <span class="nav-text">pool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Arena"><span class="nav-number">1.3.3.</span> <span class="nav-text">Arena</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8"><span class="nav-number">1.4.</span> <span class="nav-text">内存使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.5.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -467,7 +487,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-count">65</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -533,13 +553,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">174k</span>
+    <span title="Symbols count total">178k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">2:38</span>
+    <span title="Reading time total">2:41</span>
 </div>
 
 <span id="timeDate">Loding time...</span><span id="times">...</span>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -29,7 +29,7 @@
 <meta property="og:description" content="重新认识 Python（1）：GC，垃圾回收Python是目前受众最为广泛的计算机语言之一，涉足的领域包罗万象：Web，机器学习，数据处理，爬虫等等。使用Python的人群也非常多样， 从专业的程序员到数据科学家。这种现状也导致了一个现象：大家对Python存在很多道听途说来的误解。比如，Python是解释型语言（其实python 还真不是，Python是编译型的，只不过他通过解释器执行编译后的代">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-16T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-28T13:58:06.304Z">
+<meta property="article:modified_time" content="2021-03-28T14:48:21.060Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="GC">
@@ -301,7 +301,7 @@
 <p>即使我们运行一个简单的包含第三方库的程序，进程中可能存在上百万个对象，但是他们的体积通常都非常小。正是因为这种对象管理模式，才能支持了Python的很多运行时的动态特性，也正是因为这些特征，Python才变得的如此灵活（当然，灵活的代价是牺牲一些性能）。</p>
 <p>知道了Python的内存管理特性，我们就可以进一步理解Python的GC设计了。你会发现，很多设计就是为了支持这种内存管理模式而出现的。</p>
 <h2 id="GC算法"><a href="#GC算法" class="headerlink" title="GC算法"></a>GC算法</h2><p>Python的设计其实非常的和谐，一切皆对象。就连一个int也不例外，比如你可以打印整数1的对象id：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(id(<span class="number">1</span>))</span><br><span class="line"><span class="comment"># 4419605632</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">id</span>(<span class="number">1</span>))</span><br><span class="line"><span class="comment"># 4419605632</span></span><br></pre></td></tr></table></figure>
 
 <p>上面我们提到一个简单的Python进程中可能存在成千上万的大大小小的对象，为他们分配内存通常很简单，但是回收这些内存就需要更多的心思了，因为一旦回收了还在使用的对象的内存就会导致程序崩溃。</p>
 <p>Python的 GC 其实包含两个部分：Reference Counting 和 Generational cyclic GC。引用计数高效，但是却存在一个致命的问题：无法检测循环引用。所以必须使用额外的垃圾回收机制，Cpython选择了generational GC。</p>
@@ -317,11 +317,11 @@
 <p>当一个对象的引用归零，如果它包含对其他对象的引用，其他对象的引用也会减少，如果其他对象的引用也因此归零，那么这个对象也会被回收。值得注意的是，被全局变量引用的对象，不会被回收。可以通过 <code>global()</code> 函数查看全局变量。</p>
 <p>对于局部变量，即定义在函数内部的变量，当Python的解释器退出函数时，会移除这些变量对对象的引用，但不会删除对象。所以，<strong>Python只有在退出函数或者对一个变量重新赋值的时候，才可能会进行垃圾回收（引用计数GC）！</strong>，换句话说，如果你有一个超长的函数，内部超多产生了超多对象，Python是无法进行GC的，所以，应该尽量写精简的函数。</p>
 <p>举个例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">foo = []</span><br><span class="line"><span class="comment"># 2 references, 1 from the foo var and 1 from getrefcount</span></span><br><span class="line">print(sys.getrefcount(foo))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">(a)</span>:</span></span><br><span class="line">    <span class="comment"># 4 references</span></span><br><span class="line">    <span class="comment"># from the foo var, function argument, getrefcount and Python's function stack</span></span><br><span class="line">    print(sys.getrefcount(a))</span><br><span class="line"></span><br><span class="line">bar(foo)</span><br><span class="line"><span class="comment"># 2 references, the function scope is destroyed</span></span><br><span class="line">print(sys.getrefcount(foo))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">foo = []</span><br><span class="line"><span class="comment"># 2 references, 1 from the foo var and 1 from getrefcount</span></span><br><span class="line"><span class="built_in">print</span>(sys.getrefcount(foo))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bar</span>(<span class="params">a</span>):</span></span><br><span class="line">    <span class="comment"># 4 references</span></span><br><span class="line">    <span class="comment"># from the foo var, function argument, getrefcount and Python&#x27;s function stack</span></span><br><span class="line">    <span class="built_in">print</span>(sys.getrefcount(a))</span><br><span class="line"></span><br><span class="line">bar(foo)</span><br><span class="line"><span class="comment"># 2 references, the function scope is destroyed</span></span><br><span class="line"><span class="built_in">print</span>(sys.getrefcount(foo))</span><br></pre></td></tr></table></figure>
 
 <p>随便说一下，Python （cpython）无法轻易移除 GIL 的一个主要原因也是因为引用计数GC，因为多线程会搞乱引用计数。</p>
 <h3 id="Generational-GC，-GGC"><a href="#Generational-GC，-GGC" class="headerlink" title="Generational GC， GGC"></a>Generational GC， GGC</h3><p>那么Python为什么还有第二套GC算法呢？这主要是因为引用计数无法处理循环引用或者自引用的情况。这两种情况都会让对象的引用数量至少维持在1，进而无法被GC。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gc</span><br><span class="line"></span><br><span class="line"><span class="comment"># We use ctypes moule  to access our unreachable objects by memory address.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PyObject</span><span class="params">(ctypes.Structure)</span>:</span></span><br><span class="line">    _fields_ = [(<span class="string">"refcnt"</span>, ctypes.c_long)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">gc.disable()  <span class="comment"># Disable generational gc</span></span><br><span class="line"></span><br><span class="line">lst = []</span><br><span class="line">lst.append(lst)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Store address of the list</span></span><br><span class="line">lst_address = id(lst)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Destroy the lst reference</span></span><br><span class="line"><span class="keyword">del</span> lst</span><br><span class="line"></span><br><span class="line">object_1 = &#123;&#125;</span><br><span class="line">object_2 = &#123;&#125;</span><br><span class="line">object_1[<span class="string">'obj2'</span>] = object_2</span><br><span class="line">object_2[<span class="string">'obj1'</span>] = object_1</span><br><span class="line"></span><br><span class="line">obj_address = id(object_1)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Destroy references</span></span><br><span class="line"><span class="keyword">del</span> object_1, object_2</span><br><span class="line"></span><br><span class="line"><span class="comment"># Uncomment if you want to manually run garbage collection process </span></span><br><span class="line"><span class="comment"># gc.collect()</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Check the reference count</span></span><br><span class="line">print(PyObject.from_address(obj_address).refcnt)</span><br><span class="line">print(PyObject.from_address(lst_address).refcnt)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gc</span><br><span class="line"></span><br><span class="line"><span class="comment"># We use ctypes moule  to access our unreachable objects by memory address.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PyObject</span>(<span class="params">ctypes.Structure</span>):</span></span><br><span class="line">    _fields_ = [(<span class="string">&quot;refcnt&quot;</span>, ctypes.c_long)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">gc.disable()  <span class="comment"># Disable generational gc</span></span><br><span class="line"></span><br><span class="line">lst = []</span><br><span class="line">lst.append(lst)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Store address of the list</span></span><br><span class="line">lst_address = <span class="built_in">id</span>(lst)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Destroy the lst reference</span></span><br><span class="line"><span class="keyword">del</span> lst</span><br><span class="line"></span><br><span class="line">object_1 = &#123;&#125;</span><br><span class="line">object_2 = &#123;&#125;</span><br><span class="line">object_1[<span class="string">&#x27;obj2&#x27;</span>] = object_2</span><br><span class="line">object_2[<span class="string">&#x27;obj1&#x27;</span>] = object_1</span><br><span class="line"></span><br><span class="line">obj_address = <span class="built_in">id</span>(object_1)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Destroy references</span></span><br><span class="line"><span class="keyword">del</span> object_1, object_2</span><br><span class="line"></span><br><span class="line"><span class="comment"># Uncomment if you want to manually run garbage collection process </span></span><br><span class="line"><span class="comment"># gc.collect()</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Check the reference count</span></span><br><span class="line"><span class="built_in">print</span>(PyObject.from_address(obj_address).refcnt)</span><br><span class="line"><span class="built_in">print</span>(PyObject.from_address(lst_address).refcnt)</span><br></pre></td></tr></table></figure>
 
 <p>上面的例子中， <code>del</code> 会移除变量对对象的引用，执行del以后，这个对象已经无法被系统的其他部分引用，但是，由于存在自引用，该对象无法被回收。为了解决这个问题，Python在1.5以后引入了GGC，专门处理这种情况。值得注意的是，循环引用只会出现在容器变量中，比如list，dict，自定义对象等等，因此GGC不会追踪不可变对象（除了Tuple）。</p>
 <p>GGC不是实时进行的，而是周期性的触发。GGC会将所有的容器类型对象分成3代。新建立的对象首先进入第一代，如果它没有被第一次GC回收，这个对象会进入第二代，一次类推。而GGC会优先回收第一代的内存，假设新建的对象会更快的结束自己的生命。通过这种机制，提高GC性能，缩短系统暂停的时间。</p>
@@ -331,9 +331,9 @@
 <h2 id="如何利用GC？"><a href="#如何利用GC？" class="headerlink" title="如何利用GC？"></a>如何利用GC？</h2><p>了解GC的原理是为了更好的利用GC。比如对于GGC，我们可以根据情况停止gc，以提高性能。</p>
 <p>我们可以通过利用 <code>weakref</code> 来引用一些临时且不重要的对象，比如cache，这样GC可以任意回收他们。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://docs.python.org/3.6/c-api/intro.html#objects-types-and-reference-counts" target="_blank" rel="noopener">https://docs.python.org/3.6/c-api/intro.html#objects-types-and-reference-counts</a></li>
-<li><a href="https://rushter.com/blog/python-garbage-collector/" target="_blank" rel="noopener">https://rushter.com/blog/python-garbage-collector/</a></li>
-<li><a href="https://github.com/python/cpython/blob/051295a8c57cc649fa5eaa43526143984a147411/Modules/gcmodule.c#L94" target="_blank" rel="noopener">https://github.com/python/cpython/blob/051295a8c57cc649fa5eaa43526143984a147411/Modules/gcmodule.c#L94</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.python.org/3.6/c-api/intro.html#objects-types-and-reference-counts">https://docs.python.org/3.6/c-api/intro.html#objects-types-and-reference-counts</a></li>
+<li><a target="_blank" rel="noopener" href="https://rushter.com/blog/python-garbage-collector/">https://rushter.com/blog/python-garbage-collector/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/python/cpython/blob/051295a8c57cc649fa5eaa43526143984a147411/Modules/gcmodule.c#L94">https://github.com/python/cpython/blob/051295a8c57cc649fa5eaa43526143984a147411/Modules/gcmodule.c#L94</a></li>
 </ul>
 
     </div>
@@ -341,6 +341,26 @@
     
     
     
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/26/python_8/" rel="bookmark">重新认识 Python（8）PyObject</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/05/02/graph2_search/" rel="bookmark">Graph Algorithms - Search</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/06/pyos_1/" rel="bookmark">编程101 PyOS 一个Python写的OS</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/06/pyos_2/" rel="bookmark">编程101 PyOS 一个Python写的OS 2</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/07/pyos_3/" rel="bookmark">编程101 PyOS 一个Python写的OS 3</a></div>
+    </li>
+  </ul>
+
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -358,8 +378,8 @@
       <i class="fa fa-chevron-left"></i> 雅各书 1\:1-12
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/02/18/python_memory_mgt/" rel="next" title="重新认识 Python（2）内存管理">
-      重新认识 Python（2）内存管理 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/02/18/python_gil/" rel="next" title="重新认识 Python（3）GIL">
+      重新认识 Python（3）GIL <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -427,7 +447,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#重新认识-Python（1）：GC，垃圾回收"><span class="nav-number">1.</span> <span class="nav-text">重新认识 Python（1）：GC，垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Python的内存管理"><span class="nav-number">1.1.</span> <span class="nav-text">Python的内存管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC算法"><span class="nav-number">1.2.</span> <span class="nav-text">GC算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用计数"><span class="nav-number">1.2.1.</span> <span class="nav-text">引用计数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generational-GC，-GGC"><span class="nav-number">1.2.2.</span> <span class="nav-text">Generational GC， GGC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何利用GC？"><span class="nav-number">1.3.</span> <span class="nav-text">如何利用GC？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%A4%E8%AF%86-Python%EF%BC%881%EF%BC%89%EF%BC%9AGC%EF%BC%8C%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">1.</span> <span class="nav-text">重新认识 Python（1）：GC，垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Python%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">Python的内存管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">GC算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0"><span class="nav-number">1.2.1.</span> <span class="nav-text">引用计数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generational-GC%EF%BC%8C-GGC"><span class="nav-number">1.2.2.</span> <span class="nav-text">Generational GC， GGC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8GC%EF%BC%9F"><span class="nav-number">1.3.</span> <span class="nav-text">如何利用GC？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -442,7 +462,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-count">65</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -508,13 +528,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">174k</span>
+    <span title="Symbols count total">178k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">2:38</span>
+    <span title="Reading time total">2:41</span>
 </div>
 
 <span id="timeDate">Loding time...</span><span id="times">...</span>

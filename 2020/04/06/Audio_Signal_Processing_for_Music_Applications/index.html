@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -47,7 +47,7 @@
 <meta property="og:image" content="https://i.imgur.com/C8gsV6B.png">
 <meta property="og:image" content="https://i.imgur.com/5UgmloR.png">
 <meta property="article:published_time" content="2020-04-06T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-28T13:58:06.300Z">
+<meta property="article:modified_time" content="2021-03-28T14:48:21.056Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Music">
 <meta property="article:tag" content="Signal Processing">
@@ -314,11 +314,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Audio-Signal-Processing-for-Music-Applications"><a href="#Audio-Signal-Processing-for-Music-Applications" class="headerlink" title="Audio Signal Processing for Music Applications"></a>Audio Signal Processing for Music Applications</h1><p><a href="https://www.coursera.org/lecture/audio-signal-processing/dft-1-EZRXC" target="_blank" rel="noopener">Course Link</a></p>
+        <h1 id="Audio-Signal-Processing-for-Music-Applications"><a href="#Audio-Signal-Processing-for-Music-Applications" class="headerlink" title="Audio Signal Processing for Music Applications"></a>Audio Signal Processing for Music Applications</h1><p><a target="_blank" rel="noopener" href="https://www.coursera.org/lecture/audio-signal-processing/dft-1-EZRXC">Course Link</a></p>
 <blockquote>
 <p>Perhaps most importantly, from the point of view of computer music research, is that the human ear is a kind of spectrum analyzer. That is, the cochlea of the inner ear physically splits sound into its (quasi) sinusoidal components. This is accomplished by the basilar membrane in the inner ear: a sound wave injected at the oval window (which is connected via the bones of the middle ear to the ear drum), travels along the basilar membrane inside the coiled cochlea. The membrane starts out thick and stiff, and gradually becomes thinner and more compliant toward its apex (the helicotrema). A stiff membrane has a high resonance frequency while a thin, compliant membrane has a low resonance frequency (assuming comparable mass per unit length, or at least less of a difference in mass than in compliance). Thus, as the sound wave travels, each frequency in the sound resonates at a particular place along the basilar membrane. The highest audible frequencies resonate right at the entrance, while the lowest frequencies travel the farthest and resonate near the helicotrema. The membrane resonance effectively <code>shorts out&#39;&#39; the signal energy at the resonant frequency, and it travels no further. Along the basilar membrane there are hair cells which</code>feel’’ the resonant vibration and transmit an increased firing rate along the auditory nerve to the brain. Thus, the ear is very literally a Fourier analyzer for sound, albeit nonlinear and using ``analysis’’ parameters that are difficult to match exactly. Nevertheless, by looking at spectra (which display the amount of each sinusoidal frequency present in a sound), we are looking at a representation much more like what the brain receives when we hear.</p>
 </blockquote>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>Discrete Fourier Transform:</p>
 <p>$$X[k]=\sum_{n=0}^{N-1}x[n]e^{-j2\pi kn/N}$$</p>
@@ -447,7 +447,7 @@
 <p>$$<br>    {W}_N(n,k)=e^{-j\frac{2\pi}{N}nk}<br>$$</p>
 <p>so that the DFT of a vector $\mathbf{x}$ is simply $\mathbf{X} = W_N\mathbf{x}$. Note that the inverse DFT can be obtained by simply conjugating ${W}_N$ so that $\mathbf{x} = W_N^*\mathbf{X}$.</p>
 <p>We can easily generate the matrix ${W}_N$ in Python like so:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dft_matrix</span><span class="params">(N)</span>:</span></span><br><span class="line">    <span class="comment"># create a 1xN matrix containing indices 0 to N-1</span></span><br><span class="line">    a = np.expand_dims(np.arange(N), <span class="number">0</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># take advantage of numpy broadcasting to create the matrix</span></span><br><span class="line">    W = np.exp(<span class="number">-2j</span> * (np.pi / N) * (a.T * a))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> W</span><br><span class="line"></span><br><span class="line">x = np.array([<span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># DFT matrix</span></span><br><span class="line">N = len(x)</span><br><span class="line">W = dft_matrix(N);</span><br><span class="line"></span><br><span class="line"><span class="comment"># DFT</span></span><br><span class="line">X = np.dot(W, x)</span><br><span class="line"><span class="comment"># inverse DFT</span></span><br><span class="line">x_hat = np.dot(W.T.conjugate(), X) / N</span><br><span class="line"></span><br><span class="line">print(x-x_hat)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dft_matrix</span>(<span class="params">N</span>):</span></span><br><span class="line">    <span class="comment"># create a 1xN matrix containing indices 0 to N-1</span></span><br><span class="line">    a = np.expand_dims(np.arange(N), <span class="number">0</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># take advantage of numpy broadcasting to create the matrix</span></span><br><span class="line">    W = np.exp(-<span class="number">2j</span> * (np.pi / N) * (a.T * a))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> W</span><br><span class="line"></span><br><span class="line">x = np.array([<span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># DFT matrix</span></span><br><span class="line">N = <span class="built_in">len</span>(x)</span><br><span class="line">W = dft_matrix(N);</span><br><span class="line"></span><br><span class="line"><span class="comment"># DFT</span></span><br><span class="line">X = np.dot(W, x)</span><br><span class="line"><span class="comment"># inverse DFT</span></span><br><span class="line">x_hat = np.dot(W.T.conjugate(), X) / N</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(x-x_hat)</span><br></pre></td></tr></table></figure>
 
 <h2 id="Fouries-representation-for-signal-class"><a href="#Fouries-representation-for-signal-class" class="headerlink" title="Fouries representation for signal class"></a>Fouries representation for signal class</h2><ul>
 <li>N-point finite-length: DFT</li>
@@ -489,11 +489,11 @@
 <li>allpass</li>
 </ul>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h2><ul>
-<li><a href="https://ccrma.stanford.edu/~jos/mdft/" target="_blank" rel="noopener">https://ccrma.stanford.edu/~jos/mdft/</a></li>
-<li><a href="https://www.youtube.com/watch?v=MBnnXbOM5S4" target="_blank" rel="noopener">The more general uncertainty principle, beyond quantum</a></li>
+<li><a target="_blank" rel="noopener" href="https://ccrma.stanford.edu/~jos/mdft/">https://ccrma.stanford.edu/~jos/mdft/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=MBnnXbOM5S4">The more general uncertainty principle, beyond quantum</a></li>
 <li><a href="youtube.com/watch?v=spUNpyF58BY">But what is the Fourier Transform? A visual introduction</a></li>
-<li><a href="https://www.youtube.com/watch?v=r6sGWTCMz2k" target="_blank" rel="noopener">But what is a Fourier series? From heat flow to circle drawings</a></li>
-<li><a href="http://www.jezzamon.com/fourier/index.html" target="_blank" rel="noopener">An Interactive Introduction to Fourier Transforms</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=r6sGWTCMz2k">But what is a Fourier series? From heat flow to circle drawings</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.jezzamon.com/fourier/index.html">An Interactive Introduction to Fourier Transforms</a></li>
 </ul>
 
     </div>
@@ -501,6 +501,14 @@
     
     
     
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/04/05/how-to-chords/" rel="bookmark">配和弦的方法</a></div>
+    </li>
+  </ul>
+
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -602,7 +610,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-count">65</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -668,13 +676,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">174k</span>
+    <span title="Symbols count total">178k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">2:38</span>
+    <span title="Reading time total">2:41</span>
 </div>
 
 <span id="timeDate">Loding time...</span><span id="times">...</span>

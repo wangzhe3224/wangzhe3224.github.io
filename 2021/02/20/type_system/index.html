@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -29,7 +29,7 @@
 <meta property="og:description" content="类型系统是什么 类型系统是一个有多个规则组成的逻辑系统，系统内的规则会给程序中的每一个组成部分，包括变量、表达式、函数、甚至模块等等，制定一个 类型 属性。  通俗的讲，类型系统是为了赋予程序或者数据意义。因为任何值或者一个函数，在内存里面都只是一串bits，而类型就是要给这串bits意义。例如，10 是的类型是一个奇怪的 int 类型，这个int只有两位。类型系统会给你加额外的信息让他变成一个">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-20T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-28T13:58:06.304Z">
+<meta property="article:modified_time" content="2021-03-28T14:48:21.060Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Ocaml">
 <meta property="article:tag" content="Python">
@@ -278,7 +278,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>4.6k</span>
+              <span>4.7k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -318,7 +318,7 @@
 <p><strong>类型安全</strong></p>
 <p>一个语言是强类型安全，必须保证代码只能读取自己可以读取的内存区域，并且类型安全的代码不能对一个对象进行不合法的操作。这种保证可以是静态的，即在编译阶段，也可以是动态的，即在运行时。换个说法，类型</p>
 <p>C语言的大部分代码是类型安全的，但是C语言的运行时不能保证类型安全，主要是因为可以进行cast操作。比如，要把指针放入array的时候，需要将指针cast成 <code>void*</code>，但是这个操作会丢失所有类型信息，当取回时，有需要 cast 回到原来的类型。由于这些cast的存在，系统运行时可能会出现意想不到的的行为。比如：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">char</span> y[] = <span class="string">"37"</span>;</span><br><span class="line"><span class="keyword">char</span>* z = x + y;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">char</span> y[] = <span class="string">&quot;37&quot;</span>;</span><br><span class="line"><span class="keyword">char</span>* z = x + y;</span><br></pre></td></tr></table></figure>
 
 <p>这段c代码中，<code>z</code> 会指向一个内存地址，这个地址是比 <code>y</code> 地址+5 char的一个位置，这个位置可能是任何数据，但是程序本身不会直接崩溃，直到使用z的时候导致更加严重的问题，导致崩溃。而在Java中上述代码会在编译阶段报错。Python属于动态类型，类型安全也只能在运行时抛出异常。</p>
 <p>当然这只是很简单的情况，Ocaml其实有用更加的强大的类型系统，能发现比上面这种明显问题更加不显然的逻辑错误。我们后面举例。</p>
@@ -327,7 +327,7 @@
 <p><strong>类型比较</strong></p>
 <p>这里主要在讨论如何说明两个变量的类型是相同的？对于Nominal类型系统，比较非常简单，只要两个类型的名字不一样，他们就是不一样的！无论他们的行为如何。但是对于Structural 类型系统，也叫 property based，只要两个类型的行为一样，他们就是一样的。对于一些存在集成的系统，比较就更加复杂了，需要更多的规则。</p>
 <p>结构化类型最好的代表其实Python，在Python的世界里更喜欢被叫做 duck typing。我举个栗子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.a = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.a = <span class="number">1</span>   </span><br><span class="line">        </span><br><span class="line">a = A()</span><br><span class="line">b = B()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dummy</span><span class="params">(o)</span>:</span></span><br><span class="line">    print(o.a)</span><br><span class="line">    </span><br><span class="line">dummy(a)</span><br><span class="line">dummy(b)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.a = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.a = <span class="number">1</span>   </span><br><span class="line">        </span><br><span class="line">a = A()</span><br><span class="line">b = B()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dummy</span>(<span class="params">o</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(o.a)</span><br><span class="line">    </span><br><span class="line">dummy(a)</span><br><span class="line">dummy(b)</span><br></pre></td></tr></table></figure>
 
 <p>上面的代码运行完全没有问题，但是dummy函数的参数o却支持不同的类型（A和B），这就是所谓的 duck typing。</p>
 <p><strong>类型检查</strong></p>
@@ -340,7 +340,7 @@
 </ul>
 <p><em>举例1：需要更多的代码</em></p>
 <p><strong>Python</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">truncate_reminder</span><span class="params">(x)</span>:</span></span><br><span class="line">    int_part = int(x)</span><br><span class="line">    <span class="keyword">return</span> (int_part, x - int_part)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">truncate_reminder</span>(<span class="params">x</span>):</span></span><br><span class="line">    int_part = <span class="built_in">int</span>(x)</span><br><span class="line">    <span class="keyword">return</span> (int_part, x - int_part)</span><br></pre></td></tr></table></figure>
 <p><strong>Java</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 应该感谢Java终于有了泛型。。。不然这段代码的长度会扩大两倍。。。。</span></span><br><span class="line"><span class="comment"> * 泛型算是类型系统一个改善，Java之前的类型系统表达能力真的非常有限 。。。 */</span></span><br><span class="line"><span class="function">Pair&lt;Int, Float&gt; <span class="title">truncateReminder</span><span class="params">(Float x)</span> </span>&#123;</span><br><span class="line">    Int intPart = Int(x);</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">new</span> Pair&lt;Int, Float&gt;(intPart, x - intPart));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>Ocaml</strong></p>
@@ -349,11 +349,11 @@
 <p>上面可以发现，Python代码显然是最简洁的，Ocaml其次，Java则多了很多类型标识符+泛型。Ocaml的类型系统可以进行推断，如果推断失败了，它会告诉你它需要哪些提示来完成推断，这样就即有了动态语言的简洁，又可以有用静态类型系统的好处。</p>
 <p><em>举例2： 奇葩的错误</em></p>
 <p><strong>Python</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">len([<span class="number">1</span>])</span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line">len(<span class="number">1</span>)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">---------------------------------------------------------------------------</span></span><br><span class="line"><span class="string">TypeError                                 Traceback (most recent call last)</span></span><br><span class="line"><span class="string">&lt;ipython-input-2-1cf91bb60cc0&gt; in &lt;module&gt;</span></span><br><span class="line"><span class="string">----&gt; 1 len(1)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">TypeError: object of type 'int' has no len()</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">len</span>([<span class="number">1</span>])</span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line"><span class="built_in">len</span>(<span class="number">1</span>)</span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">---------------------------------------------------------------------------</span></span><br><span class="line"><span class="string">TypeError                                 Traceback (most recent call last)</span></span><br><span class="line"><span class="string">&lt;ipython-input-2-1cf91bb60cc0&gt; in &lt;module&gt;</span></span><br><span class="line"><span class="string">----&gt; 1 len(1)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">TypeError: object of type &#x27;int&#x27; has no len()</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>Ok，Python的类型错误提示还是很友好的。</p>
 <p><strong>Ocaml</strong></p>
-<figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>.length([<span class="number">1</span>])</span><br><span class="line"><span class="comment">(* 1 *)</span></span><br><span class="line"><span class="type">List</span>.length(<span class="number">1</span>)</span><br><span class="line"><span class="comment">(*</span></span><br><span class="line"><span class="comment">Line 1, characters 11-14:</span></span><br><span class="line"><span class="comment">Error: This expression has type int but an expression was expected of type</span></span><br><span class="line"><span class="comment">         'a list</span></span><br><span class="line"><span class="comment">*)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>.length([<span class="number">1</span>])</span><br><span class="line"><span class="comment">(* 1 *)</span></span><br><span class="line"><span class="type">List</span>.length(<span class="number">1</span>)</span><br><span class="line"><span class="comment">(*</span></span><br><span class="line"><span class="comment">Line 1, characters 11-14:</span></span><br><span class="line"><span class="comment">Error: This expression has type int but an expression was expected of type</span></span><br><span class="line"><span class="comment">         &#x27;a list</span></span><br><span class="line"><span class="comment">*)</span></span><br></pre></td></tr></table></figure>
 
 <p>hmm，看起来更复杂一点了，比如<code>&#39;a list</code>是啥？需要更多关于带参类型的理解，才能读懂这段错误提示。但是起码，你看到表达式的类型是int，然而这个函数需要 类型 <code>a list</code>。（不懂无所谓现在）但是显然，类型系统需要更多的学习。</p>
 <p>让我们来看看更加先进的Haskell:</p>
@@ -378,10 +378,10 @@
 <p>动态语言非常灵活，代码更加简洁，非常适合快速原型或者一些对正确性要求不高的项目。动态语言也更适合开发人员较少的项目。而静态类型语言则更加注重代码的正确性和性能，良好的类型系统对大型项目管理和重构都有很重要的意义，但是类型系统也意味着更多的学习。</p>
 <p>我们从举例1可以看到，Ocaml的类型系统显然比Java的类型系统表达能力更强，更加先进。但是相应的也带来了一些学习曲线，比如 <code>&#39;a list</code>。当然，在实际工程中，我们也要取舍选择合适复杂度的类型系统，Haskell的类型系统显然过于先进了，学习成本可能更高。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://wanwenli.com/programming/2013/12/27/Type-Systems.html" target="_blank" rel="noopener">https://wanwenli.com/programming/2013/12/27/Type-Systems.html</a></li>
-<li><a href="https://www.youtube.com/watch?v=0arFPIQatCU" target="_blank" rel="noopener">https://www.youtube.com/watch?v=0arFPIQatCU</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Comparison_of_programming_languages_by_type_system" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Comparison_of_programming_languages_by_type_system</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Type_system#Explicit_or_implicit_declaration_and_inference" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Type_system#Explicit_or_implicit_declaration_and_inference</a></li>
+<li><a target="_blank" rel="noopener" href="https://wanwenli.com/programming/2013/12/27/Type-Systems.html">https://wanwenli.com/programming/2013/12/27/Type-Systems.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=0arFPIQatCU">https://www.youtube.com/watch?v=0arFPIQatCU</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Comparison_of_programming_languages_by_type_system">https://en.wikipedia.org/wiki/Comparison_of_programming_languages_by_type_system</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Type_system#Explicit_or_implicit_declaration_and_inference">https://en.wikipedia.org/wiki/Type_system#Explicit_or_implicit_declaration_and_inference</a></li>
 </ul>
 
     </div>
@@ -389,6 +389,26 @@
     
     
     
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/11/python_5/" rel="bookmark">重新认识 Python（5）再谈并发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/11/09/cs3110/" rel="bookmark">CS3110总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/05/09/graph3_digraph/" rel="bookmark">Graph - DiGraph</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/06/pyos_1/" rel="bookmark">编程101 PyOS 一个Python写的OS</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/06/pyos_2/" rel="bookmark">编程101 PyOS 一个Python写的OS 2</a></div>
+    </li>
+  </ul>
+
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -404,8 +424,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/02/18/python_gil/" rel="prev" title="重新认识 Python（3）GIL">
-      <i class="fa fa-chevron-left"></i> 重新认识 Python（3）GIL
+    <a href="/2021/02/18/python_memory_mgt/" rel="prev" title="重新认识 Python（2）内存管理">
+      <i class="fa fa-chevron-left"></i> 重新认识 Python（2）内存管理
     </a></div>
       <div class="post-nav-item">
     <a href="/2021/03/05/python_concurrent/" rel="next" title="重新认识 Python（4）并发模型">
@@ -477,7 +497,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类型系统是什么"><span class="nav-number">1.</span> <span class="nav-text">类型系统是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语言分类"><span class="nav-number">2.</span> <span class="nav-text">语言分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型系统痛点"><span class="nav-number">3.</span> <span class="nav-text">类型系统痛点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型系统好处"><span class="nav-number">4.</span> <span class="nav-text">类型系统好处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后"><span class="nav-number">5.</span> <span class="nav-text">写在最后</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">类型系统是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">语言分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E7%97%9B%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">类型系统痛点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E5%A5%BD%E5%A4%84"><span class="nav-number">4.</span> <span class="nav-text">类型系统好处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-number">5.</span> <span class="nav-text">写在最后</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -492,7 +512,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-count">65</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -558,13 +578,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">174k</span>
+    <span title="Symbols count total">178k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">2:38</span>
+    <span title="Reading time total">2:41</span>
 </div>
 
 <span id="timeDate">Loding time...</span><span id="times">...</span>

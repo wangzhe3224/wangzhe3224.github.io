@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -29,7 +29,7 @@
 <meta property="og:description" content="Part 1First thing, what does it mean by saying cs:ip?This is a old but still being used memory addressing method. Segment: Offfset. The absolute memory addres &#x3D; (Segment * 16) + Offset. For example, F">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-10-10T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-28T13:58:06.304Z">
+<meta property="article:modified_time" content="2021-03-28T14:48:21.060Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Operating System">
 <meta name="twitter:card" content="summary">
@@ -352,12 +352,12 @@
 </blockquote>
 <p>The kernel initialized stack pointer in line 76 of <code>kern/entry.S</code> with <code>movl $(bootstacktop), %esp</code>.<br>By looking at <code>obj/kern/kernel.asm</code> line 57, we know that stack pointer is pointing to <code>0xf0110000</code><br> which is right after the 1MB kernel space.</p>
 <p><code>f0100034:   bc 00 00 11 f0          mov    $0xf0110000,%esp</code></p>
-<h3 id="Exercise-10"><a href="#Exercise-10" class="headerlink" title="Exercise 10"></a>Exercise 10</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span><br><span class="line">mon_backtrace(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv, struct Trapframe *tf)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> *ebp = (<span class="keyword">uint32_t</span> *)read_ebp();</span><br><span class="line">    cprintf(<span class="string">"Stack backtrace:\n"</span>);</span><br><span class="line">    <span class="keyword">while</span> (ebp != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">uint32_t</span> eip = ebp[<span class="number">1</span>];</span><br><span class="line">        cprintf(<span class="string">"  ebp %08x  eip %08x  args %08x %08x %08x %08x %08x\n"</span>, ebp, eip, ebp[<span class="number">2</span>], ebp[<span class="number">3</span>], ebp[<span class="number">4</span>], ebp[<span class="number">5</span>], ebp[<span class="number">6</span>]);</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">Eipdebuginfo</span> <span class="title">info</span>;</span></span><br><span class="line">        <span class="keyword">if</span> (debuginfo_eip(eip, &amp;info) == <span class="number">0</span>) &#123;</span><br><span class="line">            cprintf(<span class="string">"         %s:%d: %.*s+%d\n"</span>, info.eip_file, info.eip_line, info.eip_fn_namelen, info.eip_fn_name, eip - info.eip_fn_addr);</span><br><span class="line">        &#125;</span><br><span class="line">        ebp = (<span class="keyword">uint32_t</span> *)(*ebp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Exercise-10"><a href="#Exercise-10" class="headerlink" title="Exercise 10"></a>Exercise 10</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span><br><span class="line">mon_backtrace(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv, struct Trapframe *tf)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> *ebp = (<span class="keyword">uint32_t</span> *)read_ebp();</span><br><span class="line">    cprintf(<span class="string">&quot;Stack backtrace:\n&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span> (ebp != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">uint32_t</span> eip = ebp[<span class="number">1</span>];</span><br><span class="line">        cprintf(<span class="string">&quot;  ebp %08x  eip %08x  args %08x %08x %08x %08x %08x\n&quot;</span>, ebp, eip, ebp[<span class="number">2</span>], ebp[<span class="number">3</span>], ebp[<span class="number">4</span>], ebp[<span class="number">5</span>], ebp[<span class="number">6</span>]);</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">Eipdebuginfo</span> <span class="title">info</span>;</span></span><br><span class="line">        <span class="keyword">if</span> (debuginfo_eip(eip, &amp;info) == <span class="number">0</span>) &#123;</span><br><span class="line">            cprintf(<span class="string">&quot;         %s:%d: %.*s+%d\n&quot;</span>, info.eip_file, info.eip_line, info.eip_fn_namelen, info.eip_fn_name, eip - info.eip_fn_addr);</span><br><span class="line">        &#125;</span><br><span class="line">        ebp = (<span class="keyword">uint32_t</span> *)(*ebp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="https://qiita.com/kagurazakakotori/items/b092fc0dbe3c3ec09e8e" target="_blank" rel="noopener">Solution</a></li>
-<li><a href="https://www.youtube.com/watch?v=Q2sFmqvpBe0" target="_blank" rel="noopener">Call stack video</a></li>
-<li><a href="https://www.youtube.com/watch?v=XbZQ-EonR_I" target="_blank" rel="noopener">Details in stack and register</a></li>
+<li><a target="_blank" rel="noopener" href="https://qiita.com/kagurazakakotori/items/b092fc0dbe3c3ec09e8e">Solution</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Q2sFmqvpBe0">Call stack video</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=XbZQ-EonR_I">Details in stack and register</a></li>
 </ul>
 
     </div>
@@ -365,6 +365,23 @@
     
     
     
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/09/20/cs_app/" rel="bookmark">Computer System</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/06/pyos_1/" rel="bookmark">编程101 PyOS 一个Python写的OS</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/06/pyos_2/" rel="bookmark">编程101 PyOS 一个Python写的OS 2</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/07/pyos_3/" rel="bookmark">编程101 PyOS 一个Python写的OS 3</a></div>
+    </li>
+  </ul>
+
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -465,7 +482,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-count">65</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -531,13 +548,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">174k</span>
+    <span title="Symbols count total">178k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">2:38</span>
+    <span title="Reading time total">2:41</span>
 </div>
 
 <span id="timeDate">Loding time...</span><span id="times">...</span>
