@@ -118,8 +118,17 @@ type ReadWriter interface {
 }
 ```
 
-为了让函数接受任意类型，我们可以传入 `interface{}` 类型。
+为了让函数接受任意类型，我们可以传入 `interface{}` 类型。编译器会负责检查结构是否满足。
 
-编译器会负责检查结构是否满足。
+```go=
+ var any interface{}
+ any = true
+ any = 12.34
+ any = "hello"
+ any = map[string]int{"one": 1}
+ any = new(bytes.Buffer)
+```
 
-关于接口更多的信息，后续专门讨论。
+Go 的 interface 可以有两种不同的使用范式：subtype polymorphism 和 ad hoc polymorphism。
+
+后续专门讨论。
