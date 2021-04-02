@@ -29,7 +29,7 @@
 <meta property="og:description" content="Go 学习笔记4 抽象模式Go 的抽象方法主要通过函数、方法和接口三种方式。 函数，FunctionGo 中函数是一等公民，可以被传递、返回，具有类型，是组织程序的基本元素。 123func name(params-list) (returns-list) &amp;#123;    body&amp;#125;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-03-30T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-04-02T09:26:17.920Z">
+<meta property="article:modified_time" content="2021-04-02T09:36:05.829Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Go">
 <meta property="article:tag" content="Go学习">
@@ -283,7 +283,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.9k</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -332,9 +332,11 @@
 <p>接口类型与之前提到的concrete类型不用，一个实类型会明确数据结构以及该类型支持的具体函数（方法）。换句话说，当我们看到一个实类型，我们明确的知道这个类型可以做什么。而 Interface 类型属于抽象类型，他们仅仅确定该类型应该支持的操作函数的签名，但是不知道他具体会做什么。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Reader <span class="keyword">interface</span> &#123;</span><br><span class="line">    Read(p []<span class="keyword">byte</span>) (n <span class="keyword">int</span>, err error)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Closer <span class="keyword">interface</span> &#123;</span><br><span class="line">    Close() error</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 我们还可以组合 interface</span></span><br><span class="line"><span class="keyword">type</span> ReadWriter <span class="keyword">interface</span> &#123;</span><br><span class="line">    Reader</span><br><span class="line">    Writer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>为了让函数接受任意类型，我们可以传入 <code>interface&#123;&#125;</code> 类型。</p>
-<p>编译器会负责检查结构是否满足。</p>
-<p>关于接口更多的信息，后续专门讨论。</p>
+<p>为了让函数接受任意类型，我们可以传入 <code>interface&#123;&#125;</code> 类型。编译器会负责检查结构是否满足。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> any <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">any = <span class="literal">true</span></span><br><span class="line">any = <span class="number">12.34</span></span><br><span class="line">any = <span class="string">&quot;hello&quot;</span></span><br><span class="line">any = <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>&#123;<span class="string">&quot;one&quot;</span>: <span class="number">1</span>&#125;</span><br><span class="line">any = <span class="built_in">new</span>(bytes.Buffer)</span><br></pre></td></tr></table></figure>
+
+<p>Go 的 interface 可以有两种不同的使用范式：subtype polymorphism 和 ad hoc polymorphism。</p>
+<p>后续专门讨论。</p>
 
     </div>
 
