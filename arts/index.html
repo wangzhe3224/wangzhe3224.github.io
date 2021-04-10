@@ -49,7 +49,7 @@
 <meta property="og:image" content="https://i.imgur.com/S9IivKz.png">
 <meta property="og:image" content="https://i.imgur.com/H1BPsop.png">
 <meta property="article:published_time" content="2020-04-19T18:31:09.000Z">
-<meta property="article:modified_time" content="2021-04-10T12:34:48.292Z">
+<meta property="article:modified_time" content="2021-04-10T12:44:05.051Z">
 <meta property="article:author" content="Zhe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://github.com/wangzhe3224/pyca/raw/master/assets/2d_cyclic_ac.gif">
@@ -588,6 +588,26 @@ window.addEventListener('pjax:success', () => {
 
 
 
+  <script pjax>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 30061,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
 
   
 <script src="/js/local-search.js"></script>

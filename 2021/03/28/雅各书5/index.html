@@ -40,7 +40,7 @@
 <meta property="og:description" content="雅各书 5：13-20这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。 这段经文的重点在于祷告，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。 我们为什么祷告？ 13 你们中间有人受苦吗？他就应该 祷告_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-03-28T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-04-10T12:34:48.292Z">
+<meta property="article:modified_time" content="2021-04-10T12:44:05.051Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="雅各书">
 <meta name="twitter:card" content="summary">
@@ -364,6 +364,11 @@
           </div>
 
         
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
 
 
         
@@ -681,6 +686,26 @@ window.addEventListener('pjax:success', () => {
 
 
 
+  <script pjax>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 30061,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
 
   
 <script src="/js/local-search.js"></script>

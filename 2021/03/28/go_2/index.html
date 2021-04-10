@@ -40,7 +40,7 @@
 <meta property="og:description" content="Go 学习笔记2：语法和语义这个部分主要总结 Go 涉及的基本语法和语义，即之前提到的前两个角度。 整体印象 语法简单 过程式语言 + 函数一等公民 通过结构体 + 接口实现抽象 协程并发 GC，value-oriented language FFI支持很好  Go 的语法比较简单，涉及到的关键字大约只有27个，对比 Python 大概有33个，而 Rust 则超过40个，Java 保留了约52个">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-03-28T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-04-10T12:34:48.292Z">
+<meta property="article:modified_time" content="2021-04-10T12:44:05.047Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Go">
 <meta property="article:tag" content="Go学习">
@@ -425,6 +425,11 @@
           </div>
 
         
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
 
 
         
@@ -742,6 +747,26 @@ window.addEventListener('pjax:success', () => {
 
 
 
+  <script pjax>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 30061,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
 
   
 <script src="/js/local-search.js"></script>
