@@ -14,7 +14,6 @@
   "dependencies": {
     "hexo": "^5.0.0",
     "hexo-excerpt": "^1.1.6",
-    "hexo-filter-emoji": "^2.2.1",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
     "hexo-generator-index": "^1.0.0",
