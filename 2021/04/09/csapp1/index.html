@@ -32,17 +32,20 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Things are correlated">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zhe">
-<meta property="og:url" content="http://yoursite.com/tags/Reinforcement-Learning/index.html">
+  <meta name="description" content="CSAPP 1 概览这本书之前非常简略的阅读过一次，过了这么一年多，重新拿起这本书反倒有了更多理解。可能这就是一本好书的特点把，他随着你的经验增加，提供给你更多的信息。给人的感觉就是，第一次读醍醐灌顶，第二次读，还是醍醐灌顶。。。 作者首先描述了一个 hello 程序是如何从源代码变成可以被执行的机器码，然后通过简单介绍计算机的硬件组成说明了程序是如何被执行的。在这个过程中有几个比较重要的点：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSAPP 1 概览">
+<meta property="og:url" content="http://yoursite.com/2021/04/09/csapp1/index.html">
 <meta property="og:site_name" content="Zhe">
-<meta property="og:description" content="Things are correlated">
+<meta property="og:description" content="CSAPP 1 概览这本书之前非常简略的阅读过一次，过了这么一年多，重新拿起这本书反倒有了更多理解。可能这就是一本好书的特点把，他随着你的经验增加，提供给你更多的信息。给人的感觉就是，第一次读醍醐灌顶，第二次读，还是醍醐灌顶。。。 作者首先描述了一个 hello 程序是如何从源代码变成可以被执行的机器码，然后通过简单介绍计算机的硬件组成说明了程序是如何被执行的。在这个过程中有几个比较重要的点：">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-09T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-10T08:55:49.417Z">
 <meta property="article:author" content="Zhe">
+<meta property="article:tag" content="CSAPP">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/tags/Reinforcement-Learning/">
+<link rel="canonical" href="http://yoursite.com/2021/04/09/csapp1/">
 
 
 <script id="page-configurations">
@@ -50,12 +53,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Tag: Reinforcement Learning | Zhe</title>
+  <title>CSAPP 1 概览 | Zhe</title>
   
     <script>
       function sendPageView() {
@@ -223,94 +226,172 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/09/csapp1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSAPP 1 概览
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-04-09 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-09T00:00:00Z">2021-04-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computing/" itemprop="url" rel="index"><span itemprop="name">Computing</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">Reinforcement Learning
-          <small>Tag</small>
-        </h2>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/04/09/csapp1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/09/csapp1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>871</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
+        <h1 id="CSAPP-1-概览"><a href="#CSAPP-1-概览" class="headerlink" title="CSAPP 1 概览"></a>CSAPP 1 概览</h1><p>这本书之前非常简略的阅读过一次，过了这么一年多，重新拿起这本书反倒有了更多理解。可能这就是一本好书的特点把，他随着你的经验增加，提供给你更多的信息。给人的感觉就是，第一次读醍醐灌顶，第二次读，还是醍醐灌顶。。。</p>
+<p>作者首先描述了一个 <code>hello</code> 程序是如何从源代码变成可以被执行的机器码，然后通过简单介绍计算机的硬件组成说明了程序是如何被执行的。在这个过程中有几个比较重要的点：</p>
+<ul>
+<li>编译器就是一个把一段程序（源代码）翻译成另一种程序（机器码）一个程序（机器码）</li>
+<li>计算机的主要操作就是读取指令（数据），运算，输出数据</li>
+<li>由于不同数据存储介质的读取速度和容量负相关，缓存机制尤其重要</li>
+</ul>
+<p>随后引入了操作系统的三个重要抽象：</p>
+<ul>
+<li>进程、线程</li>
+<li>文件</li>
+<li>虚拟内存</li>
+</ul>
+<p>作者高度概括了计算机系统设计的两个基本概念：</p>
+<ul>
+<li>并发和并行</li>
+<li>抽象</li>
+</ul>
+<h2 id="操作系统抽象"><a href="#操作系统抽象" class="headerlink" title="操作系统抽象"></a>操作系统抽象</h2><p><strong>进程</strong></p>
+<p>进程，是一个运行的程序的抽象。是实现并发的基本元素，操作系统通过上下文（context）切换让 CPU 在不同进程之间交替执行，从而实现多个程序的并发执行。Context 包括寄存器、内存、程序指针（PC）等。</p>
+<p><strong>线程</strong></p>
+<p>线程，是存在于进程内部的更小的运行的程序。他们共享父进程的内存空间，但是切换更加迅速。（他们共享 stack 吗？共享 heap 吗？）</p>
+<p><strong>虚拟内存</strong></p>
+<p>虚拟内存，是一个进程的内存空间抽象。每一个进程虽然都共享主内存，因为有这个抽象，每个进程拥有独立的内存空间。而操作系统和硬件负责虚拟内存和物理内存的映射。</p>
+<blockquote>
+<p>The basic idea is to store the contents of a process’s virtual memory on disk, and then use the main memory as a <strong>cache</strong> for the disk. </p>
+</blockquote>
+<p><strong>文件</strong></p>
+<p>文件，就是一段连续的字节（byte）。所有的 IO 设备都被抽象成文件。</p>
+<h2 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h2><p>并发和并行是提高运行效率的主要手段，他们体现在不同的层次上，从 CPU 层次，到操作系统，最后是应用程序。</p>
+<ul>
+<li><strong>线程级别并发</strong></li>
+<li>指令级别并行</li>
+<li>Single-Instruction, Multiple-Data (SIMD) </li>
+<li>green thread</li>
+</ul>
+<h6 id="tags-CSAPP"><a href="#tags-CSAPP" class="headerlink" title="tags: CSAPP"></a>tags: <code>CSAPP</code></h6>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+      
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-08-01T00:00:00Z"
-              content="2020-08-01">
-          08-01
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/01/rl4/" itemprop="url">
-            <span itemprop="name">Reinforment Learning 4 Dynamic Programming</span>
-          </a>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CSAPP/" rel="tag"># CSAPP</a>
+          </div>
 
-    </header>
-  </article>
+        
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-31T00:00:00Z"
-              content="2020-07-31">
-          07-31
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/31/rl2/" itemprop="url">
-            <span itemprop="name">Reinforment Learning 3 Markov Decision Process</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-25T00:00:00Z"
-              content="2020-07-25">
-          07-25
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/25/rl1/" itemprop="url">
-            <span itemprop="name">Reinforment Learning Introduction 1 - 2</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/05/go_sync/" rel="prev" title="Go 学习笔记 Memory Access Synchronization">
+      <i class="fa fa-chevron-left"></i> Go 学习笔记 Memory Access Synchronization
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
           
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -358,6 +439,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSAPP-1-%E6%A6%82%E8%A7%88"><span class="nav-number">1.</span> <span class="nav-text">CSAPP 1 概览</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8A%BD%E8%B1%A1"><span class="nav-number">1.1.</span> <span class="nav-text">操作系统抽象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E4%B8%8E%E5%B9%B6%E8%A1%8C"><span class="nav-number">1.2.</span> <span class="nav-text">并发与并行</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#tags-CSAPP"><span class="nav-number">1.2.0.0.0.1.</span> <span class="nav-text">tags: CSAPP</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -615,6 +697,26 @@ window.addEventListener('pjax:success', () => {
   }
   // defer loading until the whole page loading is completed
   window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2021/04/09/csapp1/";
+    this.page.identifier = "2021/04/09/csapp1/";
+    this.page.title = "CSAPP 1 概览";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://wangzhe.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
 </script>
 
     </div>
