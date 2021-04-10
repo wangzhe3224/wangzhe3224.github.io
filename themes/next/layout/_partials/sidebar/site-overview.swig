@@ -117,7 +117,9 @@
       {%- endfor %}
     </ul>
   </div>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+{%- endif %}
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- side bar -->
 <ins class="adsbygoogle"
      style="display:block"
@@ -128,4 +130,3 @@
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-{%- endif %}
