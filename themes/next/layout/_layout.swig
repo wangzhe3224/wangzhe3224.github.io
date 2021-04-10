@@ -7,6 +7,17 @@
   <title>{% block title %}{% endblock %}</title>
   {{ partial('_third-party/analytics/index.swig', {}, {cache: theme.cache.enable}) }}
   {{ partial('_scripts/noscript.swig', {}, {cache: theme.cache.enable}) }}
+  <script data-ad-client="ca-pub-9801985319378542" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <meta name="google-site-verification" content="MjVVxpOXJOpseO4Uw4kLKcO-jlZdu7grfbyyAbwnzG8" />
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66629043-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66629043-1');
+  </script>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
