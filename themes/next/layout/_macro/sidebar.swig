@@ -7,8 +7,6 @@
 
   <aside class="sidebar">
     <div class="sidebar-inner">
-      <script data-ad-client="ca-pub-9801985319378542" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-      
       {%- set display_toc = page.toc.enable and display_toc %}
       {%- if display_toc %}
         {%- set toc = toc(page.content, { class: "nav", list_number: page.toc.number, max_depth: page.toc.max_depth }) %}
