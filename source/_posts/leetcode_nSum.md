@@ -1,7 +1,7 @@
 ---
 title: nSum 问题
-tags: [Leetcode, nSum]
-categories: Coding
+tags: [nSum]
+categories: Leetcode
 date: 2021-04-09
 ---
 
