@@ -48,6 +48,25 @@
       </tags>
   </entry>
   <entry>
+    <title>nSum 问题</title>
+    <url>/2021/04/09/leetcode_nSum/</url>
+    <content><![CDATA[<h1 id="nSum-问题"><a href="#nSum-问题" class="headerlink" title="nSum 问题"></a>nSum 问题</h1><h2 id="2-Sum"><a href="#2-Sum" class="headerlink" title="2 Sum"></a>2 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>], target: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span></span><br><span class="line">        cache = &#123;&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            residual = target - nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> residual <span class="keyword">in</span> cache:</span><br><span class="line">                <span class="keyword">return</span> [cache[residual], i]</span><br><span class="line">            </span><br><span class="line">            cache[nums[i]] = i</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> []</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Sum"><a href="#3-Sum" class="headerlink" title="3 Sum"></a>3 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">threeSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(nums) &lt;= <span class="number">3</span> <span class="keyword">and</span> <span class="built_in">sum</span>(nums)!=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        res = []</span><br><span class="line">        counter = collections.defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">            counter[i] += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        nums = <span class="built_in">sorted</span>(counter.keys())</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            a = nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> <span class="number">3</span>*a == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">3</span>:</span><br><span class="line">                res.append([a,a,a])</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>, <span class="built_in">len</span>(nums)):</span><br><span class="line">                b = nums[j]</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*b + a == <span class="number">0</span> <span class="keyword">and</span> counter[b] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, b, b])</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*a + b == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, a, b])</span><br><span class="line">                    </span><br><span class="line">                c = -a-b</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> c &gt; b <span class="keyword">and</span> counter[c] &gt;= <span class="number">1</span>:</span><br><span class="line">                    res.append([a, b, c])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+
+<h6 id="tags-Leetcode-nSum"><a href="#tags-Leetcode-nSum" class="headerlink" title="tags: Leetcode nSum"></a>tags: <code>Leetcode</code> <code>nSum</code></h6>]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>nSum</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go 学习笔记 Memory Access Synchronization</title>
     <url>/2021/04/05/go_sync/</url>
     <content><![CDATA[<h1 id="Go-学习笔记-Memory-Access-Synchronization"><a href="#Go-学习笔记-Memory-Access-Synchronization" class="headerlink" title="Go 学习笔记 Memory Access Synchronization"></a>Go 学习笔记 Memory Access Synchronization</h1><p>Go 对并发有良好的支持，主要支持两种模式：CSP 和 MAS。前一种是大家熟知的Go常用模式（<code>goroutine</code> + <code>chan</code>），后面一种其实就是传统的带锁的并发编程（<code>sync</code> 包）。Go 对这两种并发都有良好的支持，同时也提倡在合适的时候混合使用他们，因为这两种并发的应用场景不太一样。</p>
@@ -403,42 +422,6 @@
       </tags>
   </entry>
   <entry>
-    <title>雅各书 5 13-20</title>
-    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
-    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
-<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
-<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
-<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
-</blockquote>
-<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
-<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
-<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
-<blockquote>
-<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
-</blockquote>
-<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
-<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
-<ul>
-<li>认罪</li>
-<li>倾吐心声</li>
-<li>互相鼓励</li>
-<li>等等。。。</li>
-</ul>
-<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
-<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
-<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
-<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
-<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Go 学习笔记2 语法、语义</title>
     <url>/2021/03/28/go_2/</url>
     <content><![CDATA[<h1 id="Go-学习笔记2：语法和语义"><a href="#Go-学习笔记2：语法和语义" class="headerlink" title="Go 学习笔记2：语法和语义"></a>Go 学习笔记2：语法和语义</h1><p>这个部分主要总结 Go 涉及的基本语法和语义，即之前提到的前两个角度。</p>
@@ -526,6 +509,42 @@
       <tags>
         <tag>Go</tag>
         <tag>Go学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>雅各书 5 13-20</title>
+    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
+    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
+<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
+<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
+<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
+</blockquote>
+<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
+<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
+<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
+<blockquote>
+<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
+</blockquote>
+<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
+<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
+<ul>
+<li>认罪</li>
+<li>倾吐心声</li>
+<li>互相鼓励</li>
+<li>等等。。。</li>
+</ul>
+<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
+<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
+<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
+<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
+<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
@@ -857,30 +876,6 @@
       </tags>
   </entry>
   <entry>
-    <title>雅各书 3-4</title>
-    <url>/2021/03/07/yageshu_13/</url>
-    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
-<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
-</blockquote>
-<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
-<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
-<blockquote>
-<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
-</blockquote>
-<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
-<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
-<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
-</blockquote>
-<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>编程101 PyOS 一个Python写的OS 3</title>
     <url>/2021/03/07/pyos_3/</url>
     <content><![CDATA[<blockquote>
@@ -931,6 +926,30 @@
         <tag>Operating System</tag>
         <tag>Python</tag>
         <tag>Concurrent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>雅各书 3-4</title>
+    <url>/2021/03/07/yageshu_13/</url>
+    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
+<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
+</blockquote>
+<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
+<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
+<blockquote>
+<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
+</blockquote>
+<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
+<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
+<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
+</blockquote>
+<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
