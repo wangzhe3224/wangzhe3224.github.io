@@ -1,7 +1,7 @@
 ---
 title: 动态规划问题
-tags: [Leetcode, DP]
-categories: Coding
+tags: DP
+categories: Leetcode
 date: 2021-04-08
 ---
 
