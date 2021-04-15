@@ -20,19 +20,20 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Things are correlated">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+  <meta name="description" content="CSAPP 4 处理器架构CPU Pipeline 的基本原理，通过将任务拆解成不同的阶段，并行执行多个任务，增加 throughput，相应的会提高延迟。不过这样可以提高CPU的时钟频率，降低延迟。 这是比指令集更低一个的一个层次，每一个指令集指令都被分解成多个不同的阶段，由对应的硬件分别执行。分解后，为并行提供了可能。 123A B C  A B C    A B C  Pipeline 的复">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSAPP 4 处理器架构">
+<meta property="og:url" content="http://yoursite.com/2021/04/16/csapp_4/index.html">
 <meta property="og:site_name" content="Zhe">
-<meta property="og:description" content="Things are correlated">
+<meta property="og:description" content="CSAPP 4 处理器架构CPU Pipeline 的基本原理，通过将任务拆解成不同的阶段，并行执行多个任务，增加 throughput，相应的会提高延迟。不过这样可以提高CPU的时钟频率，降低延迟。 这是比指令集更低一个的一个层次，每一个指令集指令都被分解成多个不同的阶段，由对应的硬件分别执行。分解后，为并行提供了可能。 123A B C  A B C    A B C  Pipeline 的复">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-21T16:18:10.000Z">
-<meta property="article:modified_time" content="2021-04-15T22:50:20.589Z">
+<meta property="article:published_time" content="2021-04-16T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-15T22:50:20.549Z">
 <meta property="article:author" content="Zhe">
+<meta property="article:tag" content="CSAPP">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/tags/">
+<link rel="canonical" href="http://yoursite.com/2021/04/16/csapp_4/">
 
 
 <script id="page-configurations">
@@ -40,13 +41,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>tags | Zhe
-  </title>
+  <title>CSAPP 4 处理器架构 | Zhe</title>
   
     <script>
       function sendPageView() {
@@ -221,57 +221,166 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
           <div class="content">
             
 
   <div class="posts-expand">
-    
-    
-    
-    <div class="post-block" lang="en">
-      <header class="post-header">
-
-<h1 class="post-title" itemprop="name headline">tags
-</h1>
-
-<div class="post-meta">
+      
   
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/16/csapp_4/">
 
-</div>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
 
-</header>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSAPP 4 处理器架构
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-04-16 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-16T00:00:00Z">2021-04-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computing/" itemprop="url" rel="index"><span itemprop="name">Computing</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/04/16/csapp_4/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/16/csapp_4/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>197</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-      
-      
-      <div class="post-body">
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-              57 tags in total
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/6-004/" style="font-size: 18.57px; color: #7575a8">6.004</a> <a href="/tags/Algorithms/" style="font-size: 18.57px; color: #7575a8">Algorithms</a> <a href="/tags/Async/" style="font-size: 18.57px; color: #7575a8">Async</a> <a href="/tags/Backtest/" style="font-size: 16px; color: #669">Backtest</a> <a href="/tags/Bible/" style="font-size: 21.14px; color: #8383b6">Bible</a> <a href="/tags/CPython/" style="font-size: 23.71px; color: #9292c5">CPython</a> <a href="/tags/CS3110/" style="font-size: 16px; color: #669">CS3110</a> <a href="/tags/CSAPP/" style="font-size: 21.14px; color: #8383b6">CSAPP</a> <a href="/tags/Chord/" style="font-size: 18.57px; color: #7575a8">Chord</a> <a href="/tags/Computation/" style="font-size: 16px; color: #669">Computation</a> <a href="/tags/Concurrency/" style="font-size: 18.57px; color: #7575a8">Concurrency</a> <a href="/tags/Concurrent/" style="font-size: 26.29px; color: #a0a0d3">Concurrent</a> <a href="/tags/Covid-19/" style="font-size: 16px; color: #669">Covid-19</a> <a href="/tags/Cython/" style="font-size: 16px; color: #669">Cython</a> <a href="/tags/DP/" style="font-size: 18.57px; color: #7575a8">DP</a> <a href="/tags/DP%EF%BC%8CGreedy/" style="font-size: 16px; color: #669">DP，Greedy</a> <a href="/tags/Data-Structure/" style="font-size: 23.71px; color: #9292c5">Data Structure</a> <a href="/tags/Distributed-System/" style="font-size: 16px; color: #669">Distributed System</a> <a href="/tags/Erlang/" style="font-size: 16px; color: #669">Erlang</a> <a href="/tags/GC/" style="font-size: 16px; color: #669">GC</a> <a href="/tags/Generator/" style="font-size: 16px; color: #669">Generator</a> <a href="/tags/Go/" style="font-size: 28.86px; color: #afafe2">Go</a> <a href="/tags/Go%E5%AD%A6%E4%B9%A0/" style="font-size: 23.71px; color: #9292c5">Go学习</a> <a href="/tags/Graph/" style="font-size: 21.14px; color: #8383b6">Graph</a> <a href="/tags/Haskell/" style="font-size: 16px; color: #669">Haskell</a> <a href="/tags/Hedge-Fund/" style="font-size: 16px; color: #669">Hedge Fund</a> <a href="/tags/Hexo/" style="font-size: 16px; color: #669">Hexo</a> <a href="/tags/Information/" style="font-size: 18.57px; color: #7575a8">Information</a> <a href="/tags/Investing/" style="font-size: 21.14px; color: #8383b6">Investing</a> <a href="/tags/Java/" style="font-size: 16px; color: #669">Java</a> <a href="/tags/Js/" style="font-size: 16px; color: #669">Js</a> <a href="/tags/MDP/" style="font-size: 16px; color: #669">MDP</a> <a href="/tags/Music/" style="font-size: 18.57px; color: #7575a8">Music</a> <a href="/tags/Numba/" style="font-size: 16px; color: #669">Numba</a> <a href="/tags/Ocaml/" style="font-size: 18.57px; color: #7575a8">Ocaml</a> <a href="/tags/Operating-System/" style="font-size: 26.29px; color: #a0a0d3">Operating System</a> <a href="/tags/Python/" style="font-size: 34px; color: #ccf">Python</a> <a href="/tags/Reinforcement-Learning/" style="font-size: 21.14px; color: #8383b6">Reinforcement Learning</a> <a href="/tags/SICP/" style="font-size: 16px; color: #669">SICP</a> <a href="/tags/Signal-Processing/" style="font-size: 16px; color: #669">Signal Processing</a> <a href="/tags/Software/" style="font-size: 16px; color: #669">Software</a> <a href="/tags/Stack/" style="font-size: 16px; color: #669">Stack</a> <a href="/tags/Sync/" style="font-size: 16px; color: #669">Sync</a> <a href="/tags/VIM/" style="font-size: 16px; color: #669">VIM</a> <a href="/tags/n-arm-bandit/" style="font-size: 16px; color: #669">n-arm bandit</a> <a href="/tags/nSum/" style="font-size: 16px; color: #669">nSum</a> <a href="/tags/%E4%BB%A5%E8%B5%9B%E4%BA%9A%E4%B9%A6/" style="font-size: 31.43px; color: #bdbdf0">以赛亚书</a> <a href="/tags/%E5%88%9B%E4%B8%96%E7%BA%AA/" style="font-size: 16px; color: #669">创世纪</a> <a href="/tags/%E5%93%A5%E6%9E%97%E5%A4%9A%E5%89%8D%E4%B9%A6/" style="font-size: 16px; color: #669">哥林多前书</a> <a href="/tags/%E6%80%BB%E7%BB%93/" style="font-size: 16px; color: #669">总结</a> <a href="/tags/%E6%8F%90%E6%91%A9%E5%A4%AA%E5%90%8E%E4%B9%A6/" style="font-size: 16px; color: #669">提摩太后书</a> <a href="/tags/%E6%95%99%E4%BC%9A/" style="font-size: 16px; color: #669">教会</a> <a href="/tags/%E7%BA%A6%E7%BF%B0%E7%A6%8F%E9%9F%B3/" style="font-size: 16px; color: #669">约翰福音</a> <a href="/tags/%E8%AF%97%E7%AF%87/" style="font-size: 23.71px; color: #9292c5">诗篇</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 23.71px; color: #9292c5">读书笔记</a> <a href="/tags/%E8%B7%AF%E5%8A%A0%E7%A6%8F%E9%9F%B3/" style="font-size: 23.71px; color: #9292c5">路加福音</a> <a href="/tags/%E9%9B%85%E5%90%84%E4%B9%A6/" style="font-size: 23.71px; color: #9292c5">雅各书</a>
-            </div>
-          </div>
-        
-      </div>
-      
-      
-      
+        <h1 id="CSAPP-4-处理器架构"><a href="#CSAPP-4-处理器架构" class="headerlink" title="CSAPP 4 处理器架构"></a>CSAPP 4 处理器架构</h1><p>CPU Pipeline 的基本原理，通过将任务拆解成不同的阶段，并行执行多个任务，增加 throughput，相应的会提高延迟。不过这样可以提高CPU的时钟频率，降低延迟。</p>
+<p>这是比指令集更低一个的一个层次，每一个指令集指令都被分解成多个不同的阶段，由对应的硬件分别执行。分解后，为并行提供了可能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A B C</span><br><span class="line">  A B C</span><br><span class="line">    A B C</span><br></pre></td></tr></table></figure>
+
+<p>Pipeline 的复杂度在于错误处理、每个阶段的延迟等等。</p>
+
     </div>
-    
 
     
     
     
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/04/09/csapp1/" rel="bookmark">CSAPP 1 概览</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/04/15/csapp_3/" rel="bookmark">CSAPP 3 程序的机器层面表达</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CSAPP/" rel="tag"># CSAPP</a>
+          </div>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9801985319378542"
+     data-ad-slot="2686695678"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
   </div>
 
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/15/leetcode_calculator/" rel="prev" title="Calculator 123">
+      <i class="fa fa-chevron-left"></i> Calculator 123
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
 
           </div>
           
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -318,6 +427,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSAPP-4-%E5%A4%84%E7%90%86%E5%99%A8%E6%9E%B6%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">CSAPP 4 处理器架构</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -593,6 +703,26 @@ window.addEventListener('pjax:success', () => {
   }
   // defer loading until the whole page loading is completed
   window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2021/04/16/csapp_4/";
+    this.page.identifier = "2021/04/16/csapp_4/";
+    this.page.title = "CSAPP 4 处理器架构";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://wangzhe.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
 </script>
 
     </div>
