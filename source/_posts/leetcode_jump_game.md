@@ -1,6 +1,6 @@
 ---
 title: Leetcode Jump Game (1-3)
-tags: [DP, Greedy]
+tags: [DP, Greedy, DFS]
 categories: Leetcode
 date: 2021-04-13
 ---
