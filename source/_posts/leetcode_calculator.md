@@ -7,6 +7,8 @@ date: 2021-04-15
 
 # Calculator I,II,III
 
+- [227. Basic Calculator II](https://leetcode.com/problems/basic-calculator-ii/)
+
 问题：
 
 ```
@@ -78,3 +80,5 @@ class Solution:
                 update(sign, num)
                 return sum(stack), it + 1
 ```
+
+###### tags: `Leetcode` `Stack`
