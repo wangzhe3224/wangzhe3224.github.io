@@ -227,6 +227,113 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/05/go_sync/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/05/go_sync/" class="post-title-link" itemprop="url">Go 学习笔记 Memory Access Synchronization</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-04-05 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-05T00:00:00Z">2021-04-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/04/05/go_sync/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/05/go_sync/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>7.9k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>7 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Go-学习笔记-Memory-Access-Synchronization"><a href="#Go-学习笔记-Memory-Access-Synchronization" class="headerlink" title="Go 学习笔记 Memory Access Synchronization"></a>Go 学习笔记 Memory Access Synchronization</h1><p>Go 对并发有良好的支持，主要支持两种模式：CSP 和 MAS。前一种是大家熟知的Go常用模式（<code>goroutine</code> + <code>chan</code>），后面一种其实就是传统的带锁的并发编程（<code>sync</code> 包）。Go 对这两种并发都有良好的支持，同时也提倡在合适的时候混合使用他们，因为这两种并发的应用场景不太一样。</p>
+<p>但是总体老说，MAS 不是 Go 并发的首选模式，应该在谨慎考虑后使用，尽量多使用 CSP 构造函数。Go 的基本哲学是：</p>
+<blockquote>
+<p>在可能的场景下使用 channel，将 goroutine 视为非常廉价的操作。</p>
+</blockquote>
+<h2 id="何时（不）选择-MAS"><a href="#何时（不）选择-MAS" class="headerlink" title="何时（不）选择 MAS"></a>何时（不）选择 MAS</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/05/go_sync/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/04/go_python_1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1182,111 +1289,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/20/python_6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/20/python_6/" class="post-title-link" itemprop="url">重新认识 Python（7）CPython初探</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-03-20 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-20T00:00:00Z">2021-03-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/03/20/python_6/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/20/python_6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>7.6k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>7 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="重新认识-Python（7）CPython初探"><a href="#重新认识-Python（7）CPython初探" class="headerlink" title="重新认识 Python（7）CPython初探"></a>重新认识 Python（7）CPython初探</h1><p>CPython 是 Python 社区的标准，其他版本的 Python，比如 pypy，都会遵行 CPython 的标准API实现。想要更深入的认识 Python，就需要了解 CPython 实现。这一期，我就带大家认识一下 CPython 源代码，为日后改造 Python 做准备。首先，展示如何本地编译最新的 CPython代码。然后，展示如何 debug 编译好的解释器。最后我们会利用 CPython 实现简单的函数调用。</p>
-<p>本文会为你揭开 CPython 的面纱，带你进入 C + Python 的世界。文章的最后，你也会对 Python 中最重要的概念：一切皆对象（object）有更深刻的认识；你还会发现一点点线索，为什么Python用起来比其他语言，比如 C 慢很多。</p>
-<p>请打开编辑器和命令行，我们开始。（本文主要使用MacOS，Windows 不一定可以直接实现）。</p>
-<h2 id="当我们再说-Python，我们在说什么？"><a href="#当我们再说-Python，我们在说什么？" class="headerlink" title="当我们再说 Python，我们在说什么？"></a>当我们再说 Python，我们在说什么？</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/20/python_6/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1358,7 +1360,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-count">82</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

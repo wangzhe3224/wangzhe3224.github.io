@@ -73,6 +73,32 @@
       </tags>
   </entry>
   <entry>
+    <title>CSAPP 5 程序的优化</title>
+    <url>/2021/04/16/csapp_5/</url>
+    <content><![CDATA[<h1 id="CSAPP-5-程序的优化"><a href="#CSAPP-5-程序的优化" class="headerlink" title="CSAPP 5 程序的优化"></a>CSAPP 5 程序的优化</h1><p>优化方式：</p>
+<ul>
+<li>程序层面<ul>
+<li>loop unrolling</li>
+<li>减少内存renference</li>
+<li>减少函数调用</li>
+<li>分支优化</li>
+</ul>
+</li>
+<li>内存优化<ul>
+<li>读写循环优化</li>
+</ul>
+</li>
+</ul>
+<p>现代CPU都有独立的功能组件进行内存的读取和写入，这些组件通常都有自己的缓存。比如Intel i7处理器的读取单元可以缓存48个读取指令，他们通常可以在一个cycle内完成一个操作。</p>
+]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>CSAPP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSAPP 4 处理器架构</title>
     <url>/2021/04/16/csapp_4/</url>
     <content><![CDATA[<h1 id="CSAPP-4-处理器架构"><a href="#CSAPP-4-处理器架构" class="headerlink" title="CSAPP 4 处理器架构"></a>CSAPP 4 处理器架构</h1><p>CPU Pipeline 的基本原理，通过将任务拆解成不同的阶段，并行执行多个任务，增加 throughput，相应的会提高延迟。不过这样可以提高CPU的时钟频率，降低延迟。</p>
@@ -278,19 +304,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CSAPP 2 信息的表达和操作</title>
-    <url>/2021/04/09/csapp_2/</url>
-    <content><![CDATA[<h1 id="CSAPP-2-信息的表达和操作"><a href="#CSAPP-2-信息的表达和操作" class="headerlink" title="CSAPP 2 信息的表达和操作"></a>CSAPP 2 信息的表达和操作</h1><p>目前的计算机技术存储信息是二进制的，我们用0和1表达信息。最基本的信息有两种：整数和浮点数。字符串也会被编码成整数表达。从根本上说，我们规定了一些规则（向下文）来解释这些0和1。通过基本的代数法则就可以实现运算了。</p>
-<p>为了方便人类阅读，常用的编码进制包括8进制和16进制。</p>
-<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;csapp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;int: %d\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_dbl</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;double: %g\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int_arr</span><span class="params">(<span class="keyword">int</span> a[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;int array: [&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;=(<span class="keyword">sizeof</span>(a))/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]); i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d, &quot;</span>, a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_default</span><span class="params">()</span> </span>&#123; <span class="built_in">puts</span>(<span class="string">&quot;unknown argument&quot;</span>); &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> print(X) _Generic((X), \</span></span><br><span class="line">        <span class="keyword">int</span>: print_int, \</span><br><span class="line">        <span class="keyword">double</span>: print_dbl, \</span><br><span class="line">        <span class="keyword">int</span>*: print_int_arr, \</span><br><span class="line">        <span class="keyword">default</span>: print_default)(X)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> problem(x) printf(<span class="meta-string">&quot;\n * Problem %s: \n&quot;</span>, x)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> comment(x) printf(<span class="meta-string">&quot;%s\n&quot;</span>, x)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_float</span><span class="params">(<span class="keyword">float</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_pointer</span><span class="params">(<span class="keyword">void</span>* x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">void</span> *));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *x, <span class="keyword">int</span> *y)</span> </span>&#123;</span><br><span class="line">    *y = *x^*y;</span><br><span class="line">    *x = *x^*y; <span class="comment">/*Step2*/</span></span><br><span class="line">    *y = *x^*y; <span class="comment">/*Step3*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse_array</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> cnt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1,2,3  -&gt; 3,2,1</span></span><br><span class="line">    <span class="keyword">int</span> first, last;</span><br><span class="line">    <span class="keyword">for</span> (first=<span class="number">0</span>, last=cnt<span class="number">-1</span>;</span><br><span class="line">        first &lt; last;</span><br><span class="line">        first++, last--) &#123;</span><br><span class="line">            swap(&amp;a[first], &amp;a[last]);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">float</span> y = <span class="number">1.0</span>;</span><br><span class="line">    show_int(x);</span><br><span class="line">    show_float(y);</span><br><span class="line">    show_pointer(&amp;x);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof float is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof int is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="comment">// Problem 2.6</span></span><br><span class="line">    problem(<span class="string">&quot;2.6&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">3510593</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">3510593.0</span>;</span><br><span class="line">    show_int(b);   <span class="comment">// ? why this shows as same as a?</span></span><br><span class="line">    show_int(a);   <span class="comment">//        1101011001000101000001</span></span><br><span class="line">    show_float(b); <span class="comment">// 1001010010101100100010100000100</span></span><br><span class="line">    <span class="comment">// Problem 2.7</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *s = <span class="string">&quot;abcdef&quot;</span>;</span><br><span class="line">    show_bytes((byte_pointer)s, <span class="built_in">strlen</span>(s)); <span class="comment">//  61 62 63 64 65 66</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    a = 110</span></span><br><span class="line"><span class="comment">    b = 001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 110 ^ 001 = 111</span></span><br><span class="line"><span class="comment">    a = a ^ b  -&gt; a = 110 ^ 111 = 001</span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 001 ^ 111 = 110</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    problem(<span class="string">&quot;2.10&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> aa = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> bb = <span class="number">2</span>;</span><br><span class="line">    swap(&amp;aa, &amp;bb);</span><br><span class="line">    print(aa);</span><br><span class="line">    print(bb);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.11&quot;</span>);</span><br><span class="line">    comment(<span class="string">&quot;Note that a ^ a = 0&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a2[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    print(a2);</span><br><span class="line">    reverse_array(a2, <span class="number">3</span>);</span><br><span class="line">    print(a2);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.12&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> x12 = <span class="number">0x87654321</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 &amp; <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( x12 ^ <span class="number">0xFF</span> ));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 | <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( <span class="number">0x11</span> ^ <span class="number">0xFF</span> ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Computing</category>
-      </categories>
-      <tags>
-        <tag>CSAPP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSAPP 1 概览</title>
     <url>/2021/04/09/csapp1/</url>
     <content><![CDATA[<h1 id="CSAPP-1-概览"><a href="#CSAPP-1-概览" class="headerlink" title="CSAPP 1 概览"></a>CSAPP 1 概览</h1><p>这本书之前非常简略的阅读过一次，过了这么一年多，重新拿起这本书反倒有了更多理解。可能这就是一本好书的特点把，他随着你的经验增加，提供给你更多的信息。给人的感觉就是，第一次读醍醐灌顶，第二次读，还是醍醐灌顶。。。</p>
@@ -330,6 +343,19 @@
 <li>green thread</li>
 </ul>
 <h6 id="tags-CSAPP"><a href="#tags-CSAPP" class="headerlink" title="tags: CSAPP"></a>tags: <code>CSAPP</code></h6>]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>CSAPP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSAPP 2 信息的表达和操作</title>
+    <url>/2021/04/09/csapp_2/</url>
+    <content><![CDATA[<h1 id="CSAPP-2-信息的表达和操作"><a href="#CSAPP-2-信息的表达和操作" class="headerlink" title="CSAPP 2 信息的表达和操作"></a>CSAPP 2 信息的表达和操作</h1><p>目前的计算机技术存储信息是二进制的，我们用0和1表达信息。最基本的信息有两种：整数和浮点数。字符串也会被编码成整数表达。从根本上说，我们规定了一些规则（向下文）来解释这些0和1。通过基本的代数法则就可以实现运算了。</p>
+<p>为了方便人类阅读，常用的编码进制包括8进制和16进制。</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;csapp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;int: %d\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_dbl</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;double: %g\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int_arr</span><span class="params">(<span class="keyword">int</span> a[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;int array: [&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;=(<span class="keyword">sizeof</span>(a))/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]); i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d, &quot;</span>, a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_default</span><span class="params">()</span> </span>&#123; <span class="built_in">puts</span>(<span class="string">&quot;unknown argument&quot;</span>); &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> print(X) _Generic((X), \</span></span><br><span class="line">        <span class="keyword">int</span>: print_int, \</span><br><span class="line">        <span class="keyword">double</span>: print_dbl, \</span><br><span class="line">        <span class="keyword">int</span>*: print_int_arr, \</span><br><span class="line">        <span class="keyword">default</span>: print_default)(X)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> problem(x) printf(<span class="meta-string">&quot;\n * Problem %s: \n&quot;</span>, x)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> comment(x) printf(<span class="meta-string">&quot;%s\n&quot;</span>, x)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_float</span><span class="params">(<span class="keyword">float</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_pointer</span><span class="params">(<span class="keyword">void</span>* x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">void</span> *));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *x, <span class="keyword">int</span> *y)</span> </span>&#123;</span><br><span class="line">    *y = *x^*y;</span><br><span class="line">    *x = *x^*y; <span class="comment">/*Step2*/</span></span><br><span class="line">    *y = *x^*y; <span class="comment">/*Step3*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse_array</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> cnt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1,2,3  -&gt; 3,2,1</span></span><br><span class="line">    <span class="keyword">int</span> first, last;</span><br><span class="line">    <span class="keyword">for</span> (first=<span class="number">0</span>, last=cnt<span class="number">-1</span>;</span><br><span class="line">        first &lt; last;</span><br><span class="line">        first++, last--) &#123;</span><br><span class="line">            swap(&amp;a[first], &amp;a[last]);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">float</span> y = <span class="number">1.0</span>;</span><br><span class="line">    show_int(x);</span><br><span class="line">    show_float(y);</span><br><span class="line">    show_pointer(&amp;x);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof float is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof int is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="comment">// Problem 2.6</span></span><br><span class="line">    problem(<span class="string">&quot;2.6&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">3510593</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">3510593.0</span>;</span><br><span class="line">    show_int(b);   <span class="comment">// ? why this shows as same as a?</span></span><br><span class="line">    show_int(a);   <span class="comment">//        1101011001000101000001</span></span><br><span class="line">    show_float(b); <span class="comment">// 1001010010101100100010100000100</span></span><br><span class="line">    <span class="comment">// Problem 2.7</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *s = <span class="string">&quot;abcdef&quot;</span>;</span><br><span class="line">    show_bytes((byte_pointer)s, <span class="built_in">strlen</span>(s)); <span class="comment">//  61 62 63 64 65 66</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    a = 110</span></span><br><span class="line"><span class="comment">    b = 001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 110 ^ 001 = 111</span></span><br><span class="line"><span class="comment">    a = a ^ b  -&gt; a = 110 ^ 111 = 001</span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 001 ^ 111 = 110</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    problem(<span class="string">&quot;2.10&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> aa = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> bb = <span class="number">2</span>;</span><br><span class="line">    swap(&amp;aa, &amp;bb);</span><br><span class="line">    print(aa);</span><br><span class="line">    print(bb);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.11&quot;</span>);</span><br><span class="line">    comment(<span class="string">&quot;Note that a ^ a = 0&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a2[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    print(a2);</span><br><span class="line">    reverse_array(a2, <span class="number">3</span>);</span><br><span class="line">    print(a2);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.12&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> x12 = <span class="number">0x87654321</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 &amp; <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( x12 ^ <span class="number">0xFF</span> ));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 | <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( <span class="number">0x11</span> ^ <span class="number">0xFF</span> ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Computing</category>
       </categories>
@@ -1249,6 +1275,30 @@
       </tags>
   </entry>
   <entry>
+    <title>雅各书 3-4</title>
+    <url>/2021/03/07/yageshu_13/</url>
+    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
+<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
+</blockquote>
+<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
+<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
+<blockquote>
+<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
+</blockquote>
+<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
+<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
+<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
+</blockquote>
+<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>编程101 PyOS 一个Python写的OS 3</title>
     <url>/2021/03/07/pyos_3/</url>
     <content><![CDATA[<blockquote>
@@ -1299,30 +1349,6 @@
         <tag>Operating System</tag>
         <tag>Python</tag>
         <tag>Concurrent</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>雅各书 3-4</title>
-    <url>/2021/03/07/yageshu_13/</url>
-    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
-<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
-</blockquote>
-<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
-<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
-<blockquote>
-<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
-</blockquote>
-<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
-<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
-<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
-</blockquote>
-<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
@@ -2139,6 +2165,32 @@
       </tags>
   </entry>
   <entry>
+    <title>6.004 Basic of information</title>
+    <url>/2020/12/19/6004_1/</url>
+    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
+<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
+<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
+<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
+<p>the unit is bits, the number of bits required to encode the choice.</p>
+<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
+<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
+<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
+<p>Encoding as binary tree is a good way to think. </p>
+<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
+<p>If we do same algorithm but using multiple symbols, we can do better.</p>
+<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
+<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/">6.004</a></p>
+<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>6.004</tag>
+        <tag>Information</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>6.004 The Digital Abstraction</title>
     <url>/2020/12/19/6004-2/</url>
     <content><![CDATA[<h1 id="The-Digital-Abstraction"><a href="#The-Digital-Abstraction" class="headerlink" title="The Digital Abstraction"></a>The Digital Abstraction</h1><p>Q: the physical representation of bits?</p>
@@ -2165,32 +2217,6 @@
 </blockquote>
 <p><img data-src="https://i.imgur.com/NMkOpar.png" alt=""></p>
 ]]></content>
-      <categories>
-        <category>Computing</category>
-      </categories>
-      <tags>
-        <tag>6.004</tag>
-        <tag>Information</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>6.004 Basic of information</title>
-    <url>/2020/12/19/6004_1/</url>
-    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
-<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
-<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
-<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
-<p>the unit is bits, the number of bits required to encode the choice.</p>
-<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
-<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
-<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
-<p>Encoding as binary tree is a good way to think. </p>
-<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
-<p>If we do same algorithm but using multiple symbols, we can do better.</p>
-<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
-<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
-<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/">6.004</a></p>
-<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
       <categories>
         <category>Computing</category>
       </categories>

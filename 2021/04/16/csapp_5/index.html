@@ -20,23 +20,20 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="1. ConceptsDefinition. A directed graph or digraph is a set of nodes and acollection of directed edges. Each directed edge connects an orderedpair of nodes. Definition. A directed path is a path in a">
+  <meta name="description" content="CSAPP 5 程序的优化优化方式：  程序层面 loop unrolling 减少内存renference 减少函数调用 分支优化   内存优化 读写循环优化    现代CPU都有独立的功能组件进行内存的读取和写入，这些组件通常都有自己的缓存。比如Intel i7处理器的读取单元可以缓存48个读取指令，他们通常可以在一个cycle内完成一个操作。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Graph - DiGraph">
-<meta property="og:url" content="http://yoursite.com/2020/05/09/graph3_digraph/index.html">
+<meta property="og:title" content="CSAPP 5 程序的优化">
+<meta property="og:url" content="http://yoursite.com/2021/04/16/csapp_5/index.html">
 <meta property="og:site_name" content="Zhe">
-<meta property="og:description" content="1. ConceptsDefinition. A directed graph or digraph is a set of nodes and acollection of directed edges. Each directed edge connects an orderedpair of nodes. Definition. A directed path is a path in a">
+<meta property="og:description" content="CSAPP 5 程序的优化优化方式：  程序层面 loop unrolling 减少内存renference 减少函数调用 分支优化   内存优化 读写循环优化    现代CPU都有独立的功能组件进行内存的读取和写入，这些组件通常都有自己的缓存。比如Intel i7处理器的读取单元可以缓存48个读取指令，他们通常可以在一个cycle内完成一个操作。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-05-09T00:00:00.000Z">
+<meta property="article:published_time" content="2021-04-16T00:00:00.000Z">
 <meta property="article:modified_time" content="2021-04-18T09:26:36.368Z">
 <meta property="article:author" content="Zhe">
-<meta property="article:tag" content="Data Structure">
-<meta property="article:tag" content="Python">
-<meta property="article:tag" content="Graph">
-<meta property="article:tag" content="Algorithms">
+<meta property="article:tag" content="CSAPP">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/05/09/graph3_digraph/">
+<link rel="canonical" href="http://yoursite.com/2021/04/16/csapp_5/">
 
 
 <script id="page-configurations">
@@ -49,7 +46,7 @@
   };
 </script>
 
-  <title>Graph - DiGraph | Zhe</title>
+  <title>CSAPP 5 程序的优化 | Zhe</title>
   
     <script>
       function sendPageView() {
@@ -233,7 +230,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/09/graph3_digraph/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/16/csapp_5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/lambda.jpeg">
@@ -246,7 +243,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Graph - DiGraph
+          CSAPP 5 程序的优化
         </h1>
 
         <div class="post-meta">
@@ -256,7 +253,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-05-09 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-09T00:00:00Z">2020-05-09</time>
+              <time title="Created: 2021-04-16 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-16T00:00:00Z">2021-04-16</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -264,7 +261,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                  <a href="/categories/Computing/" itemprop="url" rel="index"><span itemprop="name">Computing</span></a>
                 </span>
             </span>
 
@@ -284,8 +281,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/05/09/graph3_digraph/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/09/graph3_digraph/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/04/16/csapp_5/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/16/csapp_5/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -295,14 +292,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>4.1k</span>
+              <span>157</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>4 mins.</span>
+              <span>1 mins.</span>
             </span>
 
         </div>
@@ -314,35 +311,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="1-Concepts"><a href="#1-Concepts" class="headerlink" title="1. Concepts"></a>1. Concepts</h1><p><strong>Definition.</strong> A <code>directed graph</code> or <code>digraph</code> is a set of nodes and a<br>collection of <code>directed edges</code>. Each directed edge connects an ordered<br>pair of nodes.</p>
-<p><strong>Definition.</strong> A <code>directed path</code> is a path in a digraph is a sequence of nodes in which there is a directed edge pointing from each node in the sequence to its successor in the sequence. A <code>directed cycle</code> is a directed path with at least one edge whose first and last nodes are the same. A <code>simple cycle</code> is a cycle with no repeated edges or nodes. The <code>length</code> of a path is its number of edges.</p>
-<p>With above, we can define that a node a is reachable from node b if there is a directed path from a to b. </p>
-<h1 id="2-Data-Structure"><a href="#2-Data-Structure" class="headerlink" title="2. Data Structure"></a>2. Data Structure</h1><p>Again, before we go to the algorithms of DiGraph, let’s define our data structure representation of digraph. Full code can be found here: <a target="_blank" rel="noopener" href="https://github.com/wangzhe3224/pygraph/blob/master/pygraph/entities/digraph.py">https://github.com/wangzhe3224/pygraph/blob/master/pygraph/entities/digraph.py</a>.</p>
-<p>Here I list the important part. DiGraph is a bit different from Undirected graph in terms of its internal data containers. DiGraph has not only <code>_adj</code> for adjacent list, but also has <code>_succ</code> and <code>_pred</code> which is used to represent the direction of edges. What’s more, there is a <code>reverse</code> function to reverse the direction of the edges in the graph.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> Hashable</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pygraph.entities.graph <span class="keyword">import</span> GraphBase</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DiGraph</span>(<span class="params">GraphBase</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    dict_dict_dict = <span class="built_in">dict</span></span><br><span class="line">    dict_dict = <span class="built_in">dict</span></span><br><span class="line">    node_factory = <span class="built_in">dict</span></span><br><span class="line">    edge_factory = <span class="built_in">dict</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, **kwargs</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;&quot;&quot;&quot;</span></span><br><span class="line">        <span class="built_in">super</span>().__init__(kwargs)</span><br><span class="line">        self._succ = self._adj</span><br><span class="line">        self._pred = self.dict_dict_dict()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_node</span>(<span class="params">self, node: Hashable, **kwargs</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; Add node to graph,</span></span><br><span class="line"><span class="string">        :param node:</span></span><br><span class="line"><span class="string">        :param kwargs: node&#x27;s meta data</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> node <span class="keyword">not</span> <span class="keyword">in</span> self._succ:</span><br><span class="line">            self._succ[node] = self.dict_dict()</span><br><span class="line">            self._pred[node] = self.dict_dict()</span><br><span class="line">            attr_dict = self._nodes[node] = self.node_factory()</span><br><span class="line">            attr_dict.update(kwargs)</span><br><span class="line">        <span class="keyword">else</span>:  <span class="comment"># already existed</span></span><br><span class="line">            self._nodes[node].update(kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_edge</span>(<span class="params">self, node_a: Hashable, node_b: Hashable, **kwargs</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; add edge to graph</span></span><br><span class="line"><span class="string">        :param node_a:</span></span><br><span class="line"><span class="string">        :param node_b:</span></span><br><span class="line"><span class="string">        :param kwargs: meta data for edge, weights can go here!</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> node_a <span class="keyword">not</span> <span class="keyword">in</span> self._succ:</span><br><span class="line">            self._succ[node_a] = self.dict_dict()</span><br><span class="line">            self._pred[node_a] = self.dict_dict()</span><br><span class="line">            self._nodes[node_a] = self.node_factory()</span><br><span class="line">        <span class="keyword">if</span> node_b <span class="keyword">not</span> <span class="keyword">in</span> self._succ:</span><br><span class="line">            self._succ[node_b] = self.dict_dict()</span><br><span class="line">            self._pred[node_b] = self.dict_dict()</span><br><span class="line">            self._nodes[node_b] = self.node_factory()</span><br><span class="line"></span><br><span class="line">        data = self._adj[node_a].get(node_b, self.edge_factory())</span><br><span class="line">        data.update(kwargs)</span><br><span class="line">        self._succ[node_a][node_b] = data</span><br><span class="line">        self._pred[node_b][node_a] = data</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">adj_nodes</span>(<span class="params">self, node: Hashable</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; find adj nodes view</span></span><br><span class="line"><span class="string">        :param node:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> self._succ[node]</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverse</span>(<span class="params">self</span>) -&gt; GraphBase:</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; reverse the graph &quot;&quot;&quot;</span></span><br><span class="line">    gp = self.__class__()</span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> self.nodes:</span><br><span class="line">        <span class="keyword">for</span> b <span class="keyword">in</span> self._adj[a]:</span><br><span class="line">            gp.add_edge(b, a)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> gp</span><br></pre></td></tr></table></figure>
-
-<h1 id="3-Problems"><a href="#3-Problems" class="headerlink" title="3. Problems"></a>3. Problems</h1><p>Ok, let’s visit some of the problems around DiGraph:</p>
+        <h1 id="CSAPP-5-程序的优化"><a href="#CSAPP-5-程序的优化" class="headerlink" title="CSAPP 5 程序的优化"></a>CSAPP 5 程序的优化</h1><p>优化方式：</p>
 <ul>
-<li>Single-source reachability</li>
-<li>Topological sort</li>
-<li>Strong connectivity</li>
+<li>程序层面<ul>
+<li>loop unrolling</li>
+<li>减少内存renference</li>
+<li>减少函数调用</li>
+<li>分支优化</li>
 </ul>
-<p>These problem is similar to what we have in <a target="_blank" rel="noopener" href="https://wangzhe3224.github.io/2020/05/02/graph2_search/">undirected graph</a>. </p>
-<h2 id="3-1-Single-source-reachability"><a href="#3-1-Single-source-reachability" class="headerlink" title="3.1 Single-source reachability"></a>3.1 Single-source reachability</h2><blockquote>
-<p>Given a digraph and a source node <em>a</em>, support query of the form: Is there a directed path from <em>a</em> to a given node <em>x</em>?</p>
-</blockquote>
-<p>This problem is solved using the same function as in undirected graph. Both single-source directed path(DFS) and shortest directed path (BFS).</p>
-<p>Related code: <a target="_blank" rel="noopener" href="https://github.com/wangzhe3224/pygraph/tree/master/pygraph/algos">https://github.com/wangzhe3224/pygraph/tree/master/pygraph/algos</a></p>
-<h2 id="3-2-Topological-sort"><a href="#3-2-Topological-sort" class="headerlink" title="3.2 Topological sort"></a>3.2 Topological sort</h2><p>This is a scheduling problem. Defines:</p>
-<blockquote>
-<p>Given a digraph, put the nodes in order such that all its directed edges point from a node earlier in the order to a node later in the order. Or does not exist. </p>
-</blockquote>
-<p>In order to solve this, we first need to make sure, there is no cyclic in the graph. or make sure the graph a DAG, directed acyclic graph. <strong>So first we need a algorithm to detect cyclic in a graph.</strong></p>
-<p>The solution is leverage DFS’s stack, one fact is that all the node in current stack is in the same path, of we find a node that appear twice in the stack, we know there is a cyclic, hence graph is not a DAG.</p>
-<p>Once we know we have a DAG, the next job is to find the order. It turns out that it is another application of DFS.</p>
-<h2 id="3-3-Strong-connection"><a href="#3-3-Strong-connection" class="headerlink" title="3.3 Strong connection"></a>3.3 Strong connection</h2><p>Strong connection between a and b is that they are mutually reachable. </p>
-<p>The solution is similar to cyclic detection in undriected graph, but we need loop through reverse post order in previous section. </p>
-<p>Check code here: <a target="_blank" rel="noopener" href="https://github.com/wangzhe3224/pygraph/blob/master/pygraph/algos/cyclic.py#L28">https://github.com/wangzhe3224/pygraph/blob/master/pygraph/algos/cyclic.py#L28</a></p>
+</li>
+<li>内存优化<ul>
+<li>读写循环优化</li>
+</ul>
+</li>
+</ul>
+<p>现代CPU都有独立的功能组件进行内存的读取和写入，这些组件通常都有自己的缓存。比如Intel i7处理器的读取单元可以缓存48个读取指令，他们通常可以在一个cycle内完成一个操作。</p>
 
     </div>
 
@@ -353,29 +336,23 @@
   <div class="popular-posts-header">Related Posts</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/05/02/graph2_search/" rel="bookmark">Graph Algorithms - Search</a></div>
+      <div class="popular-posts-title"><a href="/2021/04/09/csapp1/" rel="bookmark">CSAPP 1 概览</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/04/25/graph1/" rel="bookmark">Graph basics - 1 Concepts</a></div>
+      <div class="popular-posts-title"><a href="/2021/04/09/csapp_2/" rel="bookmark">CSAPP 2 信息的表达和操作</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2021/03/11/python_5/" rel="bookmark">重新认识 Python（5）再谈并发</a></div>
+      <div class="popular-posts-title"><a href="/2021/04/15/csapp_3/" rel="bookmark">CSAPP 3 程序的机器层面表达</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2021/04/04/go_python_1/" rel="bookmark">用Python重建Go并发模型 1</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2021/03/06/pyos_1/" rel="bookmark">编程101 PyOS 一个Python写的OS</a></div>
+      <div class="popular-posts-title"><a href="/2021/04/16/csapp_4/" rel="bookmark">CSAPP 4 处理器架构</a></div>
     </li>
   </ul>
 
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Data-Structure/" rel="tag"># Data Structure</a>
-              <a href="/tags/Python/" rel="tag"># Python</a>
-              <a href="/tags/Graph/" rel="tag"># Graph</a>
-              <a href="/tags/Algorithms/" rel="tag"># Algorithms</a>
+              <a href="/tags/CSAPP/" rel="tag"># CSAPP</a>
           </div>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <ins class="adsbygoogle"
@@ -397,12 +374,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/05/02/graph2_search/" rel="prev" title="Graph Algorithms - Search">
-      <i class="fa fa-chevron-left"></i> Graph Algorithms - Search
+    <a href="/2021/04/16/csapp_4/" rel="prev" title="CSAPP 4 处理器架构">
+      <i class="fa fa-chevron-left"></i> CSAPP 4 处理器架构
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/05/10/bible2/" rel="next" title="依靠耶和华的人必重新得力">
-      依靠耶和华的人必重新得力 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/04/17/leetcode_trie_tree/" rel="next" title="Palindrome Pairs and the Trie">
+      Palindrome Pairs and the Trie <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -469,7 +446,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Concepts"><span class="nav-number">1.</span> <span class="nav-text">1. Concepts</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Data-Structure"><span class="nav-number">2.</span> <span class="nav-text">2. Data Structure</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Problems"><span class="nav-number">3.</span> <span class="nav-text">3. Problems</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-Single-source-reachability"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 Single-source reachability</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Topological-sort"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 Topological sort</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-Strong-connection"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 Strong connection</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSAPP-5-%E7%A8%8B%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">CSAPP 5 程序的优化</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -748,9 +725,9 @@ window.addEventListener('pjax:success', () => {
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2020/05/09/graph3_digraph/";
-    this.page.identifier = "2020/05/09/graph3_digraph/";
-    this.page.title = "Graph - DiGraph";
+    this.page.url = "http://yoursite.com/2021/04/16/csapp_5/";
+    this.page.identifier = "2021/04/16/csapp_5/";
+    this.page.title = "CSAPP 5 程序的优化";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
