@@ -1,38 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Heap 使用</title>
-    <url>/2021/04/18/leetcode_heap1/</url>
-    <content><![CDATA[<h1 id="Heap（堆）的使用"><a href="#Heap（堆）的使用" class="headerlink" title="Heap（堆）的使用"></a>Heap（堆）的使用</h1><ul>
-<li><a href="https://leetcode.com/problems/last-stone-weight/">1046. Last Stone Weight</a></li>
-<li><a href="https://leetcode.com/problems/kth-largest-element-in-a-stream/">703. Kth Largest Element in a Stream</a></li>
-<li><a href="https://leetcode.com/problems/maximum-average-pass-ratio/">1792. Maximum Average Pass Ratio</a></li>
-<li><a href="https://leetcode.com/problems/task-scheduler/">621. Task Schedule</a></li>
+    <title>一个简单的算术 LL1 Parser</title>
+    <url>/2021/04/19/parser/</url>
+    <content><![CDATA[<h1 id="一个简单的算术-LL-1-Parser"><a href="#一个简单的算术-LL-1-Parser" class="headerlink" title="一个简单的算术 LL(1) Parser"></a>一个简单的算术 LL(1) Parser</h1><p>这篇文章探索如何手写一个简单的算术表达式 Parser。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>我们要解决的问题是把一个算术表达式字符串转化成语法树（Abstract Syntax Tree，AST），就像通用计算机语言一样，然后evaluate该AST。算术表达式包含：<code>+ - * / ( )</code> 以及数字。</p>
+<h2 id="LL-1-Parsing"><a href="#LL-1-Parsing" class="headerlink" title="LL(1) Parsing"></a>LL(1) Parsing</h2><p>这里我们采用LL(1）parsing。LL(1) parser 属于自顶向下的分析器，分析时不断用当前匹配的规则对分析器栈顶的元素进行替换。我们需要如下两个信息来进行分析：</p>
+<ul>
+<li>分析器栈顶的词法单元（token），要么是终端字符（Terminal），要么是非终端字符（Non-Terminal）。比如 <code>+</code> 就是终端字符，而非终结字符就是语法规则左手侧的，比如 <code>Exp</code>。</li>
+<li>当前正在处理的终结词法单元</li>
 </ul>
-<h2 id="1046-Last-Stone-Weight"><a href="#1046-Last-Stone-Weight" class="headerlink" title="1046. Last Stone Weight"></a>1046. Last Stone Weight</h2><p><strong>思路</strong></p>
-<p>此题比较直接，直接采用heap来维护最重的数值在头部，需要注意的是 Python 的 heap 都是 min heap，所以需要取负数来实现此题。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lastStoneWeight</span>(<span class="params">self, stones: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        h = [-s <span class="keyword">for</span> s <span class="keyword">in</span> stones]</span><br><span class="line">        heapify(h)</span><br><span class="line">        <span class="built_in">print</span>(h)</span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(h) &gt;= <span class="number">2</span>:</span><br><span class="line">            fst = heappop(h)</span><br><span class="line">            snd = heappop(h)</span><br><span class="line">            <span class="keyword">if</span> fst != snd:</span><br><span class="line">                heappush(h, fst-snd)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> -<span class="built_in">sum</span>(h)</span><br></pre></td></tr></table></figure>
+<p>比如当前的栈顶单元是<code>S</code>，而当前处理的终结字符是<code>a</code>，同时我们以这样一个语法规则：<code>S -&gt; a P</code>。这时，我们需要将<code>S</code>替换成<code>a P</code>，其中<code>S</code>和<code>P</code>都是非终端字符，而<code>a</code>是终端。</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1. Exp -&gt; Exp [ + | - ] Exp2</span><br><span class="line">2. Exp -&gt; Exp2</span><br><span class="line">3. Exp2 -&gt; Exp2 [ * | &#x2F; ] Exp3</span><br><span class="line">4. Exp2 -&gt; Exp3</span><br><span class="line">5. Exp3 -&gt; ( Exp )</span><br><span class="line">6. Exp3 -&gt; Num</span><br></pre></td></tr></table></figure>
 
+<p>按照上述语法，我们展开<code>2+3*4</code>： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Exp</span><br><span class="line">1. Exp + Exp2</span><br><span class="line">2. Exp2 + Exp2</span><br><span class="line">3. Exp3 + Exp2</span><br><span class="line">6. Num + Exp2</span><br><span class="line">3. Num + Exp2 * Exp3</span><br><span class="line">4. Num + Exp3 * Exp3</span><br><span class="line">6. Num + Num * Exp3</span><br><span class="line">6. Num + Num * Num</span><br></pre></td></tr></table></figure>
 
-<h2 id="703-Kth-Largest-Element-in-a-Stream"><a href="#703-Kth-Largest-Element-in-a-Stream" class="headerlink" title="703. Kth Largest Element in a Stream"></a>703. Kth Largest Element in a Stream</h2><p><strong>思路</strong><br>这题的要点在于维护一个固定长度的heap。可以采用 <code>heapreplace</code> 函数实现 push和pop 的组合操作。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KthLargest</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, k: <span class="built_in">int</span>, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>):</span></span><br><span class="line">        self.nums = nums</span><br><span class="line">        self.k = k</span><br><span class="line">        heapify(self.nums)</span><br><span class="line">        <span class="comment"># 保持头部是 kth largest </span></span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(self.nums) &gt; k:</span><br><span class="line">            heappop(self.nums)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">self, val: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(self.nums) &lt; self.k:</span><br><span class="line">            heappush(self.nums, val)</span><br><span class="line">        <span class="keyword">elif</span> val &gt; self.nums[<span class="number">0</span>]:</span><br><span class="line">            heapreplace(self.nums, val)</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> self.nums[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>不过目前这个语法，我们还不能用<code>LL(1)</code>分析器分析，因为 LL1 要求只能每次看一个词法单元，而我们的语法的右手侧不是唯一的。我们需要重写语法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1. S      -&gt; Exp $</span><br><span class="line">2. Exp    -&gt; Exp2 Exp&#39;</span><br><span class="line">3. Exp&#39;   -&gt; [ + | - ] Exp2 Exp&#39;</span><br><span class="line">4. Exp&#39;   -&gt; none</span><br><span class="line">5. Exp2   -&gt; Exp3 Exp2&#39;</span><br><span class="line">6. Exp2&#39;  -&gt; [ * | - ] Exp3 Exp2&#39;</span><br><span class="line">7. Exp2&#39;  -&gt; none</span><br><span class="line">8. Exp3   -&gt; num</span><br><span class="line">9. Exp3   -&gt; ( Exp )</span><br></pre></td></tr></table></figure>
 
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>首先定义词法单元，和AST节点。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> enum</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TokenT</span>(<span class="params">enum.Enum</span>):</span></span><br><span class="line">    T_NUM = <span class="number">0</span></span><br><span class="line">    T_PLUS = <span class="number">1</span></span><br><span class="line">    T_MINUS = <span class="number">2</span></span><br><span class="line">    T_MULT = <span class="number">3</span></span><br><span class="line">    T_DIV = <span class="number">4</span></span><br><span class="line">    T_LPAR = <span class="number">5</span></span><br><span class="line">    T_RPAR = <span class="number">6</span></span><br><span class="line">    T_END = <span class="number">7</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, token_t, value=<span class="literal">None</span></span>):</span></span><br><span class="line">        self.token_t = token_t</span><br><span class="line">        self.value = value </span><br><span class="line">        self.children = []</span><br></pre></td></tr></table></figure>
 
-<h2 id="1792-Maximum-Average-Pass-Ratio"><a href="#1792-Maximum-Average-Pass-Ratio" class="headerlink" title="1792. Maximum Average Pass Ratio"></a>1792. Maximum Average Pass Ratio</h2><p><strong>思路</strong></p>
-<p>这道题的关键在于想要找到最大平均数，需要把好学生分配到改变通过率最大的班级，即 delta 最大的班级。根据这个特征，我们需要一个堆来决绝，按照每个班增加一个好学生后的 delta 作为 Priority。永远把好学生分配到怼的头部。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> heapq</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxAverageRatio</span>(<span class="params">self, classes: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]], extraStudents: <span class="built_in">int</span></span>) -&gt; <span class="built_in">float</span>:</span></span><br><span class="line">        h = [((x/t - (x+<span class="number">1</span>)/(t+<span class="number">1</span>)), x, t) <span class="keyword">for</span> x, t <span class="keyword">in</span> classes]</span><br><span class="line">        heapify(h)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> extraStudents:</span><br><span class="line">            v, x, t = heappop(h)</span><br><span class="line">            x, t = x+<span class="number">1</span>, t+<span class="number">1</span></span><br><span class="line">            heappush(h, (x/t-(x+<span class="number">1</span>)/(t+<span class="number">1</span>), x, t))</span><br><span class="line">            extraStudents -= <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>([x/t <span class="keyword">for</span> _,x,t <span class="keyword">in</span> h]) / <span class="built_in">len</span>(h)</span><br></pre></td></tr></table></figure>
+<p>然后我们写词法器，Lexer：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lex</span>(<span class="params">exp</span>):</span></span><br><span class="line">    mapping = &#123;</span><br><span class="line">        <span class="string">&quot;+&quot;</span>: TokenT.T_PLUS,</span><br><span class="line">        <span class="string">&quot;-&quot;</span>: TokenT.T_MINUS,</span><br><span class="line">        <span class="string">&quot;*&quot;</span>: TokenT.T_MULT,</span><br><span class="line">        <span class="string">&quot;/&quot;</span>: TokenT.T_DIV</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    tokens = []</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> exp:</span><br><span class="line">        <span class="keyword">if</span> c <span class="keyword">in</span> mapping:</span><br><span class="line">            token_t = mapping[c]</span><br><span class="line">            token = Node(token_t=token_t, value=c)</span><br><span class="line">        <span class="keyword">elif</span> re.match(<span class="string">r&quot;\d&quot;</span>, c):</span><br><span class="line">            token = Node(TokenT.T_NUM, value=<span class="built_in">int</span>(c))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">f&quot;Unknow token <span class="subst">&#123;c&#125;</span>&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        tokens.append(token)</span><br><span class="line"></span><br><span class="line">    tokens.append(Node(TokenT.T_END))</span><br><span class="line">    <span class="keyword">return</span> tokens</span><br></pre></td></tr></table></figure>
 
-<h2 id="621-Task-Schedule"><a href="#621-Task-Schedule" class="headerlink" title="621. Task Schedule"></a>621. Task Schedule</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">leastInterval</span>(<span class="params">self, tasks: <span class="type">List</span>[<span class="built_in">str</span>], n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">from</span> heapq <span class="keyword">import</span> heappush, heappop</span><br><span class="line">        <span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line">        h = []</span><br><span class="line">        res = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> k, v <span class="keyword">in</span> Counter(tasks).items():</span><br><span class="line">            heappush(h, (-<span class="number">1</span>*v, k))</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">while</span> h:</span><br><span class="line">            i = <span class="number">0</span></span><br><span class="line">            tmp =  []</span><br><span class="line">            <span class="keyword">while</span> i&lt;=n:</span><br><span class="line">                res += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> h:</span><br><span class="line">                    left, task = heappop(h)</span><br><span class="line">                    <span class="keyword">if</span> left != -<span class="number">1</span>:</span><br><span class="line">                        tmp.append((left+<span class="number">1</span>, task))</span><br><span class="line">                    </span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> h <span class="keyword">and</span> <span class="keyword">not</span> tmp:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    i += <span class="number">1</span></span><br><span class="line">                    </span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> tmp:</span><br><span class="line">                heappush(h, item)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+<p>然后我们按照上面的语法写分析器：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">match</span>(<span class="params">tokens, token</span>):</span></span><br><span class="line">    <span class="keyword">if</span> tokens[<span class="number">0</span>].token_t == token:</span><br><span class="line">        <span class="keyword">return</span> tokens.pop(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">raise</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_e</span>(<span class="params">tokens</span>):</span>  <span class="comment"># + -</span></span><br><span class="line">    left_node = parse_e2(tokens)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> tokens[<span class="number">0</span>].token_t <span class="keyword">in</span> [TokenT.T_PLUS, TokenT.T_MINUS]:</span><br><span class="line">        node = tokens.pop(<span class="number">0</span>)</span><br><span class="line">        node.children.append(left_node)</span><br><span class="line">        node.children.append(parse_e2(tokens))</span><br><span class="line">        left_node = node</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> left_node</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_e2</span>(<span class="params">tokens</span>):</span>  <span class="comment"># * /</span></span><br><span class="line">    left_node = parse_num(tokens)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> tokens[<span class="number">0</span>].token_t <span class="keyword">in</span> [TokenT.T_MULT, TokenT.T_DIV]:</span><br><span class="line">        node = tokens.pop(<span class="number">0</span>)</span><br><span class="line">        node.children.append(left_node)</span><br><span class="line">        node.children.append(parse_num(tokens))</span><br><span class="line">        left_node = node</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> left_node</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_num</span>(<span class="params">tokens</span>):</span>  <span class="comment"># num</span></span><br><span class="line">    <span class="keyword">if</span> tokens[<span class="number">0</span>].token_t == TokenT.T_NUM:</span><br><span class="line">        <span class="keyword">return</span> tokens.pop(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    match(tokens, TokenT.T_LPAR)</span><br><span class="line">    expression = parse_e(tokens)</span><br><span class="line">    match(tokens, TokenT.T_RPAR)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> expression</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span>(<span class="params">inputs</span>):</span></span><br><span class="line">    <span class="comment"># 返回语法树</span></span><br><span class="line">    tokens = lex(inouts)</span><br><span class="line">    ast = parse_e(tokens)</span><br><span class="line">    match(tokens, TokenT.T_END)</span><br><span class="line">    <span class="keyword">return</span> ast</span><br></pre></td></tr></table></figure>
 
-<h6 id="tags-Leetcode-Heap"><a href="#tags-Leetcode-Heap" class="headerlink" title="tags: Leetcode Heap"></a>tags: <code>Leetcode</code> <code>Heap</code></h6>]]></content>
+<p>当我们得到语法树后，就可以实现计算了：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ops = &#123;</span><br><span class="line">    TokenT.T_PLUS: <span class="keyword">lambda</span> x,y: x+y,</span><br><span class="line">    TokenT.T_MINUS: <span class="keyword">lambda</span> x,y: x-y,</span><br><span class="line">    TokenT.T_MULT: <span class="keyword">lambda</span> x,y: x*y,</span><br><span class="line">    TokenT.T_DIV: <span class="keyword">lambda</span> x,y: <span class="built_in">int</span>(x/y),</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compute</span>(<span class="params">node</span>):</span></span><br><span class="line">    <span class="keyword">if</span> node.token_t == TokenT.T_NUM:</span><br><span class="line">        <span class="keyword">return</span> node.value</span><br><span class="line">    </span><br><span class="line">    left = compute(node.children[<span class="number">0</span>])</span><br><span class="line">    right = compute(node.children[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">return</span> ops[node.token_t](left, right)</span><br></pre></td></tr></table></figure>
+
+<p>比如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">strings = <span class="string">&quot;1+2*(3-5)&quot;</span></span><br><span class="line">ast = parse(strings)</span><br><span class="line">res = compute(ast)</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"><span class="comment"># output: -3</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><ul>
+<li><a href="https://github.com/gnebehay/parser/blob/master/parser.py">https://github.com/gnebehay/parser/blob/master/parser.py</a></li>
+</ul>
+]]></content>
       <categories>
-        <category>Leetcode</category>
+        <category>Compiler</category>
       </categories>
       <tags>
-        <tag>Heap</tag>
+        <tag>LL1</tag>
       </tags>
   </entry>
   <entry>
@@ -109,6 +119,41 @@
       </categories>
       <tags>
         <tag>DFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Heap 使用</title>
+    <url>/2021/04/18/leetcode_heap1/</url>
+    <content><![CDATA[<h1 id="Heap（堆）的使用"><a href="#Heap（堆）的使用" class="headerlink" title="Heap（堆）的使用"></a>Heap（堆）的使用</h1><ul>
+<li><a href="https://leetcode.com/problems/last-stone-weight/">1046. Last Stone Weight</a></li>
+<li><a href="https://leetcode.com/problems/kth-largest-element-in-a-stream/">703. Kth Largest Element in a Stream</a></li>
+<li><a href="https://leetcode.com/problems/maximum-average-pass-ratio/">1792. Maximum Average Pass Ratio</a></li>
+<li><a href="https://leetcode.com/problems/task-scheduler/">621. Task Schedule</a></li>
+</ul>
+<h2 id="1046-Last-Stone-Weight"><a href="#1046-Last-Stone-Weight" class="headerlink" title="1046. Last Stone Weight"></a>1046. Last Stone Weight</h2><p><strong>思路</strong></p>
+<p>此题比较直接，直接采用heap来维护最重的数值在头部，需要注意的是 Python 的 heap 都是 min heap，所以需要取负数来实现此题。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lastStoneWeight</span>(<span class="params">self, stones: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        h = [-s <span class="keyword">for</span> s <span class="keyword">in</span> stones]</span><br><span class="line">        heapify(h)</span><br><span class="line">        <span class="built_in">print</span>(h)</span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(h) &gt;= <span class="number">2</span>:</span><br><span class="line">            fst = heappop(h)</span><br><span class="line">            snd = heappop(h)</span><br><span class="line">            <span class="keyword">if</span> fst != snd:</span><br><span class="line">                heappush(h, fst-snd)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> -<span class="built_in">sum</span>(h)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="703-Kth-Largest-Element-in-a-Stream"><a href="#703-Kth-Largest-Element-in-a-Stream" class="headerlink" title="703. Kth Largest Element in a Stream"></a>703. Kth Largest Element in a Stream</h2><p><strong>思路</strong><br>这题的要点在于维护一个固定长度的heap。可以采用 <code>heapreplace</code> 函数实现 push和pop 的组合操作。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KthLargest</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, k: <span class="built_in">int</span>, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>):</span></span><br><span class="line">        self.nums = nums</span><br><span class="line">        self.k = k</span><br><span class="line">        heapify(self.nums)</span><br><span class="line">        <span class="comment"># 保持头部是 kth largest </span></span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(self.nums) &gt; k:</span><br><span class="line">            heappop(self.nums)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">self, val: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(self.nums) &lt; self.k:</span><br><span class="line">            heappush(self.nums, val)</span><br><span class="line">        <span class="keyword">elif</span> val &gt; self.nums[<span class="number">0</span>]:</span><br><span class="line">            heapreplace(self.nums, val)</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> self.nums[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="1792-Maximum-Average-Pass-Ratio"><a href="#1792-Maximum-Average-Pass-Ratio" class="headerlink" title="1792. Maximum Average Pass Ratio"></a>1792. Maximum Average Pass Ratio</h2><p><strong>思路</strong></p>
+<p>这道题的关键在于想要找到最大平均数，需要把好学生分配到改变通过率最大的班级，即 delta 最大的班级。根据这个特征，我们需要一个堆来决绝，按照每个班增加一个好学生后的 delta 作为 Priority。永远把好学生分配到怼的头部。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> heapq</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxAverageRatio</span>(<span class="params">self, classes: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]], extraStudents: <span class="built_in">int</span></span>) -&gt; <span class="built_in">float</span>:</span></span><br><span class="line">        h = [((x/t - (x+<span class="number">1</span>)/(t+<span class="number">1</span>)), x, t) <span class="keyword">for</span> x, t <span class="keyword">in</span> classes]</span><br><span class="line">        heapify(h)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> extraStudents:</span><br><span class="line">            v, x, t = heappop(h)</span><br><span class="line">            x, t = x+<span class="number">1</span>, t+<span class="number">1</span></span><br><span class="line">            heappush(h, (x/t-(x+<span class="number">1</span>)/(t+<span class="number">1</span>), x, t))</span><br><span class="line">            extraStudents -= <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>([x/t <span class="keyword">for</span> _,x,t <span class="keyword">in</span> h]) / <span class="built_in">len</span>(h)</span><br></pre></td></tr></table></figure>
+
+<h2 id="621-Task-Schedule"><a href="#621-Task-Schedule" class="headerlink" title="621. Task Schedule"></a>621. Task Schedule</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">leastInterval</span>(<span class="params">self, tasks: <span class="type">List</span>[<span class="built_in">str</span>], n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">from</span> heapq <span class="keyword">import</span> heappush, heappop</span><br><span class="line">        <span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line">        h = []</span><br><span class="line">        res = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> k, v <span class="keyword">in</span> Counter(tasks).items():</span><br><span class="line">            heappush(h, (-<span class="number">1</span>*v, k))</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">while</span> h:</span><br><span class="line">            i = <span class="number">0</span></span><br><span class="line">            tmp =  []</span><br><span class="line">            <span class="keyword">while</span> i&lt;=n:</span><br><span class="line">                res += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> h:</span><br><span class="line">                    left, task = heappop(h)</span><br><span class="line">                    <span class="keyword">if</span> left != -<span class="number">1</span>:</span><br><span class="line">                        tmp.append((left+<span class="number">1</span>, task))</span><br><span class="line">                    </span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> h <span class="keyword">and</span> <span class="keyword">not</span> tmp:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    i += <span class="number">1</span></span><br><span class="line">                    </span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> tmp:</span><br><span class="line">                heappush(h, item)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+
+<h6 id="tags-Leetcode-Heap"><a href="#tags-Leetcode-Heap" class="headerlink" title="tags: Leetcode Heap"></a>tags: <code>Leetcode</code> <code>Heap</code></h6>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Heap</tag>
       </tags>
   </entry>
   <entry>
@@ -937,6 +982,42 @@
       </tags>
   </entry>
   <entry>
+    <title>雅各书 5 13-20</title>
+    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
+    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
+<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
+<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
+<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
+</blockquote>
+<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
+<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
+<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
+<blockquote>
+<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
+</blockquote>
+<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
+<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
+<ul>
+<li>认罪</li>
+<li>倾吐心声</li>
+<li>互相鼓励</li>
+<li>等等。。。</li>
+</ul>
+<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
+<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
+<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
+<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
+<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go 学习笔记2 语法、语义</title>
     <url>/2021/03/28/go_2/</url>
     <content><![CDATA[<h1 id="Go-学习笔记2：语法和语义"><a href="#Go-学习笔记2：语法和语义" class="headerlink" title="Go 学习笔记2：语法和语义"></a>Go 学习笔记2：语法和语义</h1><p>这个部分主要总结 Go 涉及的基本语法和语义，即之前提到的前两个角度。</p>
@@ -1024,42 +1105,6 @@
       <tags>
         <tag>Go</tag>
         <tag>Go学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>雅各书 5 13-20</title>
-    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
-    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
-<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
-<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
-<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
-</blockquote>
-<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
-<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
-<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
-<blockquote>
-<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
-</blockquote>
-<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
-<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
-<ul>
-<li>认罪</li>
-<li>倾吐心声</li>
-<li>互相鼓励</li>
-<li>等等。。。</li>
-</ul>
-<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
-<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
-<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
-<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
-<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
@@ -3548,6 +3593,34 @@
       </tags>
   </entry>
   <entry>
+    <title>“你不要惧怕，我是你的神” - 以赛亚书41</title>
+    <url>/2020/05/17/yisaiya2/</url>
+    <content><![CDATA[<p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
+<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
+<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
+<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
+<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
+<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
+<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
+<p>先知以赛亚是这样说的：</p>
+<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
+<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
+<p>我们认为我们只能自己面对一切。</p>
+<p>我们害怕自己不能掌控的事情。</p>
+<p>但是，</p>
+<p>神，掌管一切。</p>
+<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
+<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
+<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>以赛亚书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>圣经的结构</title>
     <url>/2020/05/17/bible_structure/</url>
     <content><![CDATA[<h1 id="book-基本信息"><a href="#book-基本信息" class="headerlink" title=":book:基本信息"></a>:book:基本信息</h1><p>圣经（Bible）是一系列不同文学体裁的书组成，分为新约和旧约两个部分。圣经总共包含了66卷书，成书时间跨越2千余年，由40位作者完成。最初版本的圣经主要由两种语言写成：希伯来语和希腊语。</p>
@@ -3644,34 +3717,6 @@
       </categories>
       <tags>
         <tag>Bible</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>“你不要惧怕，我是你的神” - 以赛亚书41</title>
-    <url>/2020/05/17/yisaiya2/</url>
-    <content><![CDATA[<p>在新冠肺炎这个特殊的时期，来自先知以赛亚的预言对我们是极大的鼓励。我们在这种时期是最缺乏安全感的时候，面对危机，我们从哪里得到力量？</p>
-<p>在这种时期，我们也应该更加谨慎，力量应该来自耶和华，不应该来自各式各样的偶像！</p>
-<h1 id="我们从哪里获得力量？"><a href="#我们从哪里获得力量？" class="headerlink" title="我们从哪里获得力量？"></a>我们从哪里获得力量？</h1><p>“手”的概念不断在这段经文中出现，神是个灵，但是经文用比喻告诉我们神是我们的依靠。</p>
-<p><strong>以赛亚书41：10 不要惧怕，因为我与你同在;不要四处张望，因为我是你的 神，<br>我必坚固你，我必帮助你;我必用公义的右手扶持你。</strong></p>
-<p><strong>以赛亚书41：13  因为我，耶和华你们的神，紧握着你的右手，对你说：“不要惧怕，我必帮助你。”</strong></p>
-<p>耶和华是信实不变的神，他说的话依然生效。这就是我们在面对危险和不确定性的时候，获得力量的地方。握住耶和华全能的手。</p>
-<h1 id="偶像的软弱"><a href="#偶像的软弱" class="headerlink" title="偶像的软弱"></a>偶像的软弱</h1><p>面对不确定性，去选择依靠偶像，只会带来更多的恐惧。为什么呢？因为偶像都是人手所造的，注定会朽坏的、及其不稳定的东西。当你选择依靠他们的同时，你已经开始恐惧偶像有一天离开你。</p>
-<p>先知以赛亚是这样说的：</p>
-<p><strong>41：28 看哪!他们都是无有，他们所作的都是虚无; 他们所铸的偶像都是风，都是虚空。</strong></p>
-<h1 id="我们为什么惧怕？"><a href="#我们为什么惧怕？" class="headerlink" title="我们为什么惧怕？"></a>我们为什么惧怕？</h1><p>我们担心失去我们关心的东西：生命、爱情、金钱、健康、权利、地位、亲密关系等等。</p>
-<p>我们认为我们只能自己面对一切。</p>
-<p>我们害怕自己不能掌控的事情。</p>
-<p>但是，</p>
-<p>神，掌管一切。</p>
-<h1 id="一首诗歌"><a href="#一首诗歌" class="headerlink" title="一首诗歌"></a>一首诗歌</h1><p>我的诗歌 我的拯救<br>祢是我患难中随时的帮助<br>众山怎样围绕耶路撒冷<br>祢必围绕我到永远  </p>
-<p>主祢是我力量 主祢是我高台<br>坚固盘石我信靠祢必不动摇<br>主祢是我力量 主祢是避难所<br>我的盼望只在乎祢  </p>
-<p><a href="https://www.youtube.com/watch?v=izOAxx2bRIc">https://www.youtube.com/watch?v=izOAxx2bRIc</a></p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>以赛亚书</tag>
       </tags>
   </entry>
   <entry>
