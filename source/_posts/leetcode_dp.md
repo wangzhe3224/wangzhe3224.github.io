@@ -1,6 +1,6 @@
 ---
 title: 动态规划问题
-tags: DP
+tags: [DP]
 categories: Leetcode
 date: 2021-04-08
 ---
@@ -38,6 +38,7 @@ for 状态1 in 状态1的所有取值：
     - [123. Best Time to Buy and Sell Stock III](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/)
     - [518. Coin Change 2](https://leetcode.com/problems/coin-change-2/submissions/)
     - [62. Unique Paths](https://leetcode.com/problems/unique-paths/)
+    - [377. Combination Sum IV](https://leetcode.com/problems/combination-sum-iv)
 
 ## 简单题
 
@@ -292,6 +293,30 @@ class Solution:
                 dp[i][j] = dp[i-1][j] + dp[i][j-1]
                 
         return dp[-1][-1]
+```
+
+### 377. Combination Sum IV
+
+```python=
+class Solution:
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+        dp = [0]*(target+1)
+        dp[0] = 1
+        for i in range(1, target+1):
+            for num in nums:
+                if num <= i: 
+                    dp[i] += dp[i-num]
+                    
+        return dp[target]
+    
+    def combinationSum4(self, N: List[int], T: int) -> int:
+        dp = [0] * (T + 1)
+        dp[0] = 1
+        for i in range(T):
+            if not dp[i]: continue
+            for num in N:
+                if num + i <= T: dp[i+num] += dp[i]
+        return dp[T]
 ```
 
 ## Ref
