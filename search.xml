@@ -54,6 +54,200 @@
       </tags>
   </entry>
   <entry>
+    <title>CSAPP 6 存储的层次</title>
+    <url>/2021/04/24/csapp_6/</url>
+    <content><![CDATA[<h1 id="CSAPP-6-存储的层次"><a href="#CSAPP-6-存储的层次" class="headerlink" title="CSAPP 6 存储的层次"></a>CSAPP 6 存储的层次</h1><p>本书之前讨论的模型注重CPU执行程序的过程和方式，而其中内存被当做一个简单的byte array，可以实现O(1)访问。但是，这个内存模型是简化的，实际计算的内存是一个层状模型，每一层都有不同的承载力和访问开销。</p>
+<h2 id="Locality"><a href="#Locality" class="headerlink" title="Locality"></a>Locality</h2><p><strong>Temporal Locality</strong>：一个内存地址如果被引用了一次，那么它很可能在将来还会被引用。<strong>Spatial Locality</strong>：一个地址如果被引用，那么它周围的地址也能被引用。</p>
+<p>现代计算机和操作系统都会做上述假设，如果程序可以满足上述假设，那么程序的运行速度就会提升。</p>
+<p>因此：</p>
+<ul>
+<li>反复访问同一个内存地址效率更高</li>
+<li>多维数组row基更快，因为内存连续</li>
+<li>多维数组，<code>a[][][]</code> 将最后一个index作为变化最快的index</li>
+<li>循环最好是大量的短代码块</li>
+</ul>
+<p><strong>Problem 6.9</strong></p>
+<p>定义如下结构体，注意结构体在C中其实也是一段连续的内存，循环赋值的时候如果关注效率，应该采用<code>clear1</code>的方法。结构体其实相当于多维数组，只不过第二维度是一个field，而不是index。因此 j 应该是变化最快的index，而且不宜把vel和acc放在同一个loop里面，这样写起来方便，但是 Locality 不好。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 1000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> vel[<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">int</span> acc[<span class="number">3</span>];</span><br><span class="line">&#125; point;</span><br><span class="line"></span><br><span class="line">point p[N];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">clear1</span><span class="params">(point *p, <span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i, j;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;n; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;<span class="number">3</span>; j++)</span><br><span class="line">            p[i].vel[j] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;<span class="number">3</span>; j++)</span><br><span class="line">            p[i].acc[j] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="存储的层次"><a href="#存储的层次" class="headerlink" title="存储的层次"></a>存储的层次</h2><p>从寄存器到硬盘，再到网络服务器，计算机系统的存储系统是一个层状结构。越往上读写速度越快，但是价格也越高，相应的存储空间也越小。所以上一层的内存通常是作为下一层内存的<strong>缓存（Cache）</strong> 使用。</p>
+<p><img data-src="https://i.imgur.com/8BRKwX4.png" alt=""></p>
+<p>通常k和k+1的缓存关系具有固定的block大小。如果程序想要读取k+1的信息，会搜索k中k+1的缓存block，如果找到（cache hit）读取，如果没找到（cache miss）则会从K+1读取，并放入k层缓存，不过放入缓存的具体方式跟不同的缓存策略有关。</p>
+<p>Cache hit 大家都开心，如果出现 Cache miss，我们需要分析原因。一般miss可以分成：</p>
+<ul>
+<li>cold miss</li>
+<li>confilt miss</li>
+<li>capacity miss</li>
+</ul>
+<p>既然每一层都是下一层的缓存，那么谁来负责管理每一层之间的数据流动呢？存储的最顶层是寄存器，这部分内存由编译器负责管理；而L1-3缓存则是由硬件负责管理；而主内存，在有虚拟内存的情况下，是有操作系统和硬件共同完成管理的，</p>
+<p>正是因为存储的这种层状缓存关系，程序的Locality才对提升性能格外重要：</p>
+<ul>
+<li>Temporal Locality，可以提高cache hit</li>
+<li>Spatial Locality，可以提高一个block空间的利用率</li>
+</ul>
+<h2 id="内存缓存"><a href="#内存缓存" class="headerlink" title="内存缓存"></a>内存缓存</h2><p>如果系统的地址宽度为$m$ bits，则系统可以寻址$M=s^m$，那么缓存一般被划分成 $S=2^s$ 个缓存集（Cache set），每一个缓存集包含 $E$ 调缓存记录，而每一个缓存记录的宽度恰好是系统地址宽度 $m$。每个缓存记录包含：</p>
+<ul>
+<li>数据块，$B=2^b$ 字节；</li>
+<li>valid bit，1 bit，用来表明该记录是否存有可用信息；</li>
+<li>Tag，$t=m-(b+s)$，这部分是当前内存块地址的一个子集。</li>
+</ul>
+<p>由此得出缓存的大小：$C=B<em>E</em>S$，我们可以用一个4维元组定义一个缓存：$(S, E, B, m)$。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set 0, cache line 0</span><br><span class="line"></span><br><span class="line">| valid bit | -- t bits -- | --  b blocks  -- |</span><br><span class="line">   Valid          Tag          B &#x3D; 2^b bytes</span><br></pre></td></tr></table></figure>
+
+<p>那么缓存是如何寻址的呢？假设我们要看缓存是否包含地址A对应的数据。首先我们把地址划分成三个部分：</p>
+<ul>
+<li>tag</li>
+<li>set index</li>
+<li>block offset</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">         m-1                                    0</span><br><span class="line">address: |-- t bits --|-- s bits --|-- b bits --|</span><br><span class="line">              tag       set index   block offset</span><br></pre></td></tr></table></figure>
+
+<p>首先，set index 部分指明缓存集（cache set）位置，然后 Tag 部分会指明那个缓存记录包含该地址的内容；最后，通过 block offset 找到读取的缓存的最终位置。</p>
+<h4 id="Problem-6-10"><a href="#Problem-6-10" class="headerlink" title="Problem 6.10"></a>Problem 6.10</h4><ul>
+<li>$S = C / (B * E)$</li>
+<li>$s = log_2(S)$</li>
+<li>$b = log_2(B)$</li>
+<li>$t = m - (s+b)$</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Cache</th>
+<th>m</th>
+<th>C</th>
+<th>B</th>
+<th>E</th>
+<th>S</th>
+<th>t</th>
+<th>s</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.</td>
+<td>32</td>
+<td>1024</td>
+<td>4</td>
+<td>1</td>
+<td>256</td>
+<td>22</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2.</td>
+<td>32</td>
+<td>1024</td>
+<td>8</td>
+<td>4</td>
+<td>32</td>
+<td>24</td>
+<td>5</td>
+<td>3</td>
+</tr>
+<tr>
+<td>3.</td>
+<td>32</td>
+<td>1024</td>
+<td>32</td>
+<td>32</td>
+<td>1</td>
+<td>27</td>
+<td>0</td>
+<td>5</td>
+</tr>
+</tbody></table>
+<h3 id="直接映射缓存"><a href="#直接映射缓存" class="headerlink" title="直接映射缓存"></a>直接映射缓存</h3><p>直接映射缓存就是 $E=1$ 的缓存，即每一个缓存集只有一条缓存记录。缓存的读取分成三部：</p>
+<ul>
+<li>选取set</li>
+<li>匹配line</li>
+<li>抽取word</li>
+</ul>
+<p>跟上上面练习的表格，可以知道 s 的宽度是 5 比特，也就是我们需要抽取读取地址中的5位，换算成无符号整数，作为cache set索引。比如如下示意，我们的地址中 s 的部分是<code>00001</code>就会对应cache set索引1。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">m-1                                        0</span><br><span class="line">|--  t bits -- | 0 0 0 0 1 | --  b bits -- |</span><br></pre></td></tr></table></figure>
+
+<p>找到 cache set 的位置后，我们需要找到对应的 cache line，由于选择了E=1，每一个 cache set 都只有一个 cache line，这一步就没什么好选择的了。</p>
+<p>最后一步就是抽取数据。</p>
+<ol>
+<li>检查 vilid bit 是否是1，</li>
+<li>检查 tag 部分（0110）是否与缓存tag部分相等，</li>
+<li>继续读取offset的部分（本例子中是二进制100，即十进制4）找到对应的数据。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Cache set 的结构</span><br><span class="line"></span><br><span class="line">| valid bit | Tag | Block </span><br><span class="line">    &#x3D;1 ?     0110   </span><br><span class="line">    </span><br><span class="line">m-1                                        0</span><br><span class="line">|--  t bits -- | 0 0 0 0 1 | --  b bits -- |</span><br><span class="line">|   0 1 1 0    |     i     |     1 0 0     |</span><br></pre></td></tr></table></figure>
+
+<p>如果步骤1、2都满足，成为 cache hit，即命中。否则为cache miss，这时系统需要继续访问内存读取数据，然后将数据按照规则写入cache。这时候，如果缓存已经满了，就需要一些evicted策略。对于直接映射缓存，情况比较简单，就是直接用新的数据替换该cache line。</p>
+<p><strong>值得注意的是，如果一个cache line出现cache miss，系统会直接读取所有的block进入缓存，而不是只读取请求的部分。</strong></p>
+<p><strong>由于缓存较小，同一个cache line会被映射到不同的内存地址，这就可能导致Conflit miss，即一个cache line被返回的清除，或交替出现cache miss</strong>。</p>
+<p><strong>为什么采用中间的bit作为set索引，而不是高位的bit？因为我们希望连续的内存被映射到不同的set区间，增加连续访问的cache hit</strong></p>
+<h4 id="Problem-6-11"><a href="#Problem-6-11" class="headerlink" title="Problem 6.11"></a>Problem 6.11</h4><p>padding后，75%的访问会命中。</p>
+<h4 id="Problem-6-13"><a href="#Problem-6-13" class="headerlink" title="Problem 6.13"></a>Problem 6.13</h4><table>
+<thead>
+<tr>
+<th>Cache</th>
+<th>m</th>
+<th>C</th>
+<th>B</th>
+<th>E</th>
+<th>S</th>
+<th>t</th>
+<th>s</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.</td>
+<td>13</td>
+<td>32</td>
+<td>4</td>
+<td>1</td>
+<td>8</td>
+<td>8</td>
+<td>3</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Tag: 8 bit</span><br><span class="line">index: 3 bits</span><br><span class="line">offset: 2 bits</span><br></pre></td></tr></table></figure>
+
+<h4 id="Problem-6-14"><a href="#Problem-6-14" class="headerlink" title="Problem 6.14"></a>Problem 6.14</h4><p><code>0x0E34</code> -&gt; <code>0111000110100</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Cache block offset (CO)   0x00</span><br><span class="line">Cache set index (CI)      0x05</span><br><span class="line">Cache tag (CT)            0x71</span><br><span class="line">Cache Hit?                Yes</span><br><span class="line">Cache byte return         0x0B</span><br></pre></td></tr></table></figure>
+
+<h4 id="Problem-6-15"><a href="#Problem-6-15" class="headerlink" title="Problem 6.15"></a>Problem 6.15</h4><p><code>0x0DD5</code> -&gt; <code>110111010101</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Cache block offset (CO)   0x01</span><br><span class="line">Cache set index (CI)      0x05</span><br><span class="line">Cache tag (CT)            0x6E</span><br><span class="line">Cache Hit?                No</span><br><span class="line">Cache byte return         -</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="写入缓存的问题"><a href="#写入缓存的问题" class="headerlink" title="写入缓存的问题"></a>写入缓存的问题</h3><p>上述方法用于读取缓存没有问题，当程序想要向缓存写入数据的时候，系统需要考虑不同的方案。我们有两种情况：Write hit 和 Write miss。</p>
+<p>Write hit 的情况下，我们有两种方案：<code>write-though</code>和<code>write-back</code>。前一种方案会在写入缓存的同事，更新对应的内存空间；后一种方案，只有在该缓存被清除的时候，才会向对应内存写入更新的数值。</p>
+<p>Write miss 的情况下，也是两种方案：<code>write-allocate</code>和<code>no-write-allocate</code>。前一种方案会读取数据到缓存，然后写入缓存；后一种会直接写入内存或下一层缓存。</p>
+<h3 id="i-cache-和-d-cache"><a href="#i-cache-和-d-cache" class="headerlink" title="i-cache 和 d-cache"></a>i-cache 和 d-cache</h3><p>缓存不仅会存储数据，也会存储CPU指令。</p>
+<h3 id="缓存参数对性能影响指标"><a href="#缓存参数对性能影响指标" class="headerlink" title="缓存参数对性能影响指标"></a>缓存参数对性能影响指标</h3><p>我们有如下指标评估缓存的性能：</p>
+<ul>
+<li>Miss Rate</li>
+<li>Hit Rate</li>
+<li>Hit time</li>
+<li>Miss penalty</li>
+</ul>
+<h2 id="如何利用缓存特性写更快的程序？"><a href="#如何利用缓存特性写更快的程序？" class="headerlink" title="如何利用缓存特性写更快的程序？"></a>如何利用缓存特性写更快的程序？</h2><ol>
+<li>让公共代码跑的更快</li>
+<li>减少内层循环的cache miss</li>
+<li>再循环中不断访问局部变量（编译器会优化到寄存器）</li>
+<li>把变化最快层放在最内层索引</li>
+</ol>
+<p>概念上：</p>
+<ul>
+<li>关注程序的最内层循环</li>
+<li>为了最大化空间局部性，stride 1 模式读取对象</li>
+<li>为了最大化临时局部性，反复使用已经从内存读取的对象</li>
+</ul>
+<h6 id="tags-CSAPP"><a href="#tags-CSAPP" class="headerlink" title="tags: CSAPP"></a>tags: <code>CSAPP</code></h6>]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>CSAPP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Tree层遍历</title>
     <url>/2021/04/20/leetcode_tree1/</url>
     <content><![CDATA[<h1 id="Tree层遍历"><a href="#Tree层遍历" class="headerlink" title="Tree层遍历"></a>Tree层遍历</h1><ul>
@@ -567,37 +761,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CSAPP 2 信息的表达和操作</title>
-    <url>/2021/04/09/csapp_2/</url>
-    <content><![CDATA[<h1 id="CSAPP-2-信息的表达和操作"><a href="#CSAPP-2-信息的表达和操作" class="headerlink" title="CSAPP 2 信息的表达和操作"></a>CSAPP 2 信息的表达和操作</h1><p>目前的计算机技术存储信息是二进制的，我们用0和1表达信息。最基本的信息有两种：整数和浮点数。字符串也会被编码成整数表达。从根本上说，我们规定了一些规则（向下文）来解释这些0和1。通过基本的代数法则就可以实现运算了。</p>
-<p>为了方便人类阅读，常用的编码进制包括8进制和16进制。</p>
-<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;csapp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;int: %d\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_dbl</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;double: %g\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int_arr</span><span class="params">(<span class="keyword">int</span> a[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;int array: [&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;=(<span class="keyword">sizeof</span>(a))/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]); i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d, &quot;</span>, a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_default</span><span class="params">()</span> </span>&#123; <span class="built_in">puts</span>(<span class="string">&quot;unknown argument&quot;</span>); &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> print(X) _Generic((X), \</span></span><br><span class="line">        <span class="keyword">int</span>: print_int, \</span><br><span class="line">        <span class="keyword">double</span>: print_dbl, \</span><br><span class="line">        <span class="keyword">int</span>*: print_int_arr, \</span><br><span class="line">        <span class="keyword">default</span>: print_default)(X)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> problem(x) printf(<span class="meta-string">&quot;\n * Problem %s: \n&quot;</span>, x)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> comment(x) printf(<span class="meta-string">&quot;%s\n&quot;</span>, x)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_float</span><span class="params">(<span class="keyword">float</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_pointer</span><span class="params">(<span class="keyword">void</span>* x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">void</span> *));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *x, <span class="keyword">int</span> *y)</span> </span>&#123;</span><br><span class="line">    *y = *x^*y;</span><br><span class="line">    *x = *x^*y; <span class="comment">/*Step2*/</span></span><br><span class="line">    *y = *x^*y; <span class="comment">/*Step3*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse_array</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> cnt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1,2,3  -&gt; 3,2,1</span></span><br><span class="line">    <span class="keyword">int</span> first, last;</span><br><span class="line">    <span class="keyword">for</span> (first=<span class="number">0</span>, last=cnt<span class="number">-1</span>;</span><br><span class="line">        first &lt; last;</span><br><span class="line">        first++, last--) &#123;</span><br><span class="line">            swap(&amp;a[first], &amp;a[last]);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">float</span> y = <span class="number">1.0</span>;</span><br><span class="line">    show_int(x);</span><br><span class="line">    show_float(y);</span><br><span class="line">    show_pointer(&amp;x);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof float is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof int is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="comment">// Problem 2.6</span></span><br><span class="line">    problem(<span class="string">&quot;2.6&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">3510593</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">3510593.0</span>;</span><br><span class="line">    show_int(b);   <span class="comment">// ? why this shows as same as a?</span></span><br><span class="line">    show_int(a);   <span class="comment">//        1101011001000101000001</span></span><br><span class="line">    show_float(b); <span class="comment">// 1001010010101100100010100000100</span></span><br><span class="line">    <span class="comment">// Problem 2.7</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *s = <span class="string">&quot;abcdef&quot;</span>;</span><br><span class="line">    show_bytes((byte_pointer)s, <span class="built_in">strlen</span>(s)); <span class="comment">//  61 62 63 64 65 66</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    a = 110</span></span><br><span class="line"><span class="comment">    b = 001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 110 ^ 001 = 111</span></span><br><span class="line"><span class="comment">    a = a ^ b  -&gt; a = 110 ^ 111 = 001</span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 001 ^ 111 = 110</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    problem(<span class="string">&quot;2.10&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> aa = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> bb = <span class="number">2</span>;</span><br><span class="line">    swap(&amp;aa, &amp;bb);</span><br><span class="line">    print(aa);</span><br><span class="line">    print(bb);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.11&quot;</span>);</span><br><span class="line">    comment(<span class="string">&quot;Note that a ^ a = 0&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a2[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    print(a2);</span><br><span class="line">    reverse_array(a2, <span class="number">3</span>);</span><br><span class="line">    print(a2);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.12&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> x12 = <span class="number">0x87654321</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 &amp; <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( x12 ^ <span class="number">0xFF</span> ));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 | <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( <span class="number">0x11</span> ^ <span class="number">0xFF</span> ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Computing</category>
-      </categories>
-      <tags>
-        <tag>CSAPP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nSum 问题</title>
-    <url>/2021/04/09/leetcode_nSum/</url>
-    <content><![CDATA[<h1 id="nSum-问题"><a href="#nSum-问题" class="headerlink" title="nSum 问题"></a>nSum 问题</h1><h2 id="2-Sum"><a href="#2-Sum" class="headerlink" title="2 Sum"></a>2 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>], target: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span></span><br><span class="line">        cache = &#123;&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            residual = target - nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> residual <span class="keyword">in</span> cache:</span><br><span class="line">                <span class="keyword">return</span> [cache[residual], i]</span><br><span class="line">            </span><br><span class="line">            cache[nums[i]] = i</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> []</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-Sum"><a href="#3-Sum" class="headerlink" title="3 Sum"></a>3 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">threeSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(nums) &lt;= <span class="number">3</span> <span class="keyword">and</span> <span class="built_in">sum</span>(nums)!=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        res = []</span><br><span class="line">        counter = collections.defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">            counter[i] += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        nums = <span class="built_in">sorted</span>(counter.keys())</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            a = nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> <span class="number">3</span>*a == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">3</span>:</span><br><span class="line">                res.append([a,a,a])</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>, <span class="built_in">len</span>(nums)):</span><br><span class="line">                b = nums[j]</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*b + a == <span class="number">0</span> <span class="keyword">and</span> counter[b] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, b, b])</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*a + b == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, a, b])</span><br><span class="line">                    </span><br><span class="line">                c = -a-b</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> c &gt; b <span class="keyword">and</span> counter[c] &gt;= <span class="number">1</span>:</span><br><span class="line">                    res.append([a, b, c])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-
-
-<h6 id="tags-Leetcode-nSum"><a href="#tags-Leetcode-nSum" class="headerlink" title="tags: Leetcode nSum"></a>tags: <code>Leetcode</code> <code>nSum</code></h6>]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>nSum</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSAPP 1 概览</title>
     <url>/2021/04/09/csapp1/</url>
     <content><![CDATA[<h1 id="CSAPP-1-概览"><a href="#CSAPP-1-概览" class="headerlink" title="CSAPP 1 概览"></a>CSAPP 1 概览</h1><p>这本书之前非常简略的阅读过一次，过了这么一年多，重新拿起这本书反倒有了更多理解。可能这就是一本好书的特点把，他随着你的经验增加，提供给你更多的信息。给人的感觉就是，第一次读醍醐灌顶，第二次读，还是醍醐灌顶。。。</p>
@@ -642,6 +805,37 @@
       </categories>
       <tags>
         <tag>CSAPP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSAPP 2 信息的表达和操作</title>
+    <url>/2021/04/09/csapp_2/</url>
+    <content><![CDATA[<h1 id="CSAPP-2-信息的表达和操作"><a href="#CSAPP-2-信息的表达和操作" class="headerlink" title="CSAPP 2 信息的表达和操作"></a>CSAPP 2 信息的表达和操作</h1><p>目前的计算机技术存储信息是二进制的，我们用0和1表达信息。最基本的信息有两种：整数和浮点数。字符串也会被编码成整数表达。从根本上说，我们规定了一些规则（向下文）来解释这些0和1。通过基本的代数法则就可以实现运算了。</p>
+<p>为了方便人类阅读，常用的编码进制包括8进制和16进制。</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;csapp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;int: %d\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_dbl</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;double: %g\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int_arr</span><span class="params">(<span class="keyword">int</span> a[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;int array: [&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;=(<span class="keyword">sizeof</span>(a))/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]); i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d, &quot;</span>, a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_default</span><span class="params">()</span> </span>&#123; <span class="built_in">puts</span>(<span class="string">&quot;unknown argument&quot;</span>); &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> print(X) _Generic((X), \</span></span><br><span class="line">        <span class="keyword">int</span>: print_int, \</span><br><span class="line">        <span class="keyword">double</span>: print_dbl, \</span><br><span class="line">        <span class="keyword">int</span>*: print_int_arr, \</span><br><span class="line">        <span class="keyword">default</span>: print_default)(X)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> problem(x) printf(<span class="meta-string">&quot;\n * Problem %s: \n&quot;</span>, x)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> comment(x) printf(<span class="meta-string">&quot;%s\n&quot;</span>, x)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_float</span><span class="params">(<span class="keyword">float</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_pointer</span><span class="params">(<span class="keyword">void</span>* x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">void</span> *));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *x, <span class="keyword">int</span> *y)</span> </span>&#123;</span><br><span class="line">    *y = *x^*y;</span><br><span class="line">    *x = *x^*y; <span class="comment">/*Step2*/</span></span><br><span class="line">    *y = *x^*y; <span class="comment">/*Step3*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse_array</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> cnt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1,2,3  -&gt; 3,2,1</span></span><br><span class="line">    <span class="keyword">int</span> first, last;</span><br><span class="line">    <span class="keyword">for</span> (first=<span class="number">0</span>, last=cnt<span class="number">-1</span>;</span><br><span class="line">        first &lt; last;</span><br><span class="line">        first++, last--) &#123;</span><br><span class="line">            swap(&amp;a[first], &amp;a[last]);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">float</span> y = <span class="number">1.0</span>;</span><br><span class="line">    show_int(x);</span><br><span class="line">    show_float(y);</span><br><span class="line">    show_pointer(&amp;x);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof float is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof int is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="comment">// Problem 2.6</span></span><br><span class="line">    problem(<span class="string">&quot;2.6&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">3510593</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">3510593.0</span>;</span><br><span class="line">    show_int(b);   <span class="comment">// ? why this shows as same as a?</span></span><br><span class="line">    show_int(a);   <span class="comment">//        1101011001000101000001</span></span><br><span class="line">    show_float(b); <span class="comment">// 1001010010101100100010100000100</span></span><br><span class="line">    <span class="comment">// Problem 2.7</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *s = <span class="string">&quot;abcdef&quot;</span>;</span><br><span class="line">    show_bytes((byte_pointer)s, <span class="built_in">strlen</span>(s)); <span class="comment">//  61 62 63 64 65 66</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    a = 110</span></span><br><span class="line"><span class="comment">    b = 001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 110 ^ 001 = 111</span></span><br><span class="line"><span class="comment">    a = a ^ b  -&gt; a = 110 ^ 111 = 001</span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 001 ^ 111 = 110</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    problem(<span class="string">&quot;2.10&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> aa = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> bb = <span class="number">2</span>;</span><br><span class="line">    swap(&amp;aa, &amp;bb);</span><br><span class="line">    print(aa);</span><br><span class="line">    print(bb);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.11&quot;</span>);</span><br><span class="line">    comment(<span class="string">&quot;Note that a ^ a = 0&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a2[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    print(a2);</span><br><span class="line">    reverse_array(a2, <span class="number">3</span>);</span><br><span class="line">    print(a2);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.12&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> x12 = <span class="number">0x87654321</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 &amp; <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( x12 ^ <span class="number">0xFF</span> ));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 | <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( <span class="number">0x11</span> ^ <span class="number">0xFF</span> ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>CSAPP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nSum 问题</title>
+    <url>/2021/04/09/leetcode_nSum/</url>
+    <content><![CDATA[<h1 id="nSum-问题"><a href="#nSum-问题" class="headerlink" title="nSum 问题"></a>nSum 问题</h1><h2 id="2-Sum"><a href="#2-Sum" class="headerlink" title="2 Sum"></a>2 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>], target: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span></span><br><span class="line">        cache = &#123;&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            residual = target - nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> residual <span class="keyword">in</span> cache:</span><br><span class="line">                <span class="keyword">return</span> [cache[residual], i]</span><br><span class="line">            </span><br><span class="line">            cache[nums[i]] = i</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> []</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Sum"><a href="#3-Sum" class="headerlink" title="3 Sum"></a>3 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">threeSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(nums) &lt;= <span class="number">3</span> <span class="keyword">and</span> <span class="built_in">sum</span>(nums)!=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        res = []</span><br><span class="line">        counter = collections.defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">            counter[i] += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        nums = <span class="built_in">sorted</span>(counter.keys())</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            a = nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> <span class="number">3</span>*a == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">3</span>:</span><br><span class="line">                res.append([a,a,a])</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>, <span class="built_in">len</span>(nums)):</span><br><span class="line">                b = nums[j]</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*b + a == <span class="number">0</span> <span class="keyword">and</span> counter[b] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, b, b])</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*a + b == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, a, b])</span><br><span class="line">                    </span><br><span class="line">                c = -a-b</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> c &gt; b <span class="keyword">and</span> counter[c] &gt;= <span class="number">1</span>:</span><br><span class="line">                    res.append([a, b, c])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+
+<h6 id="tags-Leetcode-nSum"><a href="#tags-Leetcode-nSum" class="headerlink" title="tags: Leetcode nSum"></a>tags: <code>Leetcode</code> <code>nSum</code></h6>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>nSum</tag>
       </tags>
   </entry>
   <entry>
@@ -1014,6 +1208,50 @@
       </tags>
   </entry>
   <entry>
+    <title>Go 学习笔记3 程序的构成</title>
+    <url>/2021/03/30/go_3/</url>
+    <content><![CDATA[<h1 id="Go-学习笔记3-程序的构成"><a href="#Go-学习笔记3-程序的构成" class="headerlink" title="Go 学习笔记3 程序的构成"></a>Go 学习笔记3 程序的构成</h1><h2 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h2><p>Go 采用驼峰命名：<code>thisVarIsGood</code>。如果一个 package 中的函数采用大写字母开头，这个函数可以被外界调用，否则隐藏，比如 <code>fmt.Println</code>。</p>
+<p>Go 的声明语句主要有四种：<code>var</code>, <code>const</code>, <code>type</code>, <code>func</code>。</p>
+<p><code>var</code>，变量声明：<code>var name type = expression</code>。如果省略 expression 的部分，Go 会给变量合法的初始值。<code>:=</code> 表达式，是简化的声明。</p>
+<p>指针是变量的地址，并不是每一个值都有地址，但是每一个变量都有地址。<code>new</code> 函数会返回该类型的指针。</p>
+<p>Go 的编译器会根据变量的具体生命周期决定是堆分配还是栈分配，生命周期也会影响垃圾回收的效率，如果一个局部变量被外部变量引用，那么即使函数已经返回，这个局部变量也不会被回收，同时编译器也会对他进行堆分配，而不是栈分配。</p>
+<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>Go 的类型系统相对比较简单（简陋？），主要类型包括四种：基本类型、组合类型、引用类型和接口类型。</p>
+<p>基本类型主要包括：</p>
+<ul>
+<li>整数, int8, int16, int32, int64, 还有无符号版本，uintptr</li>
+<li>浮点数, float16, float32</li>
+<li>复数, complex(r, i)</li>
+<li>布尔, true, false</li>
+<li>字符串, an immutable sequence of bytes. 可以是任何byte，通常是可读的字符串</li>
+</ul>
+<h2 id="组合类型"><a href="#组合类型" class="headerlink" title="组合类型"></a>组合类型</h2><ul>
+<li>Array</li>
+<li>Slice</li>
+<li>Map</li>
+<li>Struct</li>
+</ul>
+<p>Array 是长度固定、类型固定的连续内存空间。Array 初始化方式比较丰富：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a := [<span class="number">2</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">b := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">r := [...]<span class="keyword">int</span>&#123;<span class="number">99</span>: <span class="number">-1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Array 也可以用指针访问（就像 C 一样，<code>[]</code> 仅仅是指针的语法糖）：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">zero</span><span class="params">(ptr *[32]<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> ptr &#123;</span><br><span class="line">        ptr[i] = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Slice 是长度可变的、类型固定的连续内存空间。一个 Slice 包含三个部分：头指针、长度、长度极限。Slice 与 Array 不同，是不可比的。但是，可以测试 Slice 是否是 Nil。</p>
+<p>Maps 是哈希表，可以nest。</p>
+<p>Struct 类似 C 的结构体，是一个多种类型的组合类型。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Point <span class="keyword">struct</span>&#123; X, Y <span class="keyword">int</span> &#125;</span><br><span class="line">p := Point&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h2><p>整体感觉 Go 的程序构成与 C 语言非常类似。看起来就像带有 GC 和 并发内置的现代版本的 C 语言。</p>
+<h6 id="tags-Go-Go学习"><a href="#tags-Go-Go学习" class="headerlink" title="tags: Go Go学习"></a>tags: <code>Go</code> <code>Go学习</code></h6>]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+        <tag>Go学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go 学习笔记4 抽象方法</title>
     <url>/2021/03/30/go_4/</url>
     <content><![CDATA[<h1 id="Go-学习笔记4-抽象模式"><a href="#Go-学习笔记4-抽象模式" class="headerlink" title="Go 学习笔记4 抽象模式"></a>Go 学习笔记4 抽象模式</h1><p>Go 的抽象方法主要通过函数、方法和接口三种方式。</p>
@@ -1052,50 +1290,6 @@
 <p>Go 的 interface 可以有两种不同的使用范式：subtype polymorphism 和 ad hoc polymorphism。</p>
 <p>后续专门讨论。</p>
 ]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Go</tag>
-        <tag>Go学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Go 学习笔记3 程序的构成</title>
-    <url>/2021/03/30/go_3/</url>
-    <content><![CDATA[<h1 id="Go-学习笔记3-程序的构成"><a href="#Go-学习笔记3-程序的构成" class="headerlink" title="Go 学习笔记3 程序的构成"></a>Go 学习笔记3 程序的构成</h1><h2 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h2><p>Go 采用驼峰命名：<code>thisVarIsGood</code>。如果一个 package 中的函数采用大写字母开头，这个函数可以被外界调用，否则隐藏，比如 <code>fmt.Println</code>。</p>
-<p>Go 的声明语句主要有四种：<code>var</code>, <code>const</code>, <code>type</code>, <code>func</code>。</p>
-<p><code>var</code>，变量声明：<code>var name type = expression</code>。如果省略 expression 的部分，Go 会给变量合法的初始值。<code>:=</code> 表达式，是简化的声明。</p>
-<p>指针是变量的地址，并不是每一个值都有地址，但是每一个变量都有地址。<code>new</code> 函数会返回该类型的指针。</p>
-<p>Go 的编译器会根据变量的具体生命周期决定是堆分配还是栈分配，生命周期也会影响垃圾回收的效率，如果一个局部变量被外部变量引用，那么即使函数已经返回，这个局部变量也不会被回收，同时编译器也会对他进行堆分配，而不是栈分配。</p>
-<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>Go 的类型系统相对比较简单（简陋？），主要类型包括四种：基本类型、组合类型、引用类型和接口类型。</p>
-<p>基本类型主要包括：</p>
-<ul>
-<li>整数, int8, int16, int32, int64, 还有无符号版本，uintptr</li>
-<li>浮点数, float16, float32</li>
-<li>复数, complex(r, i)</li>
-<li>布尔, true, false</li>
-<li>字符串, an immutable sequence of bytes. 可以是任何byte，通常是可读的字符串</li>
-</ul>
-<h2 id="组合类型"><a href="#组合类型" class="headerlink" title="组合类型"></a>组合类型</h2><ul>
-<li>Array</li>
-<li>Slice</li>
-<li>Map</li>
-<li>Struct</li>
-</ul>
-<p>Array 是长度固定、类型固定的连续内存空间。Array 初始化方式比较丰富：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a := [<span class="number">2</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">b := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">r := [...]<span class="keyword">int</span>&#123;<span class="number">99</span>: <span class="number">-1</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Array 也可以用指针访问（就像 C 一样，<code>[]</code> 仅仅是指针的语法糖）：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">zero</span><span class="params">(ptr *[32]<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> ptr &#123;</span><br><span class="line">        ptr[i] = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Slice 是长度可变的、类型固定的连续内存空间。一个 Slice 包含三个部分：头指针、长度、长度极限。Slice 与 Array 不同，是不可比的。但是，可以测试 Slice 是否是 Nil。</p>
-<p>Maps 是哈希表，可以nest。</p>
-<p>Struct 类似 C 的结构体，是一个多种类型的组合类型。</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Point <span class="keyword">struct</span>&#123; X, Y <span class="keyword">int</span> &#125;</span><br><span class="line">p := Point&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h2><p>整体感觉 Go 的程序构成与 C 语言非常类似。看起来就像带有 GC 和 并发内置的现代版本的 C 语言。</p>
-<h6 id="tags-Go-Go学习"><a href="#tags-Go-Go学习" class="headerlink" title="tags: Go Go学习"></a>tags: <code>Go</code> <code>Go学习</code></h6>]]></content>
       <categories>
         <category>Coding</category>
       </categories>
@@ -1559,30 +1753,6 @@
       </tags>
   </entry>
   <entry>
-    <title>雅各书 3-4</title>
-    <url>/2021/03/07/yageshu_13/</url>
-    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
-<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
-</blockquote>
-<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
-<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
-<blockquote>
-<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
-</blockquote>
-<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
-<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
-<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
-</blockquote>
-<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>编程101 PyOS 一个Python写的OS 3</title>
     <url>/2021/03/07/pyos_3/</url>
     <content><![CDATA[<blockquote>
@@ -1633,6 +1803,30 @@
         <tag>Operating System</tag>
         <tag>Python</tag>
         <tag>Concurrent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>雅各书 3-4</title>
+    <url>/2021/03/07/yageshu_13/</url>
+    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
+<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
+</blockquote>
+<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
+<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
+<blockquote>
+<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
+</blockquote>
+<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
+<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
+<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
+</blockquote>
+<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
