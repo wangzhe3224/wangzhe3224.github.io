@@ -1,8 +1,8 @@
 ---
 title: 1192 Critical Connections in a Network
-tags: [BFS, DFS，Graph]
+tags: [BFS, DFS, Graph]
 categories: Leetcode
-date: 2021-04-21
+date: 2021-04-24
 ---
 
 # 1192. Critical Connections in a Network
@@ -39,6 +39,12 @@ Explanation: [[3,1]] is also accepted.
 下一个问题是：如何找到循环？无论哪种方法，我们需要遍历图，为了找到循环，最好的办法是DFS。DFS的过程中，需要一个特殊标记表明节点的深度，因为如果我们发现循环，等价于发现了一个节点，两次访问他深度不相同！
 
 现在还有一个问题，我们可以用标记在当前的搜索层发现循环，但是上一个层并不知道这个信息，我们需要把这个信息返回到上一层，其实就是回溯（backtraking）。
+
+我们的DFS函数永远返回当前节点的最小深度。
+
+假设我们在一个长度（深度）为`k`的DFS路径上（`dfs(node, k)`），看到了节点`node`，如果这个节点没有见过，标记他的深度；然后遍历他的相邻节点，如果发现相邻节点的深度刚好是k-1，说明这是他的父节点，跳过避免循环搜索；如果不是父节点，进入下一层搜索，`k+1`。
+
+然后我们分析回溯的部分，`back_depth = dfs(adj, depth+1)`。比较当前深度`k`和下一层回溯回来的深度`back_depth`，如果回溯回来的深度`dfs(adj)`小于`dfs(k)`，则`k`发现他的邻居`adj`找到了一个可以回到`k`或者`k`的祖先的循环，则边`(k, adj)`一定属于某个循环，移除。
 
 **代码**
 
