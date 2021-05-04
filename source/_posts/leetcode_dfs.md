@@ -11,6 +11,7 @@ date: 2021-04-18
 - [47. Permutations II](https://leetcode.com/problems/permutations-ii/)
 - [1466. Reorder Routes to Make All Paths Lead to the City Zero](https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/)
 - [679. 24 Game](https://leetcode.com/problems/24-game/submissions/)
+- [282. Expression Add Operators](https://leetcode.com/problems/expression-add-operators/)
 
 ## 46. Permutations
 
@@ -261,3 +262,64 @@ class Solution:
 
 
 ###### tags: `Leetcode` `DFS`
+## 282. Expression Add Operators
+
+**问题**
+
+> Given a string num that contains only digits and an integer target, return all possibilities to add the binary operators '+', '-', or '*' between the digits of num so that the resultant expression evaluates to the target value.
+
+**例子**
+
+```
+Example 1:
+
+Input: num = "123", target = 6
+Output: ["1*2*3","1+2+3"]
+Example 2:
+
+Input: num = "232", target = 8
+Output: ["2*3+2","2+3*2"]
+Example 3:
+
+Input: num = "105", target = 5
+Output: ["1*0+5","10-5"]
+Example 4:
+
+Input: num = "00", target = 0
+Output: ["0*0","0+0","0-0"]
+Example 5:
+
+Input: num = "3456237490", target = 9191
+Output: []ing
+```
+
+**思路**
+
+此题显然是一个搜索问题，或者说回溯问题。基本思路是深度优先搜索，从左向右读取字符，组成数字（不同位数），然后分别尝试三种运算，并组合得出可以得到target的组合字符串。递归是写起来最方便的方法了，下一步就是确定递归携带的状态参数。
+
+首先，我们需要记录当前截取的字符串位置，需要两个参数：`l`和`r`，分别代表当前截取的左右索引值；然后，需要记录当前的表达式，`expr`，即当前路径上目前的表达式；当前的计算结果，`cur`；上一步的计算结果，`last`；最后需要记录已经取得的结果，`res`，这是一个结果表达式的列表。
+
+搜索过程是：从左边的0开始不断向右r搜索，终结条件是：
+- l == r，即已经搜索了全部字符串
+- cur == target，即结果等于目标值
+
+```python=
+num = ""
+def dfs(l, r, expr, cur, last, res):
+    # 结束条件
+    if l == r and cur == target:
+        res.append(expr)
+        return 
+        
+    for i in range(l+1, r+1): # why l+1? r+1?
+        if i == l+1 or (i > l+1 and num[l] != "0"):  # avoid start with 0
+            s, x = num[l:i], int(num[l:i])  # from l to i !
+            if last is None:
+                dfs(i, r, s, x, x, res)
+            else:
+                dfs(i, r, expr + "+" + s, cur+x, x, res)
+                dfs(i, r, expr + "-" + s, cur-x, -x, res)
+                dfs(i, r, expr + "*" + s, cur-last+last*x, res)
+```
+
+如果没有乘法，即不改变结合优先级，我们不需要`last`状态来复原。
