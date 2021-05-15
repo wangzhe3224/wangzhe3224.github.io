@@ -227,6 +227,110 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/11/python_5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/11/python_5/" class="post-title-link" itemprop="url">重新认识 Python（5）再谈并发</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-03-11 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-11T00:00:00Z">2021-03-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/03/11/python_5/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/11/python_5/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>5.2k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>5 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="重新认识-Python（5）：再谈并发"><a href="#重新认识-Python（5）：再谈并发" class="headerlink" title="重新认识 Python（5）：再谈并发"></a>重新认识 Python（5）：再谈并发</h1><p>之前写了一个关于<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/354982602">Python并发模型</a>的小文，主要讨论利用协程实现并发的一些基本方法和规则，文章的重点是 coroutine 的使用。这两天琢磨了一下为什么 Python 要提出基于协程的并发模型，以及跟线程、进程实现的并发有什么区别和联系？最后，我还想简单讨论一下这三种并发模型是否协调在一起工作。</p>
+<h2 id="进程、线程、协程并发的特点"><a href="#进程、线程、协程并发的特点" class="headerlink" title="进程、线程、协程并发的特点"></a>进程、线程、协程并发的特点</h2><p>首先明确明确一点，Python一般的协程库，比如 <code>asyncio</code> ，不存在任何并行，即一个时间只有一个任务（协程或者普通函数）在运行。而线程和进程在多核CPU的情况下通常是存在并行的，不过由于Python的GIL，Python的线程不存在并行计算，即使运行在多核CPU上。</p>
+<p>我们再来看这三个模型的特点。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/11/python_5/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/07/pyos_3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -443,110 +547,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/06/pyos_2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/06/pyos_2/" class="post-title-link" itemprop="url">编程101 PyOS 一个Python写的OS 2</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-03-06 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-06T00:00:00Z">2021-03-06</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/03/06/pyos_2/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/06/pyos_2/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>9.7k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>9 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="PyOS-一个Python写的OS（2）"><a href="#PyOS-一个Python写的OS（2）" class="headerlink" title="PyOS - 一个Python写的OS（2）"></a>PyOS - 一个Python写的OS（2）</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/355189750">上文</a>我们的PyOS已经可以处理多任务了，而且加入了第一个 OS call：<code>GetTid</code> 来获取任务ID。今天，我们继续开发我们的OS，增加更多的 OS call。</p>
-<h2 id="更多-OS-call"><a href="#更多-OS-call" class="headerlink" title="更多 OS call"></a>更多 OS call</h2><p>我们需要增加两个基本的系统函数：<code>NewTask</code> 和 <code>KillTask</code> 让操作系统进行基本的任务管理。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SystemCall</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    task: Task</span><br><span class="line">    sched: Scheduler</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle</span>(<span class="params">self</span>):</span></span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create a new task</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewTask</span>(<span class="params">SystemCall</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,target</span>):</span></span><br><span class="line">        self.target = target</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle</span>(<span class="params">self</span>):</span></span><br><span class="line">        tid = self.sched.new(self.target)</span><br><span class="line">        self.task.sendval = tid</span><br><span class="line">        self.sched.schedule(self.task)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Kill a task</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KillTask</span>(<span class="params">SystemCall</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,tid</span>):</span></span><br><span class="line">        self.tid = tid</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle</span>(<span class="params">self</span>):</span></span><br><span class="line">        task = self.sched.taskmap.get(self.tid,<span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> task:</span><br><span class="line">            task.target.close()</span><br><span class="line">            self.task.sendval = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.task.sendval = <span class="literal">False</span></span><br><span class="line">        self.sched.schedule(self.task)</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/06/pyos_2/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/06/pyos_1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -631,6 +631,110 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/03/06/pyos_1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/06/pyos_2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/06/pyos_2/" class="post-title-link" itemprop="url">编程101 PyOS 一个Python写的OS 2</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-03-06 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-06T00:00:00Z">2021-03-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/03/06/pyos_2/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/06/pyos_2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>9.7k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>9 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="PyOS-一个Python写的OS（2）"><a href="#PyOS-一个Python写的OS（2）" class="headerlink" title="PyOS - 一个Python写的OS（2）"></a>PyOS - 一个Python写的OS（2）</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/355189750">上文</a>我们的PyOS已经可以处理多任务了，而且加入了第一个 OS call：<code>GetTid</code> 来获取任务ID。今天，我们继续开发我们的OS，增加更多的 OS call。</p>
+<h2 id="更多-OS-call"><a href="#更多-OS-call" class="headerlink" title="更多 OS call"></a>更多 OS call</h2><p>我们需要增加两个基本的系统函数：<code>NewTask</code> 和 <code>KillTask</code> 让操作系统进行基本的任务管理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SystemCall</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    task: Task</span><br><span class="line">    sched: Scheduler</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle</span>(<span class="params">self</span>):</span></span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create a new task</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewTask</span>(<span class="params">SystemCall</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,target</span>):</span></span><br><span class="line">        self.target = target</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle</span>(<span class="params">self</span>):</span></span><br><span class="line">        tid = self.sched.new(self.target)</span><br><span class="line">        self.task.sendval = tid</span><br><span class="line">        self.sched.schedule(self.task)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Kill a task</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KillTask</span>(<span class="params">SystemCall</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,tid</span>):</span></span><br><span class="line">        self.tid = tid</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle</span>(<span class="params">self</span>):</span></span><br><span class="line">        task = self.sched.taskmap.get(self.tid,<span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> task:</span><br><span class="line">            task.target.close()</span><br><span class="line">            self.task.sendval = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.task.sendval = <span class="literal">False</span></span><br><span class="line">        self.sched.schedule(self.task)</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/06/pyos_2/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1173,119 +1277,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/10/%E9%9B%85%E5%90%84%E4%B9%A61/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/10/%E9%9B%85%E5%90%84%E4%B9%A61/" class="post-title-link" itemprop="url">雅各书 1\:1-12</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-01-10 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-10T00:00:00Z">2021-01-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bible/" itemprop="url" rel="index"><span itemprop="name">Bible</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/01/10/%E9%9B%85%E5%90%84%E4%B9%A61/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/10/雅各书1/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.3k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="雅各书-1：1-12"><a href="#雅各书-1：1-12" class="headerlink" title="雅各书 1：1-12"></a>雅各书 1：1-12</h1><blockquote>
-<p>1 神和主耶稣基督的仆人雅各，向散居各地的十二支派问安。 2 我的弟兄们，你们遭遇各种 试炼的时候，都要看为喜乐; 3 因为知道你们的信心经过考验，就产生忍耐。 4 但忍耐要坚持到底(“坚持到底”原文作“有完全的功效”)，使你们可以完全，毫无缺乏。 5 你们中间若有人缺少智慧，就当向那厚赐众人，而且不斥责人的 神祈求，他就必得着。 6 <strong>可是，他应该 凭着信心祈求，不要有疑惑;因为疑惑的人，就像被风吹荡翻腾的海浪。 7 那样的人，不要想 从主得到甚么; 8 因为三心两意的人，在他的一切道路上，都摇摆不定</strong>。</p>
-<p>9 卑微的弟兄应当以高升为荣; 10 富足的也不应该以降卑为辱; 因为他如同草上的花，必要过 去。 11 太阳一出，热风一吹，草必枯干，花必凋谢，它的美容就消失了; 富足的人也必在他 的奔波经营中这样衰落。</p>
-<p>12 能忍受试炼的人，是有福的;因为他经过考验之后，必得着生命的冠冕，这冠冕是主应许 给爱他的人的。</p>
-</blockquote>
-<h1 id="我们应当把试炼看作是极大的喜乐"><a href="#我们应当把试炼看作是极大的喜乐" class="headerlink" title="我们应当把试炼看作是极大的喜乐"></a>我们应当把试炼看作是极大的喜乐</h1><p>雅各书的背景：基督徒别破分散各地，经历迫害、贫困。所以，有些基督徒被骗，偏离信仰。</p>
-<h2 id="知道神的美意-1-3-4"><a href="#知道神的美意-1-3-4" class="headerlink" title="知道神的美意 1:3-4"></a>知道神的美意 1:3-4</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/10/%E9%9B%85%E5%90%84%E4%B9%A61/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1352,7 +1348,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-count">91</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1416,13 +1412,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">256k</span>
+    <span title="Symbols count total">258k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">3:53</span>
+    <span title="Reading time total">3:55</span>
 </div>
 
 <span id="timeDate">Loding time...</span><span id="times">...</span>
