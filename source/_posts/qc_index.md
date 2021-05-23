@@ -13,7 +13,7 @@ date: 2021-05-23
 - [CS269Q Quantum Computer Programming (斯坦福)](https://cs269q.stanford.edu/index.html) by Dan Boneh
 - [Phys481-681-CS483, Quantum Computation (康奈尔)](http://www.lassp.cornell.edu/mermin/qcomp/CS483.html) by David Mermin
 - [PHYS771 Quantum Computing Since Democritus (University of Waterloo)](https://www.scottaaronson.com/democritus/) by Scott Aaronson
-- [Introduction to Quantum Computing and Quantum Hardware](https://qiskit.org/learn/intro-qc-qh/) by IBM
+- [Introduction to Quantum Computing and Quantum Hardware](https://qiskit.org/learn/intro-qc-qh/) by IBM (with [video](https://www.youtube.com/watch?v=Rs2TzarBX5I&list=PLOFEBzvs-VvrXTMy5Y2IqmSaUjfnhvBHR) on Youtube)
 - [Introduction to Quantum Computing](https://csferrie.medium.com/introduction-to-quantum-computing-df9e1182a831) by Chris Ferrie
 
 **其他人整理的资源**
