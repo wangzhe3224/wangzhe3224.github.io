@@ -6,8 +6,13 @@
     <content><![CDATA[<h1 id="量子计算索引"><a href="#量子计算索引" class="headerlink" title="量子计算索引"></a>量子计算索引</h1><h2 id="公开课程"><a href="#公开课程" class="headerlink" title="公开课程"></a>公开课程</h2><ul>
 <li><a href="http://theory.caltech.edu/~preskill/ph219/ph219_2020-21.html">Ph219/CS219 Quantum Computation (加州理工)</a> by John Preskill (with <a href="https://www.youtube.com/channel/UCeq4xfwNE6eDK3k1vTfZK8g/playlists">video</a> on Youtube)</li>
 <li><a href="https://cs269q.stanford.edu/index.html">CS269Q Quantum Computer Programming (斯坦福)</a> by Dan Boneh</li>
+<li><a href="http://www.lassp.cornell.edu/mermin/qcomp/CS483.html">Phys481-681-CS483, Quantum Computation (康奈尔)</a> by David Mermin</li>
 <li><a href="https://www.scottaaronson.com/democritus/">PHYS771 Quantum Computing Since Democritus (University of Waterloo)</a> by Scott Aaronson</li>
 <li><a href="https://csferrie.medium.com/introduction-to-quantum-computing-df9e1182a831">Introduction to Quantum Computing</a> by Chris Ferrie</li>
+</ul>
+<p><strong>其他人整理的资源</strong></p>
+<ul>
+<li><a href="https://www.cs.umd.edu/~xwu/mini_lib.html">Mini-Library on Quantum Information and Computation</a></li>
 </ul>
 <h2 id="公司"><a href="#公司" class="headerlink" title="公司"></a>公司</h2><p><strong>硬件公司</strong></p>
 <ul>
@@ -25,6 +30,9 @@
 </ul>
 <h2 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h2><p><a href="https://github.com/manjunath5496/Quantum-Computing-Books">量子计算书单</a></p>
 <h2 id="开源软件"><a href="#开源软件" class="headerlink" title="开源软件"></a>开源软件</h2><p><a href="https://github.com/qosf/awesome-quantum-software">量子计算开源软件</a></p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
+<li><a href="https://algassert.com/quirk">Quirk, 量子电路模拟器</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>Quantum Computing</category>
