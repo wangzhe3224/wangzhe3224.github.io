@@ -35,6 +35,7 @@ date: 2021-05-23
 - [Cambridge Qauntum Computing (CQC)](https://cambridgequantum.com/)
 - [Pennylane](https://pennylane.ai/)
 - [QC Ware](https://qcware.com/)
+- [Xanadu](https://www.xanadu.ai/)
 
 ## 书籍
 
