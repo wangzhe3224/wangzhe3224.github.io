@@ -17,13 +17,17 @@ date: 2021-05-23
 
 ## 公司
 
+**硬件公司**
 - [IBM Quantum](https://quantum-computing.ibm.com/)
 - [D-Wave](https://www.dwavesys.com/)
 - [Rigetti](https://www.rigetti.com/)
 - [IonQ](https://ionq.com/)
 - [Google Quantum](https://quantumai.google/)
+
+**软件、研究公司**
 - [Cambridge Qauntum Computing (CQC)](https://cambridgequantum.com/)
 - [Pennylane](https://pennylane.ai/)
+- [QC Ware](https://qcware.com/)
 
 ## 书籍
 
