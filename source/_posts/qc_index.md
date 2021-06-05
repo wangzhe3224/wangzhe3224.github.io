@@ -16,6 +16,7 @@ date: 2021-05-23
 - [Introduction to Quantum Computing and Quantum Hardware](https://qiskit.org/learn/intro-qc-qh/) by IBM (with [video](https://www.youtube.com/watch?v=Rs2TzarBX5I&list=PLOFEBzvs-VvrXTMy5Y2IqmSaUjfnhvBHR) on Youtube)
 - [Introduction to Quantum Computing](https://csferrie.medium.com/introduction-to-quantum-computing-df9e1182a831) by Chris Ferrie
 - [6.443/8.371/18.436 Quantum Information Science](https://web.mit.edu/8.371/www/index.html)
+- [Quantum Information Science II, Part 1 - Quantum states, noise and error correction](https://learning.edx.org/course/course-v1:MITx+8.371.1x+2T2018/home)
 
 **其他人整理的资源**
 
