@@ -15,6 +15,7 @@ date: 2021-05-23
 - [PHYS771 Quantum Computing Since Democritus (University of Waterloo)](https://www.scottaaronson.com/democritus/) by Scott Aaronson
 - [Introduction to Quantum Computing and Quantum Hardware](https://qiskit.org/learn/intro-qc-qh/) by IBM (with [video](https://www.youtube.com/watch?v=Rs2TzarBX5I&list=PLOFEBzvs-VvrXTMy5Y2IqmSaUjfnhvBHR) on Youtube)
 - [Introduction to Quantum Computing](https://csferrie.medium.com/introduction-to-quantum-computing-df9e1182a831) by Chris Ferrie
+- [6.443/8.371/18.436 Quantum Information Science](https://web.mit.edu/8.371/www/index.html)
 
 **其他人整理的资源**
 
