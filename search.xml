@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CSAPP 10 系统IO</title>
+    <url>/2021/06/05/csapp_10/</url>
+    <content><![CDATA[<h1 id="CSAPP-10-系统IO"><a href="#CSAPP-10-系统IO" class="headerlink" title="CSAPP 10 系统IO"></a>CSAPP 10 系统IO</h1><p>Unix系统中的IO，即Input和Output是指从“文件”读入数据到内存和从内存输出数据到“文件”。“文件”是Unix的一个抽象，即一串字节。在概念上所有IO设备都可以抽象成文件，比如网络、硬盘、各种外设等等。这样系统就可以统一接口来操作外设。</p>
+<p>Unix系统提供了四个基本的IO API：</p>
+<ul>
+<li><code>int open(char *filename, int flags, mode_t mode)</code></li>
+<li><code>int close(int fd)</code></li>
+<li><code>ssize_t read(int fd, void *buf, size_t n)</code></li>
+<li><code>ssize_t write(int fd, void *buf, size_t n)</code></li>
+</ul>
+<p>其实这四个api的道理非常简单，<code>open</code>会返回一个文件标识符，就是打开了一个内存和文件的通道，<code>read</code>就是把文件标识符指向的文件中的字节输入到buf指向的内存空间，而<code>write</code>刚好相反，把buf指向的内存空间的字节输入到文件中。</p>
+<h2 id="RIO库"><a href="#RIO库" class="headerlink" title="RIO库"></a><code>RIO</code>库</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @file rio.c</span></span><br><span class="line"><span class="comment"> * @version 0.1</span></span><br><span class="line"><span class="comment"> * @date 2021-06-05</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @copyright Copyright (c) 2021</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;rio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief Robustly read n bytes (unbufferred)</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param fd </span></span><br><span class="line"><span class="comment"> * @param usrbuf </span></span><br><span class="line"><span class="comment"> * @param n </span></span><br><span class="line"><span class="comment"> * @return ssize_t </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">rio_readn</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">void</span> *usrbuf, <span class="keyword">size_t</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">size_t</span> nleft = n;</span><br><span class="line">    <span class="keyword">ssize_t</span> nread;</span><br><span class="line">    <span class="keyword">char</span> *bufp = usrbuf; <span class="comment">// create a new point to manipulate user buffer</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (nleft &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ((nread = read(fd, bufp, nleft)) &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// something wrong branch</span></span><br><span class="line">            <span class="keyword">if</span> (errno == EINTR)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// errno will get updated by the kernel</span></span><br><span class="line">                <span class="comment">// get interrupted, reset readn to read again later</span></span><br><span class="line">                nread = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// if it is other reason failure, return -1 for failure</span></span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (nread == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>; <span class="comment">/* EOF */</span></span><br><span class="line"></span><br><span class="line">        nleft -= nread;</span><br><span class="line">        bufp += nread;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (n - nleft);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief Robustly write n bytes (unbuffered)</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param fd </span></span><br><span class="line"><span class="comment"> * @param usrbuf </span></span><br><span class="line"><span class="comment"> * @param n </span></span><br><span class="line"><span class="comment"> * @return ssize_t </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">rio_writen</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">void</span> *usrbuf, <span class="keyword">size_t</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">size_t</span> nleft = n;</span><br><span class="line">    <span class="keyword">ssize_t</span> nwritten;</span><br><span class="line">    <span class="keyword">char</span> *bufp = usrbuf;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (nleft &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ((nwritten = write(fd, bufp, nleft)) &lt;= <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (errno == EINTR)</span><br><span class="line">                nwritten = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        nleft -= nwritten;</span><br><span class="line">        bufp += nwritten;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> n-nleft;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief Associate a file descriptor with a read buffer and reset buffer </span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param rp </span></span><br><span class="line"><span class="comment"> * @param fd </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rio_readinitb</span><span class="params">(<span class="keyword">rio_t</span> *rp, <span class="keyword">int</span> fd)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    rp-&gt;rio_fd = fd;</span><br><span class="line">    rp-&gt;rio_cnt = <span class="number">0</span>;</span><br><span class="line">    rp-&gt;rio_bufptr = rp-&gt;rio_buf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief </span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param rp </span></span><br><span class="line"><span class="comment"> * @param usrbuf </span></span><br><span class="line"><span class="comment"> * @param n </span></span><br><span class="line"><span class="comment"> * @return ssize_t , -1 for failed, 0 for EOF, positive bytes of read</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">ssize_t</span> <span class="title">rio_read</span><span class="params">(<span class="keyword">rio_t</span> *rp, <span class="keyword">char</span> *usrbuf, <span class="keyword">size_t</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cnt;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* if buffer empty, refill buffer with read */</span></span><br><span class="line">    <span class="keyword">while</span> (rp-&gt;rio_cnt &lt;= <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        rp-&gt;rio_cnt = read(rp-&gt;rio_fd, rp-&gt;rio_buf, <span class="keyword">sizeof</span>(rp-&gt;rio_buf));</span><br><span class="line">        <span class="keyword">if</span> (rp-&gt;rio_cnt &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * read failed, handle interrupt case only</span></span><br><span class="line"><span class="comment">             * if interrupted, do nothing go to next loop</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="keyword">if</span> (errno != EINTR) </span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rp-&gt;rio_cnt == <span class="number">0</span>) <span class="comment">// EOF</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            rp-&gt;rio_bufptr = rp-&gt;rio_buf;  <span class="comment">// reset buffer pointer</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// copy min(n, rp-&gt;rio_cnt) bytes from internal buffer to user buffer</span></span><br><span class="line">    cnt = n;</span><br><span class="line">    <span class="keyword">if</span> (rp-&gt;rio_cnt &lt; n)</span><br><span class="line">        cnt = rp-&gt;rio_cnt;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">memcpy</span>(usrbuf, rp-&gt;rio_bufptr, cnt);</span><br><span class="line">    rp-&gt;rio_bufptr += cnt;</span><br><span class="line">    rp-&gt;rio_cnt -=cnt;</span><br><span class="line">    <span class="keyword">return</span> cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief </span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param rp </span></span><br><span class="line"><span class="comment"> * @param usrbuf </span></span><br><span class="line"><span class="comment"> * @param n </span></span><br><span class="line"><span class="comment"> * @return ssize_t </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">rio_readnb</span><span class="params">(<span class="keyword">rio_t</span> *rp, <span class="keyword">void</span> *usrbuf, <span class="keyword">size_t</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">size_t</span> nleft = n;</span><br><span class="line">    <span class="keyword">ssize_t</span> nread;</span><br><span class="line">    <span class="keyword">char</span> *bufp = usrbuf;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (nleft &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// rio_read handle interrupt and other -1 cases</span></span><br><span class="line">        <span class="keyword">if</span> ((nread = rio_read(rp, bufp, nleft) &lt; <span class="number">0</span>))</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (nread == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>; <span class="comment">// EOF</span></span><br><span class="line"></span><br><span class="line">        nleft -= nread;</span><br><span class="line">        bufp += nread;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (n - nleft);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief read a text line ( buffered )</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param tp </span></span><br><span class="line"><span class="comment"> * @param usrbuf </span></span><br><span class="line"><span class="comment"> * @param maxlen </span></span><br><span class="line"><span class="comment"> * @return ssize_t </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">rio_readlineb</span><span class="params">(<span class="keyword">rio_t</span> *rp, <span class="keyword">void</span> *usrbuf, <span class="keyword">size_t</span> maxlen)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, rc;</span><br><span class="line">    <span class="keyword">char</span> c, *bufp = usrbuf;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (n = <span class="number">1</span>; n &lt; maxlen; n++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ((rc = rio_read(rp, &amp;c, <span class="number">1</span>)) == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            *bufp++ = c;</span><br><span class="line">            <span class="keyword">if</span> (c == <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                n++;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (rc == <span class="number">0</span>)  <span class="comment">// EOF</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (n == <span class="number">1</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span>;  <span class="comment">// no data read yet</span></span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">break</span>;   <span class="comment">// some data read already</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;  <span class="comment">// error</span></span><br><span class="line">    &#125;</span><br><span class="line">    *bufp = <span class="number">0</span>;  <span class="comment">// append &#x27;\0&#x27; at the end of char buffer</span></span><br><span class="line">    <span class="keyword">return</span> n<span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件共享"><a href="#文件共享" class="headerlink" title="文件共享"></a>文件共享</h2><p>Unix系统的文件标识符主要由三种数据结构维护：</p>
+<ul>
+<li>Descriptor table（DT）：每个进程有单独的标识符表</li>
+<li>File table（FT）：多个进程共享</li>
+<li>v-node table（VT）：多个进程共享</li>
+</ul>
+<p>这三种结构分别包含一个指针：DT -&gt; FT -&gt; VT。</p>
+<p><img data-src="https://i.imgur.com/2jUJ9Lx.png" alt=""></p>
+<p>值得注意的是，fork后的父进程和子进程由于共享文件标识符，所以两个进程打开的文件共享file table entry（FTE），因此两个进程共享该文件的读取位置。而同一个进程通过两个<code>open</code>打开同一个文件获得两个标识符，不共享file table entry，因此两个文件标识符的读取和写入是独立的。</p>
+<h2 id="IO重新定向"><a href="#IO重新定向" class="headerlink" title="IO重新定向"></a>IO重新定向</h2><p>IO重新定向的秘密在于系统函数：<code>dup2</code>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dup2</span><span class="params">(<span class="keyword">int</span> oldfd, <span class="keyword">int</span> newfd)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>dup2会把oldfd对应的FTE拷贝到newfd，这样newfd和oldfd都会指向之前的FTE，而newfd如果已经对应了某个FTE，kernel会减少一个引用，如果引用归零，kernel会删除该FTE。</p>
+]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>CSAPP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSAPP 9 虚拟内存</title>
     <url>/2021/06/03/csapp_9/</url>
     <content><![CDATA[<h1 id="CSAPP-9：虚拟内存"><a href="#CSAPP-9：虚拟内存" class="headerlink" title="CSAPP 9：虚拟内存"></a>CSAPP 9：虚拟内存</h1><p>虚拟内存的三个重要功能：</p>
@@ -1785,6 +1820,42 @@
       </tags>
   </entry>
   <entry>
+    <title>雅各书 5 13-20</title>
+    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
+    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
+<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
+<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
+<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
+</blockquote>
+<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
+<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
+<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
+<blockquote>
+<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
+</blockquote>
+<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
+<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
+<ul>
+<li>认罪</li>
+<li>倾吐心声</li>
+<li>互相鼓励</li>
+<li>等等。。。</li>
+</ul>
+<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
+<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
+<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
+<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
+<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go 学习笔记2 语法、语义</title>
     <url>/2021/03/28/go_2/</url>
     <content><![CDATA[<h1 id="Go-学习笔记2：语法和语义"><a href="#Go-学习笔记2：语法和语义" class="headerlink" title="Go 学习笔记2：语法和语义"></a>Go 学习笔记2：语法和语义</h1><p>这个部分主要总结 Go 涉及的基本语法和语义，即之前提到的前两个角度。</p>
@@ -1872,42 +1943,6 @@
       <tags>
         <tag>Go</tag>
         <tag>Go学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>雅各书 5 13-20</title>
-    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
-    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
-<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
-<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
-<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
-</blockquote>
-<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
-<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
-<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
-<blockquote>
-<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
-</blockquote>
-<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
-<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
-<ul>
-<li>认罪</li>
-<li>倾吐心声</li>
-<li>互相鼓励</li>
-<li>等等。。。</li>
-</ul>
-<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
-<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
-<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
-<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
-<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
