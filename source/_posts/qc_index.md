@@ -21,8 +21,7 @@ date: 2021-05-23
 **其他人整理的资源**
 
 - [Mini-Library on Quantum Information and Computation](https://www.cs.umd.edu/~xwu/mini_lib.html)
-
-
+- [Best-quantum-computing-courses-online](https://www.amarchenkova.com/posts/best-quantum-computing-courses-online)
 
 ## 公司
 
