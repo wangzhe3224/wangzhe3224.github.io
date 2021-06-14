@@ -31,6 +31,7 @@ date: 2021-05-23
 - [Rigetti](https://www.rigetti.com/)
 - [IonQ](https://ionq.com/)
 - [Google Quantum](https://quantumai.google/)
+- [Honeywell](https://www.honeywell.com/us/en/company/quantum)
 
 **软件、研究公司**
 - [Cambridge Qauntum Computing (CQC)](https://cambridgequantum.com/)
