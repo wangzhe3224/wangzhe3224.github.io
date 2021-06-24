@@ -136,5 +136,8 @@ def search_unknown2(haystack, needle):
 3、计算机专业的人用起来真的很舒服，抽象能力还是很不错
 4、大觉部分性能问题可以很轻松地解决（哈哈哈，这就是这个系列的重点）
 
+
+OK，下一篇我们来谈谈如何Profiling程序，这是提高执行效率的第一步！
+
 ## 参考
 - 《High Performance Python》
