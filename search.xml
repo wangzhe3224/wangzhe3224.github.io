@@ -50,6 +50,7 @@
 <p>最后，就是GIL。上文已经提到了，GIL限制了并行计算能力，但是这个问题其实也很容易解决。</p>
 <h2 id="那为啥Python还是这么火？"><a href="#那为啥Python还是这么火？" class="headerlink" title="那为啥Python还是这么火？"></a>那为啥Python还是这么火？</h2><p>既然Python这么“慢”，为啥Python还是这么火？？网上已经很多讨论了，我就说几个：</p>
 <p>1、近乎完美的生态。从大数据、机器学习、数值计算到Web，再到量子计算。<br>2、对非计算机科学的小伙伴极度友好<br>3、计算机专业的人用起来真的很舒服，抽象能力还是很不错<br>4、大觉部分性能问题可以很轻松地解决（哈哈哈，这就是这个系列的重点）</p>
+<p>OK，下一篇我们来谈谈如何Profiling程序，这是提高执行效率的第一步！</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li>《High Performance Python》</li>
 </ul>

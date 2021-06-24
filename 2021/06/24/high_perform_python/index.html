@@ -28,7 +28,7 @@
 <meta property="og:description" content="高性能Python编程（1）：理解Python的“性能”引子Python的性能常常被人诟病，但是另一方面Python却又常常出现在高性能计算库中，比如tensorflow，numpy等等，这是为什么呢？Python的性能究竟差在哪里？理想的高性能程序应该是什么样的？如何能写出高性能的Python程序？这个系列我们就尝试探索这些问题的答案。 首先我们退一步看一下组成计算机的基本部分，这样我们才能下手">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-06-24T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-06-24T22:19:08.112Z">
+<meta property="article:modified_time" content="2021-06-24T22:20:35.428Z">
 <meta property="article:author" content="Zhe">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
@@ -358,6 +358,7 @@
 <p>最后，就是GIL。上文已经提到了，GIL限制了并行计算能力，但是这个问题其实也很容易解决。</p>
 <h2 id="那为啥Python还是这么火？"><a href="#那为啥Python还是这么火？" class="headerlink" title="那为啥Python还是这么火？"></a>那为啥Python还是这么火？</h2><p>既然Python这么“慢”，为啥Python还是这么火？？网上已经很多讨论了，我就说几个：</p>
 <p>1、近乎完美的生态。从大数据、机器学习、数值计算到Web，再到量子计算。<br>2、对非计算机科学的小伙伴极度友好<br>3、计算机专业的人用起来真的很舒服，抽象能力还是很不错<br>4、大觉部分性能问题可以很轻松地解决（哈哈哈，这就是这个系列的重点）</p>
+<p>OK，下一篇我们来谈谈如何Profiling程序，这是提高执行效率的第一步！</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li>《High Performance Python》</li>
 </ul>
