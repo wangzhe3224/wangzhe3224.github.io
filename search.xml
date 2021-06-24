@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>高性能Python编程（1）</title>
+    <url>/2021/06/24/high_perform_python/</url>
+    <content><![CDATA[<h1 id="高性能Python编程（1）：理解Python的“性能”"><a href="#高性能Python编程（1）：理解Python的“性能”" class="headerlink" title="高性能Python编程（1）：理解Python的“性能”"></a>高性能Python编程（1）：理解Python的“性能”</h1><h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>Python的性能常常被人诟病，但是另一方面Python却又常常出现在高性能计算库中，比如tensorflow，numpy等等，这是为什么呢？Python的性能究竟差在哪里？理想的高性能程序应该是什么样的？如何能写出高性能的Python程序？这个系列我们就尝试探索这些问题的答案。</p>
+<p>首先我们退一步看一下组成计算机的基本部分，这样我们才能下手分析和提高程序的执行性能。</p>
+<h2 id="计算机三大部分"><a href="#计算机三大部分" class="headerlink" title="计算机三大部分"></a>计算机三大部分</h2><p>计算机的设备主要分成三类：<strong>计算单元、存贮单元、通讯单元</strong>。</p>
+<p>典型的计算机由计算单元（CPU），CPU会连接两类存贮单元：内存和硬盘，通讯单元（总线）就是连接计算单元和存储单元的桥梁。</p>
+<p>你可能会问：显卡呢？键盘呢？显示器呢？？懂行的你可能还会问：南北桥呢？细想一下，显卡其实是计算单元（GPU）和存储单元（显存）的组合体；而键盘、显示器、鼠标、网卡这些基本属于IO设备，所谓IO就是Input，字节写入内存，Output，字节读出内存，这类设备通常通过总线与内存沟通，利用中断与CPU协作。硬盘在这个意义上也是IO设备，因此这些设备我们姑且认为属于存储单元吧。南北桥其实算是通讯单元的司令部，北桥芯片，主要负责控制显卡、内存与CPU之间的数据交换；靠近PCI槽的为南桥芯片，主要负责硬盘、键盘以及附加卡的数据交换。</p>
+<p>说到底，计算过程就是：把字节（Byte）从存储单元放进计算单元“计算”，然后把结果放回存储单元，而“计算”就是改变字节。</p>
+<p>可以看出，影响程序执行效率的主要有两个因素：<strong>移动字节的速度和计算的速度</strong>。移动字节的速度主要受限于存储介质的读写速度和通讯的速度；计算速度的影响因素主要是计算单元的类型和架构，比如CPU和GPU对不同的指令执行效率不尽相同，而更极端的例子量子计算芯片，QPU，则拥有完全不同的“计算”方式。</p>
+<h3 id="计算单元"><a href="#计算单元" class="headerlink" title="计算单元"></a>计算单元</h3><p>计算单元种类繁多，有我们常见的CPU，GPU，也有一些不太常见的，比如TPU（张量处理器）,QPU(量子计算处理器)等等。不过不论是那种计算单元，他们的工作就是输入一串比特，输出另一串比特。计算单元的主要衡量标准就是单位时间内可以进行的计算量。</p>
+<p>我们那常见的CPU的性能举例，我们关心两个指标：一个cycle可以执行的指令数量；一秒钟最大的cycle数量。前者我们用IPC（Instruction Per Cycle）衡量，后者我们用时钟频率衡量。不同的CPU架构会有截然不同的特性，比如酷睿处理器的IPC非常高，但是频率较低；而早期的奔腾处理器IPC较低，但是频率非常高。</p>
+<p>提高主频对提高计算速度有直接的帮助，而提高IPC则可以有效的提高“向量化”操作的速度，即同时处理多组计算。你可以理解成一个是纵向提升，一个是横向提升。</p>
+<p>有时候你的编译器也会分析程序，然后根据CPU指令集做一些优化，进一步提升计算效率。</p>
+<p>在多核时代，程序尽可能多的利用多个带来的并行能力也是提升计算效率的常见手段。而且，由于目前CPU工艺经很难进一步提高时钟频率了，计算机更倾向于安装更多处理器核心，而不是主频更高的处理器。</p>
+<p>不过，在Python诞生的年代（上个世纪90年代），还是单核的时代，CPython实现引入了GIL，即Global Interpreter Lock，来处理多线程下的同步问题，你可以把他理解成一把大锁，用来保护解释器内部状态。这是设计其实在当年大大提高了单核执行效率，特别后来更新GIL调度方式以后，对IO多线程有巨大的贡献。然鹅，进入20世纪后，多核处理器成为了主流，Python的GIL导致解释器不能有效利用多核进行并行计算，不过Python社区也提出了多种方法解决这个问题，比如<code>multiprocessing</code>库，一些第三方库，比如<code>numpy</code>, <code>numexpr</code>等等，<code>Cython</code>编译器，以及利用计算集群进行计算。</p>
+<p>以上这些方法，我们在后续的文章中逐步介绍。</p>
+<h3 id="存储单元"><a href="#存储单元" class="headerlink" title="存储单元"></a>存储单元</h3><p>存储单元主要负责储存比特，这些比特可以是计算的输入，也可以是计算的输出。衡量存储单元的指标主要有三个：容量、读写速度、寻址速度。</p>
+<p>通常存储单元是分层的，容量从低到高，读写、寻址速度从高到低：</p>
+<ul>
+<li>CPU缓存L1、L2、L3</li>
+<li>内存</li>
+<li>固态硬盘</li>
+<li>机械硬盘</li>
+<li>网络</li>
+</ul>
+<p>为了提高计算的性能，我们应该尽可能多的使用读写速度更快的单元作为缓存，减少不同层次之间存储单元的数据移动，因为这种数据的时间成本非常高，而且约下层越高。这也是为什么编程时，Locality特别的重要，Locality不但可以降低寻址的时间，还可以最大程度的利用高速缓存。</p>
+<p>对于Python而言，Locality通常是被破坏的，这是CPython的实现机制导致的，不过我们也有办法克服。</p>
+<h3 id="通讯单元"><a href="#通讯单元" class="headerlink" title="通讯单元"></a>通讯单元</h3><p>典型计算机的通讯是通过某类总线（Bus）实现的，比如前端总线负责L1L2缓存和内存的通讯；而网卡可以认为是机器和机器之间存储单元的通讯。</p>
+<p>衡量总线性能指标主要由两个：一次移动比特的数量，即带宽；移动比特的频率，即总线频率。</p>
+<h2 id="理想的高性能程序"><a href="#理想的高性能程序" class="headerlink" title="理想的高性能程序"></a>理想的高性能程序</h2><p>现在我们了解了计算机计算的三个组成部分，下面我们用一个检测素数的小程序来说明如何构造一个“完美”的高效程序。</p>
+<p>首先我们写一段Python伪代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_prime</span>(<span class="params">number</span>):</span></span><br><span class="line">    sqrt = math.sqrt(number)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(sqrt)+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> (number / i).is_integer():</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    </span><br><span class="line">check_prime(<span class="number">11</span>)</span><br></pre></td></tr></table></figure>
+
+<p>我们抛开Python的实现机制，看看上面的程序是如何执行的。</p>
+<p>首先，为了计算<code>sqrt</code>，我们需要把<code>number</code>的值从内存送往CPU，理想情况下<code>number</code>会驻留在CPU的缓存。CPU计算<code>sqrt</code>后把值送回内存。然后我们进入循环，理想情况我们会一次性把<code>number</code>和<code>i</code>同时送往CPU，然后检查是否整除。</p>
+<p>如何进一步优化程序？第一个方法就是利用CPU的向量化能力，一次计算多组<code>number</code>和<code>i</code>。在这过过程中，充分利用缓存来存储尽可能多的i值和结果，这样就可以减少数据传输的时间。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_prime</span>(<span class="params">number</span>):</span></span><br><span class="line">    sqrt_number = math.sqrt(number) </span><br><span class="line">    numbers = <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(sqrt_number)+<span class="number">1</span>) </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(numbers), <span class="number">5</span>):</span><br><span class="line">        result = (number / numbers[i:(i + <span class="number">5</span>)]).is_integer() </span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">any</span>(result):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Python慢在哪里"><a href="#Python慢在哪里" class="headerlink" title="Python慢在哪里"></a>Python慢在哪里</h2><p>好了，下面我们来说说Python究竟慢在哪里了。Python的解释器（虚拟机）是非常好的抽象，程序员不太需要考虑我们上面提到的三种计算单元，比如绝大多数情况下，Python程序员不需要考虑如何分配内存，如何优化缓存，或者如何把变量送到CPU。这是Python的优势，但是这些抽象会损害程序的执行效率。话句话说，Python的执行循环中有很多指令都是为了支持这些抽象的。</p>
+<p>当我们谈到Python的性能，其实有不同的维度。</p>
+<p>首先，Python代码的性能不容易直接推断，如果你恰好知道一些小技巧，你的程序就会快很多，而同样的业务逻辑其他的实现方法就会慢一些。我举个例子：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search_unknown1</span>(<span class="params">haystack, needle</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">any</span>((item == needle <span class="keyword">for</span> item <span class="keyword">in</span> haystack))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search_unknown2</span>(<span class="params">haystack, needle</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">any</span>([item == needle <span class="keyword">for</span> item <span class="keyword">in</span> haystack])</span><br></pre></td></tr></table></figure>
+
+<p>你觉得上面两个函数那个运行更快？？所以，Python这类语言提升性能之前，更应该首先进行Profiling，来确定性能瓶颈。</p>
+<p>其次，Python（CPython）的Object内存规划并没有很高效，这与Python的GC和内存池有关。但是这种内存使用和回收机制会破坏缓存，也会导致不能充分利用总线带宽。</p>
+<p>另外，Python语言灵活性的代价就是动态类型，解释器需要花费大量时间弄清楚对象的类型，寻找正确的函数等等。不过这个问题其实容易解决，只要我们可以识别性能瓶颈，就可以采用Cython这样的工具突破瓶颈。</p>
+<p>最后，就是GIL。上文已经提到了，GIL限制了并行计算能力，但是这个问题其实也很容易解决。</p>
+<h2 id="那为啥Python还是这么火？"><a href="#那为啥Python还是这么火？" class="headerlink" title="那为啥Python还是这么火？"></a>那为啥Python还是这么火？</h2><p>既然Python这么“慢”，为啥Python还是这么火？？网上已经很多讨论了，我就说几个：</p>
+<p>1、近乎完美的生态。从大数据、机器学习、数值计算到Web，再到量子计算。<br>2、对非计算机科学的小伙伴极度友好<br>3、计算机专业的人用起来真的很舒服，抽象能力还是很不错<br>4、大觉部分性能问题可以很轻松地解决（哈哈哈，这就是这个系列的重点）</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>《High Performance Python》</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSAPP 12 并发编程 2</title>
     <url>/2021/06/20/csapp_12_2/</url>
     <content><![CDATA[<h1 id="CSAPP-12-并发编程-2"><a href="#CSAPP-12-并发编程-2" class="headerlink" title="CSAPP 12 并发编程 2"></a>CSAPP 12 并发编程 2</h1><p>并发可以增加系统的吞吐量，充分利用多核性能，但是并发系统带来的复杂度也需要额外的注意，以免出现不容易debug的bug。</p>
@@ -733,6 +794,59 @@
       </tags>
   </entry>
   <entry>
+    <title>1192 Critical Connections in a Network</title>
+    <url>/2021/04/24/leetcode_graph/</url>
+    <content><![CDATA[<h1 id="1192-Critical-Connections-in-a-Network"><a href="#1192-Critical-Connections-in-a-Network" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h1><ul>
+<li><a href="https://leetcode.com/problems/critical-connections-in-a-network/">1192. Critical Connections in a Network</a></li>
+<li><a href="https://leetcode.com/problems/all-paths-from-source-to-target/">797. All Paths From Source to Target</a></li>
+</ul>
+<h2 id="1192-Critical-Connections-in-a-Network-1"><a href="#1192-Critical-Connections-in-a-Network-1" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h2><p><strong>问题</strong></p>
+<blockquote>
+<p>There are n servers numbered from 0 to n-1 connected by undirected server-to-server connections forming a network where connections[i] = [a, b] represents a connection between servers a and b. Any server can reach any other server directly or indirectly through the network.A critical connection is a connection that, if removed, will make some server unable to reach some other server.<br>Return all critical connections in the network in any order.</p>
+</blockquote>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: n &#x3D; 4, connections &#x3D; [[0,1],[1,2],[2,0],[1,3]]</span><br><span class="line">Output: [[1,3]]</span><br><span class="line">Explanation: [[3,1]] is also accepted.</span><br></pre></td></tr></table></figure>
+
+<p><strong>思路</strong></p>
+<p>思路1：暴力破解</p>
+<p>按照循序分别移除一个边，然后dfs剩下的图，如果DFS的深度小于节点数，说明移除的边是关键路线。这个思路简单，一旦边数量多起啦，就会超时。</p>
+<p>思路2：找循环</p>
+<p>关键路线其实就是不在 cycle 中的 edge，我们只需要找到所有不在循环中边，就是此题答案。</p>
+<p>下一个问题是：如何找到循环？无论哪种方法，我们需要遍历图，为了找到循环，最好的办法是DFS。DFS的过程中，需要一个特殊标记表明节点的深度，因为如果我们发现循环，等价于发现了一个节点，两次访问他深度不相同！</p>
+<p>现在还有一个问题，我们可以用标记在当前的搜索层发现循环，但是上一个层并不知道这个信息，我们需要把这个信息返回到上一层，其实就是回溯（backtraking）。</p>
+<p>我们的DFS函数永远返回当前节点的最小深度。</p>
+<p>假设我们在一个长度（深度）为<code>k</code>的DFS路径上（<code>dfs(node, k)</code>），看到了节点<code>node</code>，如果这个节点没有见过，标记他的深度；然后遍历他的相邻节点，如果发现相邻节点的深度刚好是k-1，说明这是他的父节点，跳过避免循环搜索；如果不是父节点，进入下一层搜索，<code>k+1</code>。</p>
+<p>然后我们分析回溯的部分，<code>back_depth = dfs(adj, depth+1)</code>。比较当前深度<code>k</code>和下一层回溯回来的深度<code>back_depth</code>，如果回溯回来的深度<code>dfs(adj)</code>小于<code>dfs(k)</code>，则<code>k</code>发现他的邻居<code>adj</code>找到了一个可以回到<code>k</code>或者<code>k</code>的祖先的循环，则边<code>(k, adj)</code>一定属于某个循环，移除。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solution</span>(<span class="params">connections, n</span>):</span></span><br><span class="line">    graph = build(connections, n)</span><br><span class="line">    mark = [-<span class="number">2</span>] * n</span><br><span class="line">    connections = <span class="built_in">set</span>(<span class="built_in">map</span>(<span class="built_in">tuple</span>, (<span class="built_in">map</span>(<span class="built_in">sorted</span>, connections))))</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">node, depth</span>):</span></span><br><span class="line">        <span class="keyword">if</span> mark[node] &gt;= <span class="number">0</span>:</span><br><span class="line">            <span class="comment"># visited already!</span></span><br><span class="line">            <span class="keyword">return</span> mark[node]</span><br><span class="line">        </span><br><span class="line">        mark[node] = depth</span><br><span class="line">        min_back_depth = n</span><br><span class="line">        <span class="keyword">for</span> adj <span class="keyword">in</span> graph[node]:</span><br><span class="line">            <span class="keyword">if</span> mark[adj] == depth - <span class="number">1</span>:</span><br><span class="line">                <span class="comment"># visited from prev level</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            back_depth = dfs(adj, depth+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> back_depth &lt;= depth:  <span class="comment"># found cycle</span></span><br><span class="line">                connections.discard(<span class="built_in">tuple</span>(<span class="built_in">sorted</span>((node, adj))))</span><br><span class="line">            </span><br><span class="line">            min_back_depth = <span class="built_in">min</span>(back_depth, min_back_depth)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> min_back_depth</span><br><span class="line"></span><br><span class="line">    dfs(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>(connections)</span><br></pre></td></tr></table></figure>
+
+<h2 id="797-All-Paths-From-Source-to-Target"><a href="#797-All-Paths-From-Source-to-Target" class="headerlink" title="797. All Paths From Source to Target"></a>797. All Paths From Source to Target</h2><p><strong>问题</strong></p>
+<blockquote>
+<p>Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, find all possible paths from node 0 to node n - 1, and return them in any order.</p>
+<p>The graph is given as follows: graph[i] is a list of all nodes you can visit from node i (i.e., there is a directed edge from node i to node graph[i][j]).</p>
+</blockquote>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Example 3:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1],[]]</span><br><span class="line">Output: [[0,1]]</span><br><span class="line"></span><br><span class="line">Example 4:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1,2,3],[2],[3],[]]</span><br><span class="line">Output: [[0,1,2,3],[0,2,3],[0,3]]</span><br><span class="line"></span><br><span class="line">Example 5:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1,3],[2],[3],[]]</span><br><span class="line">Output: [[0,1,2,3],[0,3]]</span><br></pre></td></tr></table></figure>
+
+<p><strong>思路</strong></p>
+<p>基本的DFS回溯问题，我们套用模板。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allPathsSourceTarget</span>(<span class="params">self, graph</span>):</span></span><br><span class="line">        <span class="comment"># backtrack</span></span><br><span class="line">        res = []</span><br><span class="line">        path = [<span class="number">0</span>]</span><br><span class="line">        N = <span class="built_in">len</span>(graph) - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">_dfs</span>(<span class="params">node</span>):</span></span><br><span class="line">            <span class="comment"># 模板：结束条件</span></span><br><span class="line">            <span class="keyword">if</span> node == N:</span><br><span class="line">                res.append(path[:])</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            <span class="comment"># 模板：遍历所有下一个步骤</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> graph[node]:</span><br><span class="line">                path.append(i)</span><br><span class="line">                <span class="comment"># 模板：走向更深</span></span><br><span class="line">                _dfs(i)</span><br><span class="line">                <span class="comment"># 模板：恢复状态，继续循环</span></span><br><span class="line">                path.pop()</span><br><span class="line">                </span><br><span class="line">        _dfs(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
+<li><a href="https://leetcode.com/problems/critical-connections-in-a-network/discuss/382638/DFS-detailed-explanation-O(orEor)-solution">https://leetcode.com/problems/critical-connections-in-a-network/discuss/382638/DFS-detailed-explanation-O(orEor)-solution</a></li>
+</ul>
+<h6 id="tags-Leetcode-Graph-BFS-DFS"><a href="#tags-Leetcode-Graph-BFS-DFS" class="headerlink" title="tags: Leetcode Graph BFS DFS"></a>tags: <code>Leetcode</code> <code>Graph</code> <code>BFS</code> <code>DFS</code></h6>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Graph</tag>
+        <tag>DFS</tag>
+        <tag>BFS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSAPP 6 存储的层次</title>
     <url>/2021/04/24/csapp_6/</url>
     <content><![CDATA[<h1 id="CSAPP-6-存储的层次"><a href="#CSAPP-6-存储的层次" class="headerlink" title="CSAPP 6 存储的层次"></a>CSAPP 6 存储的层次</h1><p>本书之前讨论的模型注重CPU执行程序的过程和方式，而其中内存被当做一个简单的byte array，可以实现O(1)访问。但是，这个内存模型是简化的，实际计算的内存是一个层状模型，每一层都有不同的承载力和访问开销。</p>
@@ -927,59 +1041,6 @@
       </tags>
   </entry>
   <entry>
-    <title>1192 Critical Connections in a Network</title>
-    <url>/2021/04/24/leetcode_graph/</url>
-    <content><![CDATA[<h1 id="1192-Critical-Connections-in-a-Network"><a href="#1192-Critical-Connections-in-a-Network" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h1><ul>
-<li><a href="https://leetcode.com/problems/critical-connections-in-a-network/">1192. Critical Connections in a Network</a></li>
-<li><a href="https://leetcode.com/problems/all-paths-from-source-to-target/">797. All Paths From Source to Target</a></li>
-</ul>
-<h2 id="1192-Critical-Connections-in-a-Network-1"><a href="#1192-Critical-Connections-in-a-Network-1" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h2><p><strong>问题</strong></p>
-<blockquote>
-<p>There are n servers numbered from 0 to n-1 connected by undirected server-to-server connections forming a network where connections[i] = [a, b] represents a connection between servers a and b. Any server can reach any other server directly or indirectly through the network.A critical connection is a connection that, if removed, will make some server unable to reach some other server.<br>Return all critical connections in the network in any order.</p>
-</blockquote>
-<p><strong>例子</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: n &#x3D; 4, connections &#x3D; [[0,1],[1,2],[2,0],[1,3]]</span><br><span class="line">Output: [[1,3]]</span><br><span class="line">Explanation: [[3,1]] is also accepted.</span><br></pre></td></tr></table></figure>
-
-<p><strong>思路</strong></p>
-<p>思路1：暴力破解</p>
-<p>按照循序分别移除一个边，然后dfs剩下的图，如果DFS的深度小于节点数，说明移除的边是关键路线。这个思路简单，一旦边数量多起啦，就会超时。</p>
-<p>思路2：找循环</p>
-<p>关键路线其实就是不在 cycle 中的 edge，我们只需要找到所有不在循环中边，就是此题答案。</p>
-<p>下一个问题是：如何找到循环？无论哪种方法，我们需要遍历图，为了找到循环，最好的办法是DFS。DFS的过程中，需要一个特殊标记表明节点的深度，因为如果我们发现循环，等价于发现了一个节点，两次访问他深度不相同！</p>
-<p>现在还有一个问题，我们可以用标记在当前的搜索层发现循环，但是上一个层并不知道这个信息，我们需要把这个信息返回到上一层，其实就是回溯（backtraking）。</p>
-<p>我们的DFS函数永远返回当前节点的最小深度。</p>
-<p>假设我们在一个长度（深度）为<code>k</code>的DFS路径上（<code>dfs(node, k)</code>），看到了节点<code>node</code>，如果这个节点没有见过，标记他的深度；然后遍历他的相邻节点，如果发现相邻节点的深度刚好是k-1，说明这是他的父节点，跳过避免循环搜索；如果不是父节点，进入下一层搜索，<code>k+1</code>。</p>
-<p>然后我们分析回溯的部分，<code>back_depth = dfs(adj, depth+1)</code>。比较当前深度<code>k</code>和下一层回溯回来的深度<code>back_depth</code>，如果回溯回来的深度<code>dfs(adj)</code>小于<code>dfs(k)</code>，则<code>k</code>发现他的邻居<code>adj</code>找到了一个可以回到<code>k</code>或者<code>k</code>的祖先的循环，则边<code>(k, adj)</code>一定属于某个循环，移除。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solution</span>(<span class="params">connections, n</span>):</span></span><br><span class="line">    graph = build(connections, n)</span><br><span class="line">    mark = [-<span class="number">2</span>] * n</span><br><span class="line">    connections = <span class="built_in">set</span>(<span class="built_in">map</span>(<span class="built_in">tuple</span>, (<span class="built_in">map</span>(<span class="built_in">sorted</span>, connections))))</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">node, depth</span>):</span></span><br><span class="line">        <span class="keyword">if</span> mark[node] &gt;= <span class="number">0</span>:</span><br><span class="line">            <span class="comment"># visited already!</span></span><br><span class="line">            <span class="keyword">return</span> mark[node]</span><br><span class="line">        </span><br><span class="line">        mark[node] = depth</span><br><span class="line">        min_back_depth = n</span><br><span class="line">        <span class="keyword">for</span> adj <span class="keyword">in</span> graph[node]:</span><br><span class="line">            <span class="keyword">if</span> mark[adj] == depth - <span class="number">1</span>:</span><br><span class="line">                <span class="comment"># visited from prev level</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            back_depth = dfs(adj, depth+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> back_depth &lt;= depth:  <span class="comment"># found cycle</span></span><br><span class="line">                connections.discard(<span class="built_in">tuple</span>(<span class="built_in">sorted</span>((node, adj))))</span><br><span class="line">            </span><br><span class="line">            min_back_depth = <span class="built_in">min</span>(back_depth, min_back_depth)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> min_back_depth</span><br><span class="line"></span><br><span class="line">    dfs(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>(connections)</span><br></pre></td></tr></table></figure>
-
-<h2 id="797-All-Paths-From-Source-to-Target"><a href="#797-All-Paths-From-Source-to-Target" class="headerlink" title="797. All Paths From Source to Target"></a>797. All Paths From Source to Target</h2><p><strong>问题</strong></p>
-<blockquote>
-<p>Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, find all possible paths from node 0 to node n - 1, and return them in any order.</p>
-<p>The graph is given as follows: graph[i] is a list of all nodes you can visit from node i (i.e., there is a directed edge from node i to node graph[i][j]).</p>
-</blockquote>
-<p><strong>例子</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Example 3:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1],[]]</span><br><span class="line">Output: [[0,1]]</span><br><span class="line"></span><br><span class="line">Example 4:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1,2,3],[2],[3],[]]</span><br><span class="line">Output: [[0,1,2,3],[0,2,3],[0,3]]</span><br><span class="line"></span><br><span class="line">Example 5:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1,3],[2],[3],[]]</span><br><span class="line">Output: [[0,1,2,3],[0,3]]</span><br></pre></td></tr></table></figure>
-
-<p><strong>思路</strong></p>
-<p>基本的DFS回溯问题，我们套用模板。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allPathsSourceTarget</span>(<span class="params">self, graph</span>):</span></span><br><span class="line">        <span class="comment"># backtrack</span></span><br><span class="line">        res = []</span><br><span class="line">        path = [<span class="number">0</span>]</span><br><span class="line">        N = <span class="built_in">len</span>(graph) - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">_dfs</span>(<span class="params">node</span>):</span></span><br><span class="line">            <span class="comment"># 模板：结束条件</span></span><br><span class="line">            <span class="keyword">if</span> node == N:</span><br><span class="line">                res.append(path[:])</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            <span class="comment"># 模板：遍历所有下一个步骤</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> graph[node]:</span><br><span class="line">                path.append(i)</span><br><span class="line">                <span class="comment"># 模板：走向更深</span></span><br><span class="line">                _dfs(i)</span><br><span class="line">                <span class="comment"># 模板：恢复状态，继续循环</span></span><br><span class="line">                path.pop()</span><br><span class="line">                </span><br><span class="line">        _dfs(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-
-<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
-<li><a href="https://leetcode.com/problems/critical-connections-in-a-network/discuss/382638/DFS-detailed-explanation-O(orEor)-solution">https://leetcode.com/problems/critical-connections-in-a-network/discuss/382638/DFS-detailed-explanation-O(orEor)-solution</a></li>
-</ul>
-<h6 id="tags-Leetcode-Graph-BFS-DFS"><a href="#tags-Leetcode-Graph-BFS-DFS" class="headerlink" title="tags: Leetcode Graph BFS DFS"></a>tags: <code>Leetcode</code> <code>Graph</code> <code>BFS</code> <code>DFS</code></h6>]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Graph</tag>
-        <tag>DFS</tag>
-        <tag>BFS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Tree层遍历</title>
     <url>/2021/04/20/leetcode_tree1/</url>
     <content><![CDATA[<h1 id="Tree层遍历"><a href="#Tree层遍历" class="headerlink" title="Tree层遍历"></a>Tree层遍历</h1><ul>
@@ -1092,41 +1153,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Heap 使用</title>
-    <url>/2021/04/18/leetcode_heap1/</url>
-    <content><![CDATA[<h1 id="Heap（堆）的使用"><a href="#Heap（堆）的使用" class="headerlink" title="Heap（堆）的使用"></a>Heap（堆）的使用</h1><ul>
-<li><a href="https://leetcode.com/problems/last-stone-weight/">1046. Last Stone Weight</a></li>
-<li><a href="https://leetcode.com/problems/kth-largest-element-in-a-stream/">703. Kth Largest Element in a Stream</a></li>
-<li><a href="https://leetcode.com/problems/maximum-average-pass-ratio/">1792. Maximum Average Pass Ratio</a></li>
-<li><a href="https://leetcode.com/problems/task-scheduler/">621. Task Schedule</a></li>
-</ul>
-<h2 id="1046-Last-Stone-Weight"><a href="#1046-Last-Stone-Weight" class="headerlink" title="1046. Last Stone Weight"></a>1046. Last Stone Weight</h2><p><strong>思路</strong></p>
-<p>此题比较直接，直接采用heap来维护最重的数值在头部，需要注意的是 Python 的 heap 都是 min heap，所以需要取负数来实现此题。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lastStoneWeight</span>(<span class="params">self, stones: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        h = [-s <span class="keyword">for</span> s <span class="keyword">in</span> stones]</span><br><span class="line">        heapify(h)</span><br><span class="line">        <span class="built_in">print</span>(h)</span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(h) &gt;= <span class="number">2</span>:</span><br><span class="line">            fst = heappop(h)</span><br><span class="line">            snd = heappop(h)</span><br><span class="line">            <span class="keyword">if</span> fst != snd:</span><br><span class="line">                heappush(h, fst-snd)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> -<span class="built_in">sum</span>(h)</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="703-Kth-Largest-Element-in-a-Stream"><a href="#703-Kth-Largest-Element-in-a-Stream" class="headerlink" title="703. Kth Largest Element in a Stream"></a>703. Kth Largest Element in a Stream</h2><p><strong>思路</strong><br>这题的要点在于维护一个固定长度的heap。可以采用 <code>heapreplace</code> 函数实现 push和pop 的组合操作。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KthLargest</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, k: <span class="built_in">int</span>, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>):</span></span><br><span class="line">        self.nums = nums</span><br><span class="line">        self.k = k</span><br><span class="line">        heapify(self.nums)</span><br><span class="line">        <span class="comment"># 保持头部是 kth largest </span></span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(self.nums) &gt; k:</span><br><span class="line">            heappop(self.nums)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">self, val: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(self.nums) &lt; self.k:</span><br><span class="line">            heappush(self.nums, val)</span><br><span class="line">        <span class="keyword">elif</span> val &gt; self.nums[<span class="number">0</span>]:</span><br><span class="line">            heapreplace(self.nums, val)</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> self.nums[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="1792-Maximum-Average-Pass-Ratio"><a href="#1792-Maximum-Average-Pass-Ratio" class="headerlink" title="1792. Maximum Average Pass Ratio"></a>1792. Maximum Average Pass Ratio</h2><p><strong>思路</strong></p>
-<p>这道题的关键在于想要找到最大平均数，需要把好学生分配到改变通过率最大的班级，即 delta 最大的班级。根据这个特征，我们需要一个堆来决绝，按照每个班增加一个好学生后的 delta 作为 Priority。永远把好学生分配到怼的头部。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> heapq</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxAverageRatio</span>(<span class="params">self, classes: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]], extraStudents: <span class="built_in">int</span></span>) -&gt; <span class="built_in">float</span>:</span></span><br><span class="line">        h = [((x/t - (x+<span class="number">1</span>)/(t+<span class="number">1</span>)), x, t) <span class="keyword">for</span> x, t <span class="keyword">in</span> classes]</span><br><span class="line">        heapify(h)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> extraStudents:</span><br><span class="line">            v, x, t = heappop(h)</span><br><span class="line">            x, t = x+<span class="number">1</span>, t+<span class="number">1</span></span><br><span class="line">            heappush(h, (x/t-(x+<span class="number">1</span>)/(t+<span class="number">1</span>), x, t))</span><br><span class="line">            extraStudents -= <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>([x/t <span class="keyword">for</span> _,x,t <span class="keyword">in</span> h]) / <span class="built_in">len</span>(h)</span><br></pre></td></tr></table></figure>
-
-<h2 id="621-Task-Schedule"><a href="#621-Task-Schedule" class="headerlink" title="621. Task Schedule"></a>621. Task Schedule</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">leastInterval</span>(<span class="params">self, tasks: <span class="type">List</span>[<span class="built_in">str</span>], n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">from</span> heapq <span class="keyword">import</span> heappush, heappop</span><br><span class="line">        <span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line">        h = []</span><br><span class="line">        res = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> k, v <span class="keyword">in</span> Counter(tasks).items():</span><br><span class="line">            heappush(h, (-<span class="number">1</span>*v, k))</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">while</span> h:</span><br><span class="line">            i = <span class="number">0</span></span><br><span class="line">            tmp =  []</span><br><span class="line">            <span class="keyword">while</span> i&lt;=n:</span><br><span class="line">                res += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> h:</span><br><span class="line">                    left, task = heappop(h)</span><br><span class="line">                    <span class="keyword">if</span> left != -<span class="number">1</span>:</span><br><span class="line">                        tmp.append((left+<span class="number">1</span>, task))</span><br><span class="line">                    </span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> h <span class="keyword">and</span> <span class="keyword">not</span> tmp:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    i += <span class="number">1</span></span><br><span class="line">                    </span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> tmp:</span><br><span class="line">                heappush(h, item)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
-
-<h6 id="tags-Leetcode-Heap"><a href="#tags-Leetcode-Heap" class="headerlink" title="tags: Leetcode Heap"></a>tags: <code>Leetcode</code> <code>Heap</code></h6>]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Heap</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>回溯 DFS</title>
     <url>/2021/04/18/leetcode_dfs/</url>
     <content><![CDATA[<h1 id="回溯，DFS"><a href="#回溯，DFS" class="headerlink" title="回溯，DFS"></a>回溯，DFS</h1><ul>
@@ -1219,6 +1245,41 @@
       </categories>
       <tags>
         <tag>DFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Heap 使用</title>
+    <url>/2021/04/18/leetcode_heap1/</url>
+    <content><![CDATA[<h1 id="Heap（堆）的使用"><a href="#Heap（堆）的使用" class="headerlink" title="Heap（堆）的使用"></a>Heap（堆）的使用</h1><ul>
+<li><a href="https://leetcode.com/problems/last-stone-weight/">1046. Last Stone Weight</a></li>
+<li><a href="https://leetcode.com/problems/kth-largest-element-in-a-stream/">703. Kth Largest Element in a Stream</a></li>
+<li><a href="https://leetcode.com/problems/maximum-average-pass-ratio/">1792. Maximum Average Pass Ratio</a></li>
+<li><a href="https://leetcode.com/problems/task-scheduler/">621. Task Schedule</a></li>
+</ul>
+<h2 id="1046-Last-Stone-Weight"><a href="#1046-Last-Stone-Weight" class="headerlink" title="1046. Last Stone Weight"></a>1046. Last Stone Weight</h2><p><strong>思路</strong></p>
+<p>此题比较直接，直接采用heap来维护最重的数值在头部，需要注意的是 Python 的 heap 都是 min heap，所以需要取负数来实现此题。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lastStoneWeight</span>(<span class="params">self, stones: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        h = [-s <span class="keyword">for</span> s <span class="keyword">in</span> stones]</span><br><span class="line">        heapify(h)</span><br><span class="line">        <span class="built_in">print</span>(h)</span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(h) &gt;= <span class="number">2</span>:</span><br><span class="line">            fst = heappop(h)</span><br><span class="line">            snd = heappop(h)</span><br><span class="line">            <span class="keyword">if</span> fst != snd:</span><br><span class="line">                heappush(h, fst-snd)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> -<span class="built_in">sum</span>(h)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="703-Kth-Largest-Element-in-a-Stream"><a href="#703-Kth-Largest-Element-in-a-Stream" class="headerlink" title="703. Kth Largest Element in a Stream"></a>703. Kth Largest Element in a Stream</h2><p><strong>思路</strong><br>这题的要点在于维护一个固定长度的heap。可以采用 <code>heapreplace</code> 函数实现 push和pop 的组合操作。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KthLargest</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, k: <span class="built_in">int</span>, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>):</span></span><br><span class="line">        self.nums = nums</span><br><span class="line">        self.k = k</span><br><span class="line">        heapify(self.nums)</span><br><span class="line">        <span class="comment"># 保持头部是 kth largest </span></span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(self.nums) &gt; k:</span><br><span class="line">            heappop(self.nums)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">self, val: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(self.nums) &lt; self.k:</span><br><span class="line">            heappush(self.nums, val)</span><br><span class="line">        <span class="keyword">elif</span> val &gt; self.nums[<span class="number">0</span>]:</span><br><span class="line">            heapreplace(self.nums, val)</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> self.nums[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="1792-Maximum-Average-Pass-Ratio"><a href="#1792-Maximum-Average-Pass-Ratio" class="headerlink" title="1792. Maximum Average Pass Ratio"></a>1792. Maximum Average Pass Ratio</h2><p><strong>思路</strong></p>
+<p>这道题的关键在于想要找到最大平均数，需要把好学生分配到改变通过率最大的班级，即 delta 最大的班级。根据这个特征，我们需要一个堆来决绝，按照每个班增加一个好学生后的 delta 作为 Priority。永远把好学生分配到怼的头部。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> heapq</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxAverageRatio</span>(<span class="params">self, classes: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]], extraStudents: <span class="built_in">int</span></span>) -&gt; <span class="built_in">float</span>:</span></span><br><span class="line">        h = [((x/t - (x+<span class="number">1</span>)/(t+<span class="number">1</span>)), x, t) <span class="keyword">for</span> x, t <span class="keyword">in</span> classes]</span><br><span class="line">        heapify(h)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> extraStudents:</span><br><span class="line">            v, x, t = heappop(h)</span><br><span class="line">            x, t = x+<span class="number">1</span>, t+<span class="number">1</span></span><br><span class="line">            heappush(h, (x/t-(x+<span class="number">1</span>)/(t+<span class="number">1</span>), x, t))</span><br><span class="line">            extraStudents -= <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>([x/t <span class="keyword">for</span> _,x,t <span class="keyword">in</span> h]) / <span class="built_in">len</span>(h)</span><br></pre></td></tr></table></figure>
+
+<h2 id="621-Task-Schedule"><a href="#621-Task-Schedule" class="headerlink" title="621. Task Schedule"></a>621. Task Schedule</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">leastInterval</span>(<span class="params">self, tasks: <span class="type">List</span>[<span class="built_in">str</span>], n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">from</span> heapq <span class="keyword">import</span> heappush, heappop</span><br><span class="line">        <span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line">        h = []</span><br><span class="line">        res = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> k, v <span class="keyword">in</span> Counter(tasks).items():</span><br><span class="line">            heappush(h, (-<span class="number">1</span>*v, k))</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">while</span> h:</span><br><span class="line">            i = <span class="number">0</span></span><br><span class="line">            tmp =  []</span><br><span class="line">            <span class="keyword">while</span> i&lt;=n:</span><br><span class="line">                res += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> h:</span><br><span class="line">                    left, task = heappop(h)</span><br><span class="line">                    <span class="keyword">if</span> left != -<span class="number">1</span>:</span><br><span class="line">                        tmp.append((left+<span class="number">1</span>, task))</span><br><span class="line">                    </span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> h <span class="keyword">and</span> <span class="keyword">not</span> tmp:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    i += <span class="number">1</span></span><br><span class="line">                    </span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> tmp:</span><br><span class="line">                heappush(h, item)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+
+<h6 id="tags-Leetcode-Heap"><a href="#tags-Leetcode-Heap" class="headerlink" title="tags: Leetcode Heap"></a>tags: <code>Leetcode</code> <code>Heap</code></h6>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Heap</tag>
       </tags>
   </entry>
   <entry>
@@ -1512,6 +1573,37 @@
       </tags>
   </entry>
   <entry>
+    <title>CSAPP 2 信息的表达和操作</title>
+    <url>/2021/04/09/csapp_2/</url>
+    <content><![CDATA[<h1 id="CSAPP-2-信息的表达和操作"><a href="#CSAPP-2-信息的表达和操作" class="headerlink" title="CSAPP 2 信息的表达和操作"></a>CSAPP 2 信息的表达和操作</h1><p>目前的计算机技术存储信息是二进制的，我们用0和1表达信息。最基本的信息有两种：整数和浮点数。字符串也会被编码成整数表达。从根本上说，我们规定了一些规则（向下文）来解释这些0和1。通过基本的代数法则就可以实现运算了。</p>
+<p>为了方便人类阅读，常用的编码进制包括8进制和16进制。</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;csapp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;int: %d\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_dbl</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;double: %g\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int_arr</span><span class="params">(<span class="keyword">int</span> a[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;int array: [&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;=(<span class="keyword">sizeof</span>(a))/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]); i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d, &quot;</span>, a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_default</span><span class="params">()</span> </span>&#123; <span class="built_in">puts</span>(<span class="string">&quot;unknown argument&quot;</span>); &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> print(X) _Generic((X), \</span></span><br><span class="line">        <span class="keyword">int</span>: print_int, \</span><br><span class="line">        <span class="keyword">double</span>: print_dbl, \</span><br><span class="line">        <span class="keyword">int</span>*: print_int_arr, \</span><br><span class="line">        <span class="keyword">default</span>: print_default)(X)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> problem(x) printf(<span class="meta-string">&quot;\n * Problem %s: \n&quot;</span>, x)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> comment(x) printf(<span class="meta-string">&quot;%s\n&quot;</span>, x)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_float</span><span class="params">(<span class="keyword">float</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_pointer</span><span class="params">(<span class="keyword">void</span>* x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">void</span> *));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *x, <span class="keyword">int</span> *y)</span> </span>&#123;</span><br><span class="line">    *y = *x^*y;</span><br><span class="line">    *x = *x^*y; <span class="comment">/*Step2*/</span></span><br><span class="line">    *y = *x^*y; <span class="comment">/*Step3*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse_array</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> cnt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1,2,3  -&gt; 3,2,1</span></span><br><span class="line">    <span class="keyword">int</span> first, last;</span><br><span class="line">    <span class="keyword">for</span> (first=<span class="number">0</span>, last=cnt<span class="number">-1</span>;</span><br><span class="line">        first &lt; last;</span><br><span class="line">        first++, last--) &#123;</span><br><span class="line">            swap(&amp;a[first], &amp;a[last]);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">float</span> y = <span class="number">1.0</span>;</span><br><span class="line">    show_int(x);</span><br><span class="line">    show_float(y);</span><br><span class="line">    show_pointer(&amp;x);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof float is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof int is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="comment">// Problem 2.6</span></span><br><span class="line">    problem(<span class="string">&quot;2.6&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">3510593</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">3510593.0</span>;</span><br><span class="line">    show_int(b);   <span class="comment">// ? why this shows as same as a?</span></span><br><span class="line">    show_int(a);   <span class="comment">//        1101011001000101000001</span></span><br><span class="line">    show_float(b); <span class="comment">// 1001010010101100100010100000100</span></span><br><span class="line">    <span class="comment">// Problem 2.7</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *s = <span class="string">&quot;abcdef&quot;</span>;</span><br><span class="line">    show_bytes((byte_pointer)s, <span class="built_in">strlen</span>(s)); <span class="comment">//  61 62 63 64 65 66</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    a = 110</span></span><br><span class="line"><span class="comment">    b = 001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 110 ^ 001 = 111</span></span><br><span class="line"><span class="comment">    a = a ^ b  -&gt; a = 110 ^ 111 = 001</span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 001 ^ 111 = 110</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    problem(<span class="string">&quot;2.10&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> aa = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> bb = <span class="number">2</span>;</span><br><span class="line">    swap(&amp;aa, &amp;bb);</span><br><span class="line">    print(aa);</span><br><span class="line">    print(bb);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.11&quot;</span>);</span><br><span class="line">    comment(<span class="string">&quot;Note that a ^ a = 0&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a2[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    print(a2);</span><br><span class="line">    reverse_array(a2, <span class="number">3</span>);</span><br><span class="line">    print(a2);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.12&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> x12 = <span class="number">0x87654321</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 &amp; <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( x12 ^ <span class="number">0xFF</span> ));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 | <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( <span class="number">0x11</span> ^ <span class="number">0xFF</span> ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>CSAPP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nSum 问题</title>
+    <url>/2021/04/09/leetcode_nSum/</url>
+    <content><![CDATA[<h1 id="nSum-问题"><a href="#nSum-问题" class="headerlink" title="nSum 问题"></a>nSum 问题</h1><h2 id="2-Sum"><a href="#2-Sum" class="headerlink" title="2 Sum"></a>2 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>], target: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span></span><br><span class="line">        cache = &#123;&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            residual = target - nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> residual <span class="keyword">in</span> cache:</span><br><span class="line">                <span class="keyword">return</span> [cache[residual], i]</span><br><span class="line">            </span><br><span class="line">            cache[nums[i]] = i</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> []</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Sum"><a href="#3-Sum" class="headerlink" title="3 Sum"></a>3 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">threeSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(nums) &lt;= <span class="number">3</span> <span class="keyword">and</span> <span class="built_in">sum</span>(nums)!=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        res = []</span><br><span class="line">        counter = collections.defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">            counter[i] += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        nums = <span class="built_in">sorted</span>(counter.keys())</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            a = nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> <span class="number">3</span>*a == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">3</span>:</span><br><span class="line">                res.append([a,a,a])</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>, <span class="built_in">len</span>(nums)):</span><br><span class="line">                b = nums[j]</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*b + a == <span class="number">0</span> <span class="keyword">and</span> counter[b] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, b, b])</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*a + b == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, a, b])</span><br><span class="line">                    </span><br><span class="line">                c = -a-b</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> c &gt; b <span class="keyword">and</span> counter[c] &gt;= <span class="number">1</span>:</span><br><span class="line">                    res.append([a, b, c])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+
+<h6 id="tags-Leetcode-nSum"><a href="#tags-Leetcode-nSum" class="headerlink" title="tags: Leetcode nSum"></a>tags: <code>Leetcode</code> <code>nSum</code></h6>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>nSum</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSAPP 1 概览</title>
     <url>/2021/04/09/csapp1/</url>
     <content><![CDATA[<h1 id="CSAPP-1-概览"><a href="#CSAPP-1-概览" class="headerlink" title="CSAPP 1 概览"></a>CSAPP 1 概览</h1><p>这本书之前非常简略的阅读过一次，过了这么一年多，重新拿起这本书反倒有了更多理解。可能这就是一本好书的特点把，他随着你的经验增加，提供给你更多的信息。给人的感觉就是，第一次读醍醐灌顶，第二次读，还是醍醐灌顶。。。</p>
@@ -1551,37 +1643,6 @@
 <li>green thread</li>
 </ul>
 <h6 id="tags-CSAPP"><a href="#tags-CSAPP" class="headerlink" title="tags: CSAPP"></a>tags: <code>CSAPP</code></h6>]]></content>
-      <categories>
-        <category>Computing</category>
-      </categories>
-      <tags>
-        <tag>CSAPP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nSum 问题</title>
-    <url>/2021/04/09/leetcode_nSum/</url>
-    <content><![CDATA[<h1 id="nSum-问题"><a href="#nSum-问题" class="headerlink" title="nSum 问题"></a>nSum 问题</h1><h2 id="2-Sum"><a href="#2-Sum" class="headerlink" title="2 Sum"></a>2 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>], target: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span></span><br><span class="line">        cache = &#123;&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            residual = target - nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> residual <span class="keyword">in</span> cache:</span><br><span class="line">                <span class="keyword">return</span> [cache[residual], i]</span><br><span class="line">            </span><br><span class="line">            cache[nums[i]] = i</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> []</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-Sum"><a href="#3-Sum" class="headerlink" title="3 Sum"></a>3 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">threeSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(nums) &lt;= <span class="number">3</span> <span class="keyword">and</span> <span class="built_in">sum</span>(nums)!=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        res = []</span><br><span class="line">        counter = collections.defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">            counter[i] += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        nums = <span class="built_in">sorted</span>(counter.keys())</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            a = nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> <span class="number">3</span>*a == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">3</span>:</span><br><span class="line">                res.append([a,a,a])</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>, <span class="built_in">len</span>(nums)):</span><br><span class="line">                b = nums[j]</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*b + a == <span class="number">0</span> <span class="keyword">and</span> counter[b] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, b, b])</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*a + b == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, a, b])</span><br><span class="line">                    </span><br><span class="line">                c = -a-b</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> c &gt; b <span class="keyword">and</span> counter[c] &gt;= <span class="number">1</span>:</span><br><span class="line">                    res.append([a, b, c])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-
-
-<h6 id="tags-Leetcode-nSum"><a href="#tags-Leetcode-nSum" class="headerlink" title="tags: Leetcode nSum"></a>tags: <code>Leetcode</code> <code>nSum</code></h6>]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>nSum</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSAPP 2 信息的表达和操作</title>
-    <url>/2021/04/09/csapp_2/</url>
-    <content><![CDATA[<h1 id="CSAPP-2-信息的表达和操作"><a href="#CSAPP-2-信息的表达和操作" class="headerlink" title="CSAPP 2 信息的表达和操作"></a>CSAPP 2 信息的表达和操作</h1><p>目前的计算机技术存储信息是二进制的，我们用0和1表达信息。最基本的信息有两种：整数和浮点数。字符串也会被编码成整数表达。从根本上说，我们规定了一些规则（向下文）来解释这些0和1。通过基本的代数法则就可以实现运算了。</p>
-<p>为了方便人类阅读，常用的编码进制包括8进制和16进制。</p>
-<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;csapp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;int: %d\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_dbl</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;double: %g\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int_arr</span><span class="params">(<span class="keyword">int</span> a[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;int array: [&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;=(<span class="keyword">sizeof</span>(a))/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]); i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d, &quot;</span>, a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_default</span><span class="params">()</span> </span>&#123; <span class="built_in">puts</span>(<span class="string">&quot;unknown argument&quot;</span>); &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> print(X) _Generic((X), \</span></span><br><span class="line">        <span class="keyword">int</span>: print_int, \</span><br><span class="line">        <span class="keyword">double</span>: print_dbl, \</span><br><span class="line">        <span class="keyword">int</span>*: print_int_arr, \</span><br><span class="line">        <span class="keyword">default</span>: print_default)(X)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> problem(x) printf(<span class="meta-string">&quot;\n * Problem %s: \n&quot;</span>, x)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> comment(x) printf(<span class="meta-string">&quot;%s\n&quot;</span>, x)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_float</span><span class="params">(<span class="keyword">float</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_pointer</span><span class="params">(<span class="keyword">void</span>* x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">void</span> *));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *x, <span class="keyword">int</span> *y)</span> </span>&#123;</span><br><span class="line">    *y = *x^*y;</span><br><span class="line">    *x = *x^*y; <span class="comment">/*Step2*/</span></span><br><span class="line">    *y = *x^*y; <span class="comment">/*Step3*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse_array</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> cnt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1,2,3  -&gt; 3,2,1</span></span><br><span class="line">    <span class="keyword">int</span> first, last;</span><br><span class="line">    <span class="keyword">for</span> (first=<span class="number">0</span>, last=cnt<span class="number">-1</span>;</span><br><span class="line">        first &lt; last;</span><br><span class="line">        first++, last--) &#123;</span><br><span class="line">            swap(&amp;a[first], &amp;a[last]);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">float</span> y = <span class="number">1.0</span>;</span><br><span class="line">    show_int(x);</span><br><span class="line">    show_float(y);</span><br><span class="line">    show_pointer(&amp;x);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof float is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof int is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="comment">// Problem 2.6</span></span><br><span class="line">    problem(<span class="string">&quot;2.6&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">3510593</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">3510593.0</span>;</span><br><span class="line">    show_int(b);   <span class="comment">// ? why this shows as same as a?</span></span><br><span class="line">    show_int(a);   <span class="comment">//        1101011001000101000001</span></span><br><span class="line">    show_float(b); <span class="comment">// 1001010010101100100010100000100</span></span><br><span class="line">    <span class="comment">// Problem 2.7</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *s = <span class="string">&quot;abcdef&quot;</span>;</span><br><span class="line">    show_bytes((byte_pointer)s, <span class="built_in">strlen</span>(s)); <span class="comment">//  61 62 63 64 65 66</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    a = 110</span></span><br><span class="line"><span class="comment">    b = 001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 110 ^ 001 = 111</span></span><br><span class="line"><span class="comment">    a = a ^ b  -&gt; a = 110 ^ 111 = 001</span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 001 ^ 111 = 110</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    problem(<span class="string">&quot;2.10&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> aa = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> bb = <span class="number">2</span>;</span><br><span class="line">    swap(&amp;aa, &amp;bb);</span><br><span class="line">    print(aa);</span><br><span class="line">    print(bb);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.11&quot;</span>);</span><br><span class="line">    comment(<span class="string">&quot;Note that a ^ a = 0&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a2[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    print(a2);</span><br><span class="line">    reverse_array(a2, <span class="number">3</span>);</span><br><span class="line">    print(a2);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.12&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> x12 = <span class="number">0x87654321</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 &amp; <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( x12 ^ <span class="number">0xFF</span> ));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 | <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( <span class="number">0x11</span> ^ <span class="number">0xFF</span> ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Computing</category>
       </categories>
@@ -1959,50 +2020,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Go 学习笔记3 程序的构成</title>
-    <url>/2021/03/30/go_3/</url>
-    <content><![CDATA[<h1 id="Go-学习笔记3-程序的构成"><a href="#Go-学习笔记3-程序的构成" class="headerlink" title="Go 学习笔记3 程序的构成"></a>Go 学习笔记3 程序的构成</h1><h2 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h2><p>Go 采用驼峰命名：<code>thisVarIsGood</code>。如果一个 package 中的函数采用大写字母开头，这个函数可以被外界调用，否则隐藏，比如 <code>fmt.Println</code>。</p>
-<p>Go 的声明语句主要有四种：<code>var</code>, <code>const</code>, <code>type</code>, <code>func</code>。</p>
-<p><code>var</code>，变量声明：<code>var name type = expression</code>。如果省略 expression 的部分，Go 会给变量合法的初始值。<code>:=</code> 表达式，是简化的声明。</p>
-<p>指针是变量的地址，并不是每一个值都有地址，但是每一个变量都有地址。<code>new</code> 函数会返回该类型的指针。</p>
-<p>Go 的编译器会根据变量的具体生命周期决定是堆分配还是栈分配，生命周期也会影响垃圾回收的效率，如果一个局部变量被外部变量引用，那么即使函数已经返回，这个局部变量也不会被回收，同时编译器也会对他进行堆分配，而不是栈分配。</p>
-<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>Go 的类型系统相对比较简单（简陋？），主要类型包括四种：基本类型、组合类型、引用类型和接口类型。</p>
-<p>基本类型主要包括：</p>
-<ul>
-<li>整数, int8, int16, int32, int64, 还有无符号版本，uintptr</li>
-<li>浮点数, float16, float32</li>
-<li>复数, complex(r, i)</li>
-<li>布尔, true, false</li>
-<li>字符串, an immutable sequence of bytes. 可以是任何byte，通常是可读的字符串</li>
-</ul>
-<h2 id="组合类型"><a href="#组合类型" class="headerlink" title="组合类型"></a>组合类型</h2><ul>
-<li>Array</li>
-<li>Slice</li>
-<li>Map</li>
-<li>Struct</li>
-</ul>
-<p>Array 是长度固定、类型固定的连续内存空间。Array 初始化方式比较丰富：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a := [<span class="number">2</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">b := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">r := [...]<span class="keyword">int</span>&#123;<span class="number">99</span>: <span class="number">-1</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Array 也可以用指针访问（就像 C 一样，<code>[]</code> 仅仅是指针的语法糖）：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">zero</span><span class="params">(ptr *[32]<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> ptr &#123;</span><br><span class="line">        ptr[i] = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Slice 是长度可变的、类型固定的连续内存空间。一个 Slice 包含三个部分：头指针、长度、长度极限。Slice 与 Array 不同，是不可比的。但是，可以测试 Slice 是否是 Nil。</p>
-<p>Maps 是哈希表，可以nest。</p>
-<p>Struct 类似 C 的结构体，是一个多种类型的组合类型。</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Point <span class="keyword">struct</span>&#123; X, Y <span class="keyword">int</span> &#125;</span><br><span class="line">p := Point&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h2><p>整体感觉 Go 的程序构成与 C 语言非常类似。看起来就像带有 GC 和 并发内置的现代版本的 C 语言。</p>
-<h6 id="tags-Go-Go学习"><a href="#tags-Go-Go学习" class="headerlink" title="tags: Go Go学习"></a>tags: <code>Go</code> <code>Go学习</code></h6>]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Go</tag>
-        <tag>Go学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Go 学习笔记4 抽象方法</title>
     <url>/2021/03/30/go_4/</url>
     <content><![CDATA[<h1 id="Go-学习笔记4-抽象模式"><a href="#Go-学习笔记4-抽象模式" class="headerlink" title="Go 学习笔记4 抽象模式"></a>Go 学习笔记4 抽象模式</h1><p>Go 的抽象方法主要通过函数、方法和接口三种方式。</p>
@@ -2047,6 +2064,86 @@
       <tags>
         <tag>Go</tag>
         <tag>Go学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Go 学习笔记3 程序的构成</title>
+    <url>/2021/03/30/go_3/</url>
+    <content><![CDATA[<h1 id="Go-学习笔记3-程序的构成"><a href="#Go-学习笔记3-程序的构成" class="headerlink" title="Go 学习笔记3 程序的构成"></a>Go 学习笔记3 程序的构成</h1><h2 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h2><p>Go 采用驼峰命名：<code>thisVarIsGood</code>。如果一个 package 中的函数采用大写字母开头，这个函数可以被外界调用，否则隐藏，比如 <code>fmt.Println</code>。</p>
+<p>Go 的声明语句主要有四种：<code>var</code>, <code>const</code>, <code>type</code>, <code>func</code>。</p>
+<p><code>var</code>，变量声明：<code>var name type = expression</code>。如果省略 expression 的部分，Go 会给变量合法的初始值。<code>:=</code> 表达式，是简化的声明。</p>
+<p>指针是变量的地址，并不是每一个值都有地址，但是每一个变量都有地址。<code>new</code> 函数会返回该类型的指针。</p>
+<p>Go 的编译器会根据变量的具体生命周期决定是堆分配还是栈分配，生命周期也会影响垃圾回收的效率，如果一个局部变量被外部变量引用，那么即使函数已经返回，这个局部变量也不会被回收，同时编译器也会对他进行堆分配，而不是栈分配。</p>
+<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>Go 的类型系统相对比较简单（简陋？），主要类型包括四种：基本类型、组合类型、引用类型和接口类型。</p>
+<p>基本类型主要包括：</p>
+<ul>
+<li>整数, int8, int16, int32, int64, 还有无符号版本，uintptr</li>
+<li>浮点数, float16, float32</li>
+<li>复数, complex(r, i)</li>
+<li>布尔, true, false</li>
+<li>字符串, an immutable sequence of bytes. 可以是任何byte，通常是可读的字符串</li>
+</ul>
+<h2 id="组合类型"><a href="#组合类型" class="headerlink" title="组合类型"></a>组合类型</h2><ul>
+<li>Array</li>
+<li>Slice</li>
+<li>Map</li>
+<li>Struct</li>
+</ul>
+<p>Array 是长度固定、类型固定的连续内存空间。Array 初始化方式比较丰富：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a := [<span class="number">2</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">b := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">r := [...]<span class="keyword">int</span>&#123;<span class="number">99</span>: <span class="number">-1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Array 也可以用指针访问（就像 C 一样，<code>[]</code> 仅仅是指针的语法糖）：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">zero</span><span class="params">(ptr *[32]<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> ptr &#123;</span><br><span class="line">        ptr[i] = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Slice 是长度可变的、类型固定的连续内存空间。一个 Slice 包含三个部分：头指针、长度、长度极限。Slice 与 Array 不同，是不可比的。但是，可以测试 Slice 是否是 Nil。</p>
+<p>Maps 是哈希表，可以nest。</p>
+<p>Struct 类似 C 的结构体，是一个多种类型的组合类型。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Point <span class="keyword">struct</span>&#123; X, Y <span class="keyword">int</span> &#125;</span><br><span class="line">p := Point&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h2><p>整体感觉 Go 的程序构成与 C 语言非常类似。看起来就像带有 GC 和 并发内置的现代版本的 C 语言。</p>
+<h6 id="tags-Go-Go学习"><a href="#tags-Go-Go学习" class="headerlink" title="tags: Go Go学习"></a>tags: <code>Go</code> <code>Go学习</code></h6>]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+        <tag>Go学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>雅各书 5 13-20</title>
+    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
+    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
+<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
+<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
+<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
+</blockquote>
+<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
+<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
+<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
+<blockquote>
+<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
+</blockquote>
+<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
+<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
+<ul>
+<li>认罪</li>
+<li>倾吐心声</li>
+<li>互相鼓励</li>
+<li>等等。。。</li>
+</ul>
+<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
+<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
+<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
+<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
+<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
@@ -2137,42 +2234,6 @@
       <tags>
         <tag>Go</tag>
         <tag>Go学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>雅各书 5 13-20</title>
-    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
-    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
-<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
-<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
-<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
-</blockquote>
-<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
-<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
-<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
-<blockquote>
-<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
-</blockquote>
-<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
-<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
-<ul>
-<li>认罪</li>
-<li>倾吐心声</li>
-<li>互相鼓励</li>
-<li>等等。。。</li>
-</ul>
-<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
-<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
-<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
-<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
-<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
