@@ -1,7 +1,7 @@
 ---
 title: 高性能Python编程（1）
 date: 2021-06-24
-tags: Python
+tags: [Python, Profiling]
 categories: Coding
 ---
 
