@@ -227,6 +227,113 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/05/go_sync/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/05/go_sync/" class="post-title-link" itemprop="url">Go 学习笔记 Memory Access Synchronization</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-04-05 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-05T00:00:00Z">2021-04-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/04/05/go_sync/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/05/go_sync/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>7.9k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>7 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Go-学习笔记-Memory-Access-Synchronization"><a href="#Go-学习笔记-Memory-Access-Synchronization" class="headerlink" title="Go 学习笔记 Memory Access Synchronization"></a>Go 学习笔记 Memory Access Synchronization</h1><p>Go 对并发有良好的支持，主要支持两种模式：CSP 和 MAS。前一种是大家熟知的Go常用模式（<code>goroutine</code> + <code>chan</code>），后面一种其实就是传统的带锁的并发编程（<code>sync</code> 包）。Go 对这两种并发都有良好的支持，同时也提倡在合适的时候混合使用他们，因为这两种并发的应用场景不太一样。</p>
+<p>但是总体老说，MAS 不是 Go 并发的首选模式，应该在谨慎考虑后使用，尽量多使用 CSP 构造函数。Go 的基本哲学是：</p>
+<blockquote>
+<p>在可能的场景下使用 channel，将 goroutine 视为非常廉价的操作。</p>
+</blockquote>
+<h2 id="何时（不）选择-MAS"><a href="#何时（不）选择-MAS" class="headerlink" title="何时（不）选择 MAS"></a>何时（不）选择 MAS</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/05/go_sync/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/04/go_python_1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -443,110 +550,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/30/go_4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/30/go_4/" class="post-title-link" itemprop="url">Go 学习笔记4 抽象方法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-03-30 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-30T00:00:00Z">2021-03-30</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/03/30/go_4/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/30/go_4/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.1k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Go-学习笔记4-抽象模式"><a href="#Go-学习笔记4-抽象模式" class="headerlink" title="Go 学习笔记4 抽象模式"></a>Go 学习笔记4 抽象模式</h1><p>Go 的抽象方法主要通过函数、方法和接口三种方式。</p>
-<h2 id="函数，Function"><a href="#函数，Function" class="headerlink" title="函数，Function"></a>函数，Function</h2><p>Go 中函数是一等公民，可以被传递、返回，具有类型，是组织程序的基本元素。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func name(params-list) (returns-list) &#123;</span><br><span class="line">    body</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/30/go_4/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/30/go_3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -651,7 +654,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/30/go_4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/lambda.jpeg">
@@ -665,7 +668,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/" class="post-title-link" itemprop="url">雅各书 5 13-20</a>
+            <a href="/2021/03/30/go_4/" class="post-title-link" itemprop="url">Go 学习笔记4 抽象方法</a>
         </h2>
 
         <div class="post-meta">
@@ -675,7 +678,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-03-28 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-28T00:00:00Z">2021-03-28</time>
+              <time title="Created: 2021-03-30 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-30T00:00:00Z">2021-03-30</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -683,7 +686,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bible/" itemprop="url" rel="index"><span itemprop="name">Bible</span></a>
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
                 </span>
             </span>
 
@@ -696,8 +699,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/28/雅各书5/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/03/30/go_4/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/30/go_4/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -707,14 +710,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1k</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
+              <span>2 mins.</span>
             </span>
 
         </div>
@@ -726,14 +729,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
-<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
-<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
-<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
-</blockquote>
+          <h1 id="Go-学习笔记4-抽象模式"><a href="#Go-学习笔记4-抽象模式" class="headerlink" title="Go 学习笔记4 抽象模式"></a>Go 学习笔记4 抽象模式</h1><p>Go 的抽象方法主要通过函数、方法和接口三种方式。</p>
+<h2 id="函数，Function"><a href="#函数，Function" class="headerlink" title="函数，Function"></a>函数，Function</h2><p>Go 中函数是一等公民，可以被传递、返回，具有类型，是组织程序的基本元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func name(params-list) (returns-list) &#123;</span><br><span class="line">    body</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/#more" rel="contents">
+              <a class="btn" href="/2021/03/30/go_4/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -845,6 +846,112 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/03/28/go_2/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/" class="post-title-link" itemprop="url">雅各书 5 13-20</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-03-28 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-28T00:00:00Z">2021-03-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bible/" itemprop="url" rel="index"><span itemprop="name">Bible</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/28/雅各书5/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
+<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
+<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
+<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1182,111 +1289,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/20/python_6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/20/python_6/" class="post-title-link" itemprop="url">重新认识 Python（7）CPython初探</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-03-20 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-20T00:00:00Z">2021-03-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/03/20/python_6/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/20/python_6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>7.6k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>7 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="重新认识-Python（7）CPython初探"><a href="#重新认识-Python（7）CPython初探" class="headerlink" title="重新认识 Python（7）CPython初探"></a>重新认识 Python（7）CPython初探</h1><p>CPython 是 Python 社区的标准，其他版本的 Python，比如 pypy，都会遵行 CPython 的标准API实现。想要更深入的认识 Python，就需要了解 CPython 实现。这一期，我就带大家认识一下 CPython 源代码，为日后改造 Python 做准备。首先，展示如何本地编译最新的 CPython代码。然后，展示如何 debug 编译好的解释器。最后我们会利用 CPython 实现简单的函数调用。</p>
-<p>本文会为你揭开 CPython 的面纱，带你进入 C + Python 的世界。文章的最后，你也会对 Python 中最重要的概念：一切皆对象（object）有更深刻的认识；你还会发现一点点线索，为什么Python用起来比其他语言，比如 C 慢很多。</p>
-<p>请打开编辑器和命令行，我们开始。（本文主要使用MacOS，Windows 不一定可以直接实现）。</p>
-<h2 id="当我们再说-Python，我们在说什么？"><a href="#当我们再说-Python，我们在说什么？" class="headerlink" title="当我们再说 Python，我们在说什么？"></a>当我们再说 Python，我们在说什么？</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/20/python_6/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1358,7 +1360,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">101</span>
+          <span class="site-state-item-count">102</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1369,7 +1371,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">66</span>
+        <span class="site-state-item-count">67</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1422,13 +1424,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">291k</span>
+    <span title="Symbols count total">295k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">4:24</span>
+    <span title="Reading time total">4:28</span>
 </div>
 
 <span id="timeDate">Loding time...</span><span id="times">...</span>

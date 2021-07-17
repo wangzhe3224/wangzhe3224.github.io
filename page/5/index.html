@@ -227,6 +227,111 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/20/python_6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/20/python_6/" class="post-title-link" itemprop="url">重新认识 Python（7）CPython初探</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-03-20 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-20T00:00:00Z">2021-03-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/03/20/python_6/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/20/python_6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>7.6k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>7 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="重新认识-Python（7）CPython初探"><a href="#重新认识-Python（7）CPython初探" class="headerlink" title="重新认识 Python（7）CPython初探"></a>重新认识 Python（7）CPython初探</h1><p>CPython 是 Python 社区的标准，其他版本的 Python，比如 pypy，都会遵行 CPython 的标准API实现。想要更深入的认识 Python，就需要了解 CPython 实现。这一期，我就带大家认识一下 CPython 源代码，为日后改造 Python 做准备。首先，展示如何本地编译最新的 CPython代码。然后，展示如何 debug 编译好的解释器。最后我们会利用 CPython 实现简单的函数调用。</p>
+<p>本文会为你揭开 CPython 的面纱，带你进入 C + Python 的世界。文章的最后，你也会对 Python 中最重要的概念：一切皆对象（object）有更深刻的认识；你还会发现一点点线索，为什么Python用起来比其他语言，比如 C 慢很多。</p>
+<p>请打开编辑器和命令行，我们开始。（本文主要使用MacOS，Windows 不一定可以直接实现）。</p>
+<h2 id="当我们再说-Python，我们在说什么？"><a href="#当我们再说-Python，我们在说什么？" class="headerlink" title="当我们再说 Python，我们在说什么？"></a>当我们再说 Python，我们在说什么？</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/20/python_6/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/11/python_5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -308,6 +413,112 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/03/11/python_5/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/07/yageshu_13/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/07/yageshu_13/" class="post-title-link" itemprop="url">雅各书 3-4</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-03-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-07T00:00:00Z">2021-03-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bible/" itemprop="url" rel="index"><span itemprop="name">Bible</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/03/07/yageshu_13/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/07/yageshu_13/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>809</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
+<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
+</blockquote>
+<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
+<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/07/yageshu_13/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -441,7 +652,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/07/yageshu_13/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/06/pyos_1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/lambda.jpeg">
@@ -455,7 +666,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/03/07/yageshu_13/" class="post-title-link" itemprop="url">雅各书 3-4</a>
+            <a href="/2021/03/06/pyos_1/" class="post-title-link" itemprop="url">编程101 PyOS 一个Python写的OS</a>
         </h2>
 
         <div class="post-meta">
@@ -465,7 +676,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-03-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-07T00:00:00Z">2021-03-07</time>
+              <time title="Created: 2021-03-06 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-06T00:00:00Z">2021-03-06</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -473,7 +684,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bible/" itemprop="url" rel="index"><span itemprop="name">Bible</span></a>
+                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
                 </span>
             </span>
 
@@ -486,8 +697,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/03/07/yageshu_13/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/07/yageshu_13/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/03/06/pyos_1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/06/pyos_1/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -497,14 +708,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>809</span>
+              <span>5k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
+              <span>5 mins.</span>
             </span>
 
         </div>
@@ -516,14 +727,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
-<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
+          <h1 id="PyOS-一个Python写的OS（1）"><a href="#PyOS-一个Python写的OS（1）" class="headerlink" title="PyOS - 一个Python写的OS（1）"></a>PyOS - 一个Python写的OS（1）</h1><blockquote>
+<p>引用自David Beazley的视频PPT</p>
 </blockquote>
-<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
-<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2>
+<p>PyOS 这个系列，我们进一步利用协程的特性，一步一步的构建一个多任务操作系统。系列的最后，我们会在我们自己写的PyOS上实现一个 Web Client/Server。</p>
+<p>当然，这不是真正的操作系统，而是一个操作系统上的操作系统。。哈哈。完成这个系列可以对并发编程、协程、操作系统多任务管理、IO有更深刻的认识。当然，你还会收货成就感。</p>
+<p>对协程不太了解的同学请看：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/354982602">https://zhuanlan.zhihu.com/p/354982602</a></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/03/07/yageshu_13/#more" rel="contents">
+              <a class="btn" href="/2021/03/06/pyos_1/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -628,113 +840,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/03/06/pyos_2/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/06/pyos_1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/06/pyos_1/" class="post-title-link" itemprop="url">编程101 PyOS 一个Python写的OS</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-03-06 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-06T00:00:00Z">2021-03-06</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/03/06/pyos_1/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/06/pyos_1/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>5k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>5 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="PyOS-一个Python写的OS（1）"><a href="#PyOS-一个Python写的OS（1）" class="headerlink" title="PyOS - 一个Python写的OS（1）"></a>PyOS - 一个Python写的OS（1）</h1><blockquote>
-<p>引用自David Beazley的视频PPT</p>
-</blockquote>
-<p>PyOS 这个系列，我们进一步利用协程的特性，一步一步的构建一个多任务操作系统。系列的最后，我们会在我们自己写的PyOS上实现一个 Web Client/Server。</p>
-<p>当然，这不是真正的操作系统，而是一个操作系统上的操作系统。。哈哈。完成这个系列可以对并发编程、协程、操作系统多任务管理、IO有更深刻的认识。当然，你还会收货成就感。</p>
-<p>对协程不太了解的同学请看：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/354982602">https://zhuanlan.zhihu.com/p/354982602</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/06/pyos_1/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -969,110 +1074,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/18/python_memory_mgt/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lambda.jpeg">
-      <meta itemprop="name" content="Zhe">
-      <meta itemprop="description" content="Things are correlated">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhe">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/18/python_memory_mgt/" class="post-title-link" itemprop="url">重新认识 Python（2）内存管理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-02-18 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-18T00:00:00Z">2021-02-18</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/02/18/python_memory_mgt/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/18/python_memory_mgt/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>7k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>6 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="重新认识-Python（2）：内存管理"><a href="#重新认识-Python（2）：内存管理" class="headerlink" title="重新认识 Python（2）：内存管理"></a>重新认识 Python（2）：内存管理</h1><p>理解内存管理需要知道通常内存使用的基本规则。一般来说，一个进程的内存会被划分成两个部分，堆（heap）和栈（stack）。栈的结构相对简单，本质上就是一个先进后出队列，所有被分配在栈上的值必须是确定大小的、静态的。栈的功能主要是临时存储函数运行时的参数、临时变量和结果。显然，在程序运行的时候，我们需要产生许多大小不固定且动态的值，比如对象、列表、字典等等，这些数据结构不能直接分配到栈上，因此我们需要堆来存放这些值。相应的，堆的内存空间往往比栈大的多。</p>
-<p>而我们通常将的内存管理，本质上是堆管理，不是栈管理。</p>
-<h2 id="对象，Object"><a href="#对象，Object" class="headerlink" title="对象，Object"></a>对象，Object</h2><p>Python的内存管理主要是针对“一切皆对象”这个设计理念设计的（这里我们仅针对CPython实现展开说明。）。什么是对象，Object？在Python的世界里对象就是任何分配在堆中的值。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/02/18/python_memory_mgt/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/18/python_gil/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1177,7 +1178,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/16/python_1_gc/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/18/python_memory_mgt/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/lambda.jpeg">
@@ -1191,7 +1192,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/python_1_gc/" class="post-title-link" itemprop="url">重新认识 Python（1）GC，垃圾回收</a>
+            <a href="/2021/02/18/python_memory_mgt/" class="post-title-link" itemprop="url">重新认识 Python（2）内存管理</a>
         </h2>
 
         <div class="post-meta">
@@ -1201,7 +1202,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-02-16 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-16T00:00:00Z">2021-02-16</time>
+              <time title="Created: 2021-02-18 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-18T00:00:00Z">2021-02-18</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1222,8 +1223,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/02/16/python_1_gc/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/16/python_1_gc/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/02/18/python_memory_mgt/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/18/python_memory_mgt/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1233,14 +1234,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>3.8k</span>
+              <span>7k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>3 mins.</span>
+              <span>6 mins.</span>
             </span>
 
         </div>
@@ -1252,12 +1253,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="重新认识-Python（1）：GC，垃圾回收"><a href="#重新认识-Python（1）：GC，垃圾回收" class="headerlink" title="重新认识 Python（1）：GC，垃圾回收"></a>重新认识 Python（1）：GC，垃圾回收</h1><p>Python是目前受众最为广泛的计算机语言之一，涉足的领域包罗万象：Web，机器学习，数据处理，爬虫等等。使用Python的人群也非常多样， 从专业的程序员到数据科学家。这种现状也导致了一个现象：大家对Python存在很多道听途说来的误解。比如，Python是解释型语言（其实python 还真不是，Python是编译型的，只不过他通过解释器执行编译后的代码，其实跟Java一样的，只不过java用虚拟机执行、解释代码），Python非常慢（讲快慢不讲场景都是耍流氓），GIL是垃圾设计（很多人其实不清楚GIL到底是什么？其设计初衷是什么？）， Python的GC很垃圾等等。这些误解通常是因为 Python过于火热，以至于内行、外行都可以随意评论一番，一些误解也就慢慢蔓延开来。我写这个系列的目的就是帮助大家重新认识Python，把 Python当成一个计算机语言，而不是一个工具来认识它。这样不仅会增加对语言本身的理解，也可以提高编写Python代码的质量。</p>
-<p>今天我们先来聊一聊Python的GC。(CPython)</p>
-<h2 id="Python的内存管理"><a href="#Python的内存管理" class="headerlink" title="Python的内存管理"></a>Python的内存管理</h2><p>说GC之前，我们先来看看Python的内存管理。与许多其他语言不同，由于Python中的所有值都是一个对象，object，所以Python程序运行的时候会产生数量众多但是体积很小的对象。因此，Python通常不会把已经申请的内存交还给操作系统，他会为每一个小于512byte的对象分配一个专门的allocator并且不会释放这些内存，方便以后继续使用。Python的很多内存直到进程结束才会释放给系统。</p>
+          <h1 id="重新认识-Python（2）：内存管理"><a href="#重新认识-Python（2）：内存管理" class="headerlink" title="重新认识 Python（2）：内存管理"></a>重新认识 Python（2）：内存管理</h1><p>理解内存管理需要知道通常内存使用的基本规则。一般来说，一个进程的内存会被划分成两个部分，堆（heap）和栈（stack）。栈的结构相对简单，本质上就是一个先进后出队列，所有被分配在栈上的值必须是确定大小的、静态的。栈的功能主要是临时存储函数运行时的参数、临时变量和结果。显然，在程序运行的时候，我们需要产生许多大小不固定且动态的值，比如对象、列表、字典等等，这些数据结构不能直接分配到栈上，因此我们需要堆来存放这些值。相应的，堆的内存空间往往比栈大的多。</p>
+<p>而我们通常将的内存管理，本质上是堆管理，不是栈管理。</p>
+<h2 id="对象，Object"><a href="#对象，Object" class="headerlink" title="对象，Object"></a>对象，Object</h2><p>Python的内存管理主要是针对“一切皆对象”这个设计理念设计的（这里我们仅针对CPython实现展开说明。）。什么是对象，Object？在Python的世界里对象就是任何分配在堆中的值。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/02/16/python_1_gc/#more" rel="contents">
+              <a class="btn" href="/2021/02/18/python_memory_mgt/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1348,7 +1349,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">101</span>
+          <span class="site-state-item-count">102</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1359,7 +1360,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">66</span>
+        <span class="site-state-item-count">67</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1412,13 +1413,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">291k</span>
+    <span title="Symbols count total">295k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">4:24</span>
+    <span title="Reading time total">4:28</span>
 </div>
 
 <span id="timeDate">Loding time...</span><span id="times">...</span>
