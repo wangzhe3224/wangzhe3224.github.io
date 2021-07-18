@@ -1,6 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>自学计算机书籍和课程推荐</title>
+    <url>/2021/07/18/learning_2/</url>
+    <content><![CDATA[<blockquote>
+<p>转行程序员的精雕细选、诚心推荐。</p>
+<p>文末付下载链接和课程链接。</p>
+</blockquote>
+<h1 id="自学计算机书籍和课程推荐"><a href="#自学计算机书籍和课程推荐" class="headerlink" title="自学计算机书籍和课程推荐"></a>自学计算机书籍和课程推荐</h1><blockquote>
+<p>⚠️ 切记<strong>不要</strong>只读书、看视频，不动手做练习、写程序。</p>
+<p>⚠️ 切记<strong>不要</strong>求速度，不做练习、不写程序</p>
+</blockquote>
+<p>这些课程和书籍是我食用后觉得良心且有帮助的资源，他们不仅仅可以帮助你学习计算机科学，也会帮助你领略一点点计算机的优雅和美丽。这些主题可能听起来没有大数据、云计算那么华丽，但却道出了真正理解这些技术的真正要素。计算机科学太年轻了（不到100年历史），学习技术的收益远没有学习基础高</p>
+<h2 id="计算机基础"><a href="#计算机基础" class="headerlink" title="计算机基础"></a>计算机基础</h2><p>计算机入门书籍，我只推荐三本，而这三本 SICP 和 HTDP 可以先选择其中一本必读, CSAPP 是必读的。但是个人建议如果计算机基础差一些，建议HTDP，SICP 可以以后再读。</p>
+<h3 id="《Structure-and-Interpretation-of-Computer-Programs》（SICP）"><a href="#《Structure-and-Interpretation-of-Computer-Programs》（SICP）" class="headerlink" title="《Structure and Interpretation of Computer Programs》（SICP）"></a>《Structure and Interpretation of Computer Programs》（SICP）</h3><blockquote>
+<p>《计算机程序的构造和解释》</p>
+</blockquote>
+<p><img data-src="https://i.imgur.com/rHsSNr8.png" alt="SICP"></p>
+<p>这是一本来自麻省理工大学，经历20多年仍然充满活力的好书。这是一本关于计算机程序设计的总体性观念的入门书，书本中采用一种lisp方言 - Scheme作为所有例子和练习的实现语言。作者从基础的程序设计一直讲道了解释器和编译器的实现，编程范式从过程式、函数式到面向对象、面向并发都有涉及，但是讲解非常清晰。小编读完（花了两年时间，期间放弃了无数次）后，只能说：我还想再读一遍。</p>
+<blockquote>
+<p>小知识：Lisp诞生于1958年，是一个比C和Fortran更古老的函数式编程语言。</p>
+</blockquote>
+<p>不过，小编的感觉此书当然可以一上来就读，不过如果有了几年的实战经验后重读效果更佳！因为你会有一种这本书中涉及到了你工作中会遇到的大多数事情，比如编程范式、抽象方法等等。</p>
+<p>有的小伙伴可能会忧虑：Scheme是个什么鬼？Lisp还活着吗？我不想用这个古老的语言，我要用Python！！好的好的，福音来了：</p>
+<p>来自伯克利的同名课程，但是所有课程资料和作业都是Python3！</p>
+<p><strong><a href="https://inst.eecs.berkeley.edu/~cs61a/sp12/">CS61A: Structure and Interpretation of Computer Programs</a></strong></p>
+<p>如果你对Scheme情有独钟，这里是MIT的原版视频：</p>
+<p><strong><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-001-structure-and-interpretation-of-computer-programs-spring-2005/">Structure and Interpretation of Computer Programs</a></strong></p>
+<h3 id="《How-to-Design-Programs》"><a href="#《How-to-Design-Programs》" class="headerlink" title="《How to Design Programs》"></a>《How to Design Programs》</h3><blockquote>
+<p>《如何设计程序》</p>
+</blockquote>
+<p><img data-src="https://i.imgur.com/VMju2ju.png" alt="HTDP"></p>
+<p>这是同样是一本经典的计算机程序设计入门书，采用另一个更现代的Lisp方言 - Racket 作为实现语言（是的，又是Lisp，这门古老的语言拥有强大的生命力）。与 SICP 相比，HTDP 更加注重程序设计的基本原则，材料组织更加平易近人，更容易读，难度也更低。小编认为是一本非常好的编程入门书，书中有大量的实例和练习题，从最简单的数据结构、递归讲到各种程序设计的抽象方法。</p>
+<p>这本书的在线版本：<a href="https://htdp.org">https://htdp.org</a></p>
+<h3 id="《Computer-Systems-A-Programmer’s-Perspective》"><a href="#《Computer-Systems-A-Programmer’s-Perspective》" class="headerlink" title="《Computer Systems: A Programmer’s Perspective》"></a>《Computer Systems: A Programmer’s Perspective》</h3><blockquote>
+<p>《深入理解计算机系统》</p>
+</blockquote>
+<p><img data-src="https://i.imgur.com/NkjpmYJ.png" alt="CSAPP"></p>
+<p>这本书中文被翻译成：深入理解计算机系统，我觉得不妥。原文的意思是给程序员看的计算机系书。这本书与前两本大不相同，他是从计算机硬件的角度切入的；而前两本是从软件和程序设计的角度切入。因此，这本书会解释你写的程序是如何被翻译成指令，如何被计算机执行，读完此书，你会理解：进程、并发、编译、虚拟内存、缓存等等计算机概念。此书采用C语言作为实现语言，总体来说，这是一门很“底层”的计算机入门课。</p>
+<p>如果你觉得只读书有点无趣，可以考虑这门课：</p>
+<p><strong><a href="https://www.bilibili.com/video/BV1XW411A7fB/">中文字幕的公开课！</a></strong></p>
+<h2 id="数据结构和算法"><a href="#数据结构和算法" class="headerlink" title="数据结构和算法"></a>数据结构和算法</h2><p>网上很多人推荐经典《Introduction to Algorithms》作为算法入门书，我觉得很不妥，特别对于无法进行全职科班教育的人群。这本书太过于理论了，我自己试了几次都放弃了。所以我推荐下面两本，任选其一。</p>
+<h3 id="《Algorithms》"><a href="#《Algorithms》" class="headerlink" title="《Algorithms》"></a>《Algorithms》</h3><blockquote>
+<p>《算法》</p>
+</blockquote>
+<p><img data-src="https://i.imgur.com/g8PPdyW.png" alt=""></p>
+<p>此书算是两大算法经典的另一个了，但是内容更加具体和实际一些，Java实现的，全部读完也需要一定的时间和耐心。</p>
+<p>可以配合这个Coursera课程：</p>
+<p><a href="https://www.coursera.org/learn/algorithms-part1">同名课程</a></p>
+<h3 id="《Data-Structures-and-Algorithms-in-Python》"><a href="#《Data-Structures-and-Algorithms-in-Python》" class="headerlink" title="《Data Structures and Algorithms in Python》"></a>《Data Structures and Algorithms in Python》</h3><blockquote>
+<p>《数据结构和算法 - Python》</p>
+</blockquote>
+<p><img data-src="https://i.imgur.com/T7QHhmB.png" alt="Data Structures and Algorithms in Python"></p>
+<p>这一本我觉得更加亲民，特别是如果你已经在使用Python了，这本读起来会非常舒服，而且内容覆盖也比较全面。</p>
+<h2 id="编程语言"><a href="#编程语言" class="headerlink" title="编程语言"></a>编程语言</h2><p>编程语言书籍的推荐比较困难，因为各人的差异巨大。我的建议是根据自己的工作情况选择一个语言，然后再去选择书籍。</p>
+<p>这里只推荐一门非常棒的课程，来自康奈尔的 CS3110。这是一门教你学会如何学会任何编程语言的课程，让你成为一个更好的程序员。</p>
+<p><a href="https://www.cs.cornell.edu/courses/cs3110/2020sp/">CS3110 Data Structures and Functional Programming</a></p>
+<p>如果时间充裕，可以尝试学习以下几种语言来体验不同的编程体验：</p>
+<ul>
+<li>C</li>
+<li>Ocaml</li>
+<li>Go</li>
+<li>Lisp的一种：Scheme、Racket、Clojure等等</li>
+</ul>
+<p>我没有列出Python、Java和C++，因为我猜你们一定已经在工作使用这些语言啦！</p>
+<p>推荐他们的原因很简单：这些语言本身很简单，他们代表了不同的范式。我会在后续的文章中对不同的语言进行书籍和资源推荐。</p>
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><p>有了计算机和算法基础，加上对编程语言的熟悉，我们就可以开始更加深入的计算机之旅了。计算机的几大浪漫：</p>
+<ul>
+<li>操作系统</li>
+<li>数据库</li>
+<li>计算机网络</li>
+<li>编译原理</li>
+</ul>
+<p>编译原理参考书没有提及，初学计算机的人可以先跳过这门课，因为这门课需要太多其他基础，比如操作系统、计算机语言、词法分析等等，而且编译原理通常只有在特定的工作岗位才会需要，一般的知识在计算机基础中已经有足够的涉猎。</p>
+<p>下面这些书籍和课程需要在计算基础、算法、编程语言三项学习完成后食用，否则可能会错过这些资源的精华。</p>
+<h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p><strong>《Operating Systems: Three Easy Pieces》</strong></p>
+<blockquote>
+<p>《操作系统：三堂简单的课》</p>
+</blockquote>
+<p>此书是我认为最适合初学者的操作系统书。课程方面，推荐MIT的经典6.S081，这门课程的Lab有一定难度，都做下来对操作系统的重要概念比如：虚拟内存、中断、并发、文件系统等有更加深刻的理解。这门课对 C 语言有要求。</p>
+<p><strong><a href="https://pdos.csail.mit.edu/6.828/2020/schedule.html">MIT 6.S081</a></strong></p>
+<p>更妙的是：<strong>这门课是有视频的</strong></p>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>数据库只推荐一个课程，CMU 15-445 包括了SQL原理和数据库底层实现，但是这门课需要良好的C++功底。</p>
+<p><strong><a href="https://15445.courses.cs.cmu.edu/fall2019/schedule.html">CMU 15-445</a></strong></p>
+<p>更妙的是：<strong>这门课是有视频的</strong></p>
+<h3 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h3><p>CMU 15-441 有不错的结构和合理的Lab。</p>
+<p><strong><a href="https://computer-networks.github.io/sp19/index.html">CMU 15-441</a></strong></p>
+<h2 id="再进阶"><a href="#再进阶" class="headerlink" title="再进阶"></a>再进阶</h2><h3 id="分布式系统"><a href="#分布式系统" class="headerlink" title="分布式系统"></a>分布式系统</h3><p>分布式系统近年来大火，但是这是一个交叉学科，学起来并不容易，需要操作系统、计算机网络和数据库等多种知识做背景。</p>
+<p>好在这个领域MIT有一门神课，不仅内容充分，而且配有视频和lab，就是</p>
+<p><a href="https://pdos.csail.mit.edu/6.824/schedule.html">MIT 6.824: Distributed Systems</a></p>
+<p>资源下载：搜索微信公众号：泛程序员 。选择：资源 - 计算机。</p>
+]]></content>
+      <categories>
+        <category>FanCoder</category>
+      </categories>
+      <tags>
+        <tag>Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>系统化程序设计 - 函数式</title>
+    <url>/2021/07/17/design_1/</url>
+    <content><![CDATA[<h1 id="系统化程序设计-函数式"><a href="#系统化程序设计-函数式" class="headerlink" title="系统化程序设计 - 函数式"></a>系统化程序设计 - 函数式</h1><ol>
+<li>从问题分析到数据定义</li>
+<li>签名、目的和头文件</li>
+<li>函数例子</li>
+<li>函数模板</li>
+<li>函数定义</li>
+<li>测试</li>
+</ol>
+<h2 id="从问题分析到数据定义"><a href="#从问题分析到数据定义" class="headerlink" title="从问题分析到数据定义"></a>从问题分析到数据定义</h2><p>确定哪些信息需要表达，明确在某个计算机语言中如何表达。确定数据结构后，写出实例。</p>
+<h2 id="签名、目的和头文件"><a href="#签名、目的和头文件" class="headerlink" title="签名、目的和头文件"></a>签名、目的和头文件</h2><p>说明那种数据设计的函数接受和返回。回答问题：函数计算什么？定义函数签名。</p>
+<h2 id="函数例子"><a href="#函数例子" class="headerlink" title="函数例子"></a>函数例子</h2><p>写出几个实例说明函数如何工作</p>
+<h2 id="函数模板"><a href="#函数模板" class="headerlink" title="函数模板"></a>函数模板</h2><p>把数据定义翻译成函数的骨架</p>
+<h2 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h2><p>根据上述步骤实现函数。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>把例子、场景分析转化成测试函数，并且确保函数通过测试。</p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>10年自学编程</title>
     <url>/2021/07/17/learn_coding/</url>
     <content><![CDATA[<h1 id="10年自学编程"><a href="#10年自学编程" class="headerlink" title="10年自学编程"></a>10年自学编程</h1><blockquote>
@@ -108,31 +231,6 @@
       </categories>
       <tags>
         <tag>Learning</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>系统化程序设计 - 函数式</title>
-    <url>/2021/07/17/design_1/</url>
-    <content><![CDATA[<h1 id="系统化程序设计-函数式"><a href="#系统化程序设计-函数式" class="headerlink" title="系统化程序设计 - 函数式"></a>系统化程序设计 - 函数式</h1><ol>
-<li>从问题分析到数据定义</li>
-<li>签名、目的和头文件</li>
-<li>函数例子</li>
-<li>函数模板</li>
-<li>函数定义</li>
-<li>测试</li>
-</ol>
-<h2 id="从问题分析到数据定义"><a href="#从问题分析到数据定义" class="headerlink" title="从问题分析到数据定义"></a>从问题分析到数据定义</h2><p>确定哪些信息需要表达，明确在某个计算机语言中如何表达。确定数据结构后，写出实例。</p>
-<h2 id="签名、目的和头文件"><a href="#签名、目的和头文件" class="headerlink" title="签名、目的和头文件"></a>签名、目的和头文件</h2><p>说明那种数据设计的函数接受和返回。回答问题：函数计算什么？定义函数签名。</p>
-<h2 id="函数例子"><a href="#函数例子" class="headerlink" title="函数例子"></a>函数例子</h2><p>写出几个实例说明函数如何工作</p>
-<h2 id="函数模板"><a href="#函数模板" class="headerlink" title="函数模板"></a>函数模板</h2><p>把数据定义翻译成函数的骨架</p>
-<h2 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h2><p>根据上述步骤实现函数。</p>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>把例子、场景分析转化成测试函数，并且确保函数通过测试。</p>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Design</tag>
       </tags>
   </entry>
   <entry>
@@ -931,59 +1029,6 @@
       </tags>
   </entry>
   <entry>
-    <title>1192 Critical Connections in a Network</title>
-    <url>/2021/04/24/leetcode_graph/</url>
-    <content><![CDATA[<h1 id="1192-Critical-Connections-in-a-Network"><a href="#1192-Critical-Connections-in-a-Network" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h1><ul>
-<li><a href="https://leetcode.com/problems/critical-connections-in-a-network/">1192. Critical Connections in a Network</a></li>
-<li><a href="https://leetcode.com/problems/all-paths-from-source-to-target/">797. All Paths From Source to Target</a></li>
-</ul>
-<h2 id="1192-Critical-Connections-in-a-Network-1"><a href="#1192-Critical-Connections-in-a-Network-1" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h2><p><strong>问题</strong></p>
-<blockquote>
-<p>There are n servers numbered from 0 to n-1 connected by undirected server-to-server connections forming a network where connections[i] = [a, b] represents a connection between servers a and b. Any server can reach any other server directly or indirectly through the network.A critical connection is a connection that, if removed, will make some server unable to reach some other server.<br>Return all critical connections in the network in any order.</p>
-</blockquote>
-<p><strong>例子</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: n &#x3D; 4, connections &#x3D; [[0,1],[1,2],[2,0],[1,3]]</span><br><span class="line">Output: [[1,3]]</span><br><span class="line">Explanation: [[3,1]] is also accepted.</span><br></pre></td></tr></table></figure>
-
-<p><strong>思路</strong></p>
-<p>思路1：暴力破解</p>
-<p>按照循序分别移除一个边，然后dfs剩下的图，如果DFS的深度小于节点数，说明移除的边是关键路线。这个思路简单，一旦边数量多起啦，就会超时。</p>
-<p>思路2：找循环</p>
-<p>关键路线其实就是不在 cycle 中的 edge，我们只需要找到所有不在循环中边，就是此题答案。</p>
-<p>下一个问题是：如何找到循环？无论哪种方法，我们需要遍历图，为了找到循环，最好的办法是DFS。DFS的过程中，需要一个特殊标记表明节点的深度，因为如果我们发现循环，等价于发现了一个节点，两次访问他深度不相同！</p>
-<p>现在还有一个问题，我们可以用标记在当前的搜索层发现循环，但是上一个层并不知道这个信息，我们需要把这个信息返回到上一层，其实就是回溯（backtraking）。</p>
-<p>我们的DFS函数永远返回当前节点的最小深度。</p>
-<p>假设我们在一个长度（深度）为<code>k</code>的DFS路径上（<code>dfs(node, k)</code>），看到了节点<code>node</code>，如果这个节点没有见过，标记他的深度；然后遍历他的相邻节点，如果发现相邻节点的深度刚好是k-1，说明这是他的父节点，跳过避免循环搜索；如果不是父节点，进入下一层搜索，<code>k+1</code>。</p>
-<p>然后我们分析回溯的部分，<code>back_depth = dfs(adj, depth+1)</code>。比较当前深度<code>k</code>和下一层回溯回来的深度<code>back_depth</code>，如果回溯回来的深度<code>dfs(adj)</code>小于<code>dfs(k)</code>，则<code>k</code>发现他的邻居<code>adj</code>找到了一个可以回到<code>k</code>或者<code>k</code>的祖先的循环，则边<code>(k, adj)</code>一定属于某个循环，移除。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solution</span>(<span class="params">connections, n</span>):</span></span><br><span class="line">    graph = build(connections, n)</span><br><span class="line">    mark = [-<span class="number">2</span>] * n</span><br><span class="line">    connections = <span class="built_in">set</span>(<span class="built_in">map</span>(<span class="built_in">tuple</span>, (<span class="built_in">map</span>(<span class="built_in">sorted</span>, connections))))</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">node, depth</span>):</span></span><br><span class="line">        <span class="keyword">if</span> mark[node] &gt;= <span class="number">0</span>:</span><br><span class="line">            <span class="comment"># visited already!</span></span><br><span class="line">            <span class="keyword">return</span> mark[node]</span><br><span class="line">        </span><br><span class="line">        mark[node] = depth</span><br><span class="line">        min_back_depth = n</span><br><span class="line">        <span class="keyword">for</span> adj <span class="keyword">in</span> graph[node]:</span><br><span class="line">            <span class="keyword">if</span> mark[adj] == depth - <span class="number">1</span>:</span><br><span class="line">                <span class="comment"># visited from prev level</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            back_depth = dfs(adj, depth+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> back_depth &lt;= depth:  <span class="comment"># found cycle</span></span><br><span class="line">                connections.discard(<span class="built_in">tuple</span>(<span class="built_in">sorted</span>((node, adj))))</span><br><span class="line">            </span><br><span class="line">            min_back_depth = <span class="built_in">min</span>(back_depth, min_back_depth)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> min_back_depth</span><br><span class="line"></span><br><span class="line">    dfs(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>(connections)</span><br></pre></td></tr></table></figure>
-
-<h2 id="797-All-Paths-From-Source-to-Target"><a href="#797-All-Paths-From-Source-to-Target" class="headerlink" title="797. All Paths From Source to Target"></a>797. All Paths From Source to Target</h2><p><strong>问题</strong></p>
-<blockquote>
-<p>Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, find all possible paths from node 0 to node n - 1, and return them in any order.</p>
-<p>The graph is given as follows: graph[i] is a list of all nodes you can visit from node i (i.e., there is a directed edge from node i to node graph[i][j]).</p>
-</blockquote>
-<p><strong>例子</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Example 3:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1],[]]</span><br><span class="line">Output: [[0,1]]</span><br><span class="line"></span><br><span class="line">Example 4:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1,2,3],[2],[3],[]]</span><br><span class="line">Output: [[0,1,2,3],[0,2,3],[0,3]]</span><br><span class="line"></span><br><span class="line">Example 5:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1,3],[2],[3],[]]</span><br><span class="line">Output: [[0,1,2,3],[0,3]]</span><br></pre></td></tr></table></figure>
-
-<p><strong>思路</strong></p>
-<p>基本的DFS回溯问题，我们套用模板。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allPathsSourceTarget</span>(<span class="params">self, graph</span>):</span></span><br><span class="line">        <span class="comment"># backtrack</span></span><br><span class="line">        res = []</span><br><span class="line">        path = [<span class="number">0</span>]</span><br><span class="line">        N = <span class="built_in">len</span>(graph) - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">_dfs</span>(<span class="params">node</span>):</span></span><br><span class="line">            <span class="comment"># 模板：结束条件</span></span><br><span class="line">            <span class="keyword">if</span> node == N:</span><br><span class="line">                res.append(path[:])</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            <span class="comment"># 模板：遍历所有下一个步骤</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> graph[node]:</span><br><span class="line">                path.append(i)</span><br><span class="line">                <span class="comment"># 模板：走向更深</span></span><br><span class="line">                _dfs(i)</span><br><span class="line">                <span class="comment"># 模板：恢复状态，继续循环</span></span><br><span class="line">                path.pop()</span><br><span class="line">                </span><br><span class="line">        _dfs(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-
-<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
-<li><a href="https://leetcode.com/problems/critical-connections-in-a-network/discuss/382638/DFS-detailed-explanation-O(orEor)-solution">https://leetcode.com/problems/critical-connections-in-a-network/discuss/382638/DFS-detailed-explanation-O(orEor)-solution</a></li>
-</ul>
-<h6 id="tags-Leetcode-Graph-BFS-DFS"><a href="#tags-Leetcode-Graph-BFS-DFS" class="headerlink" title="tags: Leetcode Graph BFS DFS"></a>tags: <code>Leetcode</code> <code>Graph</code> <code>BFS</code> <code>DFS</code></h6>]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Graph</tag>
-        <tag>DFS</tag>
-        <tag>BFS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSAPP 6 存储的层次</title>
     <url>/2021/04/24/csapp_6/</url>
     <content><![CDATA[<h1 id="CSAPP-6-存储的层次"><a href="#CSAPP-6-存储的层次" class="headerlink" title="CSAPP 6 存储的层次"></a>CSAPP 6 存储的层次</h1><p>本书之前讨论的模型注重CPU执行程序的过程和方式，而其中内存被当做一个简单的byte array，可以实现O(1)访问。但是，这个内存模型是简化的，实际计算的内存是一个层状模型，每一层都有不同的承载力和访问开销。</p>
@@ -1175,6 +1220,59 @@
       </categories>
       <tags>
         <tag>CSAPP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1192 Critical Connections in a Network</title>
+    <url>/2021/04/24/leetcode_graph/</url>
+    <content><![CDATA[<h1 id="1192-Critical-Connections-in-a-Network"><a href="#1192-Critical-Connections-in-a-Network" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h1><ul>
+<li><a href="https://leetcode.com/problems/critical-connections-in-a-network/">1192. Critical Connections in a Network</a></li>
+<li><a href="https://leetcode.com/problems/all-paths-from-source-to-target/">797. All Paths From Source to Target</a></li>
+</ul>
+<h2 id="1192-Critical-Connections-in-a-Network-1"><a href="#1192-Critical-Connections-in-a-Network-1" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h2><p><strong>问题</strong></p>
+<blockquote>
+<p>There are n servers numbered from 0 to n-1 connected by undirected server-to-server connections forming a network where connections[i] = [a, b] represents a connection between servers a and b. Any server can reach any other server directly or indirectly through the network.A critical connection is a connection that, if removed, will make some server unable to reach some other server.<br>Return all critical connections in the network in any order.</p>
+</blockquote>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: n &#x3D; 4, connections &#x3D; [[0,1],[1,2],[2,0],[1,3]]</span><br><span class="line">Output: [[1,3]]</span><br><span class="line">Explanation: [[3,1]] is also accepted.</span><br></pre></td></tr></table></figure>
+
+<p><strong>思路</strong></p>
+<p>思路1：暴力破解</p>
+<p>按照循序分别移除一个边，然后dfs剩下的图，如果DFS的深度小于节点数，说明移除的边是关键路线。这个思路简单，一旦边数量多起啦，就会超时。</p>
+<p>思路2：找循环</p>
+<p>关键路线其实就是不在 cycle 中的 edge，我们只需要找到所有不在循环中边，就是此题答案。</p>
+<p>下一个问题是：如何找到循环？无论哪种方法，我们需要遍历图，为了找到循环，最好的办法是DFS。DFS的过程中，需要一个特殊标记表明节点的深度，因为如果我们发现循环，等价于发现了一个节点，两次访问他深度不相同！</p>
+<p>现在还有一个问题，我们可以用标记在当前的搜索层发现循环，但是上一个层并不知道这个信息，我们需要把这个信息返回到上一层，其实就是回溯（backtraking）。</p>
+<p>我们的DFS函数永远返回当前节点的最小深度。</p>
+<p>假设我们在一个长度（深度）为<code>k</code>的DFS路径上（<code>dfs(node, k)</code>），看到了节点<code>node</code>，如果这个节点没有见过，标记他的深度；然后遍历他的相邻节点，如果发现相邻节点的深度刚好是k-1，说明这是他的父节点，跳过避免循环搜索；如果不是父节点，进入下一层搜索，<code>k+1</code>。</p>
+<p>然后我们分析回溯的部分，<code>back_depth = dfs(adj, depth+1)</code>。比较当前深度<code>k</code>和下一层回溯回来的深度<code>back_depth</code>，如果回溯回来的深度<code>dfs(adj)</code>小于<code>dfs(k)</code>，则<code>k</code>发现他的邻居<code>adj</code>找到了一个可以回到<code>k</code>或者<code>k</code>的祖先的循环，则边<code>(k, adj)</code>一定属于某个循环，移除。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solution</span>(<span class="params">connections, n</span>):</span></span><br><span class="line">    graph = build(connections, n)</span><br><span class="line">    mark = [-<span class="number">2</span>] * n</span><br><span class="line">    connections = <span class="built_in">set</span>(<span class="built_in">map</span>(<span class="built_in">tuple</span>, (<span class="built_in">map</span>(<span class="built_in">sorted</span>, connections))))</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">node, depth</span>):</span></span><br><span class="line">        <span class="keyword">if</span> mark[node] &gt;= <span class="number">0</span>:</span><br><span class="line">            <span class="comment"># visited already!</span></span><br><span class="line">            <span class="keyword">return</span> mark[node]</span><br><span class="line">        </span><br><span class="line">        mark[node] = depth</span><br><span class="line">        min_back_depth = n</span><br><span class="line">        <span class="keyword">for</span> adj <span class="keyword">in</span> graph[node]:</span><br><span class="line">            <span class="keyword">if</span> mark[adj] == depth - <span class="number">1</span>:</span><br><span class="line">                <span class="comment"># visited from prev level</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            back_depth = dfs(adj, depth+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> back_depth &lt;= depth:  <span class="comment"># found cycle</span></span><br><span class="line">                connections.discard(<span class="built_in">tuple</span>(<span class="built_in">sorted</span>((node, adj))))</span><br><span class="line">            </span><br><span class="line">            min_back_depth = <span class="built_in">min</span>(back_depth, min_back_depth)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> min_back_depth</span><br><span class="line"></span><br><span class="line">    dfs(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>(connections)</span><br></pre></td></tr></table></figure>
+
+<h2 id="797-All-Paths-From-Source-to-Target"><a href="#797-All-Paths-From-Source-to-Target" class="headerlink" title="797. All Paths From Source to Target"></a>797. All Paths From Source to Target</h2><p><strong>问题</strong></p>
+<blockquote>
+<p>Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, find all possible paths from node 0 to node n - 1, and return them in any order.</p>
+<p>The graph is given as follows: graph[i] is a list of all nodes you can visit from node i (i.e., there is a directed edge from node i to node graph[i][j]).</p>
+</blockquote>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Example 3:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1],[]]</span><br><span class="line">Output: [[0,1]]</span><br><span class="line"></span><br><span class="line">Example 4:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1,2,3],[2],[3],[]]</span><br><span class="line">Output: [[0,1,2,3],[0,2,3],[0,3]]</span><br><span class="line"></span><br><span class="line">Example 5:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1,3],[2],[3],[]]</span><br><span class="line">Output: [[0,1,2,3],[0,3]]</span><br></pre></td></tr></table></figure>
+
+<p><strong>思路</strong></p>
+<p>基本的DFS回溯问题，我们套用模板。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allPathsSourceTarget</span>(<span class="params">self, graph</span>):</span></span><br><span class="line">        <span class="comment"># backtrack</span></span><br><span class="line">        res = []</span><br><span class="line">        path = [<span class="number">0</span>]</span><br><span class="line">        N = <span class="built_in">len</span>(graph) - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">_dfs</span>(<span class="params">node</span>):</span></span><br><span class="line">            <span class="comment"># 模板：结束条件</span></span><br><span class="line">            <span class="keyword">if</span> node == N:</span><br><span class="line">                res.append(path[:])</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            <span class="comment"># 模板：遍历所有下一个步骤</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> graph[node]:</span><br><span class="line">                path.append(i)</span><br><span class="line">                <span class="comment"># 模板：走向更深</span></span><br><span class="line">                _dfs(i)</span><br><span class="line">                <span class="comment"># 模板：恢复状态，继续循环</span></span><br><span class="line">                path.pop()</span><br><span class="line">                </span><br><span class="line">        _dfs(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
+<li><a href="https://leetcode.com/problems/critical-connections-in-a-network/discuss/382638/DFS-detailed-explanation-O(orEor)-solution">https://leetcode.com/problems/critical-connections-in-a-network/discuss/382638/DFS-detailed-explanation-O(orEor)-solution</a></li>
+</ul>
+<h6 id="tags-Leetcode-Graph-BFS-DFS"><a href="#tags-Leetcode-Graph-BFS-DFS" class="headerlink" title="tags: Leetcode Graph BFS DFS"></a>tags: <code>Leetcode</code> <code>Graph</code> <code>BFS</code> <code>DFS</code></h6>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Graph</tag>
+        <tag>DFS</tag>
+        <tag>BFS</tag>
       </tags>
   </entry>
   <entry>
@@ -1710,19 +1808,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CSAPP 2 信息的表达和操作</title>
-    <url>/2021/04/09/csapp_2/</url>
-    <content><![CDATA[<h1 id="CSAPP-2-信息的表达和操作"><a href="#CSAPP-2-信息的表达和操作" class="headerlink" title="CSAPP 2 信息的表达和操作"></a>CSAPP 2 信息的表达和操作</h1><p>目前的计算机技术存储信息是二进制的，我们用0和1表达信息。最基本的信息有两种：整数和浮点数。字符串也会被编码成整数表达。从根本上说，我们规定了一些规则（向下文）来解释这些0和1。通过基本的代数法则就可以实现运算了。</p>
-<p>为了方便人类阅读，常用的编码进制包括8进制和16进制。</p>
-<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;csapp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;int: %d\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_dbl</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;double: %g\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int_arr</span><span class="params">(<span class="keyword">int</span> a[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;int array: [&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;=(<span class="keyword">sizeof</span>(a))/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]); i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d, &quot;</span>, a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_default</span><span class="params">()</span> </span>&#123; <span class="built_in">puts</span>(<span class="string">&quot;unknown argument&quot;</span>); &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> print(X) _Generic((X), \</span></span><br><span class="line">        <span class="keyword">int</span>: print_int, \</span><br><span class="line">        <span class="keyword">double</span>: print_dbl, \</span><br><span class="line">        <span class="keyword">int</span>*: print_int_arr, \</span><br><span class="line">        <span class="keyword">default</span>: print_default)(X)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> problem(x) printf(<span class="meta-string">&quot;\n * Problem %s: \n&quot;</span>, x)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> comment(x) printf(<span class="meta-string">&quot;%s\n&quot;</span>, x)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_float</span><span class="params">(<span class="keyword">float</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_pointer</span><span class="params">(<span class="keyword">void</span>* x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">void</span> *));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *x, <span class="keyword">int</span> *y)</span> </span>&#123;</span><br><span class="line">    *y = *x^*y;</span><br><span class="line">    *x = *x^*y; <span class="comment">/*Step2*/</span></span><br><span class="line">    *y = *x^*y; <span class="comment">/*Step3*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse_array</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> cnt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1,2,3  -&gt; 3,2,1</span></span><br><span class="line">    <span class="keyword">int</span> first, last;</span><br><span class="line">    <span class="keyword">for</span> (first=<span class="number">0</span>, last=cnt<span class="number">-1</span>;</span><br><span class="line">        first &lt; last;</span><br><span class="line">        first++, last--) &#123;</span><br><span class="line">            swap(&amp;a[first], &amp;a[last]);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">float</span> y = <span class="number">1.0</span>;</span><br><span class="line">    show_int(x);</span><br><span class="line">    show_float(y);</span><br><span class="line">    show_pointer(&amp;x);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof float is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof int is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="comment">// Problem 2.6</span></span><br><span class="line">    problem(<span class="string">&quot;2.6&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">3510593</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">3510593.0</span>;</span><br><span class="line">    show_int(b);   <span class="comment">// ? why this shows as same as a?</span></span><br><span class="line">    show_int(a);   <span class="comment">//        1101011001000101000001</span></span><br><span class="line">    show_float(b); <span class="comment">// 1001010010101100100010100000100</span></span><br><span class="line">    <span class="comment">// Problem 2.7</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *s = <span class="string">&quot;abcdef&quot;</span>;</span><br><span class="line">    show_bytes((byte_pointer)s, <span class="built_in">strlen</span>(s)); <span class="comment">//  61 62 63 64 65 66</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    a = 110</span></span><br><span class="line"><span class="comment">    b = 001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 110 ^ 001 = 111</span></span><br><span class="line"><span class="comment">    a = a ^ b  -&gt; a = 110 ^ 111 = 001</span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 001 ^ 111 = 110</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    problem(<span class="string">&quot;2.10&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> aa = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> bb = <span class="number">2</span>;</span><br><span class="line">    swap(&amp;aa, &amp;bb);</span><br><span class="line">    print(aa);</span><br><span class="line">    print(bb);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.11&quot;</span>);</span><br><span class="line">    comment(<span class="string">&quot;Note that a ^ a = 0&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a2[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    print(a2);</span><br><span class="line">    reverse_array(a2, <span class="number">3</span>);</span><br><span class="line">    print(a2);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.12&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> x12 = <span class="number">0x87654321</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 &amp; <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( x12 ^ <span class="number">0xFF</span> ));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 | <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( <span class="number">0x11</span> ^ <span class="number">0xFF</span> ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Computing</category>
-      </categories>
-      <tags>
-        <tag>CSAPP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nSum 问题</title>
     <url>/2021/04/09/leetcode_nSum/</url>
     <content><![CDATA[<h1 id="nSum-问题"><a href="#nSum-问题" class="headerlink" title="nSum 问题"></a>nSum 问题</h1><h2 id="2-Sum"><a href="#2-Sum" class="headerlink" title="2 Sum"></a>2 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
@@ -1780,6 +1865,19 @@
 <li>green thread</li>
 </ul>
 <h6 id="tags-CSAPP"><a href="#tags-CSAPP" class="headerlink" title="tags: CSAPP"></a>tags: <code>CSAPP</code></h6>]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>CSAPP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSAPP 2 信息的表达和操作</title>
+    <url>/2021/04/09/csapp_2/</url>
+    <content><![CDATA[<h1 id="CSAPP-2-信息的表达和操作"><a href="#CSAPP-2-信息的表达和操作" class="headerlink" title="CSAPP 2 信息的表达和操作"></a>CSAPP 2 信息的表达和操作</h1><p>目前的计算机技术存储信息是二进制的，我们用0和1表达信息。最基本的信息有两种：整数和浮点数。字符串也会被编码成整数表达。从根本上说，我们规定了一些规则（向下文）来解释这些0和1。通过基本的代数法则就可以实现运算了。</p>
+<p>为了方便人类阅读，常用的编码进制包括8进制和16进制。</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;csapp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;int: %d\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_dbl</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;double: %g\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int_arr</span><span class="params">(<span class="keyword">int</span> a[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;int array: [&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;=(<span class="keyword">sizeof</span>(a))/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]); i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d, &quot;</span>, a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_default</span><span class="params">()</span> </span>&#123; <span class="built_in">puts</span>(<span class="string">&quot;unknown argument&quot;</span>); &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> print(X) _Generic((X), \</span></span><br><span class="line">        <span class="keyword">int</span>: print_int, \</span><br><span class="line">        <span class="keyword">double</span>: print_dbl, \</span><br><span class="line">        <span class="keyword">int</span>*: print_int_arr, \</span><br><span class="line">        <span class="keyword">default</span>: print_default)(X)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> problem(x) printf(<span class="meta-string">&quot;\n * Problem %s: \n&quot;</span>, x)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> comment(x) printf(<span class="meta-string">&quot;%s\n&quot;</span>, x)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_float</span><span class="params">(<span class="keyword">float</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_pointer</span><span class="params">(<span class="keyword">void</span>* x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">void</span> *));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *x, <span class="keyword">int</span> *y)</span> </span>&#123;</span><br><span class="line">    *y = *x^*y;</span><br><span class="line">    *x = *x^*y; <span class="comment">/*Step2*/</span></span><br><span class="line">    *y = *x^*y; <span class="comment">/*Step3*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse_array</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> cnt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1,2,3  -&gt; 3,2,1</span></span><br><span class="line">    <span class="keyword">int</span> first, last;</span><br><span class="line">    <span class="keyword">for</span> (first=<span class="number">0</span>, last=cnt<span class="number">-1</span>;</span><br><span class="line">        first &lt; last;</span><br><span class="line">        first++, last--) &#123;</span><br><span class="line">            swap(&amp;a[first], &amp;a[last]);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">float</span> y = <span class="number">1.0</span>;</span><br><span class="line">    show_int(x);</span><br><span class="line">    show_float(y);</span><br><span class="line">    show_pointer(&amp;x);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof float is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof int is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="comment">// Problem 2.6</span></span><br><span class="line">    problem(<span class="string">&quot;2.6&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">3510593</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">3510593.0</span>;</span><br><span class="line">    show_int(b);   <span class="comment">// ? why this shows as same as a?</span></span><br><span class="line">    show_int(a);   <span class="comment">//        1101011001000101000001</span></span><br><span class="line">    show_float(b); <span class="comment">// 1001010010101100100010100000100</span></span><br><span class="line">    <span class="comment">// Problem 2.7</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *s = <span class="string">&quot;abcdef&quot;</span>;</span><br><span class="line">    show_bytes((byte_pointer)s, <span class="built_in">strlen</span>(s)); <span class="comment">//  61 62 63 64 65 66</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    a = 110</span></span><br><span class="line"><span class="comment">    b = 001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 110 ^ 001 = 111</span></span><br><span class="line"><span class="comment">    a = a ^ b  -&gt; a = 110 ^ 111 = 001</span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 001 ^ 111 = 110</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    problem(<span class="string">&quot;2.10&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> aa = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> bb = <span class="number">2</span>;</span><br><span class="line">    swap(&amp;aa, &amp;bb);</span><br><span class="line">    print(aa);</span><br><span class="line">    print(bb);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.11&quot;</span>);</span><br><span class="line">    comment(<span class="string">&quot;Note that a ^ a = 0&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a2[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    print(a2);</span><br><span class="line">    reverse_array(a2, <span class="number">3</span>);</span><br><span class="line">    print(a2);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.12&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> x12 = <span class="number">0x87654321</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 &amp; <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( x12 ^ <span class="number">0xFF</span> ));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 | <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( <span class="number">0x11</span> ^ <span class="number">0xFF</span> ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Computing</category>
       </categories>
@@ -2157,6 +2255,50 @@
       </tags>
   </entry>
   <entry>
+    <title>Go 学习笔记3 程序的构成</title>
+    <url>/2021/03/30/go_3/</url>
+    <content><![CDATA[<h1 id="Go-学习笔记3-程序的构成"><a href="#Go-学习笔记3-程序的构成" class="headerlink" title="Go 学习笔记3 程序的构成"></a>Go 学习笔记3 程序的构成</h1><h2 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h2><p>Go 采用驼峰命名：<code>thisVarIsGood</code>。如果一个 package 中的函数采用大写字母开头，这个函数可以被外界调用，否则隐藏，比如 <code>fmt.Println</code>。</p>
+<p>Go 的声明语句主要有四种：<code>var</code>, <code>const</code>, <code>type</code>, <code>func</code>。</p>
+<p><code>var</code>，变量声明：<code>var name type = expression</code>。如果省略 expression 的部分，Go 会给变量合法的初始值。<code>:=</code> 表达式，是简化的声明。</p>
+<p>指针是变量的地址，并不是每一个值都有地址，但是每一个变量都有地址。<code>new</code> 函数会返回该类型的指针。</p>
+<p>Go 的编译器会根据变量的具体生命周期决定是堆分配还是栈分配，生命周期也会影响垃圾回收的效率，如果一个局部变量被外部变量引用，那么即使函数已经返回，这个局部变量也不会被回收，同时编译器也会对他进行堆分配，而不是栈分配。</p>
+<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>Go 的类型系统相对比较简单（简陋？），主要类型包括四种：基本类型、组合类型、引用类型和接口类型。</p>
+<p>基本类型主要包括：</p>
+<ul>
+<li>整数, int8, int16, int32, int64, 还有无符号版本，uintptr</li>
+<li>浮点数, float16, float32</li>
+<li>复数, complex(r, i)</li>
+<li>布尔, true, false</li>
+<li>字符串, an immutable sequence of bytes. 可以是任何byte，通常是可读的字符串</li>
+</ul>
+<h2 id="组合类型"><a href="#组合类型" class="headerlink" title="组合类型"></a>组合类型</h2><ul>
+<li>Array</li>
+<li>Slice</li>
+<li>Map</li>
+<li>Struct</li>
+</ul>
+<p>Array 是长度固定、类型固定的连续内存空间。Array 初始化方式比较丰富：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a := [<span class="number">2</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">b := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">r := [...]<span class="keyword">int</span>&#123;<span class="number">99</span>: <span class="number">-1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Array 也可以用指针访问（就像 C 一样，<code>[]</code> 仅仅是指针的语法糖）：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">zero</span><span class="params">(ptr *[32]<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> ptr &#123;</span><br><span class="line">        ptr[i] = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Slice 是长度可变的、类型固定的连续内存空间。一个 Slice 包含三个部分：头指针、长度、长度极限。Slice 与 Array 不同，是不可比的。但是，可以测试 Slice 是否是 Nil。</p>
+<p>Maps 是哈希表，可以nest。</p>
+<p>Struct 类似 C 的结构体，是一个多种类型的组合类型。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Point <span class="keyword">struct</span>&#123; X, Y <span class="keyword">int</span> &#125;</span><br><span class="line">p := Point&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h2><p>整体感觉 Go 的程序构成与 C 语言非常类似。看起来就像带有 GC 和 并发内置的现代版本的 C 语言。</p>
+<h6 id="tags-Go-Go学习"><a href="#tags-Go-Go学习" class="headerlink" title="tags: Go Go学习"></a>tags: <code>Go</code> <code>Go学习</code></h6>]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+        <tag>Go学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go 学习笔记4 抽象方法</title>
     <url>/2021/03/30/go_4/</url>
     <content><![CDATA[<h1 id="Go-学习笔记4-抽象模式"><a href="#Go-学习笔记4-抽象模式" class="headerlink" title="Go 学习笔记4 抽象模式"></a>Go 学习笔记4 抽象模式</h1><p>Go 的抽象方法主要通过函数、方法和接口三种方式。</p>
@@ -2204,47 +2346,39 @@
       </tags>
   </entry>
   <entry>
-    <title>Go 学习笔记3 程序的构成</title>
-    <url>/2021/03/30/go_3/</url>
-    <content><![CDATA[<h1 id="Go-学习笔记3-程序的构成"><a href="#Go-学习笔记3-程序的构成" class="headerlink" title="Go 学习笔记3 程序的构成"></a>Go 学习笔记3 程序的构成</h1><h2 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h2><p>Go 采用驼峰命名：<code>thisVarIsGood</code>。如果一个 package 中的函数采用大写字母开头，这个函数可以被外界调用，否则隐藏，比如 <code>fmt.Println</code>。</p>
-<p>Go 的声明语句主要有四种：<code>var</code>, <code>const</code>, <code>type</code>, <code>func</code>。</p>
-<p><code>var</code>，变量声明：<code>var name type = expression</code>。如果省略 expression 的部分，Go 会给变量合法的初始值。<code>:=</code> 表达式，是简化的声明。</p>
-<p>指针是变量的地址，并不是每一个值都有地址，但是每一个变量都有地址。<code>new</code> 函数会返回该类型的指针。</p>
-<p>Go 的编译器会根据变量的具体生命周期决定是堆分配还是栈分配，生命周期也会影响垃圾回收的效率，如果一个局部变量被外部变量引用，那么即使函数已经返回，这个局部变量也不会被回收，同时编译器也会对他进行堆分配，而不是栈分配。</p>
-<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>Go 的类型系统相对比较简单（简陋？），主要类型包括四种：基本类型、组合类型、引用类型和接口类型。</p>
-<p>基本类型主要包括：</p>
+    <title>雅各书 5 13-20</title>
+    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
+    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
+<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
+<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
+<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
+</blockquote>
+<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
+<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
+<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
+<blockquote>
+<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
+</blockquote>
+<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
+<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
 <ul>
-<li>整数, int8, int16, int32, int64, 还有无符号版本，uintptr</li>
-<li>浮点数, float16, float32</li>
-<li>复数, complex(r, i)</li>
-<li>布尔, true, false</li>
-<li>字符串, an immutable sequence of bytes. 可以是任何byte，通常是可读的字符串</li>
+<li>认罪</li>
+<li>倾吐心声</li>
+<li>互相鼓励</li>
+<li>等等。。。</li>
 </ul>
-<h2 id="组合类型"><a href="#组合类型" class="headerlink" title="组合类型"></a>组合类型</h2><ul>
-<li>Array</li>
-<li>Slice</li>
-<li>Map</li>
-<li>Struct</li>
-</ul>
-<p>Array 是长度固定、类型固定的连续内存空间。Array 初始化方式比较丰富：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a := [<span class="number">2</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">b := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">r := [...]<span class="keyword">int</span>&#123;<span class="number">99</span>: <span class="number">-1</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Array 也可以用指针访问（就像 C 一样，<code>[]</code> 仅仅是指针的语法糖）：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">zero</span><span class="params">(ptr *[32]<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> ptr &#123;</span><br><span class="line">        ptr[i] = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Slice 是长度可变的、类型固定的连续内存空间。一个 Slice 包含三个部分：头指针、长度、长度极限。Slice 与 Array 不同，是不可比的。但是，可以测试 Slice 是否是 Nil。</p>
-<p>Maps 是哈希表，可以nest。</p>
-<p>Struct 类似 C 的结构体，是一个多种类型的组合类型。</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Point <span class="keyword">struct</span>&#123; X, Y <span class="keyword">int</span> &#125;</span><br><span class="line">p := Point&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h2><p>整体感觉 Go 的程序构成与 C 语言非常类似。看起来就像带有 GC 和 并发内置的现代版本的 C 语言。</p>
-<h6 id="tags-Go-Go学习"><a href="#tags-Go-Go学习" class="headerlink" title="tags: Go Go学习"></a>tags: <code>Go</code> <code>Go学习</code></h6>]]></content>
+<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
+<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
+<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
+<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
+<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
+]]></content>
       <categories>
-        <category>Coding</category>
+        <category>Bible</category>
       </categories>
       <tags>
-        <tag>Go</tag>
-        <tag>Go学习</tag>
+        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
@@ -2335,42 +2469,6 @@
       <tags>
         <tag>Go</tag>
         <tag>Go学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>雅各书 5 13-20</title>
-    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
-    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
-<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
-<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
-<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
-</blockquote>
-<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
-<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
-<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
-<blockquote>
-<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
-</blockquote>
-<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
-<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
-<ul>
-<li>认罪</li>
-<li>倾吐心声</li>
-<li>互相鼓励</li>
-<li>等等。。。</li>
-</ul>
-<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
-<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
-<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
-<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
-<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
@@ -2702,30 +2800,6 @@
       </tags>
   </entry>
   <entry>
-    <title>雅各书 3-4</title>
-    <url>/2021/03/07/yageshu_13/</url>
-    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
-<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
-</blockquote>
-<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
-<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
-<blockquote>
-<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
-</blockquote>
-<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
-<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
-<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
-</blockquote>
-<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>编程101 PyOS 一个Python写的OS 3</title>
     <url>/2021/03/07/pyos_3/</url>
     <content><![CDATA[<blockquote>
@@ -2776,6 +2850,30 @@
         <tag>Operating System</tag>
         <tag>Python</tag>
         <tag>Concurrent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>雅各书 3-4</title>
+    <url>/2021/03/07/yageshu_13/</url>
+    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
+<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
+</blockquote>
+<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
+<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
+<blockquote>
+<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
+</blockquote>
+<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
+<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
+<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
+</blockquote>
+<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>

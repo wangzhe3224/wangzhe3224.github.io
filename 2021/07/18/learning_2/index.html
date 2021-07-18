@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic|Encode Sans:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="转行程序员的精雕细选、诚心推荐。 文末付下载链接和课程链接。  自学计算机书籍和课程推荐 ⚠️ 切记不要只读书、看视频，不动手做练习、写程序。 ⚠️ 切记不要求速度，不做练习、不写程序  这些课程和书籍是我食用后觉得良心且有帮助的资源，他们不仅仅可以帮助你学习计算机科学，也会帮助你领略一点点计算机的优雅和美丽。这些主题可能听起来没有大数据、云计算那么华丽，但却道出了真正理解这些技术的真正要素。计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自学计算机书籍和课程推荐">
+<meta property="og:url" content="http://yoursite.com/2021/07/18/learning_2/index.html">
+<meta property="og:site_name" content="Zhe">
+<meta property="og:description" content="转行程序员的精雕细选、诚心推荐。 文末付下载链接和课程链接。  自学计算机书籍和课程推荐 ⚠️ 切记不要只读书、看视频，不动手做练习、写程序。 ⚠️ 切记不要求速度，不做练习、不写程序  这些课程和书籍是我食用后觉得良心且有帮助的资源，他们不仅仅可以帮助你学习计算机科学，也会帮助你领略一点点计算机的优雅和美丽。这些主题可能听起来没有大数据、云计算那么华丽，但却道出了真正理解这些技术的真正要素。计">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/rHsSNr8.png">
+<meta property="og:image" content="https://i.imgur.com/VMju2ju.png">
+<meta property="og:image" content="https://i.imgur.com/NkjpmYJ.png">
+<meta property="og:image" content="https://i.imgur.com/g8PPdyW.png">
+<meta property="og:image" content="https://i.imgur.com/T7QHhmB.png">
+<meta property="article:published_time" content="2021-07-18T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-07-18T06:08:58.104Z">
+<meta property="article:author" content="Zhe">
+<meta property="article:tag" content="Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/rHsSNr8.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/18/learning_2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>自学计算机书籍和课程推荐 | Zhe</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-66629043-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <script data-ad-client="ca-pub-9801985319378542" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <meta name="google-site-verification" content="MjVVxpOXJOpseO4Uw4kLKcO-jlZdu7grfbyyAbwnzG8" />
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66629043-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66629043-1');
+  </script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhe</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Unstable Correlation</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-arts">
+
+    <a href="/arts/" rel="section"><i class="fa fa-fw fa-microchip"></i>Arts</a>
+
+  </li>
+        <li class="menu-item menu-item-readings">
+
+    <a href="/readings/" rel="section"><i class="fa fa-fw fa-archive"></i>Readings</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/18/learning_2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lambda.jpeg">
+      <meta itemprop="name" content="Zhe">
+      <meta itemprop="description" content="Things are correlated">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自学计算机书籍和课程推荐
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-07-18 00:00:00" itemprop="dateCreated datePublished" datetime="2021-07-18T00:00:00Z">2021-07-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/FanCoder/" itemprop="url" rel="index"><span itemprop="name">FanCoder</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/07/18/learning_2/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/07/18/learning_2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.7k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>2 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>转行程序员的精雕细选、诚心推荐。</p>
+<p>文末付下载链接和课程链接。</p>
+</blockquote>
+<h1 id="自学计算机书籍和课程推荐"><a href="#自学计算机书籍和课程推荐" class="headerlink" title="自学计算机书籍和课程推荐"></a>自学计算机书籍和课程推荐</h1><blockquote>
+<p>⚠️ 切记<strong>不要</strong>只读书、看视频，不动手做练习、写程序。</p>
+<p>⚠️ 切记<strong>不要</strong>求速度，不做练习、不写程序</p>
+</blockquote>
+<p>这些课程和书籍是我食用后觉得良心且有帮助的资源，他们不仅仅可以帮助你学习计算机科学，也会帮助你领略一点点计算机的优雅和美丽。这些主题可能听起来没有大数据、云计算那么华丽，但却道出了真正理解这些技术的真正要素。计算机科学太年轻了（不到100年历史），学习技术的收益远没有学习基础高</p>
+<h2 id="计算机基础"><a href="#计算机基础" class="headerlink" title="计算机基础"></a>计算机基础</h2><p>计算机入门书籍，我只推荐三本，而这三本 SICP 和 HTDP 可以先选择其中一本必读, CSAPP 是必读的。但是个人建议如果计算机基础差一些，建议HTDP，SICP 可以以后再读。</p>
+<h3 id="《Structure-and-Interpretation-of-Computer-Programs》（SICP）"><a href="#《Structure-and-Interpretation-of-Computer-Programs》（SICP）" class="headerlink" title="《Structure and Interpretation of Computer Programs》（SICP）"></a>《Structure and Interpretation of Computer Programs》（SICP）</h3><blockquote>
+<p>《计算机程序的构造和解释》</p>
+</blockquote>
+<p><img data-src="https://i.imgur.com/rHsSNr8.png" alt="SICP"></p>
+<p>这是一本来自麻省理工大学，经历20多年仍然充满活力的好书。这是一本关于计算机程序设计的总体性观念的入门书，书本中采用一种lisp方言 - Scheme作为所有例子和练习的实现语言。作者从基础的程序设计一直讲道了解释器和编译器的实现，编程范式从过程式、函数式到面向对象、面向并发都有涉及，但是讲解非常清晰。小编读完（花了两年时间，期间放弃了无数次）后，只能说：我还想再读一遍。</p>
+<blockquote>
+<p>小知识：Lisp诞生于1958年，是一个比C和Fortran更古老的函数式编程语言。</p>
+</blockquote>
+<p>不过，小编的感觉此书当然可以一上来就读，不过如果有了几年的实战经验后重读效果更佳！因为你会有一种这本书中涉及到了你工作中会遇到的大多数事情，比如编程范式、抽象方法等等。</p>
+<p>有的小伙伴可能会忧虑：Scheme是个什么鬼？Lisp还活着吗？我不想用这个古老的语言，我要用Python！！好的好的，福音来了：</p>
+<p>来自伯克利的同名课程，但是所有课程资料和作业都是Python3！</p>
+<p><strong><a target="_blank" rel="noopener" href="https://inst.eecs.berkeley.edu/~cs61a/sp12/">CS61A: Structure and Interpretation of Computer Programs</a></strong></p>
+<p>如果你对Scheme情有独钟，这里是MIT的原版视频：</p>
+<p><strong><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-001-structure-and-interpretation-of-computer-programs-spring-2005/">Structure and Interpretation of Computer Programs</a></strong></p>
+<h3 id="《How-to-Design-Programs》"><a href="#《How-to-Design-Programs》" class="headerlink" title="《How to Design Programs》"></a>《How to Design Programs》</h3><blockquote>
+<p>《如何设计程序》</p>
+</blockquote>
+<p><img data-src="https://i.imgur.com/VMju2ju.png" alt="HTDP"></p>
+<p>这是同样是一本经典的计算机程序设计入门书，采用另一个更现代的Lisp方言 - Racket 作为实现语言（是的，又是Lisp，这门古老的语言拥有强大的生命力）。与 SICP 相比，HTDP 更加注重程序设计的基本原则，材料组织更加平易近人，更容易读，难度也更低。小编认为是一本非常好的编程入门书，书中有大量的实例和练习题，从最简单的数据结构、递归讲到各种程序设计的抽象方法。</p>
+<p>这本书的在线版本：<a target="_blank" rel="noopener" href="https://htdp.org">https://htdp.org</a></p>
+<h3 id="《Computer-Systems-A-Programmer’s-Perspective》"><a href="#《Computer-Systems-A-Programmer’s-Perspective》" class="headerlink" title="《Computer Systems: A Programmer’s Perspective》"></a>《Computer Systems: A Programmer’s Perspective》</h3><blockquote>
+<p>《深入理解计算机系统》</p>
+</blockquote>
+<p><img data-src="https://i.imgur.com/NkjpmYJ.png" alt="CSAPP"></p>
+<p>这本书中文被翻译成：深入理解计算机系统，我觉得不妥。原文的意思是给程序员看的计算机系书。这本书与前两本大不相同，他是从计算机硬件的角度切入的；而前两本是从软件和程序设计的角度切入。因此，这本书会解释你写的程序是如何被翻译成指令，如何被计算机执行，读完此书，你会理解：进程、并发、编译、虚拟内存、缓存等等计算机概念。此书采用C语言作为实现语言，总体来说，这是一门很“底层”的计算机入门课。</p>
+<p>如果你觉得只读书有点无趣，可以考虑这门课：</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1XW411A7fB/">中文字幕的公开课！</a></strong></p>
+<h2 id="数据结构和算法"><a href="#数据结构和算法" class="headerlink" title="数据结构和算法"></a>数据结构和算法</h2><p>网上很多人推荐经典《Introduction to Algorithms》作为算法入门书，我觉得很不妥，特别对于无法进行全职科班教育的人群。这本书太过于理论了，我自己试了几次都放弃了。所以我推荐下面两本，任选其一。</p>
+<h3 id="《Algorithms》"><a href="#《Algorithms》" class="headerlink" title="《Algorithms》"></a>《Algorithms》</h3><blockquote>
+<p>《算法》</p>
+</blockquote>
+<p><img data-src="https://i.imgur.com/g8PPdyW.png" alt=""></p>
+<p>此书算是两大算法经典的另一个了，但是内容更加具体和实际一些，Java实现的，全部读完也需要一定的时间和耐心。</p>
+<p>可以配合这个Coursera课程：</p>
+<p><a target="_blank" rel="noopener" href="https://www.coursera.org/learn/algorithms-part1">同名课程</a></p>
+<h3 id="《Data-Structures-and-Algorithms-in-Python》"><a href="#《Data-Structures-and-Algorithms-in-Python》" class="headerlink" title="《Data Structures and Algorithms in Python》"></a>《Data Structures and Algorithms in Python》</h3><blockquote>
+<p>《数据结构和算法 - Python》</p>
+</blockquote>
+<p><img data-src="https://i.imgur.com/T7QHhmB.png" alt="Data Structures and Algorithms in Python"></p>
+<p>这一本我觉得更加亲民，特别是如果你已经在使用Python了，这本读起来会非常舒服，而且内容覆盖也比较全面。</p>
+<h2 id="编程语言"><a href="#编程语言" class="headerlink" title="编程语言"></a>编程语言</h2><p>编程语言书籍的推荐比较困难，因为各人的差异巨大。我的建议是根据自己的工作情况选择一个语言，然后再去选择书籍。</p>
+<p>这里只推荐一门非常棒的课程，来自康奈尔的 CS3110。这是一门教你学会如何学会任何编程语言的课程，让你成为一个更好的程序员。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cs.cornell.edu/courses/cs3110/2020sp/">CS3110 Data Structures and Functional Programming</a></p>
+<p>如果时间充裕，可以尝试学习以下几种语言来体验不同的编程体验：</p>
+<ul>
+<li>C</li>
+<li>Ocaml</li>
+<li>Go</li>
+<li>Lisp的一种：Scheme、Racket、Clojure等等</li>
+</ul>
+<p>我没有列出Python、Java和C++，因为我猜你们一定已经在工作使用这些语言啦！</p>
+<p>推荐他们的原因很简单：这些语言本身很简单，他们代表了不同的范式。我会在后续的文章中对不同的语言进行书籍和资源推荐。</p>
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><p>有了计算机和算法基础，加上对编程语言的熟悉，我们就可以开始更加深入的计算机之旅了。计算机的几大浪漫：</p>
+<ul>
+<li>操作系统</li>
+<li>数据库</li>
+<li>计算机网络</li>
+<li>编译原理</li>
+</ul>
+<p>编译原理参考书没有提及，初学计算机的人可以先跳过这门课，因为这门课需要太多其他基础，比如操作系统、计算机语言、词法分析等等，而且编译原理通常只有在特定的工作岗位才会需要，一般的知识在计算机基础中已经有足够的涉猎。</p>
+<p>下面这些书籍和课程需要在计算基础、算法、编程语言三项学习完成后食用，否则可能会错过这些资源的精华。</p>
+<h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p><strong>《Operating Systems: Three Easy Pieces》</strong></p>
+<blockquote>
+<p>《操作系统：三堂简单的课》</p>
+</blockquote>
+<p>此书是我认为最适合初学者的操作系统书。课程方面，推荐MIT的经典6.S081，这门课程的Lab有一定难度，都做下来对操作系统的重要概念比如：虚拟内存、中断、并发、文件系统等有更加深刻的理解。这门课对 C 语言有要求。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.828/2020/schedule.html">MIT 6.S081</a></strong></p>
+<p>更妙的是：<strong>这门课是有视频的</strong></p>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>数据库只推荐一个课程，CMU 15-445 包括了SQL原理和数据库底层实现，但是这门课需要良好的C++功底。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://15445.courses.cs.cmu.edu/fall2019/schedule.html">CMU 15-445</a></strong></p>
+<p>更妙的是：<strong>这门课是有视频的</strong></p>
+<h3 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h3><p>CMU 15-441 有不错的结构和合理的Lab。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://computer-networks.github.io/sp19/index.html">CMU 15-441</a></strong></p>
+<h2 id="再进阶"><a href="#再进阶" class="headerlink" title="再进阶"></a>再进阶</h2><h3 id="分布式系统"><a href="#分布式系统" class="headerlink" title="分布式系统"></a>分布式系统</h3><p>分布式系统近年来大火，但是这是一个交叉学科，学起来并不容易，需要操作系统、计算机网络和数据库等多种知识做背景。</p>
+<p>好在这个领域MIT有一门神课，不仅内容充分，而且配有视频和lab，就是</p>
+<p><a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.824/schedule.html">MIT 6.824: Distributed Systems</a></p>
+<p>资源下载：搜索微信公众号：泛程序员 。选择：资源 - 计算机。</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/17/learn_coding/" rel="bookmark">10年自学编程</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Learning/" rel="tag"># Learning</a>
+          </div>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9801985319378542"
+     data-ad-slot="2686695678"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/17/design_1/" rel="prev" title="系统化程序设计 - 函数式">
+      <i class="fa fa-chevron-left"></i> 系统化程序设计 - 函数式
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%AD%A6%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B9%A6%E7%B1%8D%E5%92%8C%E8%AF%BE%E7%A8%8B%E6%8E%A8%E8%8D%90"><span class="nav-number">1.</span> <span class="nav-text">自学计算机书籍和课程推荐</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">1.1.</span> <span class="nav-text">计算机基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%80%8AStructure-and-Interpretation-of-Computer-Programs%E3%80%8B%EF%BC%88SICP%EF%BC%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">《Structure and Interpretation of Computer Programs》（SICP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%80%8AHow-to-Design-Programs%E3%80%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">《How to Design Programs》</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%80%8AComputer-Systems-A-Programmer%E2%80%99s-Perspective%E3%80%8B"><span class="nav-number">1.1.3.</span> <span class="nav-text">《Computer Systems: A Programmer’s Perspective》</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">数据结构和算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%80%8AAlgorithms%E3%80%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">《Algorithms》</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%80%8AData-Structures-and-Algorithms-in-Python%E3%80%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">《Data Structures and Algorithms in Python》</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80"><span class="nav-number">1.3.</span> <span class="nav-text">编程语言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6"><span class="nav-number">1.4.</span> <span class="nav-text">进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.4.1.</span> <span class="nav-text">操作系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.4.2.</span> <span class="nav-text">数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="nav-number">1.4.3.</span> <span class="nav-text">计算机网络</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%8D%E8%BF%9B%E9%98%B6"><span class="nav-number">1.5.</span> <span class="nav-text">再进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.5.1.</span> <span class="nav-text">分布式系统</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Zhe"
+      src="/images/lambda.jpeg">
+  <p class="site-author-name" itemprop="name">Zhe</p>
+  <div class="site-description" itemprop="description">Things are correlated</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">104</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+  </div>
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhe</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">298k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">4:31</span>
+</div>
+
+<span id="timeDate">Loding time...</span><span id="times">...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2020 00:00:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "Running for "+dnum+" Days "; 
+        document.getElementById("times").innerHTML = hnum + " Hour " + mnum + " Min " + snum + " Secs"; 
+    } 
+setInterval("createtime()",250);
+</script>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+  <script pjax>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 30061,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://wangzhe.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2021/07/18/learning_2/";
+    this.page.identifier = "2021/07/18/learning_2/";
+    this.page.title = "自学计算机书籍和课程推荐";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://wangzhe.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>
