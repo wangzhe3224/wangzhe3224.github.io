@@ -9,8 +9,9 @@
 </ul>
 </blockquote>
 <blockquote>
-<p>相关源代码：<a href="https://github.com/wangzhe3224/high_performance_python">https://github.com/wangzhe3224/high_performance_python</a></p>
+<p>相关源代码：<a href="https://github.com/wangzhe3224/high_performance_python">https://github.com/wangzhe3224/high_performance_python</a><br>更多学习资源：微信搜索   泛程序员   并添加关注，点击资源按钮。<br>更多学习视频：微信视频号  Python知否</p>
 </blockquote>
+<p><img data-src="https://i.imgur.com/sFSXT7N.jpg" alt=""></p>
 <p>上一篇我们分析了计算机的三个组成部分，以及对应到Python程序的意义，这一篇我们从比较概括的角度介绍高性能编程的第一步：Profiling。（这个词我也不知道该怎么翻译，程序侧写？）</p>
 <p>Profiling可以帮助我们发现：程序的那个部分运行缓慢（计算单元）、哪个部分占用大量内存（存储单元）、那个部分占用了网络、硬盘IO（通信单元）等等。所以Profiling是我们提高运行效率的第一步。</p>
 <p><strong>划重点</strong>：</p>
@@ -83,6 +84,7 @@
 <p>也可以通过record获得不同函数的资源图：<code>sudo py-spy record -o profile.svg -- python src/julia_set.py</code></p>
 <p><img data-src="https://i.imgur.com/4OO294A.png" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了4中主要的profile工具，其中2种是CPU相关的，1种是内存相关的，最后的py-spy是针对长寿命进程的采样分析。</p>
+<p><img data-src="https://i.imgur.com/ctU3xEJ.jpg" alt=""></p>
 ]]></content>
       <categories>
         <category>Coding</category>
