@@ -10,6 +10,11 @@ categories: Coding
 > - [高性能Python编程（1）：理解Python的“性能”](https://wangzhe3224.github.io/2021/06/24/high_perform_python/)
 
 > 相关源代码：https://github.com/wangzhe3224/high_performance_python
+> 更多学习资源：微信搜索   泛程序员   并添加关注，点击资源按钮。
+> 更多学习视频：微信视频号  Python知否
+
+![](https://i.imgur.com/sFSXT7N.jpg)
+
 
 上一篇我们分析了计算机的三个组成部分，以及对应到Python程序的意义，这一篇我们从比较概括的角度介绍高性能编程的第一步：Profiling。（这个词我也不知道该怎么翻译，程序侧写？）
 
@@ -266,3 +271,5 @@ pyspy 主要由两种常用模式：dump和top。dump会为指定的process一�
 ## 总结
 
 本文介绍了4中主要的profile工具，其中2种是CPU相关的，1种是内存相关的，最后的py-spy是针对长寿命进程的采样分析。
+
+![](https://i.imgur.com/ctU3xEJ.jpg)
