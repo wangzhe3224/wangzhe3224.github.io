@@ -42,7 +42,11 @@
 <p>在堆内存中构建一系列块（节点、Block等等名字），这些块包含两部分内容：元信息（Meta Data）和数据，这些<br>块有一些写代数据（就是包含了应用程序来的数据），另外一些则是空的，仅仅包含元信息。这些块通过元信息进行<br>连接，从而实现分配和释放。比如，这些块可以是一个链表，也可以是其他更加复杂的数据结构，比如分段链表等等。<br>从概念上，不同的数据结构实现，就会有不同的效率，需要根据具体情况选择。</p>
 <p><img data-src="https://i.imgur.com/lem9r6i.jpg" alt=""></p>
 <p><strong>隐式分配器</strong></p>
-<h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2>]]></content>
+<h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://people.freebsd.org/~jasone/jemalloc/bsdcan2006/jemalloc.pdf">jemalloc</a></li>
+<li><a href="https://www.microsoft.com/en-us/research/uploads/prod/2019/06/mimalloc-tr-v1.pdf">mimalloc</a></li>
+</ul>
+]]></content>
       <categories>
         <category>底层</category>
       </categories>
