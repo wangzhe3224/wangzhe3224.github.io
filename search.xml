@@ -43,6 +43,7 @@
 <p><img data-src="https://i.imgur.com/lem9r6i.jpg" alt=""></p>
 <p><strong>隐式分配器</strong></p>
 <h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://users.cs.northwestern.edu/~pdinda/icsclass/doc/dsa.pdf">Dynamic Storage Allocation: A Survey and Critical Review</a></li>
 <li><a href="https://people.freebsd.org/~jasone/jemalloc/bsdcan2006/jemalloc.pdf">jemalloc</a></li>
 <li><a href="https://www.microsoft.com/en-us/research/uploads/prod/2019/06/mimalloc-tr-v1.pdf">mimalloc</a></li>
 </ul>
