@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>关于动态内存分配</title>
+    <url>/2021/08/29/malloc_1/</url>
+    <content><![CDATA[<h1 id="关于动态内存分配"><a href="#关于动态内存分配" class="headerlink" title="关于动态内存分配"></a>关于动态内存分配</h1><p>动态内存分配通常是指堆内存（Heap，不是数据结构背景下的堆结构）的动态分配和收回。<br>动态内存分配与程序的性能和内存使用情况息息相关。对于性能主要涉及两个方面：<br>分配和释放内存的性能，即吞吐；内存的局部性（与缓存相关），即缓存友好。<br>对于内存的利用率，主要是关于内存碎片的优化。</p>
+<h2 id="Mental-Model-心智模型"><a href="#Mental-Model-心智模型" class="headerlink" title="Mental Model (心智模型)"></a>Mental Model (心智模型)</h2><blockquote>
+<p>A mental model is an explanation of someone’s thought process<br>about how something works in the real world.<br>– wiki</p>
+</blockquote>
+<p>在现代操作系统中，每一个进程都具有自己的独立<em>虚拟内存空间</em>。虚拟内存是一个抽象：<br>它隐藏了硬件存储系统的复杂度。存储系统包括：内存、硬盘、网络上其他计算机的存储系统。<br>进程对存储系统的操作就建立在这个抽象上：每个进程（同一个机器或者不同机器）看到的<br>内存地址空间都是一样的！</p>
+<h3 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h3><p>在进一步讨论之前，我们还需要了解另外一个<br>概念：内存映射（Memory Mapping）。Linux类系统在初始化虚拟内存空间时，会将这部分<br>内存与硬盘上的一个对象联系起来。内存映射有两种：</p>
+<ul>
+<li><em>一般文件</em></li>
+<li><em>匿名文件</em></li>
+</ul>
+<p><em>一般文件</em>：一个正常文件中的内容分页（page）被映射到（虚拟）内存地址上。但是，直到CPU<br>主动请求某个页的时候，文件中的内从才会被拷贝进入内存。</p>
+<p><em>匿名文件</em>：系统把一部分内存映射到一个匿名文件中，并且用0填充该内存空间，这些页也被称为<br>demand-zero page。</p>
+<p>无论是哪种情况，虚拟内存也被初始化后，他就会与一个交换文件（swap file）连接，并与他不断<br>交换数据。(每一个进程都有一个交换文件吗？)</p>
+<p><img data-src="https://i.imgur.com/vRpgBpw.jpg" alt="内存心智模型"></p>
+<h3 id="堆内存动态分配"><a href="#堆内存动态分配" class="headerlink" title="堆内存动态分配"></a>堆内存动态分配</h3><p>动态内存分配就是负责管理堆内存空间的，而在内存中申请空间的就是通过内存映射（Demand-zero）。</p>
+<p><em>为什么需要动态内存分配</em>？因为程序与在运行过程中不可避免要动态的产生和销毁对象，但是我们不能<br>无限分配内存，而不去回收不再需要的对象，否则内存最终会溢出。</p>
+<p>内存分配器主要有两种风格：</p>
+<ul>
+<li>显式，即应用程序主动申请和释放内存。比如C++中的<code>new</code>和<code>delete</code>，或者C中的<code>malloc</code>和<code>free</code>。</li>
+<li>隐式，也成为垃圾回收（GC），即应用程序不主动释放，有分配器自动释放。比如Java、Python、Ocaml都有自己的GC系统</li>
+</ul>
+<p><strong>显式分配器</strong></p>
+<p>显式分配器主要有两个API：alloc和free。alloc返回一个指针指向申请到的空间，<br>free回收某个指针指向的空间。显式分配器需要满足如下设计需求：</p>
+<ul>
+<li>处理任意组合的alloc和free序列</li>
+<li>快速的分配或者释放内存</li>
+<li>只使用堆内存</li>
+<li>满足特定的对齐标准</li>
+<li>不能改变已经分配的内存内容</li>
+</ul>
+<p>好的分配器需要：</p>
+<ul>
+<li>高吞吐</li>
+<li>高利用率</li>
+</ul>
+<p>我们会在后面讨论具体的实现，但是分配器的新式模型如下：</p>
+<p>在堆内存中构建一系列块（节点、Block等等名字），这些块包含两部分内容：元信息（Meta Data）和数据，这些<br>块有一些写代数据（就是包含了应用程序来的数据），另外一些则是空的，仅仅包含元信息。这些块通过元信息进行<br>连接，从而实现分配和释放。比如，这些块可以是一个链表，也可以是其他更加复杂的数据结构，比如分段链表等等。<br>从概念上，不同的数据结构实现，就会有不同的效率，需要根据具体情况选择。</p>
+<p><img data-src="https://i.imgur.com/lem9r6i.jpg" alt=""></p>
+<p><strong>隐式分配器</strong></p>
+<h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2>]]></content>
+      <categories>
+        <category>底层</category>
+      </categories>
+      <tags>
+        <tag>Memory Allocation</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>高性能Python编程（2）Profiling寻找性能瓶颈</title>
     <url>/2021/07/22/high_perf_python_2/</url>
     <content><![CDATA[<h1 id="高性能Python编程（2）Profiling寻找性能瓶颈"><a href="#高性能Python编程（2）Profiling寻找性能瓶颈" class="headerlink" title="高性能Python编程（2）Profiling寻找性能瓶颈"></a>高性能Python编程（2）Profiling寻找性能瓶颈</h1><blockquote>
@@ -1482,41 +1532,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Heap 使用</title>
-    <url>/2021/04/18/leetcode_heap1/</url>
-    <content><![CDATA[<h1 id="Heap（堆）的使用"><a href="#Heap（堆）的使用" class="headerlink" title="Heap（堆）的使用"></a>Heap（堆）的使用</h1><ul>
-<li><a href="https://leetcode.com/problems/last-stone-weight/">1046. Last Stone Weight</a></li>
-<li><a href="https://leetcode.com/problems/kth-largest-element-in-a-stream/">703. Kth Largest Element in a Stream</a></li>
-<li><a href="https://leetcode.com/problems/maximum-average-pass-ratio/">1792. Maximum Average Pass Ratio</a></li>
-<li><a href="https://leetcode.com/problems/task-scheduler/">621. Task Schedule</a></li>
-</ul>
-<h2 id="1046-Last-Stone-Weight"><a href="#1046-Last-Stone-Weight" class="headerlink" title="1046. Last Stone Weight"></a>1046. Last Stone Weight</h2><p><strong>思路</strong></p>
-<p>此题比较直接，直接采用heap来维护最重的数值在头部，需要注意的是 Python 的 heap 都是 min heap，所以需要取负数来实现此题。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lastStoneWeight</span>(<span class="params">self, stones: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        h = [-s <span class="keyword">for</span> s <span class="keyword">in</span> stones]</span><br><span class="line">        heapify(h)</span><br><span class="line">        <span class="built_in">print</span>(h)</span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(h) &gt;= <span class="number">2</span>:</span><br><span class="line">            fst = heappop(h)</span><br><span class="line">            snd = heappop(h)</span><br><span class="line">            <span class="keyword">if</span> fst != snd:</span><br><span class="line">                heappush(h, fst-snd)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> -<span class="built_in">sum</span>(h)</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="703-Kth-Largest-Element-in-a-Stream"><a href="#703-Kth-Largest-Element-in-a-Stream" class="headerlink" title="703. Kth Largest Element in a Stream"></a>703. Kth Largest Element in a Stream</h2><p><strong>思路</strong><br>这题的要点在于维护一个固定长度的heap。可以采用 <code>heapreplace</code> 函数实现 push和pop 的组合操作。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KthLargest</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, k: <span class="built_in">int</span>, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>):</span></span><br><span class="line">        self.nums = nums</span><br><span class="line">        self.k = k</span><br><span class="line">        heapify(self.nums)</span><br><span class="line">        <span class="comment"># 保持头部是 kth largest </span></span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(self.nums) &gt; k:</span><br><span class="line">            heappop(self.nums)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">self, val: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(self.nums) &lt; self.k:</span><br><span class="line">            heappush(self.nums, val)</span><br><span class="line">        <span class="keyword">elif</span> val &gt; self.nums[<span class="number">0</span>]:</span><br><span class="line">            heapreplace(self.nums, val)</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> self.nums[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="1792-Maximum-Average-Pass-Ratio"><a href="#1792-Maximum-Average-Pass-Ratio" class="headerlink" title="1792. Maximum Average Pass Ratio"></a>1792. Maximum Average Pass Ratio</h2><p><strong>思路</strong></p>
-<p>这道题的关键在于想要找到最大平均数，需要把好学生分配到改变通过率最大的班级，即 delta 最大的班级。根据这个特征，我们需要一个堆来决绝，按照每个班增加一个好学生后的 delta 作为 Priority。永远把好学生分配到怼的头部。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> heapq</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxAverageRatio</span>(<span class="params">self, classes: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]], extraStudents: <span class="built_in">int</span></span>) -&gt; <span class="built_in">float</span>:</span></span><br><span class="line">        h = [((x/t - (x+<span class="number">1</span>)/(t+<span class="number">1</span>)), x, t) <span class="keyword">for</span> x, t <span class="keyword">in</span> classes]</span><br><span class="line">        heapify(h)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> extraStudents:</span><br><span class="line">            v, x, t = heappop(h)</span><br><span class="line">            x, t = x+<span class="number">1</span>, t+<span class="number">1</span></span><br><span class="line">            heappush(h, (x/t-(x+<span class="number">1</span>)/(t+<span class="number">1</span>), x, t))</span><br><span class="line">            extraStudents -= <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>([x/t <span class="keyword">for</span> _,x,t <span class="keyword">in</span> h]) / <span class="built_in">len</span>(h)</span><br></pre></td></tr></table></figure>
-
-<h2 id="621-Task-Schedule"><a href="#621-Task-Schedule" class="headerlink" title="621. Task Schedule"></a>621. Task Schedule</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">leastInterval</span>(<span class="params">self, tasks: <span class="type">List</span>[<span class="built_in">str</span>], n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">from</span> heapq <span class="keyword">import</span> heappush, heappop</span><br><span class="line">        <span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line">        h = []</span><br><span class="line">        res = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> k, v <span class="keyword">in</span> Counter(tasks).items():</span><br><span class="line">            heappush(h, (-<span class="number">1</span>*v, k))</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">while</span> h:</span><br><span class="line">            i = <span class="number">0</span></span><br><span class="line">            tmp =  []</span><br><span class="line">            <span class="keyword">while</span> i&lt;=n:</span><br><span class="line">                res += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> h:</span><br><span class="line">                    left, task = heappop(h)</span><br><span class="line">                    <span class="keyword">if</span> left != -<span class="number">1</span>:</span><br><span class="line">                        tmp.append((left+<span class="number">1</span>, task))</span><br><span class="line">                    </span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> h <span class="keyword">and</span> <span class="keyword">not</span> tmp:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    i += <span class="number">1</span></span><br><span class="line">                    </span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> tmp:</span><br><span class="line">                heappush(h, item)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
-
-<h6 id="tags-Leetcode-Heap"><a href="#tags-Leetcode-Heap" class="headerlink" title="tags: Leetcode Heap"></a>tags: <code>Leetcode</code> <code>Heap</code></h6>]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Heap</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>回溯 DFS</title>
     <url>/2021/04/18/leetcode_dfs/</url>
     <content><![CDATA[<h1 id="回溯，DFS"><a href="#回溯，DFS" class="headerlink" title="回溯，DFS"></a>回溯，DFS</h1><ul>
@@ -1612,6 +1627,41 @@
       </tags>
   </entry>
   <entry>
+    <title>Heap 使用</title>
+    <url>/2021/04/18/leetcode_heap1/</url>
+    <content><![CDATA[<h1 id="Heap（堆）的使用"><a href="#Heap（堆）的使用" class="headerlink" title="Heap（堆）的使用"></a>Heap（堆）的使用</h1><ul>
+<li><a href="https://leetcode.com/problems/last-stone-weight/">1046. Last Stone Weight</a></li>
+<li><a href="https://leetcode.com/problems/kth-largest-element-in-a-stream/">703. Kth Largest Element in a Stream</a></li>
+<li><a href="https://leetcode.com/problems/maximum-average-pass-ratio/">1792. Maximum Average Pass Ratio</a></li>
+<li><a href="https://leetcode.com/problems/task-scheduler/">621. Task Schedule</a></li>
+</ul>
+<h2 id="1046-Last-Stone-Weight"><a href="#1046-Last-Stone-Weight" class="headerlink" title="1046. Last Stone Weight"></a>1046. Last Stone Weight</h2><p><strong>思路</strong></p>
+<p>此题比较直接，直接采用heap来维护最重的数值在头部，需要注意的是 Python 的 heap 都是 min heap，所以需要取负数来实现此题。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lastStoneWeight</span>(<span class="params">self, stones: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        h = [-s <span class="keyword">for</span> s <span class="keyword">in</span> stones]</span><br><span class="line">        heapify(h)</span><br><span class="line">        <span class="built_in">print</span>(h)</span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(h) &gt;= <span class="number">2</span>:</span><br><span class="line">            fst = heappop(h)</span><br><span class="line">            snd = heappop(h)</span><br><span class="line">            <span class="keyword">if</span> fst != snd:</span><br><span class="line">                heappush(h, fst-snd)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> -<span class="built_in">sum</span>(h)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="703-Kth-Largest-Element-in-a-Stream"><a href="#703-Kth-Largest-Element-in-a-Stream" class="headerlink" title="703. Kth Largest Element in a Stream"></a>703. Kth Largest Element in a Stream</h2><p><strong>思路</strong><br>这题的要点在于维护一个固定长度的heap。可以采用 <code>heapreplace</code> 函数实现 push和pop 的组合操作。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KthLargest</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, k: <span class="built_in">int</span>, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>):</span></span><br><span class="line">        self.nums = nums</span><br><span class="line">        self.k = k</span><br><span class="line">        heapify(self.nums)</span><br><span class="line">        <span class="comment"># 保持头部是 kth largest </span></span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(self.nums) &gt; k:</span><br><span class="line">            heappop(self.nums)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">self, val: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(self.nums) &lt; self.k:</span><br><span class="line">            heappush(self.nums, val)</span><br><span class="line">        <span class="keyword">elif</span> val &gt; self.nums[<span class="number">0</span>]:</span><br><span class="line">            heapreplace(self.nums, val)</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> self.nums[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="1792-Maximum-Average-Pass-Ratio"><a href="#1792-Maximum-Average-Pass-Ratio" class="headerlink" title="1792. Maximum Average Pass Ratio"></a>1792. Maximum Average Pass Ratio</h2><p><strong>思路</strong></p>
+<p>这道题的关键在于想要找到最大平均数，需要把好学生分配到改变通过率最大的班级，即 delta 最大的班级。根据这个特征，我们需要一个堆来决绝，按照每个班增加一个好学生后的 delta 作为 Priority。永远把好学生分配到怼的头部。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> heapq</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxAverageRatio</span>(<span class="params">self, classes: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]], extraStudents: <span class="built_in">int</span></span>) -&gt; <span class="built_in">float</span>:</span></span><br><span class="line">        h = [((x/t - (x+<span class="number">1</span>)/(t+<span class="number">1</span>)), x, t) <span class="keyword">for</span> x, t <span class="keyword">in</span> classes]</span><br><span class="line">        heapify(h)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> extraStudents:</span><br><span class="line">            v, x, t = heappop(h)</span><br><span class="line">            x, t = x+<span class="number">1</span>, t+<span class="number">1</span></span><br><span class="line">            heappush(h, (x/t-(x+<span class="number">1</span>)/(t+<span class="number">1</span>), x, t))</span><br><span class="line">            extraStudents -= <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>([x/t <span class="keyword">for</span> _,x,t <span class="keyword">in</span> h]) / <span class="built_in">len</span>(h)</span><br></pre></td></tr></table></figure>
+
+<h2 id="621-Task-Schedule"><a href="#621-Task-Schedule" class="headerlink" title="621. Task Schedule"></a>621. Task Schedule</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">leastInterval</span>(<span class="params">self, tasks: <span class="type">List</span>[<span class="built_in">str</span>], n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">from</span> heapq <span class="keyword">import</span> heappush, heappop</span><br><span class="line">        <span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line">        h = []</span><br><span class="line">        res = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> k, v <span class="keyword">in</span> Counter(tasks).items():</span><br><span class="line">            heappush(h, (-<span class="number">1</span>*v, k))</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">while</span> h:</span><br><span class="line">            i = <span class="number">0</span></span><br><span class="line">            tmp =  []</span><br><span class="line">            <span class="keyword">while</span> i&lt;=n:</span><br><span class="line">                res += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> h:</span><br><span class="line">                    left, task = heappop(h)</span><br><span class="line">                    <span class="keyword">if</span> left != -<span class="number">1</span>:</span><br><span class="line">                        tmp.append((left+<span class="number">1</span>, task))</span><br><span class="line">                    </span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> h <span class="keyword">and</span> <span class="keyword">not</span> tmp:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    i += <span class="number">1</span></span><br><span class="line">                    </span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> tmp:</span><br><span class="line">                heappush(h, item)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+
+<h6 id="tags-Leetcode-Heap"><a href="#tags-Leetcode-Heap" class="headerlink" title="tags: Leetcode Heap"></a>tags: <code>Leetcode</code> <code>Heap</code></h6>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Heap</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Palindrome Pairs and the Trie</title>
     <url>/2021/04/17/leetcode_trie_tree/</url>
     <content><![CDATA[<h1 id="Prefix-tree"><a href="#Prefix-tree" class="headerlink" title="Prefix tree"></a>Prefix tree</h1><ul>
@@ -1684,6 +1734,22 @@
       </tags>
   </entry>
   <entry>
+    <title>CSAPP 4 处理器架构</title>
+    <url>/2021/04/16/csapp_4/</url>
+    <content><![CDATA[<h1 id="CSAPP-4-处理器架构"><a href="#CSAPP-4-处理器架构" class="headerlink" title="CSAPP 4 处理器架构"></a>CSAPP 4 处理器架构</h1><p>CPU Pipeline 的基本原理，通过将任务拆解成不同的阶段，并行执行多个任务，增加 throughput，相应的会提高延迟。不过这样可以提高CPU的时钟频率，降低延迟。</p>
+<p>这是比指令集更低一个的一个层次，每一个指令集指令都被分解成多个不同的阶段，由对应的硬件分别执行。分解后，为并行提供了可能。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">A B C</span><br><span class="line">  A B C</span><br><span class="line">    A B C</span><br></pre></td></tr></table></figure>
+
+<p>Pipeline 的复杂度在于错误处理、每个阶段的延迟等等。</p>
+]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>CSAPP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSAPP 5 程序的优化</title>
     <url>/2021/04/16/csapp_5/</url>
     <content><![CDATA[<h1 id="CSAPP-5-程序的优化"><a href="#CSAPP-5-程序的优化" class="headerlink" title="CSAPP 5 程序的优化"></a>CSAPP 5 程序的优化</h1><p>优化方式：</p>
@@ -1701,22 +1767,6 @@
 </li>
 </ul>
 <p>现代CPU都有独立的功能组件进行内存的读取和写入，这些组件通常都有自己的缓存。比如Intel i7处理器的读取单元可以缓存48个读取指令，他们通常可以在一个cycle内完成一个操作。</p>
-]]></content>
-      <categories>
-        <category>Computing</category>
-      </categories>
-      <tags>
-        <tag>CSAPP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSAPP 4 处理器架构</title>
-    <url>/2021/04/16/csapp_4/</url>
-    <content><![CDATA[<h1 id="CSAPP-4-处理器架构"><a href="#CSAPP-4-处理器架构" class="headerlink" title="CSAPP 4 处理器架构"></a>CSAPP 4 处理器架构</h1><p>CPU Pipeline 的基本原理，通过将任务拆解成不同的阶段，并行执行多个任务，增加 throughput，相应的会提高延迟。不过这样可以提高CPU的时钟频率，降低延迟。</p>
-<p>这是比指令集更低一个的一个层次，每一个指令集指令都被分解成多个不同的阶段，由对应的硬件分别执行。分解后，为并行提供了可能。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">A B C</span><br><span class="line">  A B C</span><br><span class="line">    A B C</span><br></pre></td></tr></table></figure>
-
-<p>Pipeline 的复杂度在于错误处理、每个阶段的延迟等等。</p>
 ]]></content>
       <categories>
         <category>Computing</category>
@@ -1902,6 +1952,19 @@
       </tags>
   </entry>
   <entry>
+    <title>CSAPP 2 信息的表达和操作</title>
+    <url>/2021/04/09/csapp_2/</url>
+    <content><![CDATA[<h1 id="CSAPP-2-信息的表达和操作"><a href="#CSAPP-2-信息的表达和操作" class="headerlink" title="CSAPP 2 信息的表达和操作"></a>CSAPP 2 信息的表达和操作</h1><p>目前的计算机技术存储信息是二进制的，我们用0和1表达信息。最基本的信息有两种：整数和浮点数。字符串也会被编码成整数表达。从根本上说，我们规定了一些规则（向下文）来解释这些0和1。通过基本的代数法则就可以实现运算了。</p>
+<p>为了方便人类阅读，常用的编码进制包括8进制和16进制。</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;csapp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;int: %d\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_dbl</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;double: %g\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int_arr</span><span class="params">(<span class="keyword">int</span> a[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;int array: [&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;=(<span class="keyword">sizeof</span>(a))/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]); i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d, &quot;</span>, a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_default</span><span class="params">()</span> </span>&#123; <span class="built_in">puts</span>(<span class="string">&quot;unknown argument&quot;</span>); &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> print(X) _Generic((X), \</span></span><br><span class="line">        <span class="keyword">int</span>: print_int, \</span><br><span class="line">        <span class="keyword">double</span>: print_dbl, \</span><br><span class="line">        <span class="keyword">int</span>*: print_int_arr, \</span><br><span class="line">        <span class="keyword">default</span>: print_default)(X)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> problem(x) printf(<span class="meta-string">&quot;\n * Problem %s: \n&quot;</span>, x)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> comment(x) printf(<span class="meta-string">&quot;%s\n&quot;</span>, x)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_float</span><span class="params">(<span class="keyword">float</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_pointer</span><span class="params">(<span class="keyword">void</span>* x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">void</span> *));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *x, <span class="keyword">int</span> *y)</span> </span>&#123;</span><br><span class="line">    *y = *x^*y;</span><br><span class="line">    *x = *x^*y; <span class="comment">/*Step2*/</span></span><br><span class="line">    *y = *x^*y; <span class="comment">/*Step3*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse_array</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> cnt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1,2,3  -&gt; 3,2,1</span></span><br><span class="line">    <span class="keyword">int</span> first, last;</span><br><span class="line">    <span class="keyword">for</span> (first=<span class="number">0</span>, last=cnt<span class="number">-1</span>;</span><br><span class="line">        first &lt; last;</span><br><span class="line">        first++, last--) &#123;</span><br><span class="line">            swap(&amp;a[first], &amp;a[last]);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">float</span> y = <span class="number">1.0</span>;</span><br><span class="line">    show_int(x);</span><br><span class="line">    show_float(y);</span><br><span class="line">    show_pointer(&amp;x);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof float is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof int is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="comment">// Problem 2.6</span></span><br><span class="line">    problem(<span class="string">&quot;2.6&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">3510593</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">3510593.0</span>;</span><br><span class="line">    show_int(b);   <span class="comment">// ? why this shows as same as a?</span></span><br><span class="line">    show_int(a);   <span class="comment">//        1101011001000101000001</span></span><br><span class="line">    show_float(b); <span class="comment">// 1001010010101100100010100000100</span></span><br><span class="line">    <span class="comment">// Problem 2.7</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *s = <span class="string">&quot;abcdef&quot;</span>;</span><br><span class="line">    show_bytes((byte_pointer)s, <span class="built_in">strlen</span>(s)); <span class="comment">//  61 62 63 64 65 66</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    a = 110</span></span><br><span class="line"><span class="comment">    b = 001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 110 ^ 001 = 111</span></span><br><span class="line"><span class="comment">    a = a ^ b  -&gt; a = 110 ^ 111 = 001</span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 001 ^ 111 = 110</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    problem(<span class="string">&quot;2.10&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> aa = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> bb = <span class="number">2</span>;</span><br><span class="line">    swap(&amp;aa, &amp;bb);</span><br><span class="line">    print(aa);</span><br><span class="line">    print(bb);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.11&quot;</span>);</span><br><span class="line">    comment(<span class="string">&quot;Note that a ^ a = 0&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a2[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    print(a2);</span><br><span class="line">    reverse_array(a2, <span class="number">3</span>);</span><br><span class="line">    print(a2);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.12&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> x12 = <span class="number">0x87654321</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 &amp; <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( x12 ^ <span class="number">0xFF</span> ));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 | <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( <span class="number">0x11</span> ^ <span class="number">0xFF</span> ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>CSAPP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>nSum 问题</title>
     <url>/2021/04/09/leetcode_nSum/</url>
     <content><![CDATA[<h1 id="nSum-问题"><a href="#nSum-问题" class="headerlink" title="nSum 问题"></a>nSum 问题</h1><h2 id="2-Sum"><a href="#2-Sum" class="headerlink" title="2 Sum"></a>2 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
@@ -1959,19 +2022,6 @@
 <li>green thread</li>
 </ul>
 <h6 id="tags-CSAPP"><a href="#tags-CSAPP" class="headerlink" title="tags: CSAPP"></a>tags: <code>CSAPP</code></h6>]]></content>
-      <categories>
-        <category>Computing</category>
-      </categories>
-      <tags>
-        <tag>CSAPP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSAPP 2 信息的表达和操作</title>
-    <url>/2021/04/09/csapp_2/</url>
-    <content><![CDATA[<h1 id="CSAPP-2-信息的表达和操作"><a href="#CSAPP-2-信息的表达和操作" class="headerlink" title="CSAPP 2 信息的表达和操作"></a>CSAPP 2 信息的表达和操作</h1><p>目前的计算机技术存储信息是二进制的，我们用0和1表达信息。最基本的信息有两种：整数和浮点数。字符串也会被编码成整数表达。从根本上说，我们规定了一些规则（向下文）来解释这些0和1。通过基本的代数法则就可以实现运算了。</p>
-<p>为了方便人类阅读，常用的编码进制包括8进制和16进制。</p>
-<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;csapp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;int: %d\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_dbl</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">&quot;double: %g\n&quot;</span>, x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_int_arr</span><span class="params">(<span class="keyword">int</span> a[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;int array: [&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;=(<span class="keyword">sizeof</span>(a))/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]); i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d, &quot;</span>, a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;]\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_default</span><span class="params">()</span> </span>&#123; <span class="built_in">puts</span>(<span class="string">&quot;unknown argument&quot;</span>); &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> print(X) _Generic((X), \</span></span><br><span class="line">        <span class="keyword">int</span>: print_int, \</span><br><span class="line">        <span class="keyword">double</span>: print_dbl, \</span><br><span class="line">        <span class="keyword">int</span>*: print_int_arr, \</span><br><span class="line">        <span class="keyword">default</span>: print_default)(X)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> problem(x) printf(<span class="meta-string">&quot;\n * Problem %s: \n&quot;</span>, x)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> comment(x) printf(<span class="meta-string">&quot;%s\n&quot;</span>, x)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *byte_pointer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_bytes</span><span class="params">(byte_pointer start, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %.2x&quot;</span>, start[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_int</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_float</span><span class="params">(<span class="keyword">float</span> x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show_pointer</span><span class="params">(<span class="keyword">void</span>* x)</span> </span>&#123;</span><br><span class="line">    show_bytes((byte_pointer) &amp;x, <span class="keyword">sizeof</span>(<span class="keyword">void</span> *));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *x, <span class="keyword">int</span> *y)</span> </span>&#123;</span><br><span class="line">    *y = *x^*y;</span><br><span class="line">    *x = *x^*y; <span class="comment">/*Step2*/</span></span><br><span class="line">    *y = *x^*y; <span class="comment">/*Step3*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse_array</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> cnt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1,2,3  -&gt; 3,2,1</span></span><br><span class="line">    <span class="keyword">int</span> first, last;</span><br><span class="line">    <span class="keyword">for</span> (first=<span class="number">0</span>, last=cnt<span class="number">-1</span>;</span><br><span class="line">        first &lt; last;</span><br><span class="line">        first++, last--) &#123;</span><br><span class="line">            swap(&amp;a[first], &amp;a[last]);</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">float</span> y = <span class="number">1.0</span>;</span><br><span class="line">    show_int(x);</span><br><span class="line">    show_float(y);</span><br><span class="line">    show_pointer(&amp;x);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof float is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Sizeof int is %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="comment">// Problem 2.6</span></span><br><span class="line">    problem(<span class="string">&quot;2.6&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">3510593</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">3510593.0</span>;</span><br><span class="line">    show_int(b);   <span class="comment">// ? why this shows as same as a?</span></span><br><span class="line">    show_int(a);   <span class="comment">//        1101011001000101000001</span></span><br><span class="line">    show_float(b); <span class="comment">// 1001010010101100100010100000100</span></span><br><span class="line">    <span class="comment">// Problem 2.7</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *s = <span class="string">&quot;abcdef&quot;</span>;</span><br><span class="line">    show_bytes((byte_pointer)s, <span class="built_in">strlen</span>(s)); <span class="comment">//  61 62 63 64 65 66</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    a = 110</span></span><br><span class="line"><span class="comment">    b = 001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 110 ^ 001 = 111</span></span><br><span class="line"><span class="comment">    a = a ^ b  -&gt; a = 110 ^ 111 = 001</span></span><br><span class="line"><span class="comment">    b = a ^ b  -&gt; b = 001 ^ 111 = 110</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    problem(<span class="string">&quot;2.10&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> aa = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> bb = <span class="number">2</span>;</span><br><span class="line">    swap(&amp;aa, &amp;bb);</span><br><span class="line">    print(aa);</span><br><span class="line">    print(bb);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.11&quot;</span>);</span><br><span class="line">    comment(<span class="string">&quot;Note that a ^ a = 0&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> a2[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">    print(a2);</span><br><span class="line">    reverse_array(a2, <span class="number">3</span>);</span><br><span class="line">    print(a2);</span><br><span class="line"></span><br><span class="line">    problem(<span class="string">&quot;2.12&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> x12 = <span class="number">0x87654321</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 &amp; <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( x12 ^ <span class="number">0xFF</span> ));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, x12 | <span class="number">0xFF</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, ~( <span class="number">0x11</span> ^ <span class="number">0xFF</span> ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Computing</category>
       </categories>
@@ -2349,50 +2399,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Go 学习笔记3 程序的构成</title>
-    <url>/2021/03/30/go_3/</url>
-    <content><![CDATA[<h1 id="Go-学习笔记3-程序的构成"><a href="#Go-学习笔记3-程序的构成" class="headerlink" title="Go 学习笔记3 程序的构成"></a>Go 学习笔记3 程序的构成</h1><h2 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h2><p>Go 采用驼峰命名：<code>thisVarIsGood</code>。如果一个 package 中的函数采用大写字母开头，这个函数可以被外界调用，否则隐藏，比如 <code>fmt.Println</code>。</p>
-<p>Go 的声明语句主要有四种：<code>var</code>, <code>const</code>, <code>type</code>, <code>func</code>。</p>
-<p><code>var</code>，变量声明：<code>var name type = expression</code>。如果省略 expression 的部分，Go 会给变量合法的初始值。<code>:=</code> 表达式，是简化的声明。</p>
-<p>指针是变量的地址，并不是每一个值都有地址，但是每一个变量都有地址。<code>new</code> 函数会返回该类型的指针。</p>
-<p>Go 的编译器会根据变量的具体生命周期决定是堆分配还是栈分配，生命周期也会影响垃圾回收的效率，如果一个局部变量被外部变量引用，那么即使函数已经返回，这个局部变量也不会被回收，同时编译器也会对他进行堆分配，而不是栈分配。</p>
-<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>Go 的类型系统相对比较简单（简陋？），主要类型包括四种：基本类型、组合类型、引用类型和接口类型。</p>
-<p>基本类型主要包括：</p>
-<ul>
-<li>整数, int8, int16, int32, int64, 还有无符号版本，uintptr</li>
-<li>浮点数, float16, float32</li>
-<li>复数, complex(r, i)</li>
-<li>布尔, true, false</li>
-<li>字符串, an immutable sequence of bytes. 可以是任何byte，通常是可读的字符串</li>
-</ul>
-<h2 id="组合类型"><a href="#组合类型" class="headerlink" title="组合类型"></a>组合类型</h2><ul>
-<li>Array</li>
-<li>Slice</li>
-<li>Map</li>
-<li>Struct</li>
-</ul>
-<p>Array 是长度固定、类型固定的连续内存空间。Array 初始化方式比较丰富：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a := [<span class="number">2</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">b := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">r := [...]<span class="keyword">int</span>&#123;<span class="number">99</span>: <span class="number">-1</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Array 也可以用指针访问（就像 C 一样，<code>[]</code> 仅仅是指针的语法糖）：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">zero</span><span class="params">(ptr *[32]<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> ptr &#123;</span><br><span class="line">        ptr[i] = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Slice 是长度可变的、类型固定的连续内存空间。一个 Slice 包含三个部分：头指针、长度、长度极限。Slice 与 Array 不同，是不可比的。但是，可以测试 Slice 是否是 Nil。</p>
-<p>Maps 是哈希表，可以nest。</p>
-<p>Struct 类似 C 的结构体，是一个多种类型的组合类型。</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Point <span class="keyword">struct</span>&#123; X, Y <span class="keyword">int</span> &#125;</span><br><span class="line">p := Point&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h2><p>整体感觉 Go 的程序构成与 C 语言非常类似。看起来就像带有 GC 和 并发内置的现代版本的 C 语言。</p>
-<h6 id="tags-Go-Go学习"><a href="#tags-Go-Go学习" class="headerlink" title="tags: Go Go学习"></a>tags: <code>Go</code> <code>Go学习</code></h6>]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Go</tag>
-        <tag>Go学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Go 学习笔记4 抽象方法</title>
     <url>/2021/03/30/go_4/</url>
     <content><![CDATA[<h1 id="Go-学习笔记4-抽象模式"><a href="#Go-学习笔记4-抽象模式" class="headerlink" title="Go 学习笔记4 抽象模式"></a>Go 学习笔记4 抽象模式</h1><p>Go 的抽象方法主要通过函数、方法和接口三种方式。</p>
@@ -2440,39 +2446,47 @@
       </tags>
   </entry>
   <entry>
-    <title>雅各书 5 13-20</title>
-    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
-    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
-<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
-<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
-<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
-</blockquote>
-<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
-<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
-<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
-<blockquote>
-<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
-</blockquote>
-<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
-<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
+    <title>Go 学习笔记3 程序的构成</title>
+    <url>/2021/03/30/go_3/</url>
+    <content><![CDATA[<h1 id="Go-学习笔记3-程序的构成"><a href="#Go-学习笔记3-程序的构成" class="headerlink" title="Go 学习笔记3 程序的构成"></a>Go 学习笔记3 程序的构成</h1><h2 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h2><p>Go 采用驼峰命名：<code>thisVarIsGood</code>。如果一个 package 中的函数采用大写字母开头，这个函数可以被外界调用，否则隐藏，比如 <code>fmt.Println</code>。</p>
+<p>Go 的声明语句主要有四种：<code>var</code>, <code>const</code>, <code>type</code>, <code>func</code>。</p>
+<p><code>var</code>，变量声明：<code>var name type = expression</code>。如果省略 expression 的部分，Go 会给变量合法的初始值。<code>:=</code> 表达式，是简化的声明。</p>
+<p>指针是变量的地址，并不是每一个值都有地址，但是每一个变量都有地址。<code>new</code> 函数会返回该类型的指针。</p>
+<p>Go 的编译器会根据变量的具体生命周期决定是堆分配还是栈分配，生命周期也会影响垃圾回收的效率，如果一个局部变量被外部变量引用，那么即使函数已经返回，这个局部变量也不会被回收，同时编译器也会对他进行堆分配，而不是栈分配。</p>
+<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>Go 的类型系统相对比较简单（简陋？），主要类型包括四种：基本类型、组合类型、引用类型和接口类型。</p>
+<p>基本类型主要包括：</p>
 <ul>
-<li>认罪</li>
-<li>倾吐心声</li>
-<li>互相鼓励</li>
-<li>等等。。。</li>
+<li>整数, int8, int16, int32, int64, 还有无符号版本，uintptr</li>
+<li>浮点数, float16, float32</li>
+<li>复数, complex(r, i)</li>
+<li>布尔, true, false</li>
+<li>字符串, an immutable sequence of bytes. 可以是任何byte，通常是可读的字符串</li>
 </ul>
-<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
-<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
-<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
-<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
-<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
-]]></content>
+<h2 id="组合类型"><a href="#组合类型" class="headerlink" title="组合类型"></a>组合类型</h2><ul>
+<li>Array</li>
+<li>Slice</li>
+<li>Map</li>
+<li>Struct</li>
+</ul>
+<p>Array 是长度固定、类型固定的连续内存空间。Array 初始化方式比较丰富：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a := [<span class="number">2</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">b := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">r := [...]<span class="keyword">int</span>&#123;<span class="number">99</span>: <span class="number">-1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Array 也可以用指针访问（就像 C 一样，<code>[]</code> 仅仅是指针的语法糖）：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">zero</span><span class="params">(ptr *[32]<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> ptr &#123;</span><br><span class="line">        ptr[i] = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Slice 是长度可变的、类型固定的连续内存空间。一个 Slice 包含三个部分：头指针、长度、长度极限。Slice 与 Array 不同，是不可比的。但是，可以测试 Slice 是否是 Nil。</p>
+<p>Maps 是哈希表，可以nest。</p>
+<p>Struct 类似 C 的结构体，是一个多种类型的组合类型。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Point <span class="keyword">struct</span>&#123; X, Y <span class="keyword">int</span> &#125;</span><br><span class="line">p := Point&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h2><p>整体感觉 Go 的程序构成与 C 语言非常类似。看起来就像带有 GC 和 并发内置的现代版本的 C 语言。</p>
+<h6 id="tags-Go-Go学习"><a href="#tags-Go-Go学习" class="headerlink" title="tags: Go Go学习"></a>tags: <code>Go</code> <code>Go学习</code></h6>]]></content>
       <categories>
-        <category>Bible</category>
+        <category>Coding</category>
       </categories>
       <tags>
-        <tag>雅各书</tag>
+        <tag>Go</tag>
+        <tag>Go学习</tag>
       </tags>
   </entry>
   <entry>
@@ -2563,6 +2577,42 @@
       <tags>
         <tag>Go</tag>
         <tag>Go学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>雅各书 5 13-20</title>
+    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
+    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
+<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
+<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
+<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
+</blockquote>
+<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
+<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
+<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
+<blockquote>
+<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
+</blockquote>
+<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
+<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
+<ul>
+<li>认罪</li>
+<li>倾吐心声</li>
+<li>互相鼓励</li>
+<li>等等。。。</li>
+</ul>
+<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
+<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
+<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
+<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
+<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
@@ -2894,30 +2944,6 @@
       </tags>
   </entry>
   <entry>
-    <title>雅各书 3-4</title>
-    <url>/2021/03/07/yageshu_13/</url>
-    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
-<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
-</blockquote>
-<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
-<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
-<blockquote>
-<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
-</blockquote>
-<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
-<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
-<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
-</blockquote>
-<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>编程101 PyOS 一个Python写的OS 3</title>
     <url>/2021/03/07/pyos_3/</url>
     <content><![CDATA[<blockquote>
@@ -2968,6 +2994,30 @@
         <tag>Operating System</tag>
         <tag>Python</tag>
         <tag>Concurrent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>雅各书 3-4</title>
+    <url>/2021/03/07/yageshu_13/</url>
+    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
+<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
+</blockquote>
+<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
+<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
+<blockquote>
+<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
+</blockquote>
+<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
+<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
+<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
+</blockquote>
+<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
@@ -3230,54 +3280,6 @@
       </tags>
   </entry>
   <entry>
-    <title>重新认识 Python（3）GIL</title>
-    <url>/2021/02/18/python_gil/</url>
-    <content><![CDATA[<h1 id="重新认识Python（3）：GIL，Global-Interpreter-Lock"><a href="#重新认识Python（3）：GIL，Global-Interpreter-Lock" class="headerlink" title="重新认识Python（3）：GIL，Global Interpreter Lock"></a>重新认识Python（3）：GIL，Global Interpreter Lock</h1><p>之前的两个文章主要简述了Python的内存管理模型和对应的GC模型。今天我们来看看Python的另一个“著名”特征：GIL，全局解释器锁。GIL长久以来被各种内行、外行诟病，可是很多人并不清楚GIL究竟是什么？为什么当初要设计GIL？GIL的优势在哪里？</p>
-<h2 id="Python-是如何工作的？"><a href="#Python-是如何工作的？" class="headerlink" title="Python 是如何工作的？"></a>Python 是如何工作的？</h2><p>要理解 GIL 需要知道一些Python解释器的运行原理。Python的解释器其实一个循环，循环里是一系列的cases，逐行读取编译后的Opcode进行计算，每一个线程都有独立的这么一个循环。这里插一嘴，其实Python不是解释型语言，起码不是纯粹的解释型，Python源代码会被编译成Python自己的byte code，就是上面循环中的那些opcode。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (;;) &#123;</span><br><span class="line">    assert(stack_pointer &gt;= f-&gt;f_valuestack); <span class="comment">/* else underflow */</span></span><br><span class="line">    assert(STACK_LEVEL() &lt;= co-&gt;co_stacksize);  <span class="comment">/* else overflow */</span></span><br><span class="line">    assert(!PyErr_Occurred());</span><br><span class="line">    <span class="comment">// 这部分省略的代码就是后面GIL的关键。。我们先来看看解释器的循环</span></span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">    <span class="comment">/* Extract opcode and argument */</span></span><br><span class="line"></span><br><span class="line">        NEXTOPARG();</span><br><span class="line">    dispatch_opcode:</span><br><span class="line">      <span class="keyword">switch</span> (opcode) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* BEWARE!</span></span><br><span class="line"><span class="comment">           It is essential that any operation that fails sets either</span></span><br><span class="line"><span class="comment">           x to NULL, err to nonzero, or why to anything but WHY_NOT,</span></span><br><span class="line"><span class="comment">           and that no operation that succeeds does this! */</span></span><br><span class="line"></span><br><span class="line">        TARGET(NOP)</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line"></span><br><span class="line">        TARGET(LOAD_FAST) &#123;</span><br><span class="line">            PyObject *value = GETLOCAL(oparg);</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="literal">NULL</span>) &#123;</span><br><span class="line">                format_exc_check_arg(PyExc_UnboundLocalError,</span><br><span class="line">                                     UNBOUNDLOCAL_ERROR_MSG,</span><br><span class="line">                                     PyTuple_GetItem(co-&gt;co_varnames, oparg));</span><br><span class="line">                <span class="keyword">goto</span> error;</span><br><span class="line">            &#125;</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        PREDICTED(LOAD_CONST);</span><br><span class="line">        TARGET(LOAD_CONST) &#123;</span><br><span class="line">            PyObject *value = GETITEM(consts, oparg);</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
-
-<p>主要参考的<a href="https://github.com/python/cpython/blob/ef5f4ba96e05f61ad3baca502012085f31e99342/Python/ceval.c#L930-L1064">源代码</a>在这里。</p>
-<p>当然，为了支持计算Python的runtime还会准备对应的Frame、全局变量等等。</p>
-<h2 id="GIL-是什么？"><a href="#GIL-是什么？" class="headerlink" title="GIL 是什么？"></a>GIL 是什么？</h2><p>上面我们提到，每一个线程都有自己独立的执行循环，但是这些执行循环并不是相互独立的，他们必然会共享一些内存，这里起就是经典的并发问题，比如race condition等等。并发模型的实现由很多方法，我们听到最多、看起来也最简单的方法就是基于锁的方法。Python其实就选择这个方法，GIL也就诞生了。</p>
-<p>GIL就是一个锁，每一个线程的执行循环，只有拿到GIL，才可以执行，否则就要等待，而一个Python进程只有一个GIL锁，所以它才叫全局锁。GIL可以保证，在同一时间，只有一个线程可以拿到这个锁。</p>
-<p>这里我参考了一个小哥的代码，他简单的实现了Python版本的GIL，方便我们理解GIL。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> SimpleNamespace</span><br><span class="line"></span><br><span class="line">DEFAULT_INTERVAL = <span class="number">0.05</span></span><br><span class="line"></span><br><span class="line">gil_mutex = threading.RLock()</span><br><span class="line">gil_condition = threading.Condition(lock=gil_mutex)</span><br><span class="line">switch_condition = threading.Condition()</span><br><span class="line"></span><br><span class="line"><span class="comment"># dictionary-like object that supports dot (attribute) syntax</span></span><br><span class="line">gil = SimpleNamespace(</span><br><span class="line">    drop_request=<span class="literal">False</span>,</span><br><span class="line">    locked=<span class="literal">True</span>,</span><br><span class="line">    switch_number=<span class="number">0</span>,</span><br><span class="line">    last_holder=<span class="literal">None</span>,</span><br><span class="line">    eval_breaker=<span class="literal">True</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">drop_gil</span>(<span class="params">thread_id</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> gil.locked:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;GIL is not locked&quot;</span>)</span><br><span class="line"></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    gil.last_holder = thread_id</span><br><span class="line">    gil.locked = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Signals that the GIL is now available for acquiring to the first awaiting thread</span></span><br><span class="line">    gil_condition.notify()</span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching</span></span><br><span class="line">    <span class="comment"># Lock current thread so it will not immediately reacquire the GIL</span></span><br><span class="line">    <span class="comment"># this ensures that another GIL-awaiting thread have a chance to get scheduled</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        switch_condition.acquire()</span><br><span class="line">        <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">            gil.drop_request = <span class="literal">False</span></span><br><span class="line">            switch_condition.wait()</span><br><span class="line"></span><br><span class="line">        switch_condition.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">take_gil</span>(<span class="params">thread_id</span>):</span></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> gil.locked:</span><br><span class="line">        saved_switchnum = gil.switch_number</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Release the lock and wait for a signal from a GIL holding thread,</span></span><br><span class="line">        <span class="comment"># set drop_request=True if the wait is timed out</span></span><br><span class="line"></span><br><span class="line">        timed_out = <span class="keyword">not</span> gil_condition.wait(timeout=DEFAULT_INTERVAL)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> timed_out <span class="keyword">and</span> gil.locked <span class="keyword">and</span> gil.switch_number == saved_switchnum:</span><br><span class="line">            gil.drop_request = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># lock for force switching</span></span><br><span class="line">    switch_condition.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Now we hold the GIL</span></span><br><span class="line">    gil.locked = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.last_holder != thread_id:</span><br><span class="line">        gil.last_holder = thread_id</span><br><span class="line">        gil.switch_number += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching, send signal to drop_gil</span></span><br><span class="line">    switch_condition.notify()</span><br><span class="line">    switch_condition.release()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execution_loop</span>(<span class="params">target_function, thread_id</span>):</span></span><br><span class="line">    <span class="comment"># Compile Python function down to bytecode and execute it in the while loop</span></span><br><span class="line"></span><br><span class="line">    bytecode = <span class="built_in">compile</span>(target_function)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># drop_request indicates that one or more threads are awaiting for the GIL</span></span><br><span class="line">        <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">            <span class="comment"># release the gil from the current thread</span></span><br><span class="line">            drop_gil(thread_id)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># immediately request the GIL for the current thread</span></span><br><span class="line">            <span class="comment"># at this point the thread will be waiting for GIL and suspended until the function return</span></span><br><span class="line">            take_gil(thread_id)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># bytecode execution logic, executes one instruction at a time</span></span><br><span class="line">        instruction = bytecode.next_instruction()</span><br><span class="line">        <span class="keyword">if</span> instruction <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            execute_opcode(instruction)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
-
-<p>看代码我们可以知道：</p>
-<ul>
-<li>Python创建一个新的thread的时候，会首先call <code>take_gil</code> 尝试得到 GIL，然后才进入执行循环</li>
-<li>通过在循环的开始部分检查gil状态，可以确保只有一个线程在执行</li>
-</ul>
-<p>目前这个版本的GIL其实也实现一些scheduler的功能，比如：</p>
-<p><code>gil.drop_request</code> 为True就表明有其他的线程在等待执行，当前进程就会首先尝试放弃gil，给其他线程机会，然后他会立刻尝试夺回gil，以便自己可以继续运行。聪明的你可能想问，马上尝试夺回，那别的进程怎么办啊？</p>
-<p>仔细看 <code>drop_gil</code> 函数:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> gil.drop_request:</span><br><span class="line">    switch_condition.acquire()</span><br><span class="line">    <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line">        switch_condition.wait()</span><br><span class="line"></span><br><span class="line">    switch_condition.release()</span><br></pre></td></tr></table></figure>
-
-<p>这段代码确保如果，OS分配的下一个线程还是自己，该线程就会被迫等待，确保其他进程有机会被系统的线程调度器分配。</p>
-<p>CPython的源码在<a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h">这里</a></p>
-<h2 id="关于GIL的思考"><a href="#关于GIL的思考" class="headerlink" title="关于GIL的思考"></a>关于GIL的思考</h2><p>GIL从1992年诞生到现在，其实经历一些变化。在GIL被设计的年代，多核CPU基本不存在，当时的线程也主要是用来做IO类型的工作，所以GIL的设计处理多线程IO效率非常高。</p>
-<p>GIL的存在也让Python的单核性能大大增加，其实GIL是Python成功的一个重要原因。后来GIL加入了 <code>switch_condition</code>, <code>switch_number</code>, <code>timeout</code> 等参数，很大程度改善了多核处理下GIL线程schedule的问题。Python3以后的GIL仍然无法实现真正的CPU密集并行的多线程。不过这里说的线程都是OS线程，这不妨碍实现软件线程。</p>
-<p>GIL难以被完全移除有很多原因，比如</p>
-<ul>
-<li>移除GIL，就需要修改Python的GC机制，特别是reference counting</li>
-<li>GIL移除，会降低单核性能。因为移除全局锁，必然要引入粒度更小的锁</li>
-<li>可以考虑其他的同步机制，比如Software transactional memory，那么就要修改整个C API，基本上所有的C-API库都废了。。。。</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://www.youtube.com/watch?v=7RlqbHCCVyc">https://www.youtube.com/watch?v=7RlqbHCCVyc</a></li>
-<li><a href="https://www.youtube.com/watch?v=4zeHStBowEk">https://www.youtube.com/watch?v=4zeHStBowEk</a></li>
-<li><a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h">https://github.com/python/cpython/blob/master/Python/ceval_gil.h</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>CPython</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>重新认识 Python（2）内存管理</title>
     <url>/2021/02/18/python_memory_mgt/</url>
     <content><![CDATA[<h1 id="重新认识-Python（2）：内存管理"><a href="#重新认识-Python（2）：内存管理" class="headerlink" title="重新认识 Python（2）：内存管理"></a>重新认识 Python（2）：内存管理</h1><p>理解内存管理需要知道通常内存使用的基本规则。一般来说，一个进程的内存会被划分成两个部分，堆（heap）和栈（stack）。栈的结构相对简单，本质上就是一个先进后出队列，所有被分配在栈上的值必须是确定大小的、静态的。栈的功能主要是临时存储函数运行时的参数、临时变量和结果。显然，在程序运行的时候，我们需要产生许多大小不固定且动态的值，比如对象、列表、字典等等，这些数据结构不能直接分配到栈上，因此我们需要堆来存放这些值。相应的，堆的内存空间往往比栈大的多。</p>
@@ -3342,6 +3344,54 @@
 <li><a href="https://github.com/python/cpython/blob/master/Include/object.h">https://github.com/python/cpython/blob/master/Include/object.h</a></li>
 <li><a href="https://github.com/python/cpython/blob/ad051cbce1360ad3055a048506c09bc2a5442474/Objects/obmalloc.c#L534">https://github.com/python/cpython/blob/ad051cbce1360ad3055a048506c09bc2a5442474/Objects/obmalloc.c#L534</a></li>
 <li><a href="https://rushter.com/blog/python-memory-managment/">https://rushter.com/blog/python-memory-managment/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>CPython</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>重新认识 Python（3）GIL</title>
+    <url>/2021/02/18/python_gil/</url>
+    <content><![CDATA[<h1 id="重新认识Python（3）：GIL，Global-Interpreter-Lock"><a href="#重新认识Python（3）：GIL，Global-Interpreter-Lock" class="headerlink" title="重新认识Python（3）：GIL，Global Interpreter Lock"></a>重新认识Python（3）：GIL，Global Interpreter Lock</h1><p>之前的两个文章主要简述了Python的内存管理模型和对应的GC模型。今天我们来看看Python的另一个“著名”特征：GIL，全局解释器锁。GIL长久以来被各种内行、外行诟病，可是很多人并不清楚GIL究竟是什么？为什么当初要设计GIL？GIL的优势在哪里？</p>
+<h2 id="Python-是如何工作的？"><a href="#Python-是如何工作的？" class="headerlink" title="Python 是如何工作的？"></a>Python 是如何工作的？</h2><p>要理解 GIL 需要知道一些Python解释器的运行原理。Python的解释器其实一个循环，循环里是一系列的cases，逐行读取编译后的Opcode进行计算，每一个线程都有独立的这么一个循环。这里插一嘴，其实Python不是解释型语言，起码不是纯粹的解释型，Python源代码会被编译成Python自己的byte code，就是上面循环中的那些opcode。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (;;) &#123;</span><br><span class="line">    assert(stack_pointer &gt;= f-&gt;f_valuestack); <span class="comment">/* else underflow */</span></span><br><span class="line">    assert(STACK_LEVEL() &lt;= co-&gt;co_stacksize);  <span class="comment">/* else overflow */</span></span><br><span class="line">    assert(!PyErr_Occurred());</span><br><span class="line">    <span class="comment">// 这部分省略的代码就是后面GIL的关键。。我们先来看看解释器的循环</span></span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">    <span class="comment">/* Extract opcode and argument */</span></span><br><span class="line"></span><br><span class="line">        NEXTOPARG();</span><br><span class="line">    dispatch_opcode:</span><br><span class="line">      <span class="keyword">switch</span> (opcode) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* BEWARE!</span></span><br><span class="line"><span class="comment">           It is essential that any operation that fails sets either</span></span><br><span class="line"><span class="comment">           x to NULL, err to nonzero, or why to anything but WHY_NOT,</span></span><br><span class="line"><span class="comment">           and that no operation that succeeds does this! */</span></span><br><span class="line"></span><br><span class="line">        TARGET(NOP)</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line"></span><br><span class="line">        TARGET(LOAD_FAST) &#123;</span><br><span class="line">            PyObject *value = GETLOCAL(oparg);</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="literal">NULL</span>) &#123;</span><br><span class="line">                format_exc_check_arg(PyExc_UnboundLocalError,</span><br><span class="line">                                     UNBOUNDLOCAL_ERROR_MSG,</span><br><span class="line">                                     PyTuple_GetItem(co-&gt;co_varnames, oparg));</span><br><span class="line">                <span class="keyword">goto</span> error;</span><br><span class="line">            &#125;</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        PREDICTED(LOAD_CONST);</span><br><span class="line">        TARGET(LOAD_CONST) &#123;</span><br><span class="line">            PyObject *value = GETITEM(consts, oparg);</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
+
+<p>主要参考的<a href="https://github.com/python/cpython/blob/ef5f4ba96e05f61ad3baca502012085f31e99342/Python/ceval.c#L930-L1064">源代码</a>在这里。</p>
+<p>当然，为了支持计算Python的runtime还会准备对应的Frame、全局变量等等。</p>
+<h2 id="GIL-是什么？"><a href="#GIL-是什么？" class="headerlink" title="GIL 是什么？"></a>GIL 是什么？</h2><p>上面我们提到，每一个线程都有自己独立的执行循环，但是这些执行循环并不是相互独立的，他们必然会共享一些内存，这里起就是经典的并发问题，比如race condition等等。并发模型的实现由很多方法，我们听到最多、看起来也最简单的方法就是基于锁的方法。Python其实就选择这个方法，GIL也就诞生了。</p>
+<p>GIL就是一个锁，每一个线程的执行循环，只有拿到GIL，才可以执行，否则就要等待，而一个Python进程只有一个GIL锁，所以它才叫全局锁。GIL可以保证，在同一时间，只有一个线程可以拿到这个锁。</p>
+<p>这里我参考了一个小哥的代码，他简单的实现了Python版本的GIL，方便我们理解GIL。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> SimpleNamespace</span><br><span class="line"></span><br><span class="line">DEFAULT_INTERVAL = <span class="number">0.05</span></span><br><span class="line"></span><br><span class="line">gil_mutex = threading.RLock()</span><br><span class="line">gil_condition = threading.Condition(lock=gil_mutex)</span><br><span class="line">switch_condition = threading.Condition()</span><br><span class="line"></span><br><span class="line"><span class="comment"># dictionary-like object that supports dot (attribute) syntax</span></span><br><span class="line">gil = SimpleNamespace(</span><br><span class="line">    drop_request=<span class="literal">False</span>,</span><br><span class="line">    locked=<span class="literal">True</span>,</span><br><span class="line">    switch_number=<span class="number">0</span>,</span><br><span class="line">    last_holder=<span class="literal">None</span>,</span><br><span class="line">    eval_breaker=<span class="literal">True</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">drop_gil</span>(<span class="params">thread_id</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> gil.locked:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;GIL is not locked&quot;</span>)</span><br><span class="line"></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    gil.last_holder = thread_id</span><br><span class="line">    gil.locked = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Signals that the GIL is now available for acquiring to the first awaiting thread</span></span><br><span class="line">    gil_condition.notify()</span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching</span></span><br><span class="line">    <span class="comment"># Lock current thread so it will not immediately reacquire the GIL</span></span><br><span class="line">    <span class="comment"># this ensures that another GIL-awaiting thread have a chance to get scheduled</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        switch_condition.acquire()</span><br><span class="line">        <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">            gil.drop_request = <span class="literal">False</span></span><br><span class="line">            switch_condition.wait()</span><br><span class="line"></span><br><span class="line">        switch_condition.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">take_gil</span>(<span class="params">thread_id</span>):</span></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> gil.locked:</span><br><span class="line">        saved_switchnum = gil.switch_number</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Release the lock and wait for a signal from a GIL holding thread,</span></span><br><span class="line">        <span class="comment"># set drop_request=True if the wait is timed out</span></span><br><span class="line"></span><br><span class="line">        timed_out = <span class="keyword">not</span> gil_condition.wait(timeout=DEFAULT_INTERVAL)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> timed_out <span class="keyword">and</span> gil.locked <span class="keyword">and</span> gil.switch_number == saved_switchnum:</span><br><span class="line">            gil.drop_request = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># lock for force switching</span></span><br><span class="line">    switch_condition.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Now we hold the GIL</span></span><br><span class="line">    gil.locked = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.last_holder != thread_id:</span><br><span class="line">        gil.last_holder = thread_id</span><br><span class="line">        gil.switch_number += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching, send signal to drop_gil</span></span><br><span class="line">    switch_condition.notify()</span><br><span class="line">    switch_condition.release()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execution_loop</span>(<span class="params">target_function, thread_id</span>):</span></span><br><span class="line">    <span class="comment"># Compile Python function down to bytecode and execute it in the while loop</span></span><br><span class="line"></span><br><span class="line">    bytecode = <span class="built_in">compile</span>(target_function)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># drop_request indicates that one or more threads are awaiting for the GIL</span></span><br><span class="line">        <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">            <span class="comment"># release the gil from the current thread</span></span><br><span class="line">            drop_gil(thread_id)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># immediately request the GIL for the current thread</span></span><br><span class="line">            <span class="comment"># at this point the thread will be waiting for GIL and suspended until the function return</span></span><br><span class="line">            take_gil(thread_id)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># bytecode execution logic, executes one instruction at a time</span></span><br><span class="line">        instruction = bytecode.next_instruction()</span><br><span class="line">        <span class="keyword">if</span> instruction <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            execute_opcode(instruction)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p>看代码我们可以知道：</p>
+<ul>
+<li>Python创建一个新的thread的时候，会首先call <code>take_gil</code> 尝试得到 GIL，然后才进入执行循环</li>
+<li>通过在循环的开始部分检查gil状态，可以确保只有一个线程在执行</li>
+</ul>
+<p>目前这个版本的GIL其实也实现一些scheduler的功能，比如：</p>
+<p><code>gil.drop_request</code> 为True就表明有其他的线程在等待执行，当前进程就会首先尝试放弃gil，给其他线程机会，然后他会立刻尝试夺回gil，以便自己可以继续运行。聪明的你可能想问，马上尝试夺回，那别的进程怎么办啊？</p>
+<p>仔细看 <code>drop_gil</code> 函数:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> gil.drop_request:</span><br><span class="line">    switch_condition.acquire()</span><br><span class="line">    <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line">        switch_condition.wait()</span><br><span class="line"></span><br><span class="line">    switch_condition.release()</span><br></pre></td></tr></table></figure>
+
+<p>这段代码确保如果，OS分配的下一个线程还是自己，该线程就会被迫等待，确保其他进程有机会被系统的线程调度器分配。</p>
+<p>CPython的源码在<a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h">这里</a></p>
+<h2 id="关于GIL的思考"><a href="#关于GIL的思考" class="headerlink" title="关于GIL的思考"></a>关于GIL的思考</h2><p>GIL从1992年诞生到现在，其实经历一些变化。在GIL被设计的年代，多核CPU基本不存在，当时的线程也主要是用来做IO类型的工作，所以GIL的设计处理多线程IO效率非常高。</p>
+<p>GIL的存在也让Python的单核性能大大增加，其实GIL是Python成功的一个重要原因。后来GIL加入了 <code>switch_condition</code>, <code>switch_number</code>, <code>timeout</code> 等参数，很大程度改善了多核处理下GIL线程schedule的问题。Python3以后的GIL仍然无法实现真正的CPU密集并行的多线程。不过这里说的线程都是OS线程，这不妨碍实现软件线程。</p>
+<p>GIL难以被完全移除有很多原因，比如</p>
+<ul>
+<li>移除GIL，就需要修改Python的GC机制，特别是reference counting</li>
+<li>GIL移除，会降低单核性能。因为移除全局锁，必然要引入粒度更小的锁</li>
+<li>可以考虑其他的同步机制，比如Software transactional memory，那么就要修改整个C API，基本上所有的C-API库都废了。。。。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.youtube.com/watch?v=7RlqbHCCVyc">https://www.youtube.com/watch?v=7RlqbHCCVyc</a></li>
+<li><a href="https://www.youtube.com/watch?v=4zeHStBowEk">https://www.youtube.com/watch?v=4zeHStBowEk</a></li>
+<li><a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h">https://github.com/python/cpython/blob/master/Python/ceval_gil.h</a></li>
 </ul>
 ]]></content>
       <categories>
@@ -3784,6 +3834,32 @@
       </tags>
   </entry>
   <entry>
+    <title>6.004 Basic of information</title>
+    <url>/2020/12/19/6004_1/</url>
+    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
+<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
+<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
+<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
+<p>the unit is bits, the number of bits required to encode the choice.</p>
+<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
+<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
+<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
+<p>Encoding as binary tree is a good way to think. </p>
+<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
+<p>If we do same algorithm but using multiple symbols, we can do better.</p>
+<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
+<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/">6.004</a></p>
+<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>6.004</tag>
+        <tag>Information</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>6.004 The Digital Abstraction</title>
     <url>/2020/12/19/6004-2/</url>
     <content><![CDATA[<h1 id="The-Digital-Abstraction"><a href="#The-Digital-Abstraction" class="headerlink" title="The Digital Abstraction"></a>The Digital Abstraction</h1><p>Q: the physical representation of bits?</p>
@@ -3810,32 +3886,6 @@
 </blockquote>
 <p><img data-src="https://i.imgur.com/NMkOpar.png" alt=""></p>
 ]]></content>
-      <categories>
-        <category>Computing</category>
-      </categories>
-      <tags>
-        <tag>6.004</tag>
-        <tag>Information</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>6.004 Basic of information</title>
-    <url>/2020/12/19/6004_1/</url>
-    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
-<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
-<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
-<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
-<p>the unit is bits, the number of bits required to encode the choice.</p>
-<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
-<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
-<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
-<p>Encoding as binary tree is a good way to think. </p>
-<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
-<p>If we do same algorithm but using multiple symbols, we can do better.</p>
-<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
-<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
-<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/">6.004</a></p>
-<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
       <categories>
         <category>Computing</category>
       </categories>
