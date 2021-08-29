@@ -87,3 +87,7 @@ free回收某个指针指向的空间。显式分配器需要满足如下设计�
 
 ## 实现方式
 
+## 参考
+
+- [jemalloc](https://people.freebsd.org/~jasone/jemalloc/bsdcan2006/jemalloc.pdf)
+- [mimalloc](https://www.microsoft.com/en-us/research/uploads/prod/2019/06/mimalloc-tr-v1.pdf)
