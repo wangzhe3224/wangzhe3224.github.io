@@ -34,32 +34,23 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Hexo CLI
+          name: Install Hexo CLI and deployer
           command: |
             sudo npm install hexo-cli -g
+            sudo npm install hexo-deployer-git --save
       - restore_cache:
           key: node-cache-{{ checksum "package-lock.json" }}
       - attach_workspace:
           at: public
       - add_ssh_keys:
           fingerprints:
-            - "1d:0c:ea:28:8a:4f:f0:5d:98:e1:ca:93:0f:38:d6:ab"
+            - "4e:97:3a:0c:fe:60:8b:f1:aa:88:74:66:06:dc:01:38"
       - deploy:
           name: Deploy website
           command: |
             git config --global user.name "Circle CI"
             git config --global user.email "bot@circleci.com"
             sh deploy.sh
-  verify:
-    docker:
-      - image: circleci/node:10
-    steps:
-      - run:
-          name: Install BLC
-          command: sudo npm install -g broken-link-checker
-      - run:
-          name: Check broken internal links
-          command: blc https://e.printstacktrace.blog -roe
 
 workflows:
   version: 2
@@ -76,7 +67,4 @@ workflows:
             - build
           filters:
             branches:
-              only: develop
-      - verify:
-          requires:
-            - deploy
+              only: hexo-source

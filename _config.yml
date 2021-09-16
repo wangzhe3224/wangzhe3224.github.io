@@ -103,7 +103,10 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: ''
+  type: git
+  repo: git@github.com:wangzhe3224/wangzhe3224.github.io.git
+  branch: master
+  ignore_hidden: false
 
 symbols_count_time:
   symbols: true
