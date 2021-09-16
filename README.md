@@ -1,5 +1,5 @@
 # wangzhe3224.github.io
-[![Build Status](https://travis-ci.com/wangzhe3224/wangzhe3224.github.io.svg?branch=hexo-source)](https://travis-ci.com/wangzhe3224/wangzhe3224.github.io)
+[![CircleCI](https://circleci.com/gh/wangzhe3224/wangzhe3224.github.io/tree/hexo-source.svg?style=svg)](https://circleci.com/gh/wangzhe3224/wangzhe3224.github.io/tree/hexo-source)
 
 https://wangzhe3224.github.io/
 
