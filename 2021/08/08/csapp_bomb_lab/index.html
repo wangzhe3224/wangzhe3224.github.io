@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Heap（堆）的使用 1046. Last Stone Weight 703. Kth Largest Element in a Stream 1792. Maximum Average Pass Ratio 621. Task Schedule  1046. Last Stone Weight思路 此题比较直接，直接采用heap来维护最重的数值在头部，需要注意的是 Python 的 heap 都">
+  <meta name="description" content="Bomb Lab 解析Bomb Lab 实际就是通过反汇编和GDB对一个二进制文件行进分析，寻找每一个阶段需要输入的特定字符串。主要考察对汇编代码、栈帧、寄存器的熟悉程度以及使用GDB的能力。 环境设置推荐大家使用docker构建一个环境方便省时： 12345678910image &#x3D; &quot;zwang&#x2F;csapp&quot;path&#x3D;&quot;&#x2F;xxx&#x2F;xxx&quot;  # 这里修改">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Heap 使用">
-<meta property="og:url" content="http://yoursite.com/2021/04/18/leetcode_heap1/index.html">
+<meta property="og:title" content="Bomb Lab">
+<meta property="og:url" content="http://yoursite.com/2021/08/08/csapp_bomb_lab/index.html">
 <meta property="og:site_name" content="Zhe">
-<meta property="og:description" content="Heap（堆）的使用 1046. Last Stone Weight 703. Kth Largest Element in a Stream 1792. Maximum Average Pass Ratio 621. Task Schedule  1046. Last Stone Weight思路 此题比较直接，直接采用heap来维护最重的数值在头部，需要注意的是 Python 的 heap 都">
+<meta property="og:description" content="Bomb Lab 解析Bomb Lab 实际就是通过反汇编和GDB对一个二进制文件行进分析，寻找每一个阶段需要输入的特定字符串。主要考察对汇编代码、栈帧、寄存器的熟悉程度以及使用GDB的能力。 环境设置推荐大家使用docker构建一个环境方便省时： 12345678910image &#x3D; &quot;zwang&#x2F;csapp&quot;path&#x3D;&quot;&#x2F;xxx&#x2F;xxx&quot;  # 这里修改">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-04-18T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-09-16T09:31:46.538Z">
+<meta property="article:published_time" content="2021-08-08T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-09-16T09:31:46.530Z">
 <meta property="article:author" content="Zhe">
-<meta property="article:tag" content="Heap">
+<meta property="article:tag" content="CSAPP">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2021/04/18/leetcode_heap1/">
+<link rel="canonical" href="http://yoursite.com/2021/08/08/csapp_bomb_lab/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>Heap 使用 | Zhe</title>
+  <title>Bomb Lab | Zhe</title>
   
     <script>
       function sendPageView() {
@@ -230,7 +230,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/18/leetcode_heap1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/08/csapp_bomb_lab/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/lambda.jpeg">
@@ -243,7 +243,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Heap 使用
+          Bomb Lab
         </h1>
 
         <div class="post-meta">
@@ -253,7 +253,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-04-18 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-18T00:00:00Z">2021-04-18</time>
+              <time title="Created: 2021-08-08 00:00:00" itemprop="dateCreated datePublished" datetime="2021-08-08T00:00:00Z">2021-08-08</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -261,7 +261,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
+                  <a href="/categories/Computing/" itemprop="url" rel="index"><span itemprop="name">Computing</span></a>
                 </span>
             </span>
 
@@ -281,8 +281,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/04/18/leetcode_heap1/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/18/leetcode_heap1/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/08/08/csapp_bomb_lab/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/08/08/csapp_bomb_lab/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -292,7 +292,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.7k</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -311,42 +311,74 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Heap（堆）的使用"><a href="#Heap（堆）的使用" class="headerlink" title="Heap（堆）的使用"></a>Heap（堆）的使用</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/last-stone-weight/">1046. Last Stone Weight</a></li>
-<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/kth-largest-element-in-a-stream/">703. Kth Largest Element in a Stream</a></li>
-<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/maximum-average-pass-ratio/">1792. Maximum Average Pass Ratio</a></li>
-<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/task-scheduler/">621. Task Schedule</a></li>
+        <h1 id="Bomb-Lab-解析"><a href="#Bomb-Lab-解析" class="headerlink" title="Bomb Lab 解析"></a>Bomb Lab 解析</h1><p>Bomb Lab 实际就是通过反汇编和GDB对一个二进制文件行进分析，寻找每一个阶段需要输入的特定字符串。主要考察对汇编代码、栈帧、寄存器的熟悉程度以及使用GDB的能力。</p>
+<h2 id="环境设置"><a href="#环境设置" class="headerlink" title="环境设置"></a>环境设置</h2><p>推荐大家使用docker构建一个环境方便省时：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">image = <span class="string">&quot;zwang/csapp&quot;</span></span><br><span class="line">path=<span class="string">&quot;/xxx/xxx&quot;</span>  <span class="comment"># 这里修改成你自己的lab目录</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ! docker container rm csapp_env; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;remove old container.&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;no old container exist. Create a new one&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">docker container run -it -v <span class="variable">$&#123;path&#125;</span>:/projects -p 8080:8080 --name=csapp_env --net host wangzhe3224/csapp /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>上面的命名会直接从远程docker仓库pull一个我设置好的环境，并且进入那个docker的bash。环境中已经装好了：vim, gdb, cgdb 等一些列方便调试的软件和必要的 c 语言相关库。</p>
+<h2 id="GDB小抄"><a href="#GDB小抄" class="headerlink" title="GDB小抄"></a>GDB小抄</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- info r, 展示寄存器内容</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://web.stanford.edu/class/cs107/resources/x86-64-reference.pdf">CS107 x86-64 Reference Sheet</a></li>
+<li><a target="_blank" rel="noopener" href="https://cs.brown.edu/courses/cs033/docs/guides/x64_cheatsheet.pdf">x64 Cheat Sheet</a></li>
+<li><a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/docs/gdbnotes-x86-64.pdf">GDB 参考</a></li>
 </ul>
-<h2 id="1046-Last-Stone-Weight"><a href="#1046-Last-Stone-Weight" class="headerlink" title="1046. Last Stone Weight"></a>1046. Last Stone Weight</h2><p><strong>思路</strong></p>
-<p>此题比较直接，直接采用heap来维护最重的数值在头部，需要注意的是 Python 的 heap 都是 min heap，所以需要取负数来实现此题。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lastStoneWeight</span>(<span class="params">self, stones: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        h = [-s <span class="keyword">for</span> s <span class="keyword">in</span> stones]</span><br><span class="line">        heapify(h)</span><br><span class="line">        <span class="built_in">print</span>(h)</span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(h) &gt;= <span class="number">2</span>:</span><br><span class="line">            fst = heappop(h)</span><br><span class="line">            snd = heappop(h)</span><br><span class="line">            <span class="keyword">if</span> fst != snd:</span><br><span class="line">                heappush(h, fst-snd)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> -<span class="built_in">sum</span>(h)</span><br></pre></td></tr></table></figure>
+<h2 id="Phase-1"><a href="#Phase-1" class="headerlink" title="Phase 1"></a>Phase 1</h2><p>首先观察源代码入口 <code>bomb.c</code>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">input = read_line();             <span class="comment">/* Get input                   */</span></span><br><span class="line">phase_1(input);                  <span class="comment">/* Run the phase               */</span></span><br><span class="line">phase_defused();                 <span class="comment">/* Drat!  They figured it out!</span></span><br><span class="line"><span class="comment">* Let me know how they did it. */</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Phase 1 defused. How about the next one?\n&quot;</span>);</span><br></pre></td></tr></table></figure>
 
+<p>每一个阶段都是上面的模式，读取输入的字符串，传入每一个阶段的函数体，在函数体中检测输入的字符串是否与程序预设相同，如果相同则进入下一阶段。另外，lab还推荐写一个文本文件作为每一步的结果，这样方便测试，该文件每一行就是每一阶段的答案。本文假设该文件名为<code>psol.txt</code>。</p>
+<p>首先，为了更完成的看到反汇编代码，我们做<code>objdump -d bomb &gt; bomb.as</code> 获得二进制炸弹的汇编代码方便查阅。当然，本文使用 cgdb 作为调试工具，可以相对方便的在调试过程看到机器码，也可以不必一直参考汇编代码文件。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 进入debug模式</span><br><span class="line">cgdb bomb</span><br><span class="line"></span><br><span class="line"># 在phase_1处设置断点</span><br><span class="line">b phase_1</span><br><span class="line">r &lt; psol.txt</span><br></pre></td></tr></table></figure>
 
-<h2 id="703-Kth-Largest-Element-in-a-Stream"><a href="#703-Kth-Largest-Element-in-a-Stream" class="headerlink" title="703. Kth Largest Element in a Stream"></a>703. Kth Largest Element in a Stream</h2><p><strong>思路</strong><br>这题的要点在于维护一个固定长度的heap。可以采用 <code>heapreplace</code> 函数实现 push和pop 的组合操作。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KthLargest</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, k: <span class="built_in">int</span>, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>):</span></span><br><span class="line">        self.nums = nums</span><br><span class="line">        self.k = k</span><br><span class="line">        heapify(self.nums)</span><br><span class="line">        <span class="comment"># 保持头部是 kth largest </span></span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(self.nums) &gt; k:</span><br><span class="line">            heappop(self.nums)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">self, val: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(self.nums) &lt; self.k:</span><br><span class="line">            heappush(self.nums, val)</span><br><span class="line">        <span class="keyword">elif</span> val &gt; self.nums[<span class="number">0</span>]:</span><br><span class="line">            heapreplace(self.nums, val)</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> self.nums[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>得到如下phase_1的汇编：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> 1│ Dump of assembler code for function phase_1:</span><br><span class="line"> 2├──&gt; 0x0000000000400ee0 &lt;+0&gt;:     sub    $0x8,%rsp</span><br><span class="line"> 3│    0x0000000000400ee4 &lt;+4&gt;:     mov    $0x402400,%esi</span><br><span class="line"> 4│    0x0000000000400ee9 &lt;+9&gt;:     callq  0x401338 &lt;strings_not_equal&gt;</span><br><span class="line"> 5│    0x0000000000400eee &lt;+14&gt;:    test   %eax,%eax</span><br><span class="line"> 6│    0x0000000000400ef0 &lt;+16&gt;:    je     0x400ef7 &lt;phase_1+23&gt;</span><br><span class="line"> 7│    0x0000000000400ef2 &lt;+18&gt;:    callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line"> 8│    0x0000000000400ef7 &lt;+23&gt;:    add    $0x8,%rsp</span><br><span class="line"> 9│    0x0000000000400efb &lt;+27&gt;:    retq</span><br><span class="line">10│ End of assembler dump.</span><br></pre></td></tr></table></figure>
 
+<p>我们逐一分析：</p>
+<ul>
+<li>申请8字节的栈空间</li>
+<li>把0x402400放入%esi，我们知道esi会存放接下来函数调用的第二个参数，第一个参数在%edi</li>
+<li>然后调用strings_not_equal函数</li>
+</ul>
+<p>分析到这里已经比较清楚，我们只需要看一下<code>0x402400</code>这个内存地址放了什么东西，我们输入的字符串，应该就是要跟这个东西比较的，因为这是strings_not_equal的第二个参数。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x/s 0x402400</span><br><span class="line">0x402400:       &quot;Border relations with Canada have never been better.&quot;</span><br></pre></td></tr></table></figure>
 
-<h2 id="1792-Maximum-Average-Pass-Ratio"><a href="#1792-Maximum-Average-Pass-Ratio" class="headerlink" title="1792. Maximum Average Pass Ratio"></a>1792. Maximum Average Pass Ratio</h2><p><strong>思路</strong></p>
-<p>这道题的关键在于想要找到最大平均数，需要把好学生分配到改变通过率最大的班级，即 delta 最大的班级。根据这个特征，我们需要一个堆来决绝，按照每个班增加一个好学生后的 delta 作为 Priority。永远把好学生分配到怼的头部。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> heapq</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxAverageRatio</span>(<span class="params">self, classes: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]], extraStudents: <span class="built_in">int</span></span>) -&gt; <span class="built_in">float</span>:</span></span><br><span class="line">        h = [((x/t - (x+<span class="number">1</span>)/(t+<span class="number">1</span>)), x, t) <span class="keyword">for</span> x, t <span class="keyword">in</span> classes]</span><br><span class="line">        heapify(h)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> extraStudents:</span><br><span class="line">            v, x, t = heappop(h)</span><br><span class="line">            x, t = x+<span class="number">1</span>, t+<span class="number">1</span></span><br><span class="line">            heappush(h, (x/t-(x+<span class="number">1</span>)/(t+<span class="number">1</span>), x, t))</span><br><span class="line">            extraStudents -= <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>([x/t <span class="keyword">for</span> _,x,t <span class="keyword">in</span> h]) / <span class="built_in">len</span>(h)</span><br></pre></td></tr></table></figure>
+<p>因此，我们只需要把 <code>Border relations with Canada have never been better.</code> 写入 psol.txt 的第一行，作为我们炸弹阶段一的答案。</p>
+<p>如果不担心炸弹会爆炸，我们可以试一试：<code>./bomb &lt; psol.txt</code>。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/60237228">https://zhuanlan.zhihu.com/p/60237228</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/31269514">https://zhuanlan.zhihu.com/p/31269514</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/57977157">https://zhuanlan.zhihu.com/p/57977157</a></li>
+</ul>
 
-<h2 id="621-Task-Schedule"><a href="#621-Task-Schedule" class="headerlink" title="621. Task Schedule"></a>621. Task Schedule</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">leastInterval</span>(<span class="params">self, tasks: <span class="type">List</span>[<span class="built_in">str</span>], n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="keyword">from</span> heapq <span class="keyword">import</span> heappush, heappop</span><br><span class="line">        <span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line">        h = []</span><br><span class="line">        res = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> k, v <span class="keyword">in</span> Counter(tasks).items():</span><br><span class="line">            heappush(h, (-<span class="number">1</span>*v, k))</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">while</span> h:</span><br><span class="line">            i = <span class="number">0</span></span><br><span class="line">            tmp =  []</span><br><span class="line">            <span class="keyword">while</span> i&lt;=n:</span><br><span class="line">                res += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> h:</span><br><span class="line">                    left, task = heappop(h)</span><br><span class="line">                    <span class="keyword">if</span> left != -<span class="number">1</span>:</span><br><span class="line">                        tmp.append((left+<span class="number">1</span>, task))</span><br><span class="line">                    </span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> h <span class="keyword">and</span> <span class="keyword">not</span> tmp:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    i += <span class="number">1</span></span><br><span class="line">                    </span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> tmp:</span><br><span class="line">                heappush(h, item)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
-
-<h6 id="tags-Leetcode-Heap"><a href="#tags-Leetcode-Heap" class="headerlink" title="tags: Leetcode Heap"></a>tags: <code>Leetcode</code> <code>Heap</code></h6>
     </div>
 
     
     
     
       
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/04/15/csapp_3/" rel="bookmark">CSAPP 3 程序的机器层面表达</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/04/09/csapp1/" rel="bookmark">CSAPP 1 概览</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/06/06/csapp_11/" rel="bookmark">CSAPP 11 网络编程</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/06/15/csapp_12_1/" rel="bookmark">CSAPP 12 并发编程 1</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/06/20/csapp_12_2/" rel="bookmark">CSAPP 12 并发编程 2</a></div>
+    </li>
+  </ul>
 
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Heap/" rel="tag"># Heap</a>
+              <a href="/tags/CSAPP/" rel="tag"># CSAPP</a>
           </div>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <ins class="adsbygoogle"
@@ -368,12 +400,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/04/17/leetcode_trie_tree/" rel="prev" title="Palindrome Pairs and the Trie">
-      <i class="fa fa-chevron-left"></i> Palindrome Pairs and the Trie
+    <a href="/2021/07/22/high_perf_python_2/" rel="prev" title="高性能Python编程（2）Profiling寻找性能瓶颈">
+      <i class="fa fa-chevron-left"></i> 高性能Python编程（2）Profiling寻找性能瓶颈
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/04/18/leetcode_dfs/" rel="next" title="回溯 DFS">
-      回溯 DFS <i class="fa fa-chevron-right"></i>
+    <a href="/2021/08/29/malloc_1/" rel="next" title="关于动态内存分配">
+      关于动态内存分配 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -440,7 +472,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Heap%EF%BC%88%E5%A0%86%EF%BC%89%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">Heap（堆）的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1046-Last-Stone-Weight"><span class="nav-number">1.1.</span> <span class="nav-text">1046. Last Stone Weight</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#703-Kth-Largest-Element-in-a-Stream"><span class="nav-number">1.2.</span> <span class="nav-text">703. Kth Largest Element in a Stream</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1792-Maximum-Average-Pass-Ratio"><span class="nav-number">1.3.</span> <span class="nav-text">1792. Maximum Average Pass Ratio</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#621-Task-Schedule"><span class="nav-number">1.4.</span> <span class="nav-text">621. Task Schedule</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#tags-Leetcode-Heap"><span class="nav-number">1.4.0.0.0.1.</span> <span class="nav-text">tags: Leetcode Heap</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Bomb-Lab-%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">Bomb Lab 解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.1.</span> <span class="nav-text">环境设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GDB%E5%B0%8F%E6%8A%84"><span class="nav-number">1.2.</span> <span class="nav-text">GDB小抄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Phase-1"><span class="nav-number">1.3.</span> <span class="nav-text">Phase 1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -704,6 +736,59 @@ window.addEventListener('pjax:success', () => {
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
@@ -719,9 +804,9 @@ window.addEventListener('pjax:success', () => {
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2021/04/18/leetcode_heap1/";
-    this.page.identifier = "2021/04/18/leetcode_heap1/";
-    this.page.title = "Heap 使用";
+    this.page.url = "http://yoursite.com/2021/08/08/csapp_bomb_lab/";
+    this.page.identifier = "2021/08/08/csapp_bomb_lab/";
+    this.page.title = "Bomb Lab";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
