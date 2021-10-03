@@ -2027,33 +2027,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Calculator 123</title>
-    <url>/2021/04/15/leetcode_calculator/</url>
-    <content><![CDATA[<h1 id="Calculator-I-II-III"><a href="#Calculator-I-II-III" class="headerlink" title="Calculator I,II,III"></a>Calculator I,II,III</h1><ul>
-<li><a href="https://leetcode.com/problems/basic-calculator-ii/">227. Basic Calculator II</a></li>
-</ul>
-<p>问题：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Given a string s which represents an expression, evaluate this expression and return its value. </span><br><span class="line"></span><br><span class="line">The integer division should truncate toward zero.</span><br></pre></td></tr></table></figure>
-
-<p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Example 1:</span><br><span class="line"></span><br><span class="line">Input: s &#x3D; &quot;3+2*2&quot;</span><br><span class="line">Output: 7</span><br><span class="line">Example 2:</span><br><span class="line"></span><br><span class="line">Input: s &#x3D; &quot; 3&#x2F;2 &quot;</span><br><span class="line">Output: 1</span><br><span class="line">Example 3:</span><br><span class="line"></span><br><span class="line">Input: s &#x3D; &quot; 3+5 &#x2F; 2 &quot;</span><br><span class="line">Output: 5</span><br></pre></td></tr></table></figure>
-
-<p>思路：</p>
-<p>这道题检测的是栈的使用，基本策略是一个一个的过char，如果看见数字，就累加数字（考虑进位），如果看见操作符号：比如 + -，就把当前结果进栈；如果看见 * / 就从栈顶取出一个数字，操作后进栈。过程中需要保存的状态：上一个符号，当前的整数。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        idx, stack = <span class="number">0</span>, []</span><br><span class="line">        res = <span class="number">0</span>     <span class="comment"># 当前的数字</span></span><br><span class="line">        sign = <span class="string">&#x27;+&#x27;</span>  <span class="comment"># 前一个符号</span></span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">update</span>(<span class="params">op, v</span>):</span></span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;+&quot;</span>: stack.append(v)</span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;-&quot;</span>: stack.append(-v)</span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;*&quot;</span>: stack.append(stack.pop() * v)           <span class="comment">#for BC II and BC III</span></span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;/&quot;</span>: stack.append(<span class="built_in">int</span>(stack.pop() / v))      <span class="comment">#for BC II and BC III</span></span><br><span class="line">    </span><br><span class="line">        <span class="keyword">while</span> idx &lt; <span class="built_in">len</span>(s):</span><br><span class="line">            <span class="keyword">if</span> s[idx].isdigit():</span><br><span class="line">                res = res*<span class="number">10</span>+<span class="built_in">int</span>(s[idx])</span><br><span class="line">                <span class="built_in">print</span>(res)</span><br><span class="line">            <span class="keyword">elif</span> s[idx] <span class="keyword">in</span> <span class="string">&#x27;+-*/&#x27;</span>:</span><br><span class="line">                update(sign, res)</span><br><span class="line">                <span class="built_in">print</span>(res, sign)</span><br><span class="line">                res, sign = <span class="number">0</span>, s[idx]</span><br><span class="line">                <span class="built_in">print</span>(res, sign)</span><br><span class="line">                <span class="built_in">print</span>(stack)</span><br><span class="line">            idx += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 这里不要忘记，因为还有最后一个符号没有处理</span></span><br><span class="line">        update(sign, res)</span><br><span class="line">        <span class="built_in">print</span>(stack)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>(stack)</span><br></pre></td></tr></table></figure>
-
-<p>对于有括号的情况，我们需要用到递归，把括号内部的表达式当做一个子问题处理。当遇到左括号的时候，递归计算后面的表达式；遇到右括号的时候，update 函数，然后返回结果以及下一个步的index。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">elif</span> s[it] == <span class="string">&quot;(&quot;</span>:                                        <span class="comment"># For BC I and BC III</span></span><br><span class="line">    num, j = self.calculate(s[it + <span class="number">1</span>:])</span><br><span class="line">    it = it + j</span><br><span class="line"><span class="keyword">elif</span> s[it] == <span class="string">&quot;)&quot;</span>:                                        <span class="comment"># For BC I and BC III</span></span><br><span class="line">    update(sign, num)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span>(stack), it + <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<h6 id="tags-Leetcode-Stack"><a href="#tags-Leetcode-Stack" class="headerlink" title="tags: Leetcode Stack"></a>tags: <code>Leetcode</code> <code>Stack</code></h6>]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Stack</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSAPP 3 程序的机器层面表达</title>
     <url>/2021/04/15/csapp_3/</url>
     <content><![CDATA[<h1 id="CSAPP-3-程序的机器层面表达"><a href="#CSAPP-3-程序的机器层面表达" class="headerlink" title="CSAPP 3 程序的机器层面表达"></a>CSAPP 3 程序的机器层面表达</h1><p>这一章主要从汇编程序和机器码的角度看程序。包括<code>call stack</code>, <code>local variable</code>, 以及一些基本的数据结构，比如<code>array</code>, <code>structure</code>, <code>union</code> 等等。</p>
@@ -2152,6 +2125,33 @@
       </tags>
   </entry>
   <entry>
+    <title>Calculator 123</title>
+    <url>/2021/04/15/leetcode_calculator/</url>
+    <content><![CDATA[<h1 id="Calculator-I-II-III"><a href="#Calculator-I-II-III" class="headerlink" title="Calculator I,II,III"></a>Calculator I,II,III</h1><ul>
+<li><a href="https://leetcode.com/problems/basic-calculator-ii/">227. Basic Calculator II</a></li>
+</ul>
+<p>问题：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Given a string s which represents an expression, evaluate this expression and return its value. </span><br><span class="line"></span><br><span class="line">The integer division should truncate toward zero.</span><br></pre></td></tr></table></figure>
+
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Example 1:</span><br><span class="line"></span><br><span class="line">Input: s &#x3D; &quot;3+2*2&quot;</span><br><span class="line">Output: 7</span><br><span class="line">Example 2:</span><br><span class="line"></span><br><span class="line">Input: s &#x3D; &quot; 3&#x2F;2 &quot;</span><br><span class="line">Output: 1</span><br><span class="line">Example 3:</span><br><span class="line"></span><br><span class="line">Input: s &#x3D; &quot; 3+5 &#x2F; 2 &quot;</span><br><span class="line">Output: 5</span><br></pre></td></tr></table></figure>
+
+<p>思路：</p>
+<p>这道题检测的是栈的使用，基本策略是一个一个的过char，如果看见数字，就累加数字（考虑进位），如果看见操作符号：比如 + -，就把当前结果进栈；如果看见 * / 就从栈顶取出一个数字，操作后进栈。过程中需要保存的状态：上一个符号，当前的整数。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        idx, stack = <span class="number">0</span>, []</span><br><span class="line">        res = <span class="number">0</span>     <span class="comment"># 当前的数字</span></span><br><span class="line">        sign = <span class="string">&#x27;+&#x27;</span>  <span class="comment"># 前一个符号</span></span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">update</span>(<span class="params">op, v</span>):</span></span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;+&quot;</span>: stack.append(v)</span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;-&quot;</span>: stack.append(-v)</span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;*&quot;</span>: stack.append(stack.pop() * v)           <span class="comment">#for BC II and BC III</span></span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;/&quot;</span>: stack.append(<span class="built_in">int</span>(stack.pop() / v))      <span class="comment">#for BC II and BC III</span></span><br><span class="line">    </span><br><span class="line">        <span class="keyword">while</span> idx &lt; <span class="built_in">len</span>(s):</span><br><span class="line">            <span class="keyword">if</span> s[idx].isdigit():</span><br><span class="line">                res = res*<span class="number">10</span>+<span class="built_in">int</span>(s[idx])</span><br><span class="line">                <span class="built_in">print</span>(res)</span><br><span class="line">            <span class="keyword">elif</span> s[idx] <span class="keyword">in</span> <span class="string">&#x27;+-*/&#x27;</span>:</span><br><span class="line">                update(sign, res)</span><br><span class="line">                <span class="built_in">print</span>(res, sign)</span><br><span class="line">                res, sign = <span class="number">0</span>, s[idx]</span><br><span class="line">                <span class="built_in">print</span>(res, sign)</span><br><span class="line">                <span class="built_in">print</span>(stack)</span><br><span class="line">            idx += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 这里不要忘记，因为还有最后一个符号没有处理</span></span><br><span class="line">        update(sign, res)</span><br><span class="line">        <span class="built_in">print</span>(stack)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>(stack)</span><br></pre></td></tr></table></figure>
+
+<p>对于有括号的情况，我们需要用到递归，把括号内部的表达式当做一个子问题处理。当遇到左括号的时候，递归计算后面的表达式；遇到右括号的时候，update 函数，然后返回结果以及下一个步的index。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">elif</span> s[it] == <span class="string">&quot;(&quot;</span>:                                        <span class="comment"># For BC I and BC III</span></span><br><span class="line">    num, j = self.calculate(s[it + <span class="number">1</span>:])</span><br><span class="line">    it = it + j</span><br><span class="line"><span class="keyword">elif</span> s[it] == <span class="string">&quot;)&quot;</span>:                                        <span class="comment"># For BC I and BC III</span></span><br><span class="line">    update(sign, num)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span>(stack), it + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="tags-Leetcode-Stack"><a href="#tags-Leetcode-Stack" class="headerlink" title="tags: Leetcode Stack"></a>tags: <code>Leetcode</code> <code>Stack</code></h6>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Stack</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Leetcode Jump Game (1-3)</title>
     <url>/2021/04/13/leetcode_jump_game/</url>
     <content><![CDATA[<h1 id="Leetcode-Jump-Game-1-3"><a href="#Leetcode-Jump-Game-1-3" class="headerlink" title="Leetcode Jump Game (1-3)"></a>Leetcode Jump Game (1-3)</h1><p>这个系列的三个题虽然名字很像，但是第一和第二个思路类似，属于贪心问题，而第三题其实是搜索问题。</p>
@@ -2203,6 +2203,24 @@
       </tags>
   </entry>
   <entry>
+    <title>nSum 问题</title>
+    <url>/2021/04/09/leetcode_nSum/</url>
+    <content><![CDATA[<h1 id="nSum-问题"><a href="#nSum-问题" class="headerlink" title="nSum 问题"></a>nSum 问题</h1><h2 id="2-Sum"><a href="#2-Sum" class="headerlink" title="2 Sum"></a>2 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>], target: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span></span><br><span class="line">        cache = &#123;&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            residual = target - nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> residual <span class="keyword">in</span> cache:</span><br><span class="line">                <span class="keyword">return</span> [cache[residual], i]</span><br><span class="line">            </span><br><span class="line">            cache[nums[i]] = i</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> []</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Sum"><a href="#3-Sum" class="headerlink" title="3 Sum"></a>3 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">threeSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(nums) &lt;= <span class="number">3</span> <span class="keyword">and</span> <span class="built_in">sum</span>(nums)!=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        res = []</span><br><span class="line">        counter = collections.defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">            counter[i] += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        nums = <span class="built_in">sorted</span>(counter.keys())</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            a = nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> <span class="number">3</span>*a == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">3</span>:</span><br><span class="line">                res.append([a,a,a])</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>, <span class="built_in">len</span>(nums)):</span><br><span class="line">                b = nums[j]</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*b + a == <span class="number">0</span> <span class="keyword">and</span> counter[b] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, b, b])</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*a + b == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, a, b])</span><br><span class="line">                    </span><br><span class="line">                c = -a-b</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> c &gt; b <span class="keyword">and</span> counter[c] &gt;= <span class="number">1</span>:</span><br><span class="line">                    res.append([a, b, c])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+
+<h6 id="tags-Leetcode-nSum"><a href="#tags-Leetcode-nSum" class="headerlink" title="tags: Leetcode nSum"></a>tags: <code>Leetcode</code> <code>nSum</code></h6>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>nSum</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSAPP 1 概览</title>
     <url>/2021/04/09/csapp1/</url>
     <content><![CDATA[<h1 id="CSAPP-1-概览"><a href="#CSAPP-1-概览" class="headerlink" title="CSAPP 1 概览"></a>CSAPP 1 概览</h1><p>这本书之前非常简略的阅读过一次，过了这么一年多，重新拿起这本书反倒有了更多理解。可能这就是一本好书的特点把，他随着你的经验增加，提供给你更多的信息。给人的感觉就是，第一次读醍醐灌顶，第二次读，还是醍醐灌顶。。。</p>
@@ -2247,24 +2265,6 @@
       </categories>
       <tags>
         <tag>CSAPP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nSum 问题</title>
-    <url>/2021/04/09/leetcode_nSum/</url>
-    <content><![CDATA[<h1 id="nSum-问题"><a href="#nSum-问题" class="headerlink" title="nSum 问题"></a>nSum 问题</h1><h2 id="2-Sum"><a href="#2-Sum" class="headerlink" title="2 Sum"></a>2 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>], target: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span></span><br><span class="line">        cache = &#123;&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            residual = target - nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> residual <span class="keyword">in</span> cache:</span><br><span class="line">                <span class="keyword">return</span> [cache[residual], i]</span><br><span class="line">            </span><br><span class="line">            cache[nums[i]] = i</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> []</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-Sum"><a href="#3-Sum" class="headerlink" title="3 Sum"></a>3 Sum</h2><p>方法1：去重、排序、字典、穷举</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">threeSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(nums) &lt;= <span class="number">3</span> <span class="keyword">and</span> <span class="built_in">sum</span>(nums)!=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        res = []</span><br><span class="line">        counter = collections.defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">            counter[i] += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        nums = <span class="built_in">sorted</span>(counter.keys())</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            a = nums[i]</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> <span class="number">3</span>*a == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">3</span>:</span><br><span class="line">                res.append([a,a,a])</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>, <span class="built_in">len</span>(nums)):</span><br><span class="line">                b = nums[j]</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*b + a == <span class="number">0</span> <span class="keyword">and</span> counter[b] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, b, b])</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="number">2</span>*a + b == <span class="number">0</span> <span class="keyword">and</span> counter[a] &gt;= <span class="number">2</span>:</span><br><span class="line">                    res.append([a, a, b])</span><br><span class="line">                    </span><br><span class="line">                c = -a-b</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> c &gt; b <span class="keyword">and</span> counter[c] &gt;= <span class="number">1</span>:</span><br><span class="line">                    res.append([a, b, c])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-
-
-<h6 id="tags-Leetcode-nSum"><a href="#tags-Leetcode-nSum" class="headerlink" title="tags: Leetcode nSum"></a>tags: <code>Leetcode</code> <code>nSum</code></h6>]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>nSum</tag>
       </tags>
   </entry>
   <entry>
@@ -2741,6 +2741,42 @@
       </tags>
   </entry>
   <entry>
+    <title>雅各书 5 13-20</title>
+    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
+    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
+<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
+<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
+<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
+</blockquote>
+<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
+<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
+<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
+<blockquote>
+<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
+</blockquote>
+<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
+<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
+<ul>
+<li>认罪</li>
+<li>倾吐心声</li>
+<li>互相鼓励</li>
+<li>等等。。。</li>
+</ul>
+<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
+<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
+<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
+<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
+<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go 学习笔记2 语法、语义</title>
     <url>/2021/03/28/go_2/</url>
     <content><![CDATA[<h1 id="Go-学习笔记2：语法和语义"><a href="#Go-学习笔记2：语法和语义" class="headerlink" title="Go 学习笔记2：语法和语义"></a>Go 学习笔记2：语法和语义</h1><p>这个部分主要总结 Go 涉及的基本语法和语义，即之前提到的前两个角度。</p>
@@ -2828,42 +2864,6 @@
       <tags>
         <tag>Go</tag>
         <tag>Go学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>雅各书 5 13-20</title>
-    <url>/2021/03/28/%E9%9B%85%E5%90%84%E4%B9%A65/</url>
-    <content><![CDATA[<h1 id="雅各书-5：13-20"><a href="#雅各书-5：13-20" class="headerlink" title="雅各书 5：13-20"></a>雅各书 5：13-20</h1><p>这段经文的大背景是雅各写信提醒教会的弟兄姐妹不要心怀二意，一心一意为神而活。</p>
-<p>这段经文的重点在于<strong>祷告</strong>，这是基督徒在试炼中站立不跌倒的唯一方法。神希望我们随时随地的、本能的对神祷告。受苦，要祷告；喜乐，要祷告（歌颂）；我们要在一切事情上祷告。</p>
-<h2 id="我们为什么祷告？"><a href="#我们为什么祷告？" class="headerlink" title="我们为什么祷告？"></a>我们为什么祷告？</h2><blockquote>
-<p>13 你们中间有人受苦吗？他就应该 <em><strong>祷告</strong>_。有人心情愉快吗?他就应该歌颂。 14 你们中间有人患病吗？他就应该请教会的长老来，让他们奉主的名为他抹油 _<strong>祷告</strong>_。 15 出于信心的 _<strong>祷告</strong>_，可以使病人康复，主必叫他起来；他若犯了罪，也必蒙赦免。 16 所以你们应当彼此认罪，互相代求，这样你们就可以痊愈。义人 _<strong>祷告</strong></em> 所发出的力量，是大有功效的。 17 以利亚是与我们性情相同的人；他恳切祈求不要下雨，地上就三年零六个月没有雨; 18 他又 _<strong>祷告</strong>_，天就下雨，地就生出土产来。</p>
-</blockquote>
-<p>这里有一点难解的经文，就是关于 14 节医治和患病的经文。15 节的康复这个词跟拯救是同一个词，根据这本书的上下文，雅各通篇再说属灵的疾病。所以这个词翻译成拯救更加恰当。</p>
-<p>紧接着以利亚先知的例子也印证了上面的说法。以利亚当时为什么祷告呢？他是为了提醒当时君王，不要三心二意的拜别的神。因为当时君王带头拜他妻子带来的假神，以利亚祷告旱灾是为了要提醒君王 耶和华神才是唯一的真神。</p>
-<p>雅各这里提到，以利亚是与我们心情相通的人，我们也应该想伊利亚一样通过祷告与神同工，因为祷告是大有功效的！雅各不希望我们中间的弟兄姐妹离开真道，就像以利亚不希望当时的君王要离开耶和华神。灵魂的死亡才是罪严重的“疾病”。</p>
-<blockquote>
-<p>我的弟兄们，你们中间若有人被骗离开了真道，如果有人使他回头， 20 <strong>你们应该知道，那使罪人从歧途上转回的，就会拯救他的灵魂脱离死亡，也会遮盖许多罪恶。</strong></p>
-</blockquote>
-<p>作为基督徒，我们不光要为自己的属灵生活祷告，也应该关心其他的弟兄姐妹，为其他人的属灵生活祷告。</p>
-<p>我们要在一切事情上祷告，仰赖神。没有比互相带求更好的互相服侍的事情了！一切事情：</p>
-<ul>
-<li>认罪</li>
-<li>倾吐心声</li>
-<li>互相鼓励</li>
-<li>等等。。。</li>
-</ul>
-<h2 id="为什么我们不祷告？"><a href="#为什么我们不祷告？" class="headerlink" title="为什么我们不祷告？"></a>为什么我们不祷告？</h2><p>自信，骄傲，不交托。</p>
-<p>更深层次的，我们其实不愿意承认自己拒绝神，就会导致不祷告。</p>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>2021 年新冠疫情，这一篇是雅各书系列的最后一个系列。雅各提醒我们，心怀二意是更加严重的属灵疾病，我们需要不断的祷告医治我们的属灵。</p>
-<p>因为认罪悔改是一个持续的过程，而不是一次性的。所以我们需要通过祷告帮助我们世界警醒。</p>
-<p>雅各书 还有很多细节帮助我们。继续阅读。</p>
-<p>—————  <a href="https://github.com/wangzhe3224/wangzhe3224.github.io/blob/hexo-source/source/pdfs/%E9%9B%85%E5%90%84%E4%B9%A65%2013-20.pdf">PDF文件</a>  —————-</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
@@ -3531,6 +3531,54 @@
       </tags>
   </entry>
   <entry>
+    <title>重新认识 Python（3）GIL</title>
+    <url>/2021/02/18/python_gil/</url>
+    <content><![CDATA[<h1 id="重新认识Python（3）：GIL，Global-Interpreter-Lock"><a href="#重新认识Python（3）：GIL，Global-Interpreter-Lock" class="headerlink" title="重新认识Python（3）：GIL，Global Interpreter Lock"></a>重新认识Python（3）：GIL，Global Interpreter Lock</h1><p>之前的两个文章主要简述了Python的内存管理模型和对应的GC模型。今天我们来看看Python的另一个“著名”特征：GIL，全局解释器锁。GIL长久以来被各种内行、外行诟病，可是很多人并不清楚GIL究竟是什么？为什么当初要设计GIL？GIL的优势在哪里？</p>
+<h2 id="Python-是如何工作的？"><a href="#Python-是如何工作的？" class="headerlink" title="Python 是如何工作的？"></a>Python 是如何工作的？</h2><p>要理解 GIL 需要知道一些Python解释器的运行原理。Python的解释器其实一个循环，循环里是一系列的cases，逐行读取编译后的Opcode进行计算，每一个线程都有独立的这么一个循环。这里插一嘴，其实Python不是解释型语言，起码不是纯粹的解释型，Python源代码会被编译成Python自己的byte code，就是上面循环中的那些opcode。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (;;) &#123;</span><br><span class="line">    assert(stack_pointer &gt;= f-&gt;f_valuestack); <span class="comment">/* else underflow */</span></span><br><span class="line">    assert(STACK_LEVEL() &lt;= co-&gt;co_stacksize);  <span class="comment">/* else overflow */</span></span><br><span class="line">    assert(!PyErr_Occurred());</span><br><span class="line">    <span class="comment">// 这部分省略的代码就是后面GIL的关键。。我们先来看看解释器的循环</span></span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">    <span class="comment">/* Extract opcode and argument */</span></span><br><span class="line"></span><br><span class="line">        NEXTOPARG();</span><br><span class="line">    dispatch_opcode:</span><br><span class="line">      <span class="keyword">switch</span> (opcode) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* BEWARE!</span></span><br><span class="line"><span class="comment">           It is essential that any operation that fails sets either</span></span><br><span class="line"><span class="comment">           x to NULL, err to nonzero, or why to anything but WHY_NOT,</span></span><br><span class="line"><span class="comment">           and that no operation that succeeds does this! */</span></span><br><span class="line"></span><br><span class="line">        TARGET(NOP)</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line"></span><br><span class="line">        TARGET(LOAD_FAST) &#123;</span><br><span class="line">            PyObject *value = GETLOCAL(oparg);</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="literal">NULL</span>) &#123;</span><br><span class="line">                format_exc_check_arg(PyExc_UnboundLocalError,</span><br><span class="line">                                     UNBOUNDLOCAL_ERROR_MSG,</span><br><span class="line">                                     PyTuple_GetItem(co-&gt;co_varnames, oparg));</span><br><span class="line">                <span class="keyword">goto</span> error;</span><br><span class="line">            &#125;</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        PREDICTED(LOAD_CONST);</span><br><span class="line">        TARGET(LOAD_CONST) &#123;</span><br><span class="line">            PyObject *value = GETITEM(consts, oparg);</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
+
+<p>主要参考的<a href="https://github.com/python/cpython/blob/ef5f4ba96e05f61ad3baca502012085f31e99342/Python/ceval.c#L930-L1064">源代码</a>在这里。</p>
+<p>当然，为了支持计算Python的runtime还会准备对应的Frame、全局变量等等。</p>
+<h2 id="GIL-是什么？"><a href="#GIL-是什么？" class="headerlink" title="GIL 是什么？"></a>GIL 是什么？</h2><p>上面我们提到，每一个线程都有自己独立的执行循环，但是这些执行循环并不是相互独立的，他们必然会共享一些内存，这里起就是经典的并发问题，比如race condition等等。并发模型的实现由很多方法，我们听到最多、看起来也最简单的方法就是基于锁的方法。Python其实就选择这个方法，GIL也就诞生了。</p>
+<p>GIL就是一个锁，每一个线程的执行循环，只有拿到GIL，才可以执行，否则就要等待，而一个Python进程只有一个GIL锁，所以它才叫全局锁。GIL可以保证，在同一时间，只有一个线程可以拿到这个锁。</p>
+<p>这里我参考了一个小哥的代码，他简单的实现了Python版本的GIL，方便我们理解GIL。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> SimpleNamespace</span><br><span class="line"></span><br><span class="line">DEFAULT_INTERVAL = <span class="number">0.05</span></span><br><span class="line"></span><br><span class="line">gil_mutex = threading.RLock()</span><br><span class="line">gil_condition = threading.Condition(lock=gil_mutex)</span><br><span class="line">switch_condition = threading.Condition()</span><br><span class="line"></span><br><span class="line"><span class="comment"># dictionary-like object that supports dot (attribute) syntax</span></span><br><span class="line">gil = SimpleNamespace(</span><br><span class="line">    drop_request=<span class="literal">False</span>,</span><br><span class="line">    locked=<span class="literal">True</span>,</span><br><span class="line">    switch_number=<span class="number">0</span>,</span><br><span class="line">    last_holder=<span class="literal">None</span>,</span><br><span class="line">    eval_breaker=<span class="literal">True</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">drop_gil</span>(<span class="params">thread_id</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> gil.locked:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;GIL is not locked&quot;</span>)</span><br><span class="line"></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    gil.last_holder = thread_id</span><br><span class="line">    gil.locked = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Signals that the GIL is now available for acquiring to the first awaiting thread</span></span><br><span class="line">    gil_condition.notify()</span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching</span></span><br><span class="line">    <span class="comment"># Lock current thread so it will not immediately reacquire the GIL</span></span><br><span class="line">    <span class="comment"># this ensures that another GIL-awaiting thread have a chance to get scheduled</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        switch_condition.acquire()</span><br><span class="line">        <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">            gil.drop_request = <span class="literal">False</span></span><br><span class="line">            switch_condition.wait()</span><br><span class="line"></span><br><span class="line">        switch_condition.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">take_gil</span>(<span class="params">thread_id</span>):</span></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> gil.locked:</span><br><span class="line">        saved_switchnum = gil.switch_number</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Release the lock and wait for a signal from a GIL holding thread,</span></span><br><span class="line">        <span class="comment"># set drop_request=True if the wait is timed out</span></span><br><span class="line"></span><br><span class="line">        timed_out = <span class="keyword">not</span> gil_condition.wait(timeout=DEFAULT_INTERVAL)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> timed_out <span class="keyword">and</span> gil.locked <span class="keyword">and</span> gil.switch_number == saved_switchnum:</span><br><span class="line">            gil.drop_request = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># lock for force switching</span></span><br><span class="line">    switch_condition.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Now we hold the GIL</span></span><br><span class="line">    gil.locked = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.last_holder != thread_id:</span><br><span class="line">        gil.last_holder = thread_id</span><br><span class="line">        gil.switch_number += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching, send signal to drop_gil</span></span><br><span class="line">    switch_condition.notify()</span><br><span class="line">    switch_condition.release()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execution_loop</span>(<span class="params">target_function, thread_id</span>):</span></span><br><span class="line">    <span class="comment"># Compile Python function down to bytecode and execute it in the while loop</span></span><br><span class="line"></span><br><span class="line">    bytecode = <span class="built_in">compile</span>(target_function)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># drop_request indicates that one or more threads are awaiting for the GIL</span></span><br><span class="line">        <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">            <span class="comment"># release the gil from the current thread</span></span><br><span class="line">            drop_gil(thread_id)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># immediately request the GIL for the current thread</span></span><br><span class="line">            <span class="comment"># at this point the thread will be waiting for GIL and suspended until the function return</span></span><br><span class="line">            take_gil(thread_id)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># bytecode execution logic, executes one instruction at a time</span></span><br><span class="line">        instruction = bytecode.next_instruction()</span><br><span class="line">        <span class="keyword">if</span> instruction <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            execute_opcode(instruction)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p>看代码我们可以知道：</p>
+<ul>
+<li>Python创建一个新的thread的时候，会首先call <code>take_gil</code> 尝试得到 GIL，然后才进入执行循环</li>
+<li>通过在循环的开始部分检查gil状态，可以确保只有一个线程在执行</li>
+</ul>
+<p>目前这个版本的GIL其实也实现一些scheduler的功能，比如：</p>
+<p><code>gil.drop_request</code> 为True就表明有其他的线程在等待执行，当前进程就会首先尝试放弃gil，给其他线程机会，然后他会立刻尝试夺回gil，以便自己可以继续运行。聪明的你可能想问，马上尝试夺回，那别的进程怎么办啊？</p>
+<p>仔细看 <code>drop_gil</code> 函数:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> gil.drop_request:</span><br><span class="line">    switch_condition.acquire()</span><br><span class="line">    <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line">        switch_condition.wait()</span><br><span class="line"></span><br><span class="line">    switch_condition.release()</span><br></pre></td></tr></table></figure>
+
+<p>这段代码确保如果，OS分配的下一个线程还是自己，该线程就会被迫等待，确保其他进程有机会被系统的线程调度器分配。</p>
+<p>CPython的源码在<a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h">这里</a></p>
+<h2 id="关于GIL的思考"><a href="#关于GIL的思考" class="headerlink" title="关于GIL的思考"></a>关于GIL的思考</h2><p>GIL从1992年诞生到现在，其实经历一些变化。在GIL被设计的年代，多核CPU基本不存在，当时的线程也主要是用来做IO类型的工作，所以GIL的设计处理多线程IO效率非常高。</p>
+<p>GIL的存在也让Python的单核性能大大增加，其实GIL是Python成功的一个重要原因。后来GIL加入了 <code>switch_condition</code>, <code>switch_number</code>, <code>timeout</code> 等参数，很大程度改善了多核处理下GIL线程schedule的问题。Python3以后的GIL仍然无法实现真正的CPU密集并行的多线程。不过这里说的线程都是OS线程，这不妨碍实现软件线程。</p>
+<p>GIL难以被完全移除有很多原因，比如</p>
+<ul>
+<li>移除GIL，就需要修改Python的GC机制，特别是reference counting</li>
+<li>GIL移除，会降低单核性能。因为移除全局锁，必然要引入粒度更小的锁</li>
+<li>可以考虑其他的同步机制，比如Software transactional memory，那么就要修改整个C API，基本上所有的C-API库都废了。。。。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.youtube.com/watch?v=7RlqbHCCVyc">https://www.youtube.com/watch?v=7RlqbHCCVyc</a></li>
+<li><a href="https://www.youtube.com/watch?v=4zeHStBowEk">https://www.youtube.com/watch?v=4zeHStBowEk</a></li>
+<li><a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h">https://github.com/python/cpython/blob/master/Python/ceval_gil.h</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>CPython</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>重新认识 Python（2）内存管理</title>
     <url>/2021/02/18/python_memory_mgt/</url>
     <content><![CDATA[<h1 id="重新认识-Python（2）：内存管理"><a href="#重新认识-Python（2）：内存管理" class="headerlink" title="重新认识 Python（2）：内存管理"></a>重新认识 Python（2）：内存管理</h1><p>理解内存管理需要知道通常内存使用的基本规则。一般来说，一个进程的内存会被划分成两个部分，堆（heap）和栈（stack）。栈的结构相对简单，本质上就是一个先进后出队列，所有被分配在栈上的值必须是确定大小的、静态的。栈的功能主要是临时存储函数运行时的参数、临时变量和结果。显然，在程序运行的时候，我们需要产生许多大小不固定且动态的值，比如对象、列表、字典等等，这些数据结构不能直接分配到栈上，因此我们需要堆来存放这些值。相应的，堆的内存空间往往比栈大的多。</p>
@@ -3595,54 +3643,6 @@
 <li><a href="https://github.com/python/cpython/blob/master/Include/object.h">https://github.com/python/cpython/blob/master/Include/object.h</a></li>
 <li><a href="https://github.com/python/cpython/blob/ad051cbce1360ad3055a048506c09bc2a5442474/Objects/obmalloc.c#L534">https://github.com/python/cpython/blob/ad051cbce1360ad3055a048506c09bc2a5442474/Objects/obmalloc.c#L534</a></li>
 <li><a href="https://rushter.com/blog/python-memory-managment/">https://rushter.com/blog/python-memory-managment/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>CPython</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>重新认识 Python（3）GIL</title>
-    <url>/2021/02/18/python_gil/</url>
-    <content><![CDATA[<h1 id="重新认识Python（3）：GIL，Global-Interpreter-Lock"><a href="#重新认识Python（3）：GIL，Global-Interpreter-Lock" class="headerlink" title="重新认识Python（3）：GIL，Global Interpreter Lock"></a>重新认识Python（3）：GIL，Global Interpreter Lock</h1><p>之前的两个文章主要简述了Python的内存管理模型和对应的GC模型。今天我们来看看Python的另一个“著名”特征：GIL，全局解释器锁。GIL长久以来被各种内行、外行诟病，可是很多人并不清楚GIL究竟是什么？为什么当初要设计GIL？GIL的优势在哪里？</p>
-<h2 id="Python-是如何工作的？"><a href="#Python-是如何工作的？" class="headerlink" title="Python 是如何工作的？"></a>Python 是如何工作的？</h2><p>要理解 GIL 需要知道一些Python解释器的运行原理。Python的解释器其实一个循环，循环里是一系列的cases，逐行读取编译后的Opcode进行计算，每一个线程都有独立的这么一个循环。这里插一嘴，其实Python不是解释型语言，起码不是纯粹的解释型，Python源代码会被编译成Python自己的byte code，就是上面循环中的那些opcode。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (;;) &#123;</span><br><span class="line">    assert(stack_pointer &gt;= f-&gt;f_valuestack); <span class="comment">/* else underflow */</span></span><br><span class="line">    assert(STACK_LEVEL() &lt;= co-&gt;co_stacksize);  <span class="comment">/* else overflow */</span></span><br><span class="line">    assert(!PyErr_Occurred());</span><br><span class="line">    <span class="comment">// 这部分省略的代码就是后面GIL的关键。。我们先来看看解释器的循环</span></span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">    <span class="comment">/* Extract opcode and argument */</span></span><br><span class="line"></span><br><span class="line">        NEXTOPARG();</span><br><span class="line">    dispatch_opcode:</span><br><span class="line">      <span class="keyword">switch</span> (opcode) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* BEWARE!</span></span><br><span class="line"><span class="comment">           It is essential that any operation that fails sets either</span></span><br><span class="line"><span class="comment">           x to NULL, err to nonzero, or why to anything but WHY_NOT,</span></span><br><span class="line"><span class="comment">           and that no operation that succeeds does this! */</span></span><br><span class="line"></span><br><span class="line">        TARGET(NOP)</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line"></span><br><span class="line">        TARGET(LOAD_FAST) &#123;</span><br><span class="line">            PyObject *value = GETLOCAL(oparg);</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="literal">NULL</span>) &#123;</span><br><span class="line">                format_exc_check_arg(PyExc_UnboundLocalError,</span><br><span class="line">                                     UNBOUNDLOCAL_ERROR_MSG,</span><br><span class="line">                                     PyTuple_GetItem(co-&gt;co_varnames, oparg));</span><br><span class="line">                <span class="keyword">goto</span> error;</span><br><span class="line">            &#125;</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        PREDICTED(LOAD_CONST);</span><br><span class="line">        TARGET(LOAD_CONST) &#123;</span><br><span class="line">            PyObject *value = GETITEM(consts, oparg);</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
-
-<p>主要参考的<a href="https://github.com/python/cpython/blob/ef5f4ba96e05f61ad3baca502012085f31e99342/Python/ceval.c#L930-L1064">源代码</a>在这里。</p>
-<p>当然，为了支持计算Python的runtime还会准备对应的Frame、全局变量等等。</p>
-<h2 id="GIL-是什么？"><a href="#GIL-是什么？" class="headerlink" title="GIL 是什么？"></a>GIL 是什么？</h2><p>上面我们提到，每一个线程都有自己独立的执行循环，但是这些执行循环并不是相互独立的，他们必然会共享一些内存，这里起就是经典的并发问题，比如race condition等等。并发模型的实现由很多方法，我们听到最多、看起来也最简单的方法就是基于锁的方法。Python其实就选择这个方法，GIL也就诞生了。</p>
-<p>GIL就是一个锁，每一个线程的执行循环，只有拿到GIL，才可以执行，否则就要等待，而一个Python进程只有一个GIL锁，所以它才叫全局锁。GIL可以保证，在同一时间，只有一个线程可以拿到这个锁。</p>
-<p>这里我参考了一个小哥的代码，他简单的实现了Python版本的GIL，方便我们理解GIL。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> SimpleNamespace</span><br><span class="line"></span><br><span class="line">DEFAULT_INTERVAL = <span class="number">0.05</span></span><br><span class="line"></span><br><span class="line">gil_mutex = threading.RLock()</span><br><span class="line">gil_condition = threading.Condition(lock=gil_mutex)</span><br><span class="line">switch_condition = threading.Condition()</span><br><span class="line"></span><br><span class="line"><span class="comment"># dictionary-like object that supports dot (attribute) syntax</span></span><br><span class="line">gil = SimpleNamespace(</span><br><span class="line">    drop_request=<span class="literal">False</span>,</span><br><span class="line">    locked=<span class="literal">True</span>,</span><br><span class="line">    switch_number=<span class="number">0</span>,</span><br><span class="line">    last_holder=<span class="literal">None</span>,</span><br><span class="line">    eval_breaker=<span class="literal">True</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">drop_gil</span>(<span class="params">thread_id</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> gil.locked:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;GIL is not locked&quot;</span>)</span><br><span class="line"></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    gil.last_holder = thread_id</span><br><span class="line">    gil.locked = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Signals that the GIL is now available for acquiring to the first awaiting thread</span></span><br><span class="line">    gil_condition.notify()</span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching</span></span><br><span class="line">    <span class="comment"># Lock current thread so it will not immediately reacquire the GIL</span></span><br><span class="line">    <span class="comment"># this ensures that another GIL-awaiting thread have a chance to get scheduled</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        switch_condition.acquire()</span><br><span class="line">        <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">            gil.drop_request = <span class="literal">False</span></span><br><span class="line">            switch_condition.wait()</span><br><span class="line"></span><br><span class="line">        switch_condition.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">take_gil</span>(<span class="params">thread_id</span>):</span></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> gil.locked:</span><br><span class="line">        saved_switchnum = gil.switch_number</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Release the lock and wait for a signal from a GIL holding thread,</span></span><br><span class="line">        <span class="comment"># set drop_request=True if the wait is timed out</span></span><br><span class="line"></span><br><span class="line">        timed_out = <span class="keyword">not</span> gil_condition.wait(timeout=DEFAULT_INTERVAL)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> timed_out <span class="keyword">and</span> gil.locked <span class="keyword">and</span> gil.switch_number == saved_switchnum:</span><br><span class="line">            gil.drop_request = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># lock for force switching</span></span><br><span class="line">    switch_condition.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Now we hold the GIL</span></span><br><span class="line">    gil.locked = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.last_holder != thread_id:</span><br><span class="line">        gil.last_holder = thread_id</span><br><span class="line">        gil.switch_number += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching, send signal to drop_gil</span></span><br><span class="line">    switch_condition.notify()</span><br><span class="line">    switch_condition.release()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execution_loop</span>(<span class="params">target_function, thread_id</span>):</span></span><br><span class="line">    <span class="comment"># Compile Python function down to bytecode and execute it in the while loop</span></span><br><span class="line"></span><br><span class="line">    bytecode = <span class="built_in">compile</span>(target_function)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># drop_request indicates that one or more threads are awaiting for the GIL</span></span><br><span class="line">        <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">            <span class="comment"># release the gil from the current thread</span></span><br><span class="line">            drop_gil(thread_id)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># immediately request the GIL for the current thread</span></span><br><span class="line">            <span class="comment"># at this point the thread will be waiting for GIL and suspended until the function return</span></span><br><span class="line">            take_gil(thread_id)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># bytecode execution logic, executes one instruction at a time</span></span><br><span class="line">        instruction = bytecode.next_instruction()</span><br><span class="line">        <span class="keyword">if</span> instruction <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            execute_opcode(instruction)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
-
-<p>看代码我们可以知道：</p>
-<ul>
-<li>Python创建一个新的thread的时候，会首先call <code>take_gil</code> 尝试得到 GIL，然后才进入执行循环</li>
-<li>通过在循环的开始部分检查gil状态，可以确保只有一个线程在执行</li>
-</ul>
-<p>目前这个版本的GIL其实也实现一些scheduler的功能，比如：</p>
-<p><code>gil.drop_request</code> 为True就表明有其他的线程在等待执行，当前进程就会首先尝试放弃gil，给其他线程机会，然后他会立刻尝试夺回gil，以便自己可以继续运行。聪明的你可能想问，马上尝试夺回，那别的进程怎么办啊？</p>
-<p>仔细看 <code>drop_gil</code> 函数:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> gil.drop_request:</span><br><span class="line">    switch_condition.acquire()</span><br><span class="line">    <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line">        switch_condition.wait()</span><br><span class="line"></span><br><span class="line">    switch_condition.release()</span><br></pre></td></tr></table></figure>
-
-<p>这段代码确保如果，OS分配的下一个线程还是自己，该线程就会被迫等待，确保其他进程有机会被系统的线程调度器分配。</p>
-<p>CPython的源码在<a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h">这里</a></p>
-<h2 id="关于GIL的思考"><a href="#关于GIL的思考" class="headerlink" title="关于GIL的思考"></a>关于GIL的思考</h2><p>GIL从1992年诞生到现在，其实经历一些变化。在GIL被设计的年代，多核CPU基本不存在，当时的线程也主要是用来做IO类型的工作，所以GIL的设计处理多线程IO效率非常高。</p>
-<p>GIL的存在也让Python的单核性能大大增加，其实GIL是Python成功的一个重要原因。后来GIL加入了 <code>switch_condition</code>, <code>switch_number</code>, <code>timeout</code> 等参数，很大程度改善了多核处理下GIL线程schedule的问题。Python3以后的GIL仍然无法实现真正的CPU密集并行的多线程。不过这里说的线程都是OS线程，这不妨碍实现软件线程。</p>
-<p>GIL难以被完全移除有很多原因，比如</p>
-<ul>
-<li>移除GIL，就需要修改Python的GC机制，特别是reference counting</li>
-<li>GIL移除，会降低单核性能。因为移除全局锁，必然要引入粒度更小的锁</li>
-<li>可以考虑其他的同步机制，比如Software transactional memory，那么就要修改整个C API，基本上所有的C-API库都废了。。。。</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://www.youtube.com/watch?v=7RlqbHCCVyc">https://www.youtube.com/watch?v=7RlqbHCCVyc</a></li>
-<li><a href="https://www.youtube.com/watch?v=4zeHStBowEk">https://www.youtube.com/watch?v=4zeHStBowEk</a></li>
-<li><a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h">https://github.com/python/cpython/blob/master/Python/ceval_gil.h</a></li>
 </ul>
 ]]></content>
       <categories>
