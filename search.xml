@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>自学计算机的5年</title>
+    <url>/2021/10/10/%E8%87%AA%E5%AD%A6%E8%AE%A1%E7%AE%97%E6%9C%BA5%E5%B9%B4/</url>
+    <content><![CDATA[<p>今天无意打开了Github主页翻到了2015年9月的第一个commit，突然意识到我的“计算机”转行之旅就是在那段时间正式开始的。（那年，Github还没被微软收购呢）</p>
+<p>赖的朋友直接看这里，如何自学计算机？</p>
+<ul>
+<li>先学一门语言，啥基础没有就Python</li>
+<li>Github是最好的资源，学习、接受、贡献</li>
+<li>经典书籍要读，练习要做，亲手编码<ul>
+<li>CSAPP</li>
+<li>SICP</li>
+<li>CS3110</li>
+</ul>
+</li>
+<li>注重基础，练习要做，亲手编码<ul>
+<li>操作系统</li>
+<li>数据结构</li>
+<li>数据库</li>
+<li>计算机网络</li>
+<li>计算机语言原理（编译原理）</li>
+</ul>
+</li>
+<li>寻找自己的业务知识专精，围绕它展开计算机学习</li>
+<li>在灵魂语言后，探索多种语言，注意是探索不是精通。<ul>
+<li>Python</li>
+<li>C</li>
+<li>Ocaml/F#</li>
+<li>Clojure</li>
+<li>Haskell</li>
+<li>Erlang</li>
+<li>Go</li>
+<li>Rust</li>
+<li>Java （我真的爱不起来Java，太啰嗦了。。。。）</li>
+<li>C++ (我真的爱不起来C++，太复杂了。。。。)</li>
+</ul>
+</li>
+<li>无他，唯手熟尔</li>
+</ul>
+<h2 id="2015"><a href="#2015" class="headerlink" title="2015"></a>2015</h2><p><img data-src="https://i.imgur.com/Hhoybvl.png" alt="2015年的Github主页"></p>
+<p>那一年，我做了我的第一个博客，另外两个仓库：一个是 《<code>C++</code>Primer 5th》的练习题，一个是《数据结构与算法分析<code>C++</code>实现（第五版》的练习题。燃鹅，我点进去一看，一个做了三章，一个做了两章，就没有后续了。:) 具体发生了什么已经记不住了，但是隐约感觉自己应该是被C++给恶心到了，感觉自己完全不适合学习计算机，因为练习题都做不出啊，全是抄代码。</p>
+<p>同年12月，开了另一个坑《Data Structures and Algorithms in Python》，这次坚持了4章。但是，感觉Python跟<code>C++</code>比起来好舒服啊，算法题居然也能写出几个了。在那个时候，我还不清楚C++和Python究竟哪里不一样，编译型？解释器？分不清，仅仅是听说过。总之，我的自学之旅就这么开始了。</p>
+<h2 id="2016"><a href="#2016" class="headerlink" title="2016"></a>2016</h2><p>2016年，我博士三年级，找到了人生的第一个“计算机”行业的兼职工作。是一家只有两个人的金融公司，老板是半个程序员+交易员，而我，就是所谓的程序员。</p>
+<p><img data-src="https://i.imgur.com/cdtzsXv.png" alt="2016"></p>
+<p>那一年，我的Github上面有了第一个给其他仓库的PR，<a href="https://github.com/vnpy/vnpy">VNPY</a>。PR的内容竟然是把IB的API接口翻译成了英文哈哈。那时候，VNPY只有几百个星吧，现在已经有足足16k星了！除此之外，我的github没什么动静了。那一年，我大部分时间都用在了工作上。因为公司只有我跟老板两个人，老板大部分时间用来搞业务了，我就成了唯一的开发人员。我魔改了VNPY的事件引擎，做了自己的交易系统，用来交易老板的一个日内CFD策略。而开发语言就是Python。</p>
+<p>现在想想也是后怕，当时FUM大概7百万英镑，不是大数目，但是我的代码就那么风风火火的上线了。这期间，乱七八糟的功能修修补补的，也除了各种Bug，也赔过钱。但是，我对编程的理解加深了，然后莫名其妙的学会一些量化交易的知识。</p>
+<h2 id="2017"><a href="#2017" class="headerlink" title="2017"></a>2017</h2><p>2017年，那年我博士毕业了（结构工程方向的博士，如果你感兴趣的话）。我的github留下了我的第一个“开源项目”：<a href="https://github.com/wangzhe3224/chanlun">缠论（已经不再维护了）</a>。因为工作一直都是量化交易、金融相关的，哪一年我其实花了很多时间在学些这方面的知识，就是所谓的 Domain Knowledge。</p>
+<p>但是，我的计算机知识并没有太多提升，我只是会用Python实现一些不那么优雅的代码，它们刚好可以完成我想做的事情，虽然有各种各样的问题，但是我能忍受，况且，我也不知道要怎么改善它们。但是，好在公司很小很小（虽然陆陆续续又来了几个程序员），我几乎成了全干程序员。从后台数据库、API、到前端的Web我都碰过，因为工作需要，我们不追求好看、高效，仅仅追求快速迭代、上线，实现最基本的监控和操作。</p>
+<p>这期间，我给 VNPY 和 QUANTAXIS 这两个仓库提了一些Issue，而我也从这两个项目中间获得了很多灵感。</p>
+<p><img data-src="https://i.imgur.com/7vCKXCM.png" alt="我的第一个笔记仓库（已经归档了）"></p>
+<h2 id="2018"><a href="#2018" class="headerlink" title="2018"></a>2018</h2><p>2018年，我的Github格外安静。这一年除了工作，就是零零星星的学习一些计算机“技术”，为了应付工作中的各种问题，比如AWS全家桶。。。这一年，我开始逐渐意识到计算机科学和所谓的“技术”是不一样的。</p>
+<p><img data-src="https://i.imgur.com/HDuxHTu.png" alt=""></p>
+<h2 id="2019"><a href="#2019" class="headerlink" title="2019"></a>2019</h2><p>这一年，我开始刷leetcode了，因为想要跳槽换工作，换一个平台去学习新的技术。</p>
+<p>这一年，我也fork了许多量化交易的框架仓库，比如 <code>AlgoTrade</code>, <code>backtrader</code>, <code>bt</code> 等等，主要是学习他们的框架和编码模式。</p>
+<p>这一年，我开源了一个奇葩库：<a href="https://github.com/wangzhe3224/zhihu-hotlist">知乎热榜</a>。哈哈哈，可能算不上库把。。</p>
+<p><img data-src="https://i.imgur.com/dAcCPz4.png" alt=""></p>
+<p>这一年，我的忘了我的初心：计算机科学。我花了不少时间在量化交易的框架上，也花了很多时间研究一些交易策略。我为数不多的commit都去了自己的一个研究量化策略的私有仓库里。所以，我开始计划零零星星的时间去学习计算机科学的基础知识：计算机组成原理、操作系统、数据库、计算机网路、编译原理。</p>
+<h2 id="2020"><a href="#2020" class="headerlink" title="2020"></a>2020</h2><p>啊，2020年，我换了新的工作，到了一个大一些的对冲基金，公司的FUM从1亿美金变成了40亿美金。我终于看到了“大”的对冲基金是怎么用计算机的。每天除了完成被分配的任务，就是疯狂的阅读代码，感受到了真的成长。以前，什么都是自己写，没有参考，在这个更成熟的代码仓库里，我看到了自己曾经想要而不得的东西：如何构建大尺度的项目？如何协调计算机集群进行计算？当然，我也学到了更多关于量化交易的 Domain 知识，如何构建复杂计算？如何处理异常？如何设计API和前端？等等。</p>
+<p>啊，2020年，新冠疫情来了，我开始了长达一年的“work from home”。我的Github也热闹起来了。</p>
+<p><img data-src="https://i.imgur.com/vMwhfPY.png" alt="2020"></p>
+<p>我提交了两个更加有意思的项目：<a href="https://github.com/wangzhe3224/pygraph">Py Graph</a> 和 <a href="https://github.com/wangzhe3224/">pyca</a>。这两个项目，无论是成熟度和完整度都更高了。</p>
+<p>这一年，我开始集中补充我的计算机基础知识，开始上一些网上的公开课，写作业，读计算机的经典书籍，基础各种各样的计算机语言：C，Java，Haskell，Ocaml，Erlang，Clojure，基本上是课程或者书籍设计到的语言我都接触一下。</p>
+<p>这里是我的<a href="https://github.com/wangzhe3224/books">计算机书单</a>，然而，我又犯了老毛病：没长性。很多课程和书籍都是，学了一点点就放弃了，或者被其他的主题吸引了。所以这一年，我是涨了见识，但是我觉得我的思想似乎没有变得更深邃，我写了一片关于这个的文章：<a href="https://wangzhe3224.github.io/2021/05/30/admin2/">https://wangzhe3224.github.io/2021/05/30/admin2/</a> 。 即便如此，付出还是有收获的，我对计算机本身和编程也算有了更深的认识，也更认识到计算机这行业，基础知识是何等的重要，特别是对于转行的人来说。这不是学习一门语言或者学习一个框架可以带给你的。</p>
+<p><strong>框架来框架去，操作系统、数据结构还是你大爷。</strong></p>
+<p>同年，我在AWS部署了第一个“自主研发”的比特币日内交易系统。</p>
+<h2 id="2021"><a href="#2021" class="headerlink" title="2021"></a>2021</h2><p>转眼已经是第五年了，兜兜转转我还是决定回到基础了。我终于慢慢的读完了CSAPP这本书，慢慢做了很多练习，慢慢的发现C语言其实挺好理解的，并发和并行也不再神秘。我终于慢慢的读完了SICP这本书，慢慢的做了很多联系，慢慢的发现Clojure其实也挺好理解的。我终于完成CS3110这门课的联系，慢慢的发现组织程序的规则其实也挺好理解的，慢慢的发现Ocaml其实也很有意思，一点都不另类。</p>
+<p>这一年，我的博客也开始热闹起来了，我开始更新自己对CPython内部的各种新的认识，毕竟Python仍然是我的灵魂语言！与当年不同的是，因为基础变得好起来了，Python对我来说不再神秘，不再是一个黑盒子，我渐渐的了解如何去分析程序，如何去理解它的性能，如何理解他跟其他语言的区别，明白他的长处和弱点。</p>
+<p>这一年，我也开始变成了视频博主，开始把自己的得找分享给更多像我一样的人，像我一样想要在计算机中寻找乐趣的人们。<a href="https://github.com/wangzhe3224/Python-zhifou">Python知否</a></p>
+<p><img data-src="https://i.imgur.com/HXk9H9N.png" alt=""></p>
+<p>这一年，我也真正意义的开始为开源社区做贡献了！</p>
+<p><img data-src="https://i.imgur.com/enU3SoJ.png" alt=""></p>
+<h2 id="2026"><a href="#2026" class="headerlink" title="2026"></a>2026</h2><p>我希望5年后，当我再次回首，可以看着过往微笑。然后，写下下一个5年。</p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>重拾面向对象设计模式</title>
     <url>/2021/10/02/design_pattern/</url>
     <content><![CDATA[<blockquote>
@@ -494,31 +573,6 @@
       </tags>
   </entry>
   <entry>
-    <title>系统化程序设计 - 函数式</title>
-    <url>/2021/07/17/design_1/</url>
-    <content><![CDATA[<h1 id="系统化程序设计-函数式"><a href="#系统化程序设计-函数式" class="headerlink" title="系统化程序设计 - 函数式"></a>系统化程序设计 - 函数式</h1><ol>
-<li>从问题分析到数据定义</li>
-<li>签名、目的和头文件</li>
-<li>函数例子</li>
-<li>函数模板</li>
-<li>函数定义</li>
-<li>测试</li>
-</ol>
-<h2 id="从问题分析到数据定义"><a href="#从问题分析到数据定义" class="headerlink" title="从问题分析到数据定义"></a>从问题分析到数据定义</h2><p>确定哪些信息需要表达，明确在某个计算机语言中如何表达。确定数据结构后，写出实例。</p>
-<h2 id="签名、目的和头文件"><a href="#签名、目的和头文件" class="headerlink" title="签名、目的和头文件"></a>签名、目的和头文件</h2><p>说明那种数据设计的函数接受和返回。回答问题：函数计算什么？定义函数签名。</p>
-<h2 id="函数例子"><a href="#函数例子" class="headerlink" title="函数例子"></a>函数例子</h2><p>写出几个实例说明函数如何工作</p>
-<h2 id="函数模板"><a href="#函数模板" class="headerlink" title="函数模板"></a>函数模板</h2><p>把数据定义翻译成函数的骨架</p>
-<h2 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h2><p>根据上述步骤实现函数。</p>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>把例子、场景分析转化成测试函数，并且确保函数通过测试。</p>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Design</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>10年自学编程</title>
     <url>/2021/07/17/learn_coding/</url>
     <content><![CDATA[<h1 id="10年自学编程"><a href="#10年自学编程" class="headerlink" title="10年自学编程"></a>10年自学编程</h1><blockquote>
@@ -626,6 +680,31 @@
       </categories>
       <tags>
         <tag>Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>系统化程序设计 - 函数式</title>
+    <url>/2021/07/17/design_1/</url>
+    <content><![CDATA[<h1 id="系统化程序设计-函数式"><a href="#系统化程序设计-函数式" class="headerlink" title="系统化程序设计 - 函数式"></a>系统化程序设计 - 函数式</h1><ol>
+<li>从问题分析到数据定义</li>
+<li>签名、目的和头文件</li>
+<li>函数例子</li>
+<li>函数模板</li>
+<li>函数定义</li>
+<li>测试</li>
+</ol>
+<h2 id="从问题分析到数据定义"><a href="#从问题分析到数据定义" class="headerlink" title="从问题分析到数据定义"></a>从问题分析到数据定义</h2><p>确定哪些信息需要表达，明确在某个计算机语言中如何表达。确定数据结构后，写出实例。</p>
+<h2 id="签名、目的和头文件"><a href="#签名、目的和头文件" class="headerlink" title="签名、目的和头文件"></a>签名、目的和头文件</h2><p>说明那种数据设计的函数接受和返回。回答问题：函数计算什么？定义函数签名。</p>
+<h2 id="函数例子"><a href="#函数例子" class="headerlink" title="函数例子"></a>函数例子</h2><p>写出几个实例说明函数如何工作</p>
+<h2 id="函数模板"><a href="#函数模板" class="headerlink" title="函数模板"></a>函数模板</h2><p>把数据定义翻译成函数的骨架</p>
+<h2 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h2><p>根据上述步骤实现函数。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>把例子、场景分析转化成测试函数，并且确保函数通过测试。</p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Design</tag>
       </tags>
   </entry>
   <entry>
@@ -1424,59 +1503,6 @@
       </tags>
   </entry>
   <entry>
-    <title>1192 Critical Connections in a Network</title>
-    <url>/2021/04/24/leetcode_graph/</url>
-    <content><![CDATA[<h1 id="1192-Critical-Connections-in-a-Network"><a href="#1192-Critical-Connections-in-a-Network" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h1><ul>
-<li><a href="https://leetcode.com/problems/critical-connections-in-a-network/">1192. Critical Connections in a Network</a></li>
-<li><a href="https://leetcode.com/problems/all-paths-from-source-to-target/">797. All Paths From Source to Target</a></li>
-</ul>
-<h2 id="1192-Critical-Connections-in-a-Network-1"><a href="#1192-Critical-Connections-in-a-Network-1" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h2><p><strong>问题</strong></p>
-<blockquote>
-<p>There are n servers numbered from 0 to n-1 connected by undirected server-to-server connections forming a network where connections[i] = [a, b] represents a connection between servers a and b. Any server can reach any other server directly or indirectly through the network.A critical connection is a connection that, if removed, will make some server unable to reach some other server.<br>Return all critical connections in the network in any order.</p>
-</blockquote>
-<p><strong>例子</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: n &#x3D; 4, connections &#x3D; [[0,1],[1,2],[2,0],[1,3]]</span><br><span class="line">Output: [[1,3]]</span><br><span class="line">Explanation: [[3,1]] is also accepted.</span><br></pre></td></tr></table></figure>
-
-<p><strong>思路</strong></p>
-<p>思路1：暴力破解</p>
-<p>按照循序分别移除一个边，然后dfs剩下的图，如果DFS的深度小于节点数，说明移除的边是关键路线。这个思路简单，一旦边数量多起啦，就会超时。</p>
-<p>思路2：找循环</p>
-<p>关键路线其实就是不在 cycle 中的 edge，我们只需要找到所有不在循环中边，就是此题答案。</p>
-<p>下一个问题是：如何找到循环？无论哪种方法，我们需要遍历图，为了找到循环，最好的办法是DFS。DFS的过程中，需要一个特殊标记表明节点的深度，因为如果我们发现循环，等价于发现了一个节点，两次访问他深度不相同！</p>
-<p>现在还有一个问题，我们可以用标记在当前的搜索层发现循环，但是上一个层并不知道这个信息，我们需要把这个信息返回到上一层，其实就是回溯（backtraking）。</p>
-<p>我们的DFS函数永远返回当前节点的最小深度。</p>
-<p>假设我们在一个长度（深度）为<code>k</code>的DFS路径上（<code>dfs(node, k)</code>），看到了节点<code>node</code>，如果这个节点没有见过，标记他的深度；然后遍历他的相邻节点，如果发现相邻节点的深度刚好是k-1，说明这是他的父节点，跳过避免循环搜索；如果不是父节点，进入下一层搜索，<code>k+1</code>。</p>
-<p>然后我们分析回溯的部分，<code>back_depth = dfs(adj, depth+1)</code>。比较当前深度<code>k</code>和下一层回溯回来的深度<code>back_depth</code>，如果回溯回来的深度<code>dfs(adj)</code>小于<code>dfs(k)</code>，则<code>k</code>发现他的邻居<code>adj</code>找到了一个可以回到<code>k</code>或者<code>k</code>的祖先的循环，则边<code>(k, adj)</code>一定属于某个循环，移除。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solution</span>(<span class="params">connections, n</span>):</span></span><br><span class="line">    graph = build(connections, n)</span><br><span class="line">    mark = [-<span class="number">2</span>] * n</span><br><span class="line">    connections = <span class="built_in">set</span>(<span class="built_in">map</span>(<span class="built_in">tuple</span>, (<span class="built_in">map</span>(<span class="built_in">sorted</span>, connections))))</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">node, depth</span>):</span></span><br><span class="line">        <span class="keyword">if</span> mark[node] &gt;= <span class="number">0</span>:</span><br><span class="line">            <span class="comment"># visited already!</span></span><br><span class="line">            <span class="keyword">return</span> mark[node]</span><br><span class="line">        </span><br><span class="line">        mark[node] = depth</span><br><span class="line">        min_back_depth = n</span><br><span class="line">        <span class="keyword">for</span> adj <span class="keyword">in</span> graph[node]:</span><br><span class="line">            <span class="keyword">if</span> mark[adj] == depth - <span class="number">1</span>:</span><br><span class="line">                <span class="comment"># visited from prev level</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            back_depth = dfs(adj, depth+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> back_depth &lt;= depth:  <span class="comment"># found cycle</span></span><br><span class="line">                connections.discard(<span class="built_in">tuple</span>(<span class="built_in">sorted</span>((node, adj))))</span><br><span class="line">            </span><br><span class="line">            min_back_depth = <span class="built_in">min</span>(back_depth, min_back_depth)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> min_back_depth</span><br><span class="line"></span><br><span class="line">    dfs(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>(connections)</span><br></pre></td></tr></table></figure>
-
-<h2 id="797-All-Paths-From-Source-to-Target"><a href="#797-All-Paths-From-Source-to-Target" class="headerlink" title="797. All Paths From Source to Target"></a>797. All Paths From Source to Target</h2><p><strong>问题</strong></p>
-<blockquote>
-<p>Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, find all possible paths from node 0 to node n - 1, and return them in any order.</p>
-<p>The graph is given as follows: graph[i] is a list of all nodes you can visit from node i (i.e., there is a directed edge from node i to node graph[i][j]).</p>
-</blockquote>
-<p><strong>例子</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Example 3:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1],[]]</span><br><span class="line">Output: [[0,1]]</span><br><span class="line"></span><br><span class="line">Example 4:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1,2,3],[2],[3],[]]</span><br><span class="line">Output: [[0,1,2,3],[0,2,3],[0,3]]</span><br><span class="line"></span><br><span class="line">Example 5:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1,3],[2],[3],[]]</span><br><span class="line">Output: [[0,1,2,3],[0,3]]</span><br></pre></td></tr></table></figure>
-
-<p><strong>思路</strong></p>
-<p>基本的DFS回溯问题，我们套用模板。</p>
-<p><strong>代码</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allPathsSourceTarget</span>(<span class="params">self, graph</span>):</span></span><br><span class="line">        <span class="comment"># backtrack</span></span><br><span class="line">        res = []</span><br><span class="line">        path = [<span class="number">0</span>]</span><br><span class="line">        N = <span class="built_in">len</span>(graph) - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">_dfs</span>(<span class="params">node</span>):</span></span><br><span class="line">            <span class="comment"># 模板：结束条件</span></span><br><span class="line">            <span class="keyword">if</span> node == N:</span><br><span class="line">                res.append(path[:])</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            <span class="comment"># 模板：遍历所有下一个步骤</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> graph[node]:</span><br><span class="line">                path.append(i)</span><br><span class="line">                <span class="comment"># 模板：走向更深</span></span><br><span class="line">                _dfs(i)</span><br><span class="line">                <span class="comment"># 模板：恢复状态，继续循环</span></span><br><span class="line">                path.pop()</span><br><span class="line">                </span><br><span class="line">        _dfs(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-
-<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
-<li><a href="https://leetcode.com/problems/critical-connections-in-a-network/discuss/382638/DFS-detailed-explanation-O(orEor)-solution">https://leetcode.com/problems/critical-connections-in-a-network/discuss/382638/DFS-detailed-explanation-O(orEor)-solution</a></li>
-</ul>
-<h6 id="tags-Leetcode-Graph-BFS-DFS"><a href="#tags-Leetcode-Graph-BFS-DFS" class="headerlink" title="tags: Leetcode Graph BFS DFS"></a>tags: <code>Leetcode</code> <code>Graph</code> <code>BFS</code> <code>DFS</code></h6>]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Graph</tag>
-        <tag>DFS</tag>
-        <tag>BFS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSAPP 6 存储的层次</title>
     <url>/2021/04/24/csapp_6/</url>
     <content><![CDATA[<h1 id="CSAPP-6-存储的层次"><a href="#CSAPP-6-存储的层次" class="headerlink" title="CSAPP 6 存储的层次"></a>CSAPP 6 存储的层次</h1><p>本书之前讨论的模型注重CPU执行程序的过程和方式，而其中内存被当做一个简单的byte array，可以实现O(1)访问。但是，这个内存模型是简化的，实际计算的内存是一个层状模型，每一层都有不同的承载力和访问开销。</p>
@@ -1668,6 +1694,59 @@
       </categories>
       <tags>
         <tag>CSAPP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1192 Critical Connections in a Network</title>
+    <url>/2021/04/24/leetcode_graph/</url>
+    <content><![CDATA[<h1 id="1192-Critical-Connections-in-a-Network"><a href="#1192-Critical-Connections-in-a-Network" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h1><ul>
+<li><a href="https://leetcode.com/problems/critical-connections-in-a-network/">1192. Critical Connections in a Network</a></li>
+<li><a href="https://leetcode.com/problems/all-paths-from-source-to-target/">797. All Paths From Source to Target</a></li>
+</ul>
+<h2 id="1192-Critical-Connections-in-a-Network-1"><a href="#1192-Critical-Connections-in-a-Network-1" class="headerlink" title="1192. Critical Connections in a Network"></a>1192. Critical Connections in a Network</h2><p><strong>问题</strong></p>
+<blockquote>
+<p>There are n servers numbered from 0 to n-1 connected by undirected server-to-server connections forming a network where connections[i] = [a, b] represents a connection between servers a and b. Any server can reach any other server directly or indirectly through the network.A critical connection is a connection that, if removed, will make some server unable to reach some other server.<br>Return all critical connections in the network in any order.</p>
+</blockquote>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: n &#x3D; 4, connections &#x3D; [[0,1],[1,2],[2,0],[1,3]]</span><br><span class="line">Output: [[1,3]]</span><br><span class="line">Explanation: [[3,1]] is also accepted.</span><br></pre></td></tr></table></figure>
+
+<p><strong>思路</strong></p>
+<p>思路1：暴力破解</p>
+<p>按照循序分别移除一个边，然后dfs剩下的图，如果DFS的深度小于节点数，说明移除的边是关键路线。这个思路简单，一旦边数量多起啦，就会超时。</p>
+<p>思路2：找循环</p>
+<p>关键路线其实就是不在 cycle 中的 edge，我们只需要找到所有不在循环中边，就是此题答案。</p>
+<p>下一个问题是：如何找到循环？无论哪种方法，我们需要遍历图，为了找到循环，最好的办法是DFS。DFS的过程中，需要一个特殊标记表明节点的深度，因为如果我们发现循环，等价于发现了一个节点，两次访问他深度不相同！</p>
+<p>现在还有一个问题，我们可以用标记在当前的搜索层发现循环，但是上一个层并不知道这个信息，我们需要把这个信息返回到上一层，其实就是回溯（backtraking）。</p>
+<p>我们的DFS函数永远返回当前节点的最小深度。</p>
+<p>假设我们在一个长度（深度）为<code>k</code>的DFS路径上（<code>dfs(node, k)</code>），看到了节点<code>node</code>，如果这个节点没有见过，标记他的深度；然后遍历他的相邻节点，如果发现相邻节点的深度刚好是k-1，说明这是他的父节点，跳过避免循环搜索；如果不是父节点，进入下一层搜索，<code>k+1</code>。</p>
+<p>然后我们分析回溯的部分，<code>back_depth = dfs(adj, depth+1)</code>。比较当前深度<code>k</code>和下一层回溯回来的深度<code>back_depth</code>，如果回溯回来的深度<code>dfs(adj)</code>小于<code>dfs(k)</code>，则<code>k</code>发现他的邻居<code>adj</code>找到了一个可以回到<code>k</code>或者<code>k</code>的祖先的循环，则边<code>(k, adj)</code>一定属于某个循环，移除。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solution</span>(<span class="params">connections, n</span>):</span></span><br><span class="line">    graph = build(connections, n)</span><br><span class="line">    mark = [-<span class="number">2</span>] * n</span><br><span class="line">    connections = <span class="built_in">set</span>(<span class="built_in">map</span>(<span class="built_in">tuple</span>, (<span class="built_in">map</span>(<span class="built_in">sorted</span>, connections))))</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">node, depth</span>):</span></span><br><span class="line">        <span class="keyword">if</span> mark[node] &gt;= <span class="number">0</span>:</span><br><span class="line">            <span class="comment"># visited already!</span></span><br><span class="line">            <span class="keyword">return</span> mark[node]</span><br><span class="line">        </span><br><span class="line">        mark[node] = depth</span><br><span class="line">        min_back_depth = n</span><br><span class="line">        <span class="keyword">for</span> adj <span class="keyword">in</span> graph[node]:</span><br><span class="line">            <span class="keyword">if</span> mark[adj] == depth - <span class="number">1</span>:</span><br><span class="line">                <span class="comment"># visited from prev level</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            back_depth = dfs(adj, depth+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> back_depth &lt;= depth:  <span class="comment"># found cycle</span></span><br><span class="line">                connections.discard(<span class="built_in">tuple</span>(<span class="built_in">sorted</span>((node, adj))))</span><br><span class="line">            </span><br><span class="line">            min_back_depth = <span class="built_in">min</span>(back_depth, min_back_depth)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> min_back_depth</span><br><span class="line"></span><br><span class="line">    dfs(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>(connections)</span><br></pre></td></tr></table></figure>
+
+<h2 id="797-All-Paths-From-Source-to-Target"><a href="#797-All-Paths-From-Source-to-Target" class="headerlink" title="797. All Paths From Source to Target"></a>797. All Paths From Source to Target</h2><p><strong>问题</strong></p>
+<blockquote>
+<p>Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, find all possible paths from node 0 to node n - 1, and return them in any order.</p>
+<p>The graph is given as follows: graph[i] is a list of all nodes you can visit from node i (i.e., there is a directed edge from node i to node graph[i][j]).</p>
+</blockquote>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Example 3:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1],[]]</span><br><span class="line">Output: [[0,1]]</span><br><span class="line"></span><br><span class="line">Example 4:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1,2,3],[2],[3],[]]</span><br><span class="line">Output: [[0,1,2,3],[0,2,3],[0,3]]</span><br><span class="line"></span><br><span class="line">Example 5:</span><br><span class="line"></span><br><span class="line">Input: graph &#x3D; [[1,3],[2],[3],[]]</span><br><span class="line">Output: [[0,1,2,3],[0,3]]</span><br></pre></td></tr></table></figure>
+
+<p><strong>思路</strong></p>
+<p>基本的DFS回溯问题，我们套用模板。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allPathsSourceTarget</span>(<span class="params">self, graph</span>):</span></span><br><span class="line">        <span class="comment"># backtrack</span></span><br><span class="line">        res = []</span><br><span class="line">        path = [<span class="number">0</span>]</span><br><span class="line">        N = <span class="built_in">len</span>(graph) - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">_dfs</span>(<span class="params">node</span>):</span></span><br><span class="line">            <span class="comment"># 模板：结束条件</span></span><br><span class="line">            <span class="keyword">if</span> node == N:</span><br><span class="line">                res.append(path[:])</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            <span class="comment"># 模板：遍历所有下一个步骤</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> graph[node]:</span><br><span class="line">                path.append(i)</span><br><span class="line">                <span class="comment"># 模板：走向更深</span></span><br><span class="line">                _dfs(i)</span><br><span class="line">                <span class="comment"># 模板：恢复状态，继续循环</span></span><br><span class="line">                path.pop()</span><br><span class="line">                </span><br><span class="line">        _dfs(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
+<li><a href="https://leetcode.com/problems/critical-connections-in-a-network/discuss/382638/DFS-detailed-explanation-O(orEor)-solution">https://leetcode.com/problems/critical-connections-in-a-network/discuss/382638/DFS-detailed-explanation-O(orEor)-solution</a></li>
+</ul>
+<h6 id="tags-Leetcode-Graph-BFS-DFS"><a href="#tags-Leetcode-Graph-BFS-DFS" class="headerlink" title="tags: Leetcode Graph BFS DFS"></a>tags: <code>Leetcode</code> <code>Graph</code> <code>BFS</code> <code>DFS</code></h6>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Graph</tag>
+        <tag>DFS</tag>
+        <tag>BFS</tag>
       </tags>
   </entry>
   <entry>
@@ -2027,6 +2106,33 @@
       </tags>
   </entry>
   <entry>
+    <title>Calculator 123</title>
+    <url>/2021/04/15/leetcode_calculator/</url>
+    <content><![CDATA[<h1 id="Calculator-I-II-III"><a href="#Calculator-I-II-III" class="headerlink" title="Calculator I,II,III"></a>Calculator I,II,III</h1><ul>
+<li><a href="https://leetcode.com/problems/basic-calculator-ii/">227. Basic Calculator II</a></li>
+</ul>
+<p>问题：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Given a string s which represents an expression, evaluate this expression and return its value. </span><br><span class="line"></span><br><span class="line">The integer division should truncate toward zero.</span><br></pre></td></tr></table></figure>
+
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Example 1:</span><br><span class="line"></span><br><span class="line">Input: s &#x3D; &quot;3+2*2&quot;</span><br><span class="line">Output: 7</span><br><span class="line">Example 2:</span><br><span class="line"></span><br><span class="line">Input: s &#x3D; &quot; 3&#x2F;2 &quot;</span><br><span class="line">Output: 1</span><br><span class="line">Example 3:</span><br><span class="line"></span><br><span class="line">Input: s &#x3D; &quot; 3+5 &#x2F; 2 &quot;</span><br><span class="line">Output: 5</span><br></pre></td></tr></table></figure>
+
+<p>思路：</p>
+<p>这道题检测的是栈的使用，基本策略是一个一个的过char，如果看见数字，就累加数字（考虑进位），如果看见操作符号：比如 + -，就把当前结果进栈；如果看见 * / 就从栈顶取出一个数字，操作后进栈。过程中需要保存的状态：上一个符号，当前的整数。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        idx, stack = <span class="number">0</span>, []</span><br><span class="line">        res = <span class="number">0</span>     <span class="comment"># 当前的数字</span></span><br><span class="line">        sign = <span class="string">&#x27;+&#x27;</span>  <span class="comment"># 前一个符号</span></span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">update</span>(<span class="params">op, v</span>):</span></span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;+&quot;</span>: stack.append(v)</span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;-&quot;</span>: stack.append(-v)</span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;*&quot;</span>: stack.append(stack.pop() * v)           <span class="comment">#for BC II and BC III</span></span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;/&quot;</span>: stack.append(<span class="built_in">int</span>(stack.pop() / v))      <span class="comment">#for BC II and BC III</span></span><br><span class="line">    </span><br><span class="line">        <span class="keyword">while</span> idx &lt; <span class="built_in">len</span>(s):</span><br><span class="line">            <span class="keyword">if</span> s[idx].isdigit():</span><br><span class="line">                res = res*<span class="number">10</span>+<span class="built_in">int</span>(s[idx])</span><br><span class="line">                <span class="built_in">print</span>(res)</span><br><span class="line">            <span class="keyword">elif</span> s[idx] <span class="keyword">in</span> <span class="string">&#x27;+-*/&#x27;</span>:</span><br><span class="line">                update(sign, res)</span><br><span class="line">                <span class="built_in">print</span>(res, sign)</span><br><span class="line">                res, sign = <span class="number">0</span>, s[idx]</span><br><span class="line">                <span class="built_in">print</span>(res, sign)</span><br><span class="line">                <span class="built_in">print</span>(stack)</span><br><span class="line">            idx += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 这里不要忘记，因为还有最后一个符号没有处理</span></span><br><span class="line">        update(sign, res)</span><br><span class="line">        <span class="built_in">print</span>(stack)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>(stack)</span><br></pre></td></tr></table></figure>
+
+<p>对于有括号的情况，我们需要用到递归，把括号内部的表达式当做一个子问题处理。当遇到左括号的时候，递归计算后面的表达式；遇到右括号的时候，update 函数，然后返回结果以及下一个步的index。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">elif</span> s[it] == <span class="string">&quot;(&quot;</span>:                                        <span class="comment"># For BC I and BC III</span></span><br><span class="line">    num, j = self.calculate(s[it + <span class="number">1</span>:])</span><br><span class="line">    it = it + j</span><br><span class="line"><span class="keyword">elif</span> s[it] == <span class="string">&quot;)&quot;</span>:                                        <span class="comment"># For BC I and BC III</span></span><br><span class="line">    update(sign, num)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span>(stack), it + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="tags-Leetcode-Stack"><a href="#tags-Leetcode-Stack" class="headerlink" title="tags: Leetcode Stack"></a>tags: <code>Leetcode</code> <code>Stack</code></h6>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Stack</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSAPP 3 程序的机器层面表达</title>
     <url>/2021/04/15/csapp_3/</url>
     <content><![CDATA[<h1 id="CSAPP-3-程序的机器层面表达"><a href="#CSAPP-3-程序的机器层面表达" class="headerlink" title="CSAPP 3 程序的机器层面表达"></a>CSAPP 3 程序的机器层面表达</h1><p>这一章主要从汇编程序和机器码的角度看程序。包括<code>call stack</code>, <code>local variable</code>, 以及一些基本的数据结构，比如<code>array</code>, <code>structure</code>, <code>union</code> 等等。</p>
@@ -2122,33 +2228,6 @@
       </categories>
       <tags>
         <tag>CSAPP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Calculator 123</title>
-    <url>/2021/04/15/leetcode_calculator/</url>
-    <content><![CDATA[<h1 id="Calculator-I-II-III"><a href="#Calculator-I-II-III" class="headerlink" title="Calculator I,II,III"></a>Calculator I,II,III</h1><ul>
-<li><a href="https://leetcode.com/problems/basic-calculator-ii/">227. Basic Calculator II</a></li>
-</ul>
-<p>问题：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Given a string s which represents an expression, evaluate this expression and return its value. </span><br><span class="line"></span><br><span class="line">The integer division should truncate toward zero.</span><br></pre></td></tr></table></figure>
-
-<p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Example 1:</span><br><span class="line"></span><br><span class="line">Input: s &#x3D; &quot;3+2*2&quot;</span><br><span class="line">Output: 7</span><br><span class="line">Example 2:</span><br><span class="line"></span><br><span class="line">Input: s &#x3D; &quot; 3&#x2F;2 &quot;</span><br><span class="line">Output: 1</span><br><span class="line">Example 3:</span><br><span class="line"></span><br><span class="line">Input: s &#x3D; &quot; 3+5 &#x2F; 2 &quot;</span><br><span class="line">Output: 5</span><br></pre></td></tr></table></figure>
-
-<p>思路：</p>
-<p>这道题检测的是栈的使用，基本策略是一个一个的过char，如果看见数字，就累加数字（考虑进位），如果看见操作符号：比如 + -，就把当前结果进栈；如果看见 * / 就从栈顶取出一个数字，操作后进栈。过程中需要保存的状态：上一个符号，当前的整数。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        idx, stack = <span class="number">0</span>, []</span><br><span class="line">        res = <span class="number">0</span>     <span class="comment"># 当前的数字</span></span><br><span class="line">        sign = <span class="string">&#x27;+&#x27;</span>  <span class="comment"># 前一个符号</span></span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">update</span>(<span class="params">op, v</span>):</span></span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;+&quot;</span>: stack.append(v)</span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;-&quot;</span>: stack.append(-v)</span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;*&quot;</span>: stack.append(stack.pop() * v)           <span class="comment">#for BC II and BC III</span></span><br><span class="line">            <span class="keyword">if</span> op == <span class="string">&quot;/&quot;</span>: stack.append(<span class="built_in">int</span>(stack.pop() / v))      <span class="comment">#for BC II and BC III</span></span><br><span class="line">    </span><br><span class="line">        <span class="keyword">while</span> idx &lt; <span class="built_in">len</span>(s):</span><br><span class="line">            <span class="keyword">if</span> s[idx].isdigit():</span><br><span class="line">                res = res*<span class="number">10</span>+<span class="built_in">int</span>(s[idx])</span><br><span class="line">                <span class="built_in">print</span>(res)</span><br><span class="line">            <span class="keyword">elif</span> s[idx] <span class="keyword">in</span> <span class="string">&#x27;+-*/&#x27;</span>:</span><br><span class="line">                update(sign, res)</span><br><span class="line">                <span class="built_in">print</span>(res, sign)</span><br><span class="line">                res, sign = <span class="number">0</span>, s[idx]</span><br><span class="line">                <span class="built_in">print</span>(res, sign)</span><br><span class="line">                <span class="built_in">print</span>(stack)</span><br><span class="line">            idx += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 这里不要忘记，因为还有最后一个符号没有处理</span></span><br><span class="line">        update(sign, res)</span><br><span class="line">        <span class="built_in">print</span>(stack)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>(stack)</span><br></pre></td></tr></table></figure>
-
-<p>对于有括号的情况，我们需要用到递归，把括号内部的表达式当做一个子问题处理。当遇到左括号的时候，递归计算后面的表达式；遇到右括号的时候，update 函数，然后返回结果以及下一个步的index。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">elif</span> s[it] == <span class="string">&quot;(&quot;</span>:                                        <span class="comment"># For BC I and BC III</span></span><br><span class="line">    num, j = self.calculate(s[it + <span class="number">1</span>:])</span><br><span class="line">    it = it + j</span><br><span class="line"><span class="keyword">elif</span> s[it] == <span class="string">&quot;)&quot;</span>:                                        <span class="comment"># For BC I and BC III</span></span><br><span class="line">    update(sign, num)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span>(stack), it + <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<h6 id="tags-Leetcode-Stack"><a href="#tags-Leetcode-Stack" class="headerlink" title="tags: Leetcode Stack"></a>tags: <code>Leetcode</code> <code>Stack</code></h6>]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Stack</tag>
       </tags>
   </entry>
   <entry>
@@ -3195,30 +3274,6 @@
       </tags>
   </entry>
   <entry>
-    <title>雅各书 3-4</title>
-    <url>/2021/03/07/yageshu_13/</url>
-    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
-<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
-</blockquote>
-<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
-<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
-<blockquote>
-<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
-</blockquote>
-<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
-<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
-<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
-</blockquote>
-<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>编程101 PyOS 一个Python写的OS 3</title>
     <url>/2021/03/07/pyos_3/</url>
     <content><![CDATA[<blockquote>
@@ -3269,6 +3324,30 @@
         <tag>Operating System</tag>
         <tag>Python</tag>
         <tag>Concurrent</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>雅各书 3-4</title>
+    <url>/2021/03/07/yageshu_13/</url>
+    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
+<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
+</blockquote>
+<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
+<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
+<blockquote>
+<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
+</blockquote>
+<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
+<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
+<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
+</blockquote>
+<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
@@ -4085,6 +4164,32 @@
       </tags>
   </entry>
   <entry>
+    <title>6.004 Basic of information</title>
+    <url>/2020/12/19/6004_1/</url>
+    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
+<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
+<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
+<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
+<p>the unit is bits, the number of bits required to encode the choice.</p>
+<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
+<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
+<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
+<p>Encoding as binary tree is a good way to think. </p>
+<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
+<p>If we do same algorithm but using multiple symbols, we can do better.</p>
+<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
+<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/">6.004</a></p>
+<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>6.004</tag>
+        <tag>Information</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>6.004 The Digital Abstraction</title>
     <url>/2020/12/19/6004-2/</url>
     <content><![CDATA[<h1 id="The-Digital-Abstraction"><a href="#The-Digital-Abstraction" class="headerlink" title="The Digital Abstraction"></a>The Digital Abstraction</h1><p>Q: the physical representation of bits?</p>
@@ -4111,32 +4216,6 @@
 </blockquote>
 <p><img data-src="https://i.imgur.com/NMkOpar.png" alt=""></p>
 ]]></content>
-      <categories>
-        <category>Computing</category>
-      </categories>
-      <tags>
-        <tag>6.004</tag>
-        <tag>Information</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>6.004 Basic of information</title>
-    <url>/2020/12/19/6004_1/</url>
-    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
-<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
-<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
-<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
-<p>the unit is bits, the number of bits required to encode the choice.</p>
-<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
-<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
-<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
-<p>Encoding as binary tree is a good way to think. </p>
-<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
-<p>If we do same algorithm but using multiple symbols, we can do better.</p>
-<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
-<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
-<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/">6.004</a></p>
-<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
       <categories>
         <category>Computing</category>
       </categories>
@@ -5241,6 +5320,33 @@
       </tags>
   </entry>
   <entry>
+    <title>Python无成本加速技巧</title>
+    <url>/2020/06/14/python_speedup/</url>
+    <content><![CDATA[<p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
+<h1 id="palm-tree-Python到底慢在哪里？"><a href="#palm-tree-Python到底慢在哪里？" class="headerlink" title=":palm_tree: Python到底慢在哪里？"></a>:palm_tree: Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
+<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span>():</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
+
+<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span>():</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
+<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
+<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
+<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
+<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span>(<span class="params">size: <span class="built_in">float</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">    <span class="built_in">sum</span> = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">        <span class="built_in">sum</span> += i</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">        <span class="built_in">sum</span> = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>看哪!万众期待的仆人 - 以赛亚书49</title>
     <url>/2020/06/14/yisaiya3/</url>
     <content><![CDATA[<h1 id="预言中新的仆人"><a href="#预言中新的仆人" class="headerlink" title="预言中新的仆人"></a>预言中新的仆人</h1><blockquote>
@@ -5273,33 +5379,6 @@
       </categories>
       <tags>
         <tag>以赛亚书</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python无成本加速技巧</title>
-    <url>/2020/06/14/python_speedup/</url>
-    <content><![CDATA[<p>Python是个很精巧的语言，但是常见的Cython解释器生成的代码相对来说还是比较慢的，这里主要是跟动态语言的一些特性有关系。但是，我会介绍一下非常常见的手段，可以通过简单的变化提升代码速度：无成本的加速技巧。</p>
-<h1 id="palm-tree-Python到底慢在哪里？"><a href="#palm-tree-Python到底慢在哪里？" class="headerlink" title=":palm_tree: Python到底慢在哪里？"></a>:palm_tree: Python到底慢在哪里？</h1><p>其实，巨大部分的场景我们觉得Python慢是在循环的时候。那么<strong>在循环里，我们可以注意如下</strong>：</p>
-<h2 id="1、避免使用-操作"><a href="#1、避免使用-操作" class="headerlink" title="1、避免使用 . 操作"></a>1、避免使用 <code>.</code> 操作</h2><p>比如如下操作：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span>():</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">        z = math.sqrt(x) + math.sqrt(y)  <span class="comment"># 这里的 . 操作很慢</span></span><br><span class="line">        demo.something()   <span class="comment"># 这里的 . 操作很慢</span></span><br></pre></td></tr></table></figure>
-
-<p><code>.</code> 会访问类的内部字典找到合适的方法或者属性，这些操作放在循环中就会拖慢速度。所以，应该尽量把这个操作从循环中去除。比如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt   <span class="comment"># &lt;==== </span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">something</span>():</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">size = <span class="number">10000</span></span><br><span class="line">demo = Demo()</span><br><span class="line">sth = demo.something()</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">        z = sqrt(x) + sqrt(y)  <span class="comment"># &lt;----</span></span><br><span class="line">        sth()   <span class="comment"># &lt;----</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2、避免循环临时变量"><a href="#2、避免循环临时变量" class="headerlink" title="2、避免循环临时变量"></a>2、避免循环临时变量</h2><p>比如使用 <code>a, b = b, a</code> 来交换变量，而不是使用临时变量</p>
-<h2 id="3、字符串使用join-而不是"><a href="#3、字符串使用join-而不是" class="headerlink" title="3、字符串使用join 而不是 +"></a>3、字符串使用<code>join</code> 而不是 +</h2><p>比如 <code>&#39;_&#39;.join([&quot;a&quot;, &quot;b&quot;])</code>而不是 <code>&quot;a&quot;+&quot;_&quot;+&quot;b&quot;</code>。</p>
-<p>使用join()拼接字符串时，会首先计算出需要申请的总的内存空间，然后一次性地申请所需内存，并将每个字符串元素复制到该内存中去。</p>
-<h2 id="4、使用隐式循环"><a href="#4、使用隐式循环" class="headerlink" title="4、使用隐式循环"></a>4、使用隐式循环</h2><p>比如 <code>sum(range(10)</code> 速度比for 循环更快。但是for循环比while循环更快！</p>
-<h2 id="5、大杀器：numba-jit"><a href="#5、大杀器：numba-jit" class="headerlink" title="5、大杀器：numba.jit"></a>5、大杀器：<code>numba.jit</code></h2><p>比如同样的代码，下面的循环一个在1s内完成，而普通版本需要4s。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numba</span><br><span class="line"></span><br><span class="line"><span class="meta">@numba.jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeSum</span>(<span class="params">size: <span class="built_in">float</span></span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">    <span class="built_in">sum</span> = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">        <span class="built_in">sum</span> += i</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    size = <span class="number">10000</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">        <span class="built_in">sum</span> = computeSum(size)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>总之，最低成本加速的方法就是尽量减少循环中的无意义操作，或者进行jit编译（其实也是减少Head的重量）。</p>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
