@@ -2898,6 +2898,50 @@
       </tags>
   </entry>
   <entry>
+    <title>Go 学习笔记3 程序的构成</title>
+    <url>/2021/03/30/go_3/</url>
+    <content><![CDATA[<h1 id="Go-学习笔记3-程序的构成"><a href="#Go-学习笔记3-程序的构成" class="headerlink" title="Go 学习笔记3 程序的构成"></a>Go 学习笔记3 程序的构成</h1><h2 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h2><p>Go 采用驼峰命名：<code>thisVarIsGood</code>。如果一个 package 中的函数采用大写字母开头，这个函数可以被外界调用，否则隐藏，比如 <code>fmt.Println</code>。</p>
+<p>Go 的声明语句主要有四种：<code>var</code>, <code>const</code>, <code>type</code>, <code>func</code>。</p>
+<p><code>var</code>，变量声明：<code>var name type = expression</code>。如果省略 expression 的部分，Go 会给变量合法的初始值。<code>:=</code> 表达式，是简化的声明。</p>
+<p>指针是变量的地址，并不是每一个值都有地址，但是每一个变量都有地址。<code>new</code> 函数会返回该类型的指针。</p>
+<p>Go 的编译器会根据变量的具体生命周期决定是堆分配还是栈分配，生命周期也会影响垃圾回收的效率，如果一个局部变量被外部变量引用，那么即使函数已经返回，这个局部变量也不会被回收，同时编译器也会对他进行堆分配，而不是栈分配。</p>
+<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>Go 的类型系统相对比较简单（简陋？），主要类型包括四种：基本类型、组合类型、引用类型和接口类型。</p>
+<p>基本类型主要包括：</p>
+<ul>
+<li>整数, int8, int16, int32, int64, 还有无符号版本，uintptr</li>
+<li>浮点数, float16, float32</li>
+<li>复数, complex(r, i)</li>
+<li>布尔, true, false</li>
+<li>字符串, an immutable sequence of bytes. 可以是任何byte，通常是可读的字符串</li>
+</ul>
+<h2 id="组合类型"><a href="#组合类型" class="headerlink" title="组合类型"></a>组合类型</h2><ul>
+<li>Array</li>
+<li>Slice</li>
+<li>Map</li>
+<li>Struct</li>
+</ul>
+<p>Array 是长度固定、类型固定的连续内存空间。Array 初始化方式比较丰富：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a := [<span class="number">2</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">b := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">r := [...]<span class="keyword">int</span>&#123;<span class="number">99</span>: <span class="number">-1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Array 也可以用指针访问（就像 C 一样，<code>[]</code> 仅仅是指针的语法糖）：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">zero</span><span class="params">(ptr *[32]<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> ptr &#123;</span><br><span class="line">        ptr[i] = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Slice 是长度可变的、类型固定的连续内存空间。一个 Slice 包含三个部分：头指针、长度、长度极限。Slice 与 Array 不同，是不可比的。但是，可以测试 Slice 是否是 Nil。</p>
+<p>Maps 是哈希表，可以nest。</p>
+<p>Struct 类似 C 的结构体，是一个多种类型的组合类型。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Point <span class="keyword">struct</span>&#123; X, Y <span class="keyword">int</span> &#125;</span><br><span class="line">p := Point&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h2><p>整体感觉 Go 的程序构成与 C 语言非常类似。看起来就像带有 GC 和 并发内置的现代版本的 C 语言。</p>
+<h6 id="tags-Go-Go学习"><a href="#tags-Go-Go学习" class="headerlink" title="tags: Go Go学习"></a>tags: <code>Go</code> <code>Go学习</code></h6>]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+        <tag>Go学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go 学习笔记4 抽象方法</title>
     <url>/2021/03/30/go_4/</url>
     <content><![CDATA[<h1 id="Go-学习笔记4-抽象模式"><a href="#Go-学习笔记4-抽象模式" class="headerlink" title="Go 学习笔记4 抽象模式"></a>Go 学习笔记4 抽象模式</h1><p>Go 的抽象方法主要通过函数、方法和接口三种方式。</p>
@@ -2936,50 +2980,6 @@
 <p>Go 的 interface 可以有两种不同的使用范式：subtype polymorphism 和 ad hoc polymorphism。</p>
 <p>后续专门讨论。</p>
 ]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Go</tag>
-        <tag>Go学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Go 学习笔记3 程序的构成</title>
-    <url>/2021/03/30/go_3/</url>
-    <content><![CDATA[<h1 id="Go-学习笔记3-程序的构成"><a href="#Go-学习笔记3-程序的构成" class="headerlink" title="Go 学习笔记3 程序的构成"></a>Go 学习笔记3 程序的构成</h1><h2 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h2><p>Go 采用驼峰命名：<code>thisVarIsGood</code>。如果一个 package 中的函数采用大写字母开头，这个函数可以被外界调用，否则隐藏，比如 <code>fmt.Println</code>。</p>
-<p>Go 的声明语句主要有四种：<code>var</code>, <code>const</code>, <code>type</code>, <code>func</code>。</p>
-<p><code>var</code>，变量声明：<code>var name type = expression</code>。如果省略 expression 的部分，Go 会给变量合法的初始值。<code>:=</code> 表达式，是简化的声明。</p>
-<p>指针是变量的地址，并不是每一个值都有地址，但是每一个变量都有地址。<code>new</code> 函数会返回该类型的指针。</p>
-<p>Go 的编译器会根据变量的具体生命周期决定是堆分配还是栈分配，生命周期也会影响垃圾回收的效率，如果一个局部变量被外部变量引用，那么即使函数已经返回，这个局部变量也不会被回收，同时编译器也会对他进行堆分配，而不是栈分配。</p>
-<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>Go 的类型系统相对比较简单（简陋？），主要类型包括四种：基本类型、组合类型、引用类型和接口类型。</p>
-<p>基本类型主要包括：</p>
-<ul>
-<li>整数, int8, int16, int32, int64, 还有无符号版本，uintptr</li>
-<li>浮点数, float16, float32</li>
-<li>复数, complex(r, i)</li>
-<li>布尔, true, false</li>
-<li>字符串, an immutable sequence of bytes. 可以是任何byte，通常是可读的字符串</li>
-</ul>
-<h2 id="组合类型"><a href="#组合类型" class="headerlink" title="组合类型"></a>组合类型</h2><ul>
-<li>Array</li>
-<li>Slice</li>
-<li>Map</li>
-<li>Struct</li>
-</ul>
-<p>Array 是长度固定、类型固定的连续内存空间。Array 初始化方式比较丰富：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a := [<span class="number">2</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">b := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">r := [...]<span class="keyword">int</span>&#123;<span class="number">99</span>: <span class="number">-1</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Array 也可以用指针访问（就像 C 一样，<code>[]</code> 仅仅是指针的语法糖）：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">zero</span><span class="params">(ptr *[32]<span class="keyword">byte</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> ptr &#123;</span><br><span class="line">        ptr[i] = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Slice 是长度可变的、类型固定的连续内存空间。一个 Slice 包含三个部分：头指针、长度、长度极限。Slice 与 Array 不同，是不可比的。但是，可以测试 Slice 是否是 Nil。</p>
-<p>Maps 是哈希表，可以nest。</p>
-<p>Struct 类似 C 的结构体，是一个多种类型的组合类型。</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Point <span class="keyword">struct</span>&#123; X, Y <span class="keyword">int</span> &#125;</span><br><span class="line">p := Point&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h2><p>整体感觉 Go 的程序构成与 C 语言非常类似。看起来就像带有 GC 和 并发内置的现代版本的 C 语言。</p>
-<h6 id="tags-Go-Go学习"><a href="#tags-Go-Go学习" class="headerlink" title="tags: Go Go学习"></a>tags: <code>Go</code> <code>Go学习</code></h6>]]></content>
       <categories>
         <category>Coding</category>
       </categories>
@@ -3443,6 +3443,30 @@
       </tags>
   </entry>
   <entry>
+    <title>雅各书 3-4</title>
+    <url>/2021/03/07/yageshu_13/</url>
+    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
+<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
+</blockquote>
+<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
+<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
+<blockquote>
+<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
+</blockquote>
+<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
+<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
+<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
+</blockquote>
+<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
+]]></content>
+      <categories>
+        <category>Bible</category>
+      </categories>
+      <tags>
+        <tag>雅各书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>编程101 PyOS 一个Python写的OS 3</title>
     <url>/2021/03/07/pyos_3/</url>
     <content><![CDATA[<blockquote>
@@ -3493,30 +3517,6 @@
         <tag>Operating System</tag>
         <tag>Python</tag>
         <tag>Concurrent</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>雅各书 3-4</title>
-    <url>/2021/03/07/yageshu_13/</url>
-    <content><![CDATA[<h1 id="雅各书-3：13-4：14"><a href="#雅各书-3：13-4：14" class="headerlink" title="雅各书 3：13 - 4：14"></a>雅各书 3：13 - 4：14</h1><h2 id="真正的智慧"><a href="#真正的智慧" class="headerlink" title="真正的智慧"></a>真正的智慧</h2><blockquote>
-<p>13 你们中间谁是智慧、有见识的呢？他就应该有美好的生活，用明智的温柔，把自己的行为表现出来。14 如果你们心中存着刻薄的嫉妒和自私，就不可夸口，也不可说谎抵挡真理。15 这种智不是从天上来的，是属地的、属血气的和属鬼魔的。16 因为凡有嫉妒和自私的地方，就必有 扰乱和各样的坏事。 17 <strong>至于从天上来的智慧，首先是纯洁的，其次是和平的，温柔的，谦逊的， 满有恩慈和善果，没有偏袒，没有虚伪。 18 这是缔造和平的人，用和平所培植出来的义果。</strong><br>[name=雅各书13]</p>
-</blockquote>
-<p>从神而来的智慧，应该是表里如一的。不可当面一套，心理一套，教会一套，生活一套。这样割裂的状态就不是智慧的。作为一个基督徒，作为一个智慧的基督徒，应该是始终如一的。</p>
-<h2 id="放纵私欲，做世界的朋友"><a href="#放纵私欲，做世界的朋友" class="headerlink" title="放纵私欲，做世界的朋友"></a>放纵私欲，做世界的朋友</h2><p>雅各笔锋锐利，丝毫不留面子。</p>
-<blockquote>
-<p>4 你们中间的争执和打斗是从哪里来的呢?不是从你们肢体中好斗的私欲来的吗? 2 你们放纵贪 欲，如果得不到，就杀人;你们嫉妒，如果一无所得，就打斗争执。你们得不到，因为你们不求; 3 你们求也得不到，因为你们的动机不良，要把所得的耗费在你们的私欲上。 4 淫乱的人哪，你们不知道与世俗为友，就是与 神为敌吗?所以与世俗为友的，就成了 神的仇敌。 <strong>5 圣经说:“ 神爱他那安置在我们里面的灵，爱到嫉妒的地步” 你们想这话是徒然的吗? 6 但 神所赐的恩更大; 所以圣经上说:“ 神抵挡骄傲的人，赐恩给谦卑的人。”</strong><br>[name=雅各书14]</p>
-</blockquote>
-<p>婚姻是神的奥秘，就是用来展示人和神的关系。</p>
-<h2 id="谦卑悔改，恩典便会降临"><a href="#谦卑悔改，恩典便会降临" class="headerlink" title="谦卑悔改，恩典便会降临"></a>谦卑悔改，恩典便会降临</h2><blockquote>
-<p>7 你们应当顺服 神，抵挡魔鬼，魔鬼就逃避你们。8 你们应当亲近 神， 神就亲近你们。罪人 啊，要洁净你们的手;三心两意的人哪，要清洁你们的心。 9 你们要愁苦、悲哀、哭泣，把欢笑 变为伤痛，把快乐变为忧愁。 10 你们务要在主面前谦卑，他就使你们高升。<br>[name=雅各书14]</p>
-</blockquote>
-<p>基督徒就有能力抵挡撒旦，神希望我们痛彻心扉的悔改。这悔改的权利，恰恰是神的恩典。求神赐给我们这样的谦卑和悔改。</p>
-]]></content>
-      <categories>
-        <category>Bible</category>
-      </categories>
-      <tags>
-        <tag>雅各书</tag>
       </tags>
   </entry>
   <entry>
@@ -4333,32 +4333,6 @@
       </tags>
   </entry>
   <entry>
-    <title>6.004 Basic of information</title>
-    <url>/2020/12/19/6004_1/</url>
-    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
-<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
-<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
-<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
-<p>the unit is bits, the number of bits required to encode the choice.</p>
-<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
-<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
-<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
-<p>Encoding as binary tree is a good way to think. </p>
-<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
-<p>If we do same algorithm but using multiple symbols, we can do better.</p>
-<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
-<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
-<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/">6.004</a></p>
-<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
-      <categories>
-        <category>Computing</category>
-      </categories>
-      <tags>
-        <tag>6.004</tag>
-        <tag>Information</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>6.004 The Digital Abstraction</title>
     <url>/2020/12/19/6004-2/</url>
     <content><![CDATA[<h1 id="The-Digital-Abstraction"><a href="#The-Digital-Abstraction" class="headerlink" title="The Digital Abstraction"></a>The Digital Abstraction</h1><p>Q: the physical representation of bits?</p>
@@ -4385,6 +4359,32 @@
 </blockquote>
 <p><img data-src="https://i.imgur.com/NMkOpar.png" alt=""></p>
 ]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>6.004</tag>
+        <tag>Information</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>6.004 Basic of information</title>
+    <url>/2020/12/19/6004_1/</url>
+    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
+<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
+<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
+<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
+<p>the unit is bits, the number of bits required to encode the choice.</p>
+<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
+<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
+<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
+<p>Encoding as binary tree is a good way to think. </p>
+<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
+<p>If we do same algorithm but using multiple symbols, we can do better.</p>
+<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
+<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/">6.004</a></p>
+<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
       <categories>
         <category>Computing</category>
       </categories>
