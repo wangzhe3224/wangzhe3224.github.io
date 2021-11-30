@@ -1,175 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>如何转行计算机做程序员</title>
-    <url>/2021/11/30/roadpath/</url>
-    <content><![CDATA[<h1 id="如何转行计算机？"><a href="#如何转行计算机？" class="headerlink" title="如何转行计算机？"></a>如何转行计算机？</h1><hr>
-<ul>
-<li>程序员的分类</li>
-<li>如何开始</li>
-</ul>
-<hr>
-<h2 id="程序员的分类"><a href="#程序员的分类" class="headerlink" title="程序员的分类"></a>程序员的分类</h2><hr>
-<p>职能：</p>
-<ul>
-<li>前端</li>
-<li>后端</li>
-</ul>
-<hr>
-<p>业务知识：</p>
-<ul>
-<li>互联网</li>
-<li>金融</li>
-<li>游戏</li>
-<li>计算机基础设施</li>
-<li>各行业各</li>
-</ul>
-<hr>
-<h2 id="如何开始"><a href="#如何开始" class="headerlink" title="如何开始"></a>如何开始</h2><ul>
-<li>基础部分</li>
-<li>业务部分</li>
-</ul>
-<hr>
-<h2 id="基础部分"><a href="#基础部分" class="headerlink" title="基础部分"></a>基础部分</h2><ul>
-<li><em>英语</em></li>
-<li>计算机基础</li>
-<li>计算机进阶</li>
-</ul>
-<hr>
-<h3 id="计算机基础"><a href="#计算机基础" class="headerlink" title="计算机基础"></a>计算机基础</h3><ol>
-<li>计算机导论</li>
-<li>数据结构和算法</li>
-<li>计算机组成原理</li>
-<li>操作系统</li>
-<li>计算机网络</li>
-<li>查缺补漏的课。。。。。</li>
-<li>一些数学</li>
-</ol>
-<hr>
-<ol>
-<li><p><strong>计算机导论</strong></p>
-<ul>
-<li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/">MIT - 6.0001</a></li>
-<li><a href="https://cs50.harvard.edu/college/2020/fall/">Harvard - CS50</a></li>
-<li><a href="https://cs61a.org/">Berkeley - CS61A</a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<ol start="2">
-<li><strong>数据结构和算法</strong><ul>
-<li><a href="https://web.stanford.edu/class/cs106b/schedule.html">Berkeley - CS61B</a></li>
-<li><a href="https://www.coursera.org/learn/algorithms-part1">Algorithms, Part I,II</a></li>
-<li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/index.htm">MIT - 6.006</a></li>
-<li><a href="https://leetcode.com/"><strong>Leetcode</strong> <code>:)</code></a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<ol start="3">
-<li><strong>计算机组成原理</strong><ul>
-<li><a href="https://cs61c.org/fa21/">Berkeley - CS61C: Great Ideas in Computer Architecture</a></li>
-<li><a href="https://www.cs.cmu.edu/~213/">CMU - 15213: Introduction to Computer Systems</a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<ol start="4">
-<li><strong>操作系统</strong><ul>
-<li><a href="https://cs162.org/">Berkeley - CS162: Operating Systems and Systems Programming</a></li>
-<li><a href="https://pdos.csail.mit.edu/6.828/2020/schedule.html">MIT - 6.S081: Operating System Engineering</a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<ol start="5">
-<li><strong>计算机网络</strong><ul>
-<li><a href="https://cs144.github.io/">Stanford - CS114: Introduction to Computer Networking</a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<ol start="6">
-<li><strong>查缺补漏的工具啊</strong><ul>
-<li><a href="https://missing.csail.mit.edu/">MIT - 6.null: The Missing Semester of Your CS Education</a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<ol start="7">
-<li><strong>一些数学</strong><ul>
-<li><a href="https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/">MIT 18.06: 线性代数</a></li>
-<li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/">MIT 6.431: 概率论</a></li>
-<li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/">MIT 6.042: Mathematics for Computer Science</a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="计算机进阶"><a href="#计算机进阶" class="headerlink" title="计算机进阶"></a>计算机进阶</h3><p>根据业务方向选择：</p>
-<ol>
-<li>软件工程</li>
-<li>数据库</li>
-<li>分布式系统</li>
-<li>编译系统</li>
-<li>机器学习</li>
-<li>计算机语言理论</li>
-</ol>
-<hr>
-<ol>
-<li><strong>软件工程</strong><ul>
-<li><a href="http://web.mit.edu/6.031/www/fa21/">MIT 6.031: Software Construction</a></li>
-<li><a href="http://www.cs.cornell.edu/courses/cs3110/2021sp/">Cornell CS3110: Data Structures and Functional Programming</a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<ol start="2">
-<li><strong>数据库</strong><ul>
-<li><a href="https://15445.courses.cs.cmu.edu/fall2019/assignments.html#">CMU 15445: 数据库系统</a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<ol start="3">
-<li><strong>分布式系统</strong><ul>
-<li><a href="https://pdos.csail.mit.edu/6.824/schedule.html">MIT 6.824: 分布式系统</a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<ol start="4">
-<li><strong>编译系统</strong><ul>
-<li><a href="https://web.stanford.edu/class/cs143/">Stanford CS143: 编译器</a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<ol start="5">
-<li><strong>机器学习</strong><ul>
-<li><a href="https://openlearninglibrary.mit.edu/courses/course-v1:MITx+6.036+1T2019/course/">MIT 6.306: Introduction to Machine Learning</a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<ol start="6">
-<li><strong>计算机语言理论</strong><ul>
-<li><a href="https://stanford-cs242.github.io/f19/">Stanford CS242: 计算机语言</a></li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2 id="业务部分"><a href="#业务部分" class="headerlink" title="业务部分"></a>业务部分</h2><ul>
-<li>框架</li>
-<li>语言</li>
-<li>中间件</li>
-<li>数据库</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>presentation</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>在VS Code中使用VIM (VIM教程)</title>
     <url>/2021/11/30/vim1/</url>
     <content><![CDATA[<ul>
@@ -359,6 +190,175 @@
       </categories>
       <tags>
         <tag>Rust</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何转行计算机做程序员</title>
+    <url>/2021/10/20/roadpath/</url>
+    <content><![CDATA[<h1 id="如何转行计算机？"><a href="#如何转行计算机？" class="headerlink" title="如何转行计算机？"></a>如何转行计算机？</h1><hr>
+<ul>
+<li>程序员的分类</li>
+<li>如何开始</li>
+</ul>
+<hr>
+<h2 id="程序员的分类"><a href="#程序员的分类" class="headerlink" title="程序员的分类"></a>程序员的分类</h2><hr>
+<p>职能：</p>
+<ul>
+<li>前端</li>
+<li>后端</li>
+</ul>
+<hr>
+<p>业务知识：</p>
+<ul>
+<li>互联网</li>
+<li>金融</li>
+<li>游戏</li>
+<li>计算机基础设施</li>
+<li>各行业各</li>
+</ul>
+<hr>
+<h2 id="如何开始"><a href="#如何开始" class="headerlink" title="如何开始"></a>如何开始</h2><ul>
+<li>基础部分</li>
+<li>业务部分</li>
+</ul>
+<hr>
+<h2 id="基础部分"><a href="#基础部分" class="headerlink" title="基础部分"></a>基础部分</h2><ul>
+<li><em>英语</em></li>
+<li>计算机基础</li>
+<li>计算机进阶</li>
+</ul>
+<hr>
+<h3 id="计算机基础"><a href="#计算机基础" class="headerlink" title="计算机基础"></a>计算机基础</h3><ol>
+<li>计算机导论</li>
+<li>数据结构和算法</li>
+<li>计算机组成原理</li>
+<li>操作系统</li>
+<li>计算机网络</li>
+<li>查缺补漏的课。。。。。</li>
+<li>一些数学</li>
+</ol>
+<hr>
+<ol>
+<li><p><strong>计算机导论</strong></p>
+<ul>
+<li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/">MIT - 6.0001</a></li>
+<li><a href="https://cs50.harvard.edu/college/2020/fall/">Harvard - CS50</a></li>
+<li><a href="https://cs61a.org/">Berkeley - CS61A</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="2">
+<li><strong>数据结构和算法</strong><ul>
+<li><a href="https://web.stanford.edu/class/cs106b/schedule.html">Berkeley - CS61B</a></li>
+<li><a href="https://www.coursera.org/learn/algorithms-part1">Algorithms, Part I,II</a></li>
+<li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/index.htm">MIT - 6.006</a></li>
+<li><a href="https://leetcode.com/"><strong>Leetcode</strong> <code>:)</code></a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="3">
+<li><strong>计算机组成原理</strong><ul>
+<li><a href="https://cs61c.org/fa21/">Berkeley - CS61C: Great Ideas in Computer Architecture</a></li>
+<li><a href="https://www.cs.cmu.edu/~213/">CMU - 15213: Introduction to Computer Systems</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="4">
+<li><strong>操作系统</strong><ul>
+<li><a href="https://cs162.org/">Berkeley - CS162: Operating Systems and Systems Programming</a></li>
+<li><a href="https://pdos.csail.mit.edu/6.828/2020/schedule.html">MIT - 6.S081: Operating System Engineering</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="5">
+<li><strong>计算机网络</strong><ul>
+<li><a href="https://cs144.github.io/">Stanford - CS114: Introduction to Computer Networking</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="6">
+<li><strong>查缺补漏的工具啊</strong><ul>
+<li><a href="https://missing.csail.mit.edu/">MIT - 6.null: The Missing Semester of Your CS Education</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="7">
+<li><strong>一些数学</strong><ul>
+<li><a href="https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/">MIT 18.06: 线性代数</a></li>
+<li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/">MIT 6.431: 概率论</a></li>
+<li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/">MIT 6.042: Mathematics for Computer Science</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="计算机进阶"><a href="#计算机进阶" class="headerlink" title="计算机进阶"></a>计算机进阶</h3><p>根据业务方向选择：</p>
+<ol>
+<li>软件工程</li>
+<li>数据库</li>
+<li>分布式系统</li>
+<li>编译系统</li>
+<li>机器学习</li>
+<li>计算机语言理论</li>
+</ol>
+<hr>
+<ol>
+<li><strong>软件工程</strong><ul>
+<li><a href="http://web.mit.edu/6.031/www/fa21/">MIT 6.031: Software Construction</a></li>
+<li><a href="http://www.cs.cornell.edu/courses/cs3110/2021sp/">Cornell CS3110: Data Structures and Functional Programming</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="2">
+<li><strong>数据库</strong><ul>
+<li><a href="https://15445.courses.cs.cmu.edu/fall2019/assignments.html#">CMU 15445: 数据库系统</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="3">
+<li><strong>分布式系统</strong><ul>
+<li><a href="https://pdos.csail.mit.edu/6.824/schedule.html">MIT 6.824: 分布式系统</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="4">
+<li><strong>编译系统</strong><ul>
+<li><a href="https://web.stanford.edu/class/cs143/">Stanford CS143: 编译器</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="5">
+<li><strong>机器学习</strong><ul>
+<li><a href="https://openlearninglibrary.mit.edu/courses/course-v1:MITx+6.036+1T2019/course/">MIT 6.306: Introduction to Machine Learning</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="6">
+<li><strong>计算机语言理论</strong><ul>
+<li><a href="https://stanford-cs242.github.io/f19/">Stanford CS242: 计算机语言</a></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="业务部分"><a href="#业务部分" class="headerlink" title="业务部分"></a>业务部分</h2><ul>
+<li>框架</li>
+<li>语言</li>
+<li>中间件</li>
+<li>数据库</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>presentation</tag>
       </tags>
   </entry>
   <entry>
