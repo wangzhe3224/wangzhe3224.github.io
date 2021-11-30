@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>如何转行计算机做程序员</title>
-    <url>/2021/11/22/roadpath/</url>
+    <url>/2021/11/30/roadpath/</url>
     <content><![CDATA[<h1 id="如何转行计算机？"><a href="#如何转行计算机？" class="headerlink" title="如何转行计算机？"></a>如何转行计算机？</h1><hr>
 <ul>
 <li>程序员的分类</li>
@@ -167,6 +167,115 @@
 ]]></content>
       <tags>
         <tag>presentation</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在VS Code中使用VIM (VIM教程)</title>
+    <url>/2021/11/30/vim1/</url>
+    <content><![CDATA[<ul>
+<li><a href="#在vs-code中使用vim">在VS Code中使用VIM</a><ul>
+<li><a href="#一些基本配置">一些基本配置</a><ul>
+<li><a href="#中文输入法的梦魇">中文输入法的梦魇</a></li>
+<li><a href="#按键绑定">按键绑定</a></li>
+</ul>
+</li>
+<li><a href="#基础">基础</a><ul>
+<li><a href="#模式">模式</a></li>
+<li><a href="#移动">移动</a><ul>
+<li><a href="#normal-mode">Normal Mode</a></li>
+<li><a href="#insert-mode">Insert Mode</a></li>
+<li><a href="#visual-mode">Visual Mode</a></li>
+</ul>
+</li>
+<li><a href="#页面展示">页面展示</a></li>
+<li><a href="#编辑">编辑</a></li>
+</ul>
+</li>
+<li><a href="#常用操作">常用操作</a></li>
+<li><a href="#高级主题">高级主题</a><ul>
+<li><a href="#寄存器">寄存器</a></li>
+<li><a href="#标记">标记</a></li>
+</ul>
+</li>
+<li><a href="#插件">插件</a><ul>
+<li><a href="#surround">surround</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="一些基本配置"><a href="#一些基本配置" class="headerlink" title="一些基本配置"></a>一些基本配置</h2><p>:information_source: VS Code Vim 不是 Vim。不过他模拟了绝大部分的Vim操作。<br>但是也会出现很多支持不太好的功能，比如宏、Vim script等等。但是，就我个人的使用Code<br>的Vim模拟器已经满足我的需求了。更加复杂的功能，还是需要 code 的命令支持：<code>Cmd+Shift+p</code>.</p>
+<h3 id="中文输入法的梦魇"><a href="#中文输入法的梦魇" class="headerlink" title="中文输入法的梦魇"></a>中文输入法的梦魇</h3><p>如何解决VSCode Vim中文输入法切换问题？ - Daniel的回答 - 知乎<br><a href="https://www.zhihu.com/question/303850876/answer/540324790">https://www.zhihu.com/question/303850876/answer/540324790</a></p>
+<h3 id="按键绑定"><a href="#按键绑定" class="headerlink" title="按键绑定"></a>按键绑定</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">jj -&gt; ESC</span><br><span class="line">enter -&gt; :</span><br><span class="line">caps lock -&gt; ctrl</span><br></pre></td></tr></table></figure>
+
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>Vim常用的有三种模式，但是不能孤立的用，要结合起来用。<br>Vim的规则非常简单，但是组合起来非常强大，提供了一套文本编辑的“高级”语言。</p>
+<p>Vim语言的基本语法：<code>动词 + 「数量、介词」 + 名词</code><br>Vim语言充满了名词做动词的情况。</p>
+<p>Vim的精髓在于重复，<code>.</code></p>
+<h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>三种基本模式：</p>
+<ul>
+<li>Normal，用来移动和编辑</li>
+<li>Insert，用来输入</li>
+<li>Visual/Selection，用来选择编辑块</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Esc                Insert -&gt; Normal</span><br><span class="line">i/I/o/O/c/a/A      Normal -&gt; Insert</span><br><span class="line">v / V              Normal -&gt; Visual</span><br></pre></td></tr></table></figure>
+
+<h3 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h3><h4 id="Normal-Mode"><a href="#Normal-Mode" class="headerlink" title="Normal Mode"></a>Normal Mode</h4><p>基本操作：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hjkl       👈 ⬆️ ⬇️ 👉</span><br><span class="line">w&#x2F;b&#x2F;e      按照单词移动</span><br><span class="line">&#123; &#125;        按照段落移动</span><br><span class="line">%          在闭合的括号之间移动</span><br><span class="line">gg         回到文档最上端</span><br><span class="line">G          回到文档最低端</span><br><span class="line">0          回到行首</span><br><span class="line">$          回到行尾</span><br></pre></td></tr></table></figure>
+
+<p>加入数量：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1j         向下移动1行</span><br><span class="line">8j         向下移动8行</span><br></pre></td></tr></table></figure>
+
+<p>移动到某一行：</p>
+<ul>
+<li><code>:12&lt;Enter&gt;</code>  移动到12行</li>
+<li><code>12gg</code>        移动到12行</li>
+</ul>
+<p>搜索移动：</p>
+<p>这是非常高效移动方式：j</p>
+<ul>
+<li><code>fa</code>: 向右移动到下一个a</li>
+<li><code>ta</code>: 向右移动到下一个a的前一个字符</li>
+<li><code>Fa</code>: 向左移动到下一个a</li>
+<li><code>Ta</code>: 向左移动到下一个a的前一个字符</li>
+</ul>
+<p>另外，可以直接按 <code>\</code> 进入搜索模式，去寻找目标单词或字母。</p>
+<h4 id="Insert-Mode"><a href="#Insert-Mode" class="headerlink" title="Insert Mode"></a>Insert Mode</h4><p>插入模式就是其他编辑的模式，用来输入信息。但是在插入模式，我们也可以直接移动光标、删除。<br>这进一步增加了Vim的灵活性，也就是说对于很局部化的操作，我们可以在插入模式下进行移动。</p>
+<p>在插入模式下，Vim的光标移动遵循了一半 Bash shell 的快捷键。</p>
+<p>def cls():<br>    …</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Ctrl+p     up</span><br><span class="line">Ctrl+n     down</span><br><span class="line">Ctrl+b     left</span><br><span class="line">Ctrl+f     right</span><br><span class="line">Ctrl+a     到行首</span><br><span class="line">Ctrl+e     到行位</span><br><span class="line">Ctrl+h     delete 1 </span><br><span class="line">Ctrl+w     delete back 1 word</span><br><span class="line">Ctrl+u     delete back to start of line</span><br></pre></td></tr></table></figure>
+
+<h4 id="Visual-Mode"><a href="#Visual-Mode" class="headerlink" title="Visual Mode"></a>Visual Mode</h4><p>选择模式下的移动与正常模式的完全一致的。</p>
+<p>:point_right:<strong>纵向编辑</strong> :point_left: 神器</p>
+<p><code>ctrl+v</code></p>
+<h3 id="页面展示"><a href="#页面展示" class="headerlink" title="页面展示"></a>页面展示</h3><p>窗口移动</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">zz         把光标置于屏幕中间</span><br><span class="line">ctrl + e   向上移动屏幕</span><br><span class="line">ctrl + y   向下移动屏幕</span><br></pre></td></tr></table></figure>
+
+<p>折叠、展开代码块</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">zc        关闭代码块</span><br><span class="line">zo        打开代码块</span><br><span class="line">za        打开、关闭代码块</span><br></pre></td></tr></table></figure>
+
+<h3 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h3><p>这就是Vim强大的地方：编辑。</p>
+<p>Vim中的动词：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">d</span><br><span class="line">c</span><br><span class="line">y</span><br><span class="line">p</span><br><span class="line">x</span><br><span class="line">&gt;</span><br><span class="line">&lt;</span><br><span class="line">u</span><br><span class="line">Ctrl - r</span><br><span class="line">. </span><br></pre></td></tr></table></figure>
+
+<p>名词，这些东西在Vim中成为 Text Object，推荐使用他们进行操作，这是一种高于<code>hjkl</code>移动的抽象。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">w       词（可以做动词）</span><br><span class="line">p       段落（可以做动词）</span><br><span class="line">jk      行 （可以做动词）</span><br><span class="line">各种括号、引号等等</span><br><span class="line">s       句子</span><br></pre></td></tr></table></figure>
+
+<p>介词</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">i     表示里面</span><br><span class="line">a     表示外面</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><ul>
+<li>格式化代码：<code>==</code></li>
+<li>注释代码：<code>gc&#123;c,j,k&#125;</code></li>
+<li>切换tab：<code>gt&#123;tab的数字&#125;</code></li>
+<li>回退：<code>u</code></li>
+<li>重做：<code>Ctrl+r</code></li>
+</ul>
+<h2 id="高级主题"><a href="#高级主题" class="headerlink" title="高级主题"></a>高级主题</h2><h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><h3 id="标记"><a href="#标记" class="headerlink" title="标记"></a>标记</h3><h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><h3 id="surround"><a href="#surround" class="headerlink" title="surround"></a>surround</h3>]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Vim</tag>
       </tags>
   </entry>
   <entry>
