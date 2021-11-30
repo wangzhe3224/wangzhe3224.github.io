@@ -2,8 +2,6 @@
 title: 如何转行计算机做程序员
 tags: presentation
 dates: 2021-10-20
-slideOptions:
-  transition: 'fade'
 ---
 
 # 如何转行计算机？
