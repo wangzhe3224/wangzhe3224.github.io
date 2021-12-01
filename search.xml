@@ -1,6 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>为什么你的投资组合需要Crypto？</title>
+    <url>/2021/12/01/portfolio_with_crypto/</url>
+    <content><![CDATA[<blockquote>
+<p>本文送你一个 Sharpe Ratio 2.0 的简单投资组合 + 源代码</p>
+</blockquote>
+<ul>
+<li>量化分析</li>
+<li>基本面分析</li>
+</ul>
+<h2 id="量化分析"><a href="#量化分析" class="headerlink" title="量化分析"></a>量化分析</h2><p>先给我们的讨论定个调调。假设我们的benchmark是一个按月再平衡的投资组合: SPY + TLT + GLD。就是一个股票、债券、黄金的组合。每月按照波动率取逆确定权重，即波动率调整。具体可以看我之前的文章(<a href="https://zhuanlan.zhihu.com/p/249909117">https://zhuanlan.zhihu.com/p/249909117</a>)。</p>
+<p><strong>总而言之，无他：低相关 + 正期望 = 成功的投资组合</strong></p>
+<p>可以看到，我们的基准是 sharpe 1 年化 8% 的策略，这个策略只有三个ETF，每个月rebalance一次。</p>
+<p><img data-src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211130224840.png" alt="SPY + TLT + GLD"></p>
+<p>以下是一些投资组合的统计指标：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Stats for classic from 2014-09-15 00:00:00 - 2021-11-29 00:00:00</span><br><span class="line">Annual risk-free rate considered: 0.00%</span><br><span class="line">Summary:</span><br><span class="line">Total Return      Sharpe  CAGR    Max Drawdown</span><br><span class="line">--------------  --------  ------  --------------</span><br><span class="line">82.83%              1.06  8.73%   -13.77%</span><br><span class="line"></span><br><span class="line">Annualized Returns:</span><br><span class="line">mtd    3m     6m     ytd    1y     3y      5y      10y    incep.</span><br><span class="line">-----  -----  -----  -----  -----  ------  ------  -----  --------</span><br><span class="line">0.85%  0.72%  4.66%  4.63%  6.85%  15.27%  10.93%  -      8.73%</span><br><span class="line"></span><br><span class="line">Drawdowns:</span><br><span class="line">max      avg       # days</span><br><span class="line">-------  ------  --------</span><br><span class="line">-13.77%  -1.28%     27.75</span><br></pre></td></tr></table></figure>
+
+<p>接下来，我们加入BTC，其他不变。可以发现，加入BTC可以轻松将sharpe 提高到1.7！如果我们继续加入ETH，sharpe将超过2.0。</p>
+<p><img data-src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211130225507.png" alt="加入Crypto的投资组合对比"></p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Stat                 spy,tlt,btc-usd    spy,tlt,btc-usd,gld    spy,tlt,gld    spy,tlt,btc,eth</span><br><span class="line">-------------------  -----------------  ---------------------  -------------  -----------------</span><br><span class="line">Start                2015-08-06         2015-08-06             2015-08-06     2015-08-06</span><br><span class="line">End                  2021-11-26         2021-11-26             2021-11-26     2021-11-26</span><br><span class="line">Risk-free rate       0.00%              0.00%                  0.00%          0.00%</span><br><span class="line"></span><br><span class="line">Total Return         237.23%            172.09%                78.72%         542.72%</span><br><span class="line">Daily Sharpe         1.79               1.70                   1.15           2.12</span><br><span class="line">Daily Sortino        2.79               2.72                   1.84           3.47</span><br><span class="line">CAGR                 21.25%             17.20%                 9.64%          34.31%</span><br><span class="line">Max Drawdown         -19.85%            -16.34%                -13.77%        -23.92%</span><br><span class="line">Calmar Ratio         1.07               1.05                   0.70           1.43</span><br><span class="line"></span><br><span class="line">MTD                  -0.37%             -0.02%                 0.70%          -0.85%</span><br><span class="line">3m                   3.66%              2.47%                  1.60%          5.10%</span><br><span class="line">6m                   11.75%             5.99%                  4.54%          13.43%</span><br><span class="line">YTD                  15.77%             8.83%                  4.47%          29.00%</span><br><span class="line">1Y                   24.29%             15.99%                 6.98%          40.47%</span><br><span class="line">3Y (ann.)            28.42%             23.85%                 15.46%         41.19%</span><br><span class="line">5Y (ann.)            22.68%             18.13%                 10.93%         33.77%</span><br><span class="line">10Y (ann.)           -                  -                      -              -</span><br><span class="line">Since Incep. (ann.)  21.25%             17.20%                 9.64%          34.31%</span><br></pre></td></tr></table></figure>
+
+<p>我们得承认Crypto再过去的今年确实是牛市。但是通过相关性可以发现，Crypto与股票市场和债券市场相关性较低。这也是为什么加入Crypto可以轻松提高收益风险回报率。</p>
+<p><img data-src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211130225620.png" alt="各个策略的相关性"></p>
+<p>从相关性可以看出，加入crypto的投资组合回报率与我们的基准投资组合的相关性只有0.56，这是我们希望看到的，这也是sharpe提高的因素之一。</p>
+<p>如果我们观察这些标底资产的相关性：</p>
+<p><img data-src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211130225843.png" alt="20211130225843"></p>
+<p>可以crypto和其他资产比如股票、债券、黄金的相关性都非常低，而它具有正期望（背后的原因下一节讲），这是加入投资组合最好的特性，而 2.0 的 sharpe ratio 也证明了这个事实。</p>
+<h2 id="基本面分析"><a href="#基本面分析" class="headerlink" title="基本面分析"></a>基本面分析</h2><p>我们再来看看Crypto的基本面。我们得承认Crypto市场目前有泡沫，但是时至今日没有人可以忽略Crypto这个市场了，或者还在叫嚷这Crypto是骗局。</p>
+<p>今天我们从一下几个点看看Crypto的“基本面”，其实也不算基本面，就是一些帮助我看Crypto这个市场的指标。这行指标可以帮助我们明确Crypto（垃圾币、烂项目另说）是一个实际存在生态，特别Defi和Web3，有很多人正在为这个产业实际付出。正式这些因素佐证了Crypto的未来的正期望。</p>
+<ul>
+<li>金融指标</li>
+<li>开发者生态</li>
+<li>其他机构的动作</li>
+</ul>
+<h3 id="金融指标"><a href="#金融指标" class="headerlink" title="金融指标"></a>金融指标</h3><p>金融指标我们主要看：</p>
+<ul>
+<li>市值</li>
+<li>流动性和交易额</li>
+</ul>
+<p>首先看市值，根据 coinmarketcap 的数据，目前（2021-11）加密货币总市值为2.6万亿美金。而市值前十的币几乎占据了超过95%的总市值。什么概念呢？标普500的头部公司，比如苹果、微软、谷歌，的市值基本上是2万亿级别。</p>
+<p>然后我们看流动性和交易额，日交易额约为1000亿美金。什么概念呢？世界交易最频繁的外汇USD-EUR的日均交易额为5000亿美金。如果我们仅仅关注Crypto的货币属性，这已经是一个足够大的、流动性足够好的市场了。</p>
+<h3 id="开发者生态"><a href="#开发者生态" class="headerlink" title="开发者生态"></a>开发者生态</h3><p>Crypto本质上是计算机科学的产物，没有计算机和互联网的支持，Crypto本身不可能存在。而计算机和互联网的主要建造者正是开发人员，即程序员。当然Crypto的载体是计算机，参与者实际上还是人，还是价值保存和交换过程（这其实也是一个Crypto注定会成为常态的原因）。</p>
+<p>根据 decrypt 的调研，有超过8000名开发人员每个月在进行各种Crypto项目的开发，其中以太坊最为集中，约有2300人每月；而新兴的区块链项目 Polkadot 每月也有超过400名开人员参与开发。新兴的急速区块链项目 Solana 有超过100名开发人员提交了代码，平均每个月有超过300个Commit被提交合并。可以看出，开源社区正在助力 Crypto。</p>
+<h3 id="其他机构的动作"><a href="#其他机构的动作" class="headerlink" title="其他机构的动作"></a>其他机构的动作</h3><p>我们再来看看老派的金融机构是怎么看Crypto的。我有所耳闻的：</p>
+<p>摩根大通早在几年前就开始为客户提供Crypto产品了，而且内部成立了相应的Trading desk。高频交易公司Jump Trading最近成立了一个80人的团队进行区块链开发。英国对冲基金Maven正在组建Crypto自营交易组。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>无论是从回测数据，还是所谓“基本面”分析，在你的投资组合中加入Crypto都是不错的选择。</p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><ul>
+<li><a href="https://academy.binance.com/en/articles/a-guide-to-cryptocurrency-fundamental-analysis">https://academy.binance.com/en/articles/a-guide-to-cryptocurrency-fundamental-analysis</a></li>
+<li><a href="https://app.intotheblock.com/">https://app.intotheblock.com/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Investing</category>
+      </categories>
+      <tags>
+        <tag>Crypto</tag>
+        <tag>投资组合</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>在VS Code中使用VIM (VIM教程)</title>
     <url>/2021/11/30/vim1/</url>
     <content><![CDATA[<ul>
