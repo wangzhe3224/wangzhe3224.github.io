@@ -1,6 +1,6 @@
 ---
 title: 量化投资学习路线图 - 书籍篇
-tags: Investment, Study
+tags: [Investment, Study]
 categories: Quant
 date: 2021-12-04
 ---
