@@ -1,6 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>如何成为 Quant Dev 2 - 技能树</title>
+    <url>/2021/12/05/quant_dev_path_2/</url>
+    <content><![CDATA[<p>上一篇文章介绍了量化对冲基金中程序员的分类和职能，其中 <code>Quant Dev</code> 是量化对冲基金的核心业务开发人员，所以这一篇我们重点讨论 Quant Dev 的要求、技能和学习路径。</p>
+<ul>
+<li><a href="#总体要求">总体要求</a></li>
+<li><a href="#技能树">技能树</a><ul>
+<li><a href="#合格的程序员">合格的程序员</a></li>
+<li><a href="#量化">量化</a></li>
+</ul>
+</li>
+<li><a href="#学习路径">学习路径</a><ul>
+<li><a href="#计算机学习">计算机学习</a></li>
+<li><a href="#量化学习">量化学习</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="总体要求"><a href="#总体要求" class="headerlink" title="总体要求"></a>总体要求</h2><p>Quant Dev 首先得是一个合格的开发者，然后需要对业务有比较深刻的理解。<strong>Quant Dev 是连接策略思想和自动化交易的桥梁</strong>，不同的策略对软件的要求也不尽相同，有一些策略，比如高频策略，对计算机底层技能的要求更高；而另一些策略，比如中低频策略，对软件架构和软件工程要求更高。</p>
+<p>因此，一个好的 quant dev：</p>
+<ul>
+<li>首先是一个合格的程序员</li>
+<li>然后根据不同的策略类型，深入理解模型和执行特性等业务逻辑。</li>
+<li>对计算机和量化充满热情 &lt; — 这是最重要的</li>
+</ul>
+<h2 id="技能树"><a href="#技能树" class="headerlink" title="技能树"></a>技能树</h2><p>知道了2个需求，我们看一下技能树。</p>
+<h3 id="合格的程序员"><a href="#合格的程序员" class="headerlink" title="合格的程序员"></a>合格的程序员</h3><p>关于这个我做过另一起视频（文章）讲解。这里总结必备基础技能如下：</p>
+<ul>
+<li>计算机组成原理</li>
+<li>操作系统</li>
+<li>数据库原理</li>
+<li>计算机网络</li>
+<li>计算机语言和编译原理</li>
+</ul>
+<p>多说点，计算机语言方面：</p>
+<ul>
+<li>经典语言：Python | Java/C# | C++</li>
+<li>更加现代的语言： Go | Rust</li>
+<li>极客公司：Ocaml | F# | Clojure</li>
+</ul>
+<p>关于语言的选择，一定要有自己的“灵魂”语言，即这门语言可以做到精通：掌握基本的语法，可以流畅写出适合该语言代码风格的程序，熟悉语言的生态圈（库和框架），了解语言背后的逻辑（虚拟机、垃圾回收、编译器等等）。</p>
+<p>绝大部分公司的技术栈都是比较单一的（这是好事情），你的灵魂语言可能决定了你可以去哪家公司。当然这不是绝对的，一个好的程序员应该可以在短时间适应一个新的语言。尽管如此，精通一门语言会让学习其他语言更轻松。</p>
+<h3 id="量化"><a href="#量化" class="headerlink" title="量化"></a>量化</h3><p>这部分属于业务相关技能，跟从事的量化策略分类有很大关系，所以应该根据自己所处的公司选择。</p>
+<p>当然还是有一些共通的技能：</p>
+<ul>
+<li>基本的概率论和统计</li>
+<li>基本的线性代数</li>
+<li>基本的金融市场基础知识</li>
+<li>基本的量化交易基础知识</li>
+</ul>
+<p>这些共通技能之后，就要根据自己的领域，选择专精了。比如高频、做市、期货、股票等等。</p>
+<h2 id="学习路径"><a href="#学习路径" class="headerlink" title="学习路径"></a>学习路径</h2><h3 id="计算机学习"><a href="#计算机学习" class="headerlink" title="计算机学习"></a>计算机学习</h3><p>可以参考我之前关于转行计算机的视频（文章），里面有推荐书籍和课程。</p>
+<p><a href="https://wangzhe3224.github.io/2021/10/20/roadpath/">如何转行计算机做程序员</a></p>
+<h3 id="量化学习"><a href="#量化学习" class="headerlink" title="量化学习"></a>量化学习</h3><p>这里我推荐一些书籍和课程，当然主要是针对上面提到的基础知识部分，因为专精的部分我只能根据我自己的领域推荐了，以后会专门给大家讲。</p>
+<p>以下是一些量化基础知识：</p>
+<p><a href="https://wangzhe3224.github.io/2021/12/04/quant_trading_books/">量化投资学习路线图 - 书籍篇</a></p>
+<p>基本的数学知识：</p>
+<ul>
+<li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/">Mathematics for Computer Science</a></li>
+<li><a href="https://linear.axler.net/">Linear Algebra Done Right</a></li>
+<li><a href="https://ocw.mit.edu/courses/mathematics/18-700-linear-algebra-fall-2013/index.htm">Linear Algebra</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Career</category>
+      </categories>
+      <tags>
+        <tag>Hedge Fund</tag>
+        <tag>Quant</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>量化投资学习路线图 - 书籍篇</title>
     <url>/2021/12/04/quant_trading_books/</url>
     <content><![CDATA[<p>从业人员，利益无关。推荐一下我走的路线。这些书都是实际从业老兵写的，内容都是实打实的，经过实践检验的，而不是纸上谈兵。书中都有详细的代码和数据供读者检验和学习。<br>空谈的、哲学炒股、玄学交易的书趁早别看。</p>
@@ -334,6 +404,119 @@
       </categories>
       <tags>
         <tag>Rust</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何成为 Qaunt Dev 1 - 分类</title>
+    <url>/2021/11/06/quant_dev_1/</url>
+    <content><![CDATA[<p>量化对冲基金程序员分类：</p>
+<ul>
+<li>基础设施</li>
+<li>运维</li>
+<li>业务 (Quant Dev)<ul>
+<li>基础设施</li>
+<li>交易系统</li>
+<li>研究系统</li>
+<li>量化开发</li>
+<li>前端开发</li>
+</ul>
+</li>
+</ul>
+<h2 id="基础设施，Infrastructure"><a href="#基础设施，Infrastructure" class="headerlink" title="基础设施，Infrastructure"></a>基础设施，Infrastructure</h2><ol>
+<li>主要职能</li>
+</ol>
+<p>基础设施的程序员主要是负责公司的整体计算机基础设施，保证计算、存储和网络资源正常运行，满足业务需求。</p>
+<p>包括（不是全部）：</p>
+<ul>
+<li>数据、计算中心硬件的维护和升级</li>
+<li>计算资源集群，Spark集群，k8s集群，日常的虚拟机群等等</li>
+<li>网络，网络安全、VPN等等</li>
+<li>分布式文件系统</li>
+<li>数据库开发和维护</li>
+</ul>
+<ol start="2">
+<li>技术栈</li>
+</ol>
+<ul>
+<li>Linux</li>
+<li>k8s</li>
+<li>Spark</li>
+<li>数据库</li>
+</ul>
+<ol start="3">
+<li>语言</li>
+</ol>
+<ul>
+<li>C/C++/Rust</li>
+<li>Bash</li>
+</ul>
+<h2 id="运维，Dev-Ops"><a href="#运维，Dev-Ops" class="headerlink" title="运维，Dev Ops"></a>运维，Dev Ops</h2><ol>
+<li>主要职能</li>
+</ol>
+<p>对冲基金的运维，跟其他科技公司的运维功能类似，主要是确保各个应用的连续测试和构建，合理化的容器化APP等等。</p>
+<ol start="2">
+<li>技术栈</li>
+</ol>
+<ul>
+<li>Linux</li>
+<li>Jenkins</li>
+<li>K8s</li>
+<li>Docker</li>
+</ul>
+<ol start="3">
+<li>语言</li>
+</ol>
+<ul>
+<li>Bash</li>
+<li>Python</li>
+</ul>
+<h2 id="业务，Quant-Dev"><a href="#业务，Quant-Dev" class="headerlink" title="业务，Quant Dev"></a>业务，Quant Dev</h2><p>这部分是量化对冲基金比较独有的程序员，每个公司可能也会不太一样，这部分程序员需要对金融知识，<br>不过大体可以分为：</p>
+<ul>
+<li>基础设施</li>
+<li>交易系统</li>
+<li>研究系统</li>
+<li>量化开发</li>
+<li>前端开发</li>
+</ul>
+<h3 id="基础设施"><a href="#基础设施" class="headerlink" title="基础设施"></a>基础设施</h3><p>这部分的基础设施主要是面向业务逻辑的一些工具和框架的开发，比如</p>
+<ul>
+<li>高性能时间序列数据库</li>
+<li>实时计算图，Computation Graph</li>
+<li>机器学习框架</li>
+<li>股票的话，比如Ticker map，分红，换名字啊等等一些琐碎但是重要的事情</li>
+</ul>
+<p>语言框架：</p>
+<ul>
+<li>C++/Rust/Python</li>
+</ul>
+<h3 id="交易系统"><a href="#交易系统" class="headerlink" title="交易系统"></a>交易系统</h3><p>负责订单的执行和仓位管理，主要是负责把策略生成的信号或者订单提交到不同的Broker进行执行，并且<br>返回执行结果，也负责仓位的查询等等。这块其实内容很丰富，也会直接影响公司的PnL。</p>
+<p>语言框架：</p>
+<ul>
+<li>Java/Python</li>
+</ul>
+<h3 id="研究系统"><a href="#研究系统" class="headerlink" title="研究系统"></a>研究系统</h3><p>这部分主要是为了研究人员进行量化研究做一些工具，比如回测工具，基本的分析模块，新的数据集，<br>Alpha的分析等。</p>
+<p>语言框架：</p>
+<ul>
+<li>Python</li>
+</ul>
+<h3 id="量化开发"><a href="#量化开发" class="headerlink" title="量化开发"></a>量化开发</h3><p>这部分程序员的主要任务是把研究人员证明可行的信号，转化成可以实际交易执行的代码，投放到交易系统<br>进行交易。属于连接想法和实践的桥梁，这块其实内容很丰富，也会直接影响公司的PnL。</p>
+<p>语言框架：</p>
+<ul>
+<li>Java/Python</li>
+</ul>
+<h3 id="前端开发"><a href="#前端开发" class="headerlink" title="前端开发"></a>前端开发</h3><p>这部分跟正常的前端差不多，主要为后端API提供一个GUI</p>
+<p>语言框架：</p>
+<ul>
+<li>Js/Python</li>
+<li>React</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Career</category>
+      </categories>
+      <tags>
+        <tag>Hedge Fund</tag>
+        <tag>Quant</tag>
       </tags>
   </entry>
   <entry>
