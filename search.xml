@@ -1,6 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>量化投资学习路线图 - 软件篇</title>
+    <url>/2021/12/11/quant_trading_software/</url>
+    <content><![CDATA[<p>继续 <a href="https://wangzhe3224.github.io/2021/12/04/quant_trading_books/">量化投资学习路线图 - 书籍篇</a>，本篇从代码和实现角度讲讲量化投资的学习路线图。一些思考，我放在最后。</p>
+<p>注：量化交易、量化投资、系统化交易本篇按照同义词处理。</p>
+<ul>
+<li><a href="#主要目的">主要目的</a></li>
+<li><a href="#开源框架">开源框架</a><ul>
+<li><a href="#事件驱动-event-driven">事件驱动 (Event Driven)</a><ul>
+<li><a href="#vnpy">Vnpy</a></li>
+<li><a href="#backtrader">Backtrader</a></li>
+<li><a href="#quantconnect">QuantConnect</a></li>
+<li><a href="#hummingbot">Hummingbot</a></li>
+</ul>
+</li>
+<li><a href="#向量驱动vectorized">向量驱动（Vectorized）</a><ul>
+<li><a href="#vectorbt">vectorbt</a></li>
+</ul>
+</li>
+<li><a href="#计算图computation-graph">计算图（Computation Graph）</a><ul>
+<li><a href="#bt">bt</a></li>
+<li><a href="#incremental">Incremental</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#关于目前开源框架的思考">关于目前开源框架的思考</a></li>
+</ul>
+<h2 id="主要目的"><a href="#主要目的" class="headerlink" title="主要目的"></a>主要目的</h2><p>量化交易的代码主要实现三个功能：回测分析、实盘交易、复盘分析。这里不展开讲，因为每一块内容都相对复杂，而且根据不同的策略，具体实现会大不相同。</p>
+<p><strong>回测分析</strong>通过历史数据测试新策略的历史表现，分析一些基本的指标，比如Sharpe Ratio、回撤、杠杆、滑点等等。同时，回测也是策略参数选择的重要手段。显然，只有策略回测各方面指标达标后，才会考虑实盘交易。</p>
+<p><strong>实盘交易</strong> 负责连接实际的交易商API，提交订单，并发执行数据反馈给策略进行处理；另外负责连接数据源（很多时候也是通过交易商API），把实时数据推送给策略进行处理；负责管理仓位信息。</p>
+<p><strong>复盘分析</strong> 负责收集实盘交易过程中的各类日志，以备后续复盘分析之用。比如收集提交的订单数据和实际执行的订单数据。同时，这部分内容也会关系到如何Debug实盘交易系统，寻找问题根源。</p>
+<h2 id="开源框架"><a href="#开源框架" class="headerlink" title="开源框架"></a>开源框架</h2><p>开源社区有不少还OK的量化交易回测和实盘框架，但是值得注意的是，这些框架在复盘分析这个部分都比较羸弱。</p>
+<p>从设计模式讲，量化交易软件可以分成两种类型：<code>事件驱动</code>和<code>向量驱动</code>。不过关于组织计算，其实还有一类非常优雅但是在量化开源领域比较小众的框架：<code>计算图</code> （Computation Graph）。</p>
+<h3 id="事件驱动-Event-Driven"><a href="#事件驱动-Event-Driven" class="headerlink" title="事件驱动 (Event Driven)"></a>事件驱动 (Event Driven)</h3><p>事件驱动框架的计算是逐渐进行的，代码的核心是一个事件循环和一系列事件，用户需要实现不同的“回调函数”（Callback），比如：<code>on_order(order)</code> 用来处理订单事件，<code>on_tick(tick)</code>用来处理刚刚到来的tick数据等等。</p>
+<p>这种框架的优势在于比较方便的模拟实盘交易过程，大部分实时交易系统都是事件驱动的，计算逻辑都是通过不同的事件回调函数实现的。比如处理蜡烛图的事件回调函数可以用来计算各种指标，然后可以生成一个信号事件，再由对应的函数处理，如此实现链式计算进行回测或者实盘交易。而且，设计良好的框架几乎不需要修改回测代码，就可以直接进行实盘交易，因为大部分逻辑已经写入回测过程了。</p>
+<p>缺点就是，事件驱动框架通常回测速度较慢，因为在计算模式上属于路径依赖，只能一个事件一个事件地进行。</p>
+<ul>
+<li><a href="https://github.com/vnpy/vnpy">Vnpy</a></li>
+<li><a href="https://github.com/mementum/backtrader">Backtrader</a></li>
+<li><a href="https://github.com/QuantConnect/Lean">QuantConnect</a></li>
+<li><a href="https://github.com/CoinAlpha/hummingbot">Hummingbot</a></li>
+</ul>
+<h4 id="Vnpy"><a href="#Vnpy" class="headerlink" title="Vnpy"></a>Vnpy</h4><p>Vnpy 是这里唯一一个国产框架，目前Github已经接近17k Star，做的非常成功。我大概是几年前开始关注这个框架的，看着他一点点重构，发展到现在的规模。社区也在欣欣向荣的发展。这个框架，最开始的时候主要以连接多个交易平台为目的，是实盘交易导向的，回测功能是后面慢慢发展起来的，功能比较有限。但是由于代码量不大，如果有时间自己拓展也是一个不错的选择。</p>
+<p>这个框架最大的优势在于已经集成了很多国内常用的券商API，比如飞鼠、亿盛、中泰等等，几乎是开箱即用，做国内交易的小伙伴不要错过。</p>
+<ul>
+<li>推荐指数：3 星</li>
+<li>回测类型：Event driven</li>
+<li>回测速度：慢</li>
+<li>实盘模拟：中</li>
+<li>实盘支持：是</li>
+<li>社区建设：非常好</li>
+<li>组件灵活：好</li>
+<li>是否开源：是</li>
+<li>文档：好</li>
+<li>语言：Python3</li>
+</ul>
+<h4 id="Backtrader"><a href="#Backtrader" class="headerlink" title="Backtrader"></a>Backtrader</h4><p>Backtrader, 是一款纯Python的回测+实盘框架。从软件工程的角度，这个项目非常值得学习。这个框架的代码风格非常 Pythonic，也值得借鉴和学习。作者是一个很严谨的德国人，从他的代码审查和社区管理可见一斑。backtrader允许您专注于编写可重复使用的交易策略，指标和分析器，而不必花时间构建基础架构。</p>
+<p>我仔细研究过这个框架的源代码，作者软件工程功力不错，代码干净、架构合理，特别容易拓展。代码量并不大，元测试相对比较完善。得益与清晰的源代码，二次开发非常容易。</p>
+<p>社区相对比较完整，参与度较高。作为一款没有任何商业支持的开源框架，我认为他做的非常成功。</p>
+<ul>
+<li>推荐指数：5 星</li>
+<li>回测类型：Event driven 和 Vectorized</li>
+<li>回测速度：中</li>
+<li>实盘模拟：好</li>
+<li>实盘支持：是</li>
+<li>社区建设：好</li>
+<li>组件灵活：非常好</li>
+<li>是否开源：是</li>
+<li>文档：非常好</li>
+<li>语言：Python3</li>
+</ul>
+<h4 id="QuantConnect"><a href="#QuantConnect" class="headerlink" title="QuantConnect"></a>QuantConnect</h4><p>QuantConnect, 除了提供Web接口以外，还提供本地的SDK进行测试，代码已经开源：QuantConnect/Lean，核心的代码是C#完成的，但是提供F# 和 Python 的API。</p>
+<p>Lean Engine是一个开源算法交易引擎，专为简单的策略研究，回溯测试和实时交易而构建。我们与通用数据提供商和经纪商集成，因此您可以快速部署算法交易策略。<br>LEAN引擎的核心是用C＃编写的;但它可以在Linux，Mac和Windows操作系统上无缝运行。它支持用Python 3.6，C＃或F＃编写的算法。QuantConnect的社区建设也很不错，结合相关的Web前端，交流比较方便。由于开放了本地SDK，你可以不必上传自己的策略，隐私保护方便比较完善。同时定制方便也更加优秀。</p>
+<ul>
+<li>推荐指数：3 星</li>
+<li>回测类型：Event driven</li>
+<li>回测速度：快</li>
+<li>实盘模拟：好</li>
+<li>实盘支持：是</li>
+<li>社区建设：好</li>
+<li>组件灵活：好</li>
+<li>是否开源：是</li>
+<li>文档：非常好</li>
+<li>语言：C#，F#, Python</li>
+</ul>
+<h4 id="Hummingbot"><a href="#Hummingbot" class="headerlink" title="Hummingbot"></a>Hummingbot</h4><p>另外，还有一类比较特殊的事件驱动框架，就是<code>时间驱动</code>。这类框架系统会定期观察市场一次，然后由此引发后续计算和订单提交。Hummingbot 就属于这类框架，它每隔一段时间（1s默认）观察市场，得到样本价格（Sampling），然后进行计算。</p>
+<p>框架采用 Python + C 实现，可以实现1s以下心跳策略。代码方面，很适合学习如何混合Python和C++编程以提升Python的性能，同时不牺牲Python的灵活性和生态环境。项目提供了一个酷酷的基于命令行的GUI进行交互。不要重复造轮子，也要谨慎使用轮子。这个框架是个不错的起点。</p>
+<ul>
+<li>推荐指数：4 星</li>
+<li>回测类型：没有回测</li>
+<li>回测速度：-</li>
+<li>实盘模拟：-</li>
+<li>实盘支持：是</li>
+<li>社区建设：好</li>
+<li>组件灵活：好</li>
+<li>是否开源：是</li>
+<li>文档：非常好</li>
+<li>语言：Python + Cpp</li>
+</ul>
+<h3 id="向量驱动（Vectorized）"><a href="#向量驱动（Vectorized）" class="headerlink" title="向量驱动（Vectorized）"></a>向量驱动（Vectorized）</h3><p>向量驱动框架与事件驱动不同，计算模型主要以向量为基础，指标计算、仓位管理等等都是一多维向量的形式呈现。由于这种张量形式，策略的计算通常可以直接转化成张量计算，得益于我们已有的张量计算代码，速度惊人。</p>
+<p>缺点也比较明显，就是策略代码不能直接接入实盘，因为实盘交易往往是事件驱动的。但是如果你的策略频率较低，手工实盘的话，这也不是大问题。</p>
+<h4 id="vectorbt"><a href="#vectorbt" class="headerlink" title="vectorbt"></a>vectorbt</h4><p><a href="https://github.com/polakowo/vectorbt">vectorbt</a>，是目前我看到的向量回测框架中比较优秀的。这款框架不提供任何实盘交易功能，是一个纯回测平台。集成了Yahoo finance的数据源，开箱带有很多内置的信号指标，比如 ta-lib等等，同时由于是Python原生库，Python的数据科学生态，比如numpy，pandas，plotly，都可以完美接入。</p>
+<p>由于大量使用了Numba进行JIT编译，vtbot的性能远远超越了经典时间序列分析库Pandas。从技术层面，vtbot是基于pandas的，但是通过定制化Accessor拓展了pandas的API，结合Numba，形成了一套运行效率极高的回测框架。从业务层面，绝大部分交易策略都可以被表达成向量的模式，进而实现向量计算；而具有路径依赖的策略，不能完全进行向量化，可以通过JIT实现性能提升。</p>
+<p>缺点吗，就是处理路径依赖的策略确实没啥好办法；另外，跟所有向量化回测工具一样，很难模拟真实交易环境，无法像事件驱动回测框架那样灵活。不过，对于快速信号搜索、优化，这个包还是非常舒服,有兴趣的小伙伴可以一试。</p>
+<h3 id="计算图（Computation-Graph）"><a href="#计算图（Computation-Graph）" class="headerlink" title="计算图（Computation Graph）"></a>计算图（Computation Graph）</h3><p>（悄悄de：机构玩家一般是这种模型）</p>
+<p>计算图其实是把计算节点组织成DAG（Directed acyclic graph），就是有向无循环图。其实这种设计模式在大数据分析平台非常常见，比如Spark（类似向量驱动），Flink（类似事件驱动），都是采用了DAG作为组织和调度计算的主要模型。在这种模型中，每一个节点（node）负责根据自己的输入计算输出，然后把计算交给下一个以他的输出作为输出的节点，如此引发连式计算。正如Spark和Flink一样，计算图模型既可以是向量驱动也可以是事件驱动。</p>
+<p>这种模型的优势在于可以很好的组织计算的依赖关系，重复利用已经完成的计算。这种优势在计算节点数量庞大的时候，会更加明显。而且，可以避免Callback Hell。这种模式的模块性能非常好，方便代码复用和测试，同时对计算机的进程可控性更高。</p>
+<p>目前，我还没有见到这类开源框架，给大家推荐两个：</p>
+<ul>
+<li><a href="https://github.com/pmorissette/bt">bt</a></li>
+<li><a href="https://github.com/janestreet/incremental">Incremental</a></li>
+</ul>
+<h4 id="bt"><a href="#bt" class="headerlink" title="bt"></a>bt</h4><p><a href="https://github.com/pmorissette/bt">bt</a> 是一个基于Python的回测框架，他的设计理念类似计算图，但是没有明确提出DAG的模型，而是一个Tree（还记得吗？Tree就是一种Graph）。</p>
+<p>框架的核心节点是 <code>Algo</code>，每一个 Algo 就是一个小的计算逻辑，可以是波动率调整算法、投组组合优化算法，也可以是一个简单的选择标的函数。<code>Algo</code>可以进一步放在一起形成一个线性的<code>AlgoStack</code>。</p>
+<p>另一个很精巧的设计是：<code>StrategyTree</code>。通过树状结构，可以随意把多个策略放在一起，利用AlgoStack连接形成一个新的策略。</p>
+<p>也许你已经发现了，这种设计其实就是一种线性的计算图模型。</p>
+<h4 id="Incremental"><a href="#Incremental" class="headerlink" title="Incremental"></a>Incremental</h4><p>Incremental采用Ocaml编写，框架提供了一种构建复杂计算的方法，而且计算图只会根据变化的数据出发必要的下游计算，而不会全部重新计算。</p>
+<p>这个库来自世界最大的ETF做市商之一，JaneStreet。但是这个框架仅仅是提供了一个编写计算的工具，没有任何回测或者交易的功能，需要自己进行开发。</p>
+<h2 id="关于目前开源框架的思考"><a href="#关于目前开源框架的思考" class="headerlink" title="关于目前开源框架的思考"></a>关于目前开源框架的思考</h2><p>目前市面上常见的开源框架以事件驱动为主，架构基本大同小异；而向量化框架较少，这可能是因为这类框架通常没有实盘功能，需要额外的开发工作进行实盘；而计算图模型基本处于缺失状态。计算图模型恰恰是专业的机构用户青睐的模型，而且计算图模型对复盘分析来说也有这个独特的优势，以后专门写个文章给大家分析。</p>
+<p>其次，开源框架往往忽视了复盘分析这个重要部分，这是很大的问题。因为一个专业的量化交易策略不能缺少复盘和故障回溯分析。</p>
+]]></content>
+      <categories>
+        <category>Quant</category>
+      </categories>
+      <tags>
+        <tag>Investment</tag>
+        <tag>Study</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何选择（第一）下一个语言</title>
     <url>/2021/12/07/pick_next_language/</url>
     <content><![CDATA[<p>如何选择你的第一门（或者下一门）计算机语言？这是一个重要的问题。</p>
