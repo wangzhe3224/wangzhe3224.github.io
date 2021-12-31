@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>国内如何提升GitHub访问速度</title>
+    <url>/2021/12/31/github_speedup/</url>
+    <content><![CDATA[<h2 id="使用镜像网站"><a href="#使用镜像网站" class="headerlink" title="使用镜像网站"></a>使用镜像网站</h2><p>可以用来现在下载github原版的的仓库：</p>
+<ul>
+<li><a href="https://ghproxy.com/">https://ghproxy.com/</a> </li>
+<li><a href="http://toolwa.com/github/">http://toolwa.com/github/</a></li>
+</ul>
+<h2 id="浏览器插件"><a href="#浏览器插件" class="headerlink" title="浏览器插件"></a>浏览器插件</h2><p><a href="https://github.com/fhefh2015/Fast-GitHub">Fast-GitHub</a></p>
+<h2 id="Gitee同步更新"><a href="#Gitee同步更新" class="headerlink" title="Gitee同步更新"></a>Gitee同步更新</h2><p>登陆 <a href="https://gitee.com/">Gitee</a> 账号，点击右上角的 + 号，点击「从 GitHub 导入仓库」，在跳转的页面中授权 Gitee 访问。</p>
+<p><a href="https://gitee.com/help/articles/4284#article-header0">https://gitee.com/help/articles/4284#article-header0</a></p>
+<h2 id="翻墙"><a href="#翻墙" class="headerlink" title="翻墙"></a>翻墙</h2><p>VPN开起来</p>
+<p><a href="https://github.com/vpncn/vpncn.github.io">https://github.com/vpncn/vpncn.github.io</a></p>
+]]></content>
+      <categories>
+        <category>FunCoder</category>
+      </categories>
+      <tags>
+        <tag>GitHub</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>GitHub怎么用 - 1 入门和检索</title>
     <url>/2021/12/28/github_1/</url>
     <content><![CDATA[<h2 id="GitHub·能干啥"><a href="#GitHub·能干啥" class="headerlink" title="GitHub·能干啥"></a>GitHub·能干啥</h2><p><code>GitHub</code>是通过<code>Git</code>进行 <em>版本控制</em> 的软件 <em>源代码</em> 托管服务平台。创建于2008年，最初的版本是 <code>Ruby</code> 完成的（啊，那时候正式Ruby on Rails的全胜时期）。目前拥有超过4000万用户（我觉得这是4000万程序员吧：&gt;），是目前最大的开源项目托管平台。</p>
