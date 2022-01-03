@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2022年，是时候放弃面向对象（OOP）- 新萌共勉</title>
+    <url>/2022/01/02/drop_oop/</url>
+    <content><![CDATA[<blockquote>
+<p>TL;DR</p>
+</blockquote>
+<p>面向对象范式（OOP）正在逐渐被工业界抛弃，新兴语言，如Go、Rust完全抛弃了OO支持，清一色的Struct、接口、泛型、函数模式；老大哥语言，如C++，Java，在新的版本中也逐渐加入了非OOP特性，使用接口、泛型、函数模式；宇宙语Python，自打出生就是个混血，目前的最佳实践也是接口、函数模式。<br>不要再关注OO啦，更加关注OO想要实现的软件工程特性。</p>
+<blockquote>
+<p>长版</p>
+</blockquote>
+<p>刚接触的编程时候（2015年左右），市面上一股脑的OOP，那时候还是个小新萌，感觉编程就是面向对象，干啥都要先写个Class，然后搞点继承实现代码复用，市面上大部分语言都会标榜自己对OOP支持很给力。</p>
+<p>OOP是一个技术，他想解决一个工程问题：就是如何构建健壮、容易拓展、容易维护的软件。这个问题的背后，其实是<em>如何解决软件工程出现的复杂度</em>。OOP其实是一个古老的方案，最早萌发于1960年 Simula 语言；90年代被 Java 扭曲，“发扬光大”了。</p>
+<p>OOP主要采用四个技术尝试解决<strong>上述问题</strong>：</p>
+<ul>
+<li>继承：实现代码复用和多态</li>
+<li>封装：通过对象的内部状态实现</li>
+<li>多态：通过继承实现</li>
+<li>对象：维护内部状态和函数调用</li>
+</ul>
+<p>近40年的工程实践证明上述方案不合适，目前工业界普遍认为：</p>
+<ul>
+<li>组合+泛型：实现复用</li>
+<li>模块：实现封装</li>
+<li>函数一等公民：实现组合</li>
+<li>Struct：维护状态</li>
+<li>不可变性，Immutability</li>
+</ul>
+<p>是符合目前应用的方案。泛泛觉得这个趋势跟目前分布式系统、并发系统的流行有关系，在这些系统中，OOP举步维艰。</p>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>OOP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>区块链和币圈的一些观察</title>
     <url>/2022/01/01/crypto_observation/</url>
     <content><![CDATA[<h2 id="一些观察"><a href="#一些观察" class="headerlink" title="一些观察"></a>一些观察</h2><h3 id="金融属性"><a href="#金融属性" class="headerlink" title="金融属性"></a>金融属性</h3><p>2021年区块链又火了一波，整个区块链总市值达到2万亿美金，整个币圈都在为NFT疯狂，比特币一度达到6万美金。上一次这种盛况还是在2017年，那时候比特币的达到2万美金，整个币圈在位空气币ICO疯狂。</p>
