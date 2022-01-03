@@ -1,4 +1,5 @@
 ---
+name: Español
 title:
   archive: Archivo
   category: Categoría
@@ -24,7 +25,6 @@ post:
   modified: Modificado por
   edit: Editar esta entrada
   in: En
-  more: más
   read_more: Leer más
   untitled: Sin título
   sticky: Sticky
@@ -33,11 +33,12 @@ post:
   copyright:
     author: Autor de la entrada
     link: Enlace a la entrada
+    post_author: Written by
+    post_link: This article originally appeared on
     license_title: Copyright
     license_content: "Todos los artículos de este blog están licenciados bajo %s a no ser que se especifique una licencia adicional."
 footer:
   powered: "Creado mediante %s"
-  theme: Tema
   total_views: Visitas totales
   total_visitors: Visitantes totales
 counter:
@@ -59,6 +60,9 @@ state:
   categories: categorías
 search:
   placeholder: Buscando...
+  empty: "We didn't find any results for the search: %s"
+  hits_time: "%s results found in %s ms"
+  hits: "%s results found"
 cheers:
   um: Um..
   ok: Bueno
@@ -83,6 +87,8 @@ accessibility:
   nav_toggle: Cambiar a barra de navegación
   prev_page: Página anterior
   next_page: Página siguiente
+  back_to_top: Back to top
+  select_lang: Select language
 symbols_count_time:
   count: Cantidad de caracteres en el articulo
   count_total: Cantidad total de caracteres
