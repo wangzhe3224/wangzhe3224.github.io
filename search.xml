@@ -1,6 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>如何学习一门新语言</title>
+    <url>/2022/01/08/how_to_learn_a_language/</url>
+    <content><![CDATA[<h2 id="学习新事物的一般规则"><a href="#学习新事物的一般规则" class="headerlink" title="学习新事物的一般规则"></a>学习新事物的一般规则</h2><h3 id="2-8法则"><a href="#2-8法则" class="headerlink" title="2-8法则"></a>2-8法则</h3><ul>
+<li>找到 20% 的知识点，解决 80% 的问题</li>
+<li>与已知的知识体系建立联系</li>
+</ul>
+<h3 id="分析问题的方法"><a href="#分析问题的方法" class="headerlink" title="分析问题的方法"></a>分析问题的方法</h3><ul>
+<li>拆分</li>
+<li>逐个分析</li>
+<li>关联</li>
+<li>衍生</li>
+</ul>
+<h3 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h3><blockquote>
+<p>不闻不若闻之，闻之不若见之，见之不若知之，知之不若行之；学至于行之而止矣。<br>– 荀子</p>
+</blockquote>
+<blockquote>
+<p>What I cannot create, I do not understan<br>– Richard Feynman（物理学家，诺奖得主）</p>
+</blockquote>
+<h2 id="语言的组成"><a href="#语言的组成" class="headerlink" title="语言的组成"></a>语言的组成</h2><p>当我们按照固定的模式去看待计算机语言，所有的语言看起来都很像（当然不是语法上）。这是为什么呢？其实很好理解，因为所有的计算机语言都有一个目的：被编译成指令和内存地址。目的一致，所以其内核非常相似。</p>
+<ul>
+<li>语法，写出没有语法错误的代码</li>
+<li>语义，代码的意义是什么？<ul>
+<li>类型系统、抽象方法</li>
+<li>内存模型</li>
+<li>运行时、执行模型</li>
+</ul>
+</li>
+<li>最佳实现模式，Idioms</li>
+<li>工具链：Debug、测试、包管理、IDE</li>
+<li>标准库，做事情</li>
+<li>社区和生态，答疑、解惑、反馈、构建大型软件</li>
+</ul>
+<p>上面 6 个方面就是学习计算机语言的框架，初学的时候，最重要的两个部分是：语义和idioms。语法也比较重要，但是语法是最无聊和好学的。工具链和标准库，大家会在语言的日常使用中不断的学习，开始的阶段不需要花很多时间，只要知道还有这两个内容就好。最后，关于语言的生态和社区，是一个需要关注的部分，因为我们需要通过社区进行交流解惑，而生态决定了这个语言在那个业务领域更有竞争力。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>这是最无聊的部分，因为语法包含的内容都是静态的，换句话说他们是一些事实（Fact）。语法是一些规则，定义那些关键字、文本可以形成一个合法的该语言的程序。比如关键字、空格、逗号、大括号等等的使用。</p>
+<p>这也是不同计算机语言<strong>差异最大</strong>的地方。也是容易引战的地方，就是吐槽某个语言的语法不好等等，大家不要参与这种讨论（除非你是语言设计者）。</p>
+<h3 id="语义"><a href="#语义" class="headerlink" title="语义"></a>语义</h3><p>语义是最丰富的部分，语义规定了我们程序的运行行为。换句话说，语义就是程序的意思，即一段符合语法的代码代表了什么样的计算过程。</p>
+<p>语义通常分为两种：动态和静态。动态语义规定了程序的运行时行为；静态语义规定了编译时的合法行为，当然这里不是语法检查。最常见的静态语义就是类型检查了，即确定程序是不是类型健康的。</p>
+<h3 id="最佳实践模式"><a href="#最佳实践模式" class="headerlink" title="最佳实践模式"></a>最佳实践模式</h3><p>这个就是该语言解决问题的常见模式。在计算机领域，我们解决的问题通常是比较固定的，比如并发问题、调度问题、并行问题等等，但是不同的语言，由于语义的区别，其解决问题的方式大有不同，这就是所谓的最佳实践模式。</p>
+<p>举例，你当然可以用 Haskell 写出很像 Java 的程序来进行计算，但是 Haskell 程序员就很难读懂你的代码，而且其执行效率恐怕也会被影响。</p>
+<p>学习最佳实践的另一个好处是，你可以更加快速的阅读这个语言其他人的代码。</p>
+<h3 id="工具链"><a href="#工具链" class="headerlink" title="工具链"></a>工具链</h3><p>这里包括很多，比如语言的Debuger，测试框架，包管理，编辑器，IDE等等。</p>
+<h3 id="标准库"><a href="#标准库" class="headerlink" title="标准库"></a>标准库</h3><p>一般语言都提供一些标准库，比如常用的数据结构：HashMap、Array、Vector、Tree，文件读写库，并发库等等。</p>
+<h3 id="社区和生态"><a href="#社区和生态" class="headerlink" title="社区和生态"></a>社区和生态</h3><p>社区对于一个语言比较重要，因为在学习的过程中遇到问题，社区是最好的答疑解惑场所；等到学有所成，可以帮助社区其他人。</p>
+<p>生态一般是指该语言的第三方库。比如 Python 的生态，有大量优质数据分析和机器学习库，比如 Numpy, Pandas, PyTorch 等等，这些库（生态）往往决定了语言应用的场景。</p>
+<p>一般来说，如果一个语言社区和生态都很繁荣，那么学起来会更容易，也更加容易构架大型软件。</p>
+<h2 id="实践-1"><a href="#实践-1" class="headerlink" title="实践"></a>实践</h2><p>读项目、参与开源、写自己的项目、重复造轮子。</p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><ul>
+<li><a href="https://cs3110.github.io/textbook/chapters/basics/intro.html">https://cs3110.github.io/textbook/chapters/basics/intro.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Progamming Language</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2022年，是时候放弃面向对象（OOP）- 新萌共勉</title>
     <url>/2022/01/02/drop_oop/</url>
     <content><![CDATA[<blockquote>
