@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
+
+
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -12,15 +14,12 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic|Encode Sans:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
 
-  <meta name="description" content="SICP quick overview Building Abstraction with ProceduresThe Elements of ProgrammingThree machanisms of powerful language:  primitive expression, the simplest entities the language is concerned with me">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="SICP quick overview Building Abstraction with ProceduresThe Elements of ProgrammingThree machanisms of powerful language:  primitive expression, the simplest entities the language is concerned with me">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SICP">
 <meta property="og:url" content="http://yoursite.com/2020/12/25/sicp_overview/index.html">
@@ -32,105 +31,55 @@
 <meta property="og:image" content="https://i.imgur.com/1UiVC6S.png">
 <meta property="og:image" content="https://i.imgur.com/Yf6vQCg.png">
 <meta property="article:published_time" content="2020-12-25T00:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-08T12:16:10.177Z">
+<meta property="article:modified_time" content="2022-01-15T15:02:55.881Z">
 <meta property="article:author" content="FunCoder">
 <meta property="article:tag" content="SICP">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.imgur.com/jBwpFte.png">
 
+
 <link rel="canonical" href="http://yoursite.com/2020/12/25/sicp_overview/">
 
 
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
 
-  <title>SICP | FunCoder</title>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2020/12/25/sicp_overview/","path":"2020/12/25/sicp_overview/","title":"SICP"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SICP | FunCoder</title>
   
-    <script>
-      function sendPageView() {
-        if (CONFIG.hostname !== location.hostname) return;
-        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
-        localStorage.setItem('uid', uid);
-        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
-          v  : 1,
-          tid: 'UA-66629043-1',
-          cid: uid,
-          t  : 'pageview',
-          dp : encodeURIComponent(location.pathname)
-        }));
-      }
-      document.addEventListener('pjax:complete', sendPageView);
-      sendPageView();
-    </script>
-
-
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
 
 
 
 
   <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-  <script data-ad-client="ca-pub-9801985319378542" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <meta name="google-site-verification" content="MjVVxpOXJOpseO4Uw4kLKcO-jlZdu7grfbyyAbwnzG8" />
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66629043-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-66629043-1');
-  </script>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+  <div class="headband"></div>
 
+  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">FunCoder</h1>
-      <span class="logo-line-after"><i></i></span>
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">FunCoder</p>
   </div>
@@ -144,44 +93,15 @@
 
 
 
-
 <nav class="site-nav">
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
-
-  </li>
-        <li class="menu-item menu-item-arts">
-
-    <a href="/arts/" rel="section"><i class="fa fa-fw fa-microchip"></i>Arts</a>
-
-  </li>
-        <li class="menu-item menu-item-readings">
-
-    <a href="/readings/" rel="section"><i class="fa fa-fw fa-archive"></i>Readings</a>
-
-  </li>
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
         </a>
@@ -192,49 +112,131 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
+    <div class="popup search-popup"><div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="off"
-           placeholder="Searching..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
 </div>
 
     </div>
   </div>
 
 </div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Building-Abstraction-with-Procedures"><span class="nav-number">1.</span> <span class="nav-text">Building Abstraction with Procedures</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Elements-of-Programming"><span class="nav-number">1.1.</span> <span class="nav-text">The Elements of Programming</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluating-Combinations"><span class="nav-number">1.1.1.</span> <span class="nav-text">Evaluating Combinations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compound-Procedures"><span class="nav-number">1.1.2.</span> <span class="nav-text">Compound Procedures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Substitution-Model-for-Procedure-Application"><span class="nav-number">1.1.3.</span> <span class="nav-text">Substitution Model for Procedure Application</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conditional-Expressions"><span class="nav-number">1.1.4.</span> <span class="nav-text">Conditional Expressions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Procedures-and-the-Processes-generated"><span class="nav-number">1.2.</span> <span class="nav-text">Procedures and the Processes generated</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linear-Recursion-and-Iteration"><span class="nav-number">1.2.1.</span> <span class="nav-text">Linear Recursion and Iteration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tree-Recursion"><span class="nav-number">1.2.2.</span> <span class="nav-text">Tree Recursion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Order-of-Growth"><span class="nav-number">1.2.3.</span> <span class="nav-text">Order of Growth</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exponentiation"><span class="nav-number">1.2.4.</span> <span class="nav-text">Exponentiation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Formulating-Abstractions-with-Higher-order-Functions"><span class="nav-number">1.3.</span> <span class="nav-text">Formulating Abstractions with Higher-order Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Procedures-as-Arguments"><span class="nav-number">1.3.1.</span> <span class="nav-text">Procedures as Arguments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Procedures-as-General-Methods"><span class="nav-number">1.3.2.</span> <span class="nav-text">Procedures as General Methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Procedures-as-Return-Values"><span class="nav-number">1.3.3.</span> <span class="nav-text">Procedures as Return Values</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Building-Abstractions-with-Data"><span class="nav-number">2.</span> <span class="nav-text">Building Abstractions with Data</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction-of-Data-Abstraction"><span class="nav-number">2.1.</span> <span class="nav-text">Introduction of Data Abstraction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#What-is-Meant-by-Data"><span class="nav-number">2.1.1.</span> <span class="nav-text">What is Meant by Data??</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hierarchical-Data-and-the-Closure-Property"><span class="nav-number">2.2.</span> <span class="nav-text">Hierarchical Data and the Closure Property</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sequences"><span class="nav-number">2.2.1.</span> <span class="nav-text">Sequences</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hierarchical-Structures"><span class="nav-number">2.2.2.</span> <span class="nav-text">Hierarchical Structures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sequences-as-Conventional-Interfaces"><span class="nav-number">2.2.3.</span> <span class="nav-text">Sequences as Conventional Interfaces</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-the-Picture-Language"><span class="nav-number">2.2.4.</span> <span class="nav-text">Example: the Picture Language</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Symbolic-Data"><span class="nav-number">2.3.</span> <span class="nav-text">Symbolic Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Symbolic-Differentiation"><span class="nav-number">2.3.1.</span> <span class="nav-text">Example: Symbolic Differentiation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multiple-Representations-for-Abstract-Data"><span class="nav-number">2.4.</span> <span class="nav-text">Multiple Representations for Abstract Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Complex-number"><span class="nav-number">2.4.1.</span> <span class="nav-text">Example: Complex-number</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Systems-with-Generic-Operations"><span class="nav-number">2.5.</span> <span class="nav-text">Systems with Generic Operations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Generic-Arithmetic-Operations"><span class="nav-number">2.5.1.</span> <span class="nav-text">Generic Arithmetic Operations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combining-Data-of-Different-Types"><span class="nav-number">2.5.2.</span> <span class="nav-text">Combining Data of Different Types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Symbolic-Algebra"><span class="nav-number">2.5.3.</span> <span class="nav-text">Example: Symbolic Algebra</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Modularity-Objects-and-State"><span class="nav-number">3.</span> <span class="nav-text">Modularity, Objects, and State</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Assignment-and-Local-State"><span class="nav-number">3.1.</span> <span class="nav-text">Assignment and Local State</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Environment-Model-of-Evaluation"><span class="nav-number">3.2.</span> <span class="nav-text">Environment Model of Evaluation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Modeling-with-Mutable-Data"><span class="nav-number">3.3.</span> <span class="nav-text">Modeling with Mutable Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Digital-Circuits"><span class="nav-number">3.3.1.</span> <span class="nav-text">Example: Digital Circuits</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Concurrency"><span class="nav-number">3.4.</span> <span class="nav-text">Concurrency</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mechanisms-for-Controlling-Concurrency"><span class="nav-number">3.4.1.</span> <span class="nav-text">Mechanisms for Controlling Concurrency</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stream"><span class="nav-number">3.5.</span> <span class="nav-text">Stream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Streams-Are-Delayed-Lists"><span class="nav-number">3.5.1.</span> <span class="nav-text">Streams Are Delayed Lists</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Metalinguistic-Abstraction"><span class="nav-number">4.</span> <span class="nav-text">Metalinguistic Abstraction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Metacircular-Evaluator"><span class="nav-number">4.1.</span> <span class="nav-text">The Metacircular Evaluator</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#The-core-of-evaluator"><span class="nav-number">4.1.1.</span> <span class="nav-text">The core of evaluator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Variations-on-a-Scheme-%E2%80%94-Lazy-Evaluation"><span class="nav-number">4.1.2.</span> <span class="nav-text">Variations on a Scheme — Lazy Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Normal-Order-and-Applicative-Order"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">Normal Order and Applicative Order</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Computing-with-Register-Machines"><span class="nav-number">5.</span> <span class="nav-text">Computing with Register Machines</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">129</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
     </header>
 
     
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
   <div class="reading-progress-bar"></div>
 
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
 
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
 
-          <div class="content">
-            
+    <div class="main-inner post posts-expand">
 
-  <div class="posts-expand">
-      
+
+  
+
+
+<div class="post-block">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/25/sicp_overview/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -251,38 +253,46 @@
           SICP
         </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-12-25 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-25T00:00:00Z">2020-12-25</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Computing/" itemprop="url" rel="index"><span itemprop="name">Computing</span></a>
-                </span>
-            </span>
+      <time title="Created: 2020-12-25 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-25T00:00:00Z">2020-12-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-01-15 15:02:55" itemprop="dateModified" datetime="2022-01-15T15:02:55Z">2022-01-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computing/" itemprop="url" rel="index"><span itemprop="name">Computing</span></a>
+        </span>
+    </span>
 
-          
-            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">Views: </span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
   
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
@@ -291,21 +301,23 @@
     </a>
   </span>
   
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>16k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>15 mins.</span>
-            </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>16k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>15 mins.</span>
+    </span>
+</div>
 
         </div>
       </header>
@@ -314,8 +326,6 @@
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
         <p><strong>SICP quick overview</strong></p>
 <h1 id="Building-Abstraction-with-Procedures"><a href="#Building-Abstraction-with-Procedures" class="headerlink" title="Building Abstraction with Procedures"></a>Building Abstraction with Procedures</h1><h2 id="The-Elements-of-Programming"><a href="#The-Elements-of-Programming" class="headerlink" title="The Elements of Programming"></a>The Elements of Programming</h2><p>Three machanisms of powerful language:</p>
 <ul>
@@ -390,7 +400,7 @@
 <p>Example of rational number data abstraction: </p>
 <figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">make-rat</span> n d) (<span class="name"><span class="builtin-name">cons</span></span> n d))</span><br><span class="line">(<span class="name">define</span> (<span class="name">numer</span> x) (<span class="name">car</span> x))</span><br><span class="line">(<span class="name">define</span> (<span class="name">denom</span> x) (<span class="name">cdr</span> x))</span><br><span class="line">(<span class="name">define</span> (<span class="name">print-tar</span> x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">newline</span></span>)</span><br><span class="line">  (<span class="name">display</span> (<span class="name">numer</span> x))</span><br><span class="line">  (<span class="name">display</span> <span class="string">&quot;/&quot;</span>)</span><br><span class="line">  (<span class="name">display</span> (<span class="name">denom</span> x)))</span><br></pre></td></tr></table></figure>
 <p>The horizontal lines represent <code>abstraction barrier</code>.</p>
-<p><img data-src="https://i.imgur.com/jBwpFte.png" alt=""></p>
+<p><img src="https://i.imgur.com/jBwpFte.png" alt=""></p>
 <h3 id="What-is-Meant-by-Data"><a href="#What-is-Meant-by-Data" class="headerlink" title="What is Meant by Data??"></a>What is Meant by Data??</h3><p>In general, we can think of data as defined by some collection of selectors and constructors, together with specified conditions that these procedures must fulfill in order to be a valid representation.</p>
 <h2 id="Hierarchical-Data-and-the-Closure-Property"><a href="#Hierarchical-Data-and-the-Closure-Property" class="headerlink" title="Hierarchical Data and the Closure Property"></a>Hierarchical Data and the Closure Property</h2><p>THe ability to create pairs whose elements are pairs is the essence of list structure’s importance as a representational tool. This is called <code>closure property</code>: an operation for combining data objects satisfies the closure property if the results of combining things with that operation can themselves be combined using the same operation.</p>
 <blockquote>
@@ -423,17 +433,17 @@
 <p>So in addition to the data-abstraction barriers that isolate representation from use, we need abstraction barriers that isolate different design choices from each other and permit different choices to coexist in a single program. </p>
 <p>In addition, we need to make the system more additive.</p>
 <p>To achieve above, we need a new tool <code>generic procedure</code>. Type tags and data-directed style enable this.</p>
-<h3 id="Example-Complex-number"><a href="#Example-Complex-number" class="headerlink" title="Example: Complex-number"></a>Example: Complex-number</h3><p><img data-src="https://i.imgur.com/08f8LQm.png" alt=""></p>
+<h3 id="Example-Complex-number"><a href="#Example-Complex-number" class="headerlink" title="Example: Complex-number"></a>Example: Complex-number</h3><p><img src="https://i.imgur.com/08f8LQm.png" alt=""></p>
 <p>But we soon realized that, using type tag make the system not additive!<br>And this kind of system is hard to maintain.</p>
 <p>NOT A GOOD DESIGN!</p>
 <p>Here is Table of operations for the complex-number system:</p>
-<p><img data-src="https://i.imgur.com/1UiVC6S.png" alt=""></p>
+<p><img src="https://i.imgur.com/1UiVC6S.png" alt=""></p>
 <p>Data-directed programming is the technique of designing programs to work with such a table directly. If we do this, then to add a new representation package to the system we need not change any existing procedures; we need only add new entries to the table.</p>
 <figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">apply-generic</span> op . args)</span><br><span class="line">(<span class="name"><span class="builtin-name">let</span></span> ((<span class="name">type-tags</span> (<span class="name"><span class="builtin-name">map</span></span> type-tag args)))</span><br><span class="line">(<span class="name"><span class="builtin-name">let</span></span> ((<span class="name">proc</span> (<span class="name"><span class="builtin-name">get</span></span> op type-tags))) (<span class="name"><span class="builtin-name">if</span></span> proc</span><br><span class="line">          (<span class="name"><span class="builtin-name">apply</span></span> proc (<span class="name"><span class="builtin-name">map</span></span> contents args))</span><br><span class="line">          (<span class="name">error</span> <span class="string">&quot;No method for these types: APPLY-GENERIC&quot;</span></span><br><span class="line">(<span class="name"><span class="builtin-name">list</span></span> op type-tags))))))</span><br><span class="line"><span class="comment">;; selectors with generics</span></span><br><span class="line">(<span class="name">define</span> (<span class="name">real-part</span> z) (<span class="name">apply-generic</span> &#x27;real-part z))</span><br><span class="line">(<span class="name">define</span> (<span class="name">imag-part</span> z) (<span class="name">apply-generic</span> &#x27;imag-part z)) </span><br><span class="line">(<span class="name">define</span> (<span class="name">magnitude</span> z) (<span class="name">apply-generic</span> &#x27;magnitude z)) </span><br><span class="line">(<span class="name">define</span> (<span class="name">angle</span> z)     (<span class="name">apply-generic</span> &#x27;angle z))</span><br></pre></td></tr></table></figure>
 
 <p>In effect, this decomposes the operation-and-type table into rows, with each generic operation procedure representing a row of the table.</p>
 <p>An alternative implementation strategy is to decompose the table into columns. This style is called <code>message passing</code>.</p>
-<h2 id="Systems-with-Generic-Operations"><a href="#Systems-with-Generic-Operations" class="headerlink" title="Systems with Generic Operations"></a>Systems with Generic Operations</h2><h3 id="Generic-Arithmetic-Operations"><a href="#Generic-Arithmetic-Operations" class="headerlink" title="Generic Arithmetic Operations"></a>Generic Arithmetic Operations</h3><p><img data-src="https://i.imgur.com/Yf6vQCg.png" alt=""></p>
+<h2 id="Systems-with-Generic-Operations"><a href="#Systems-with-Generic-Operations" class="headerlink" title="Systems with Generic Operations"></a>Systems with Generic Operations</h2><h3 id="Generic-Arithmetic-Operations"><a href="#Generic-Arithmetic-Operations" class="headerlink" title="Generic Arithmetic Operations"></a>Generic Arithmetic Operations</h3><p><img src="https://i.imgur.com/Yf6vQCg.png" alt=""></p>
 <p>The generic arithmetic procedures are defined as</p>
 <figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">add</span> x y) (<span class="name">apply-generic</span> &#x27;add x y))</span><br><span class="line">(<span class="name">define</span> (<span class="name">sub</span> x y) (<span class="name">apply-generic</span> &#x27;sub x y))</span><br><span class="line">(<span class="name">define</span> (<span class="name">mul</span> x y) (<span class="name">apply-generic</span> &#x27;mul x y))</span><br><span class="line">(<span class="name">define</span> (<span class="name">div</span> x y) (<span class="name">apply-generic</span> &#x27;div x y))</span><br><span class="line"></span><br><span class="line"><span class="comment">;;</span></span><br><span class="line">(<span class="name">define</span> (<span class="name">install-scheme-number-package</span>)</span><br><span class="line">  (<span class="name">define</span> (<span class="name">tag</span> x) (<span class="name">attach-tag</span> &#x27;scheme-number x)) </span><br><span class="line">  (<span class="name">put</span> &#x27;add &#x27;(<span class="name">scheme-number</span> scheme-number)</span><br><span class="line">       (<span class="name">lambda</span> (<span class="name">x</span> y) (<span class="name">tag</span> (<span class="name"><span class="builtin-name">+</span></span> x y))))</span><br><span class="line">  (<span class="name">put</span> &#x27;sub &#x27;(<span class="name">scheme-number</span> scheme-number)</span><br><span class="line">       (<span class="name">lambda</span> (<span class="name">x</span> y) (<span class="name">tag</span> (<span class="name"><span class="builtin-name">-</span></span> x y))))</span><br><span class="line">  (<span class="name">put</span> &#x27;mul &#x27;(<span class="name">scheme-number</span> scheme-number)</span><br><span class="line">       (<span class="name">lambda</span> (<span class="name">x</span> y) (<span class="name">tag</span> (<span class="name"><span class="builtin-name">*</span></span> x y))))</span><br><span class="line">  (<span class="name">put</span> &#x27;div &#x27;(<span class="name">scheme-number</span> scheme-number)</span><br><span class="line">       (<span class="name">lambda</span> (<span class="name">x</span> y) (<span class="name">tag</span> (/ x y))))</span><br><span class="line">  (<span class="name">put</span> &#x27;make &#x27;scheme-number (<span class="name">lambda</span> (<span class="name">x</span>) (<span class="name">tag</span> x))) &#x27;done)</span><br></pre></td></tr></table></figure>
 
@@ -531,212 +541,105 @@
       
 
 
-      <footer class="post-footer">
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/SICP/" rel="tag"># SICP</a>
           </div>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-9801985319378542"
-     data-ad-slot="2686695678"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+
         
   <div class="post-widgets">
-    <div class="wp_rating">
+    <div class="wpac-rating-container">
       <div id="wpac-rating"></div>
     </div>
   </div>
 
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/12/24/summary_2020/" rel="prev" title="2020总结">
-      <i class="fa fa-chevron-left"></i> 2020总结
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/01/04/%E9%9B%85%E5%90%84%E4%B9%A6/" rel="next" title="雅各书入门">
-      雅各书入门 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-  </div>
-
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/12/24/summary_2020/" rel="prev" title="2020总结">
+                  <i class="fa fa-chevron-left"></i> 2020总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/01/04/%E9%9B%85%E5%90%84%E4%B9%A6/" rel="next" title="雅各书入门">
+                  雅各书入门 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
           </div>
-          
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
     
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
   </div>
   
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Building-Abstraction-with-Procedures"><span class="nav-number">1.</span> <span class="nav-text">Building Abstraction with Procedures</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Elements-of-Programming"><span class="nav-number">1.1.</span> <span class="nav-text">The Elements of Programming</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluating-Combinations"><span class="nav-number">1.1.1.</span> <span class="nav-text">Evaluating Combinations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compound-Procedures"><span class="nav-number">1.1.2.</span> <span class="nav-text">Compound Procedures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Substitution-Model-for-Procedure-Application"><span class="nav-number">1.1.3.</span> <span class="nav-text">Substitution Model for Procedure Application</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conditional-Expressions"><span class="nav-number">1.1.4.</span> <span class="nav-text">Conditional Expressions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Procedures-and-the-Processes-generated"><span class="nav-number">1.2.</span> <span class="nav-text">Procedures and the Processes generated</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linear-Recursion-and-Iteration"><span class="nav-number">1.2.1.</span> <span class="nav-text">Linear Recursion and Iteration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tree-Recursion"><span class="nav-number">1.2.2.</span> <span class="nav-text">Tree Recursion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Order-of-Growth"><span class="nav-number">1.2.3.</span> <span class="nav-text">Order of Growth</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exponentiation"><span class="nav-number">1.2.4.</span> <span class="nav-text">Exponentiation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Formulating-Abstractions-with-Higher-order-Functions"><span class="nav-number">1.3.</span> <span class="nav-text">Formulating Abstractions with Higher-order Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Procedures-as-Arguments"><span class="nav-number">1.3.1.</span> <span class="nav-text">Procedures as Arguments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Procedures-as-General-Methods"><span class="nav-number">1.3.2.</span> <span class="nav-text">Procedures as General Methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Procedures-as-Return-Values"><span class="nav-number">1.3.3.</span> <span class="nav-text">Procedures as Return Values</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Building-Abstractions-with-Data"><span class="nav-number">2.</span> <span class="nav-text">Building Abstractions with Data</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction-of-Data-Abstraction"><span class="nav-number">2.1.</span> <span class="nav-text">Introduction of Data Abstraction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#What-is-Meant-by-Data"><span class="nav-number">2.1.1.</span> <span class="nav-text">What is Meant by Data??</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hierarchical-Data-and-the-Closure-Property"><span class="nav-number">2.2.</span> <span class="nav-text">Hierarchical Data and the Closure Property</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sequences"><span class="nav-number">2.2.1.</span> <span class="nav-text">Sequences</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hierarchical-Structures"><span class="nav-number">2.2.2.</span> <span class="nav-text">Hierarchical Structures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sequences-as-Conventional-Interfaces"><span class="nav-number">2.2.3.</span> <span class="nav-text">Sequences as Conventional Interfaces</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-the-Picture-Language"><span class="nav-number">2.2.4.</span> <span class="nav-text">Example: the Picture Language</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Symbolic-Data"><span class="nav-number">2.3.</span> <span class="nav-text">Symbolic Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Symbolic-Differentiation"><span class="nav-number">2.3.1.</span> <span class="nav-text">Example: Symbolic Differentiation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multiple-Representations-for-Abstract-Data"><span class="nav-number">2.4.</span> <span class="nav-text">Multiple Representations for Abstract Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Complex-number"><span class="nav-number">2.4.1.</span> <span class="nav-text">Example: Complex-number</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Systems-with-Generic-Operations"><span class="nav-number">2.5.</span> <span class="nav-text">Systems with Generic Operations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Generic-Arithmetic-Operations"><span class="nav-number">2.5.1.</span> <span class="nav-text">Generic Arithmetic Operations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combining-Data-of-Different-Types"><span class="nav-number">2.5.2.</span> <span class="nav-text">Combining Data of Different Types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Symbolic-Algebra"><span class="nav-number">2.5.3.</span> <span class="nav-text">Example: Symbolic Algebra</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Modularity-Objects-and-State"><span class="nav-number">3.</span> <span class="nav-text">Modularity, Objects, and State</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Assignment-and-Local-State"><span class="nav-number">3.1.</span> <span class="nav-text">Assignment and Local State</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Environment-Model-of-Evaluation"><span class="nav-number">3.2.</span> <span class="nav-text">Environment Model of Evaluation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Modeling-with-Mutable-Data"><span class="nav-number">3.3.</span> <span class="nav-text">Modeling with Mutable Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Digital-Circuits"><span class="nav-number">3.3.1.</span> <span class="nav-text">Example: Digital Circuits</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Concurrency"><span class="nav-number">3.4.</span> <span class="nav-text">Concurrency</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mechanisms-for-Controlling-Concurrency"><span class="nav-number">3.4.1.</span> <span class="nav-text">Mechanisms for Controlling Concurrency</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stream"><span class="nav-number">3.5.</span> <span class="nav-text">Stream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Streams-Are-Delayed-Lists"><span class="nav-number">3.5.1.</span> <span class="nav-text">Streams Are Delayed Lists</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Metalinguistic-Abstraction"><span class="nav-number">4.</span> <span class="nav-text">Metalinguistic Abstraction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Metacircular-Evaluator"><span class="nav-number">4.1.</span> <span class="nav-text">The Metacircular Evaluator</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#The-core-of-evaluator"><span class="nav-number">4.1.1.</span> <span class="nav-text">The core of evaluator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Variations-on-a-Scheme-%E2%80%94-Lazy-Evaluation"><span class="nav-number">4.1.2.</span> <span class="nav-text">Variations on a Scheme — Lazy Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Normal-Order-and-Applicative-Order"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">Normal Order and Applicative Order</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Computing-with-Register-Machines"><span class="nav-number">5.</span> <span class="nav-text">Computing with Register Machines</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="FunCoder"
-      src="/images/funcoder.jpg">
-  <p class="site-author-name" itemprop="name">FunCoder</p>
-  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
 </div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">129</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-        <span class="site-state-item-count">15</span>
-        <span class="site-state-item-name">categories</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-        <span class="site-state-item-count">92</span>
-        <span class="site-state-item-name">tags</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
-      </span>
-  </div>
+  </main>
 
+  <footer class="footer">
+    <div class="footer-inner">
 
-      </div>
-        <div class="back-to-top motion-element">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
 
 <div class="copyright">
-  
-  &copy; 2020 – 
+  &copy; 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">FunCoder</span>
-    <span class="post-meta-divider">|</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
     <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
+      <i class="fa fa-chart-line"></i>
     </span>
-      <span class="post-meta-item-text">Symbols count total: </span>
     <span title="Symbols count total">368k</span>
-    <span class="post-meta-divider">|</span>
+  </span>
+  <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-      <span class="post-meta-item-text">Reading time total &asymp;</span>
     <span title="Reading time total">5:34</span>
+  </span>
 </div>
-
-<span id="timeDate">Loding time...</span><span id="times">...</span>
-<script>
-    var now = new Date(); 
-    function createtime() { 
-        var grt= new Date("01/01/2020 00:00:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
-        now.setTime(now.getTime()+250); 
-        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
-        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
-        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
-        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
-        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
-        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
-        document.getElementById("timeDate").innerHTML = "Running for "+dnum+" Days "; 
-        document.getElementById("times").innerHTML = hnum + " Hour " + mnum + " Min " + snum + " Secs"; 
-    } 
-setInterval("createtime()",250);
-</script>
-
-        
 <div class="busuanzi-count">
-  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
       <span class="post-meta-item-icon">
         <i class="fa fa-user"></i>
       </span>
@@ -744,8 +647,7 @@ setInterval("createtime()",250);
         <span id="busuanzi_value_site_uv"></span>
       </span>
     </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
       <span class="post-meta-item-icon">
         <i class="fa fa-eye"></i>
       </span>
@@ -754,177 +656,43 @@ setInterval("createtime()",250);
       </span>
     </span>
 </div>
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
 
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
-  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-  <script>
-var pjax = new Pjax({
-  selectors: [
-    'head title',
-    '#page-configurations',
-    '.content-wrap',
-    '.post-toc-wrap',
-    '.languages',
-    '#pjax'
-  ],
-  switches: {
-    '.post-toc-wrap': Pjax.switches.innerHTML
-  },
-  analytics: false,
-  cacheBust: false,
-  scrollTo : !CONFIG.bookmark.enable
-});
-
-window.addEventListener('pjax:success', () => {
-  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
-    var code = element.text || element.textContent || element.innerHTML || '';
-    var parent = element.parentNode;
-    parent.removeChild(element);
-    var script = document.createElement('script');
-    if (element.id) {
-      script.id = element.id;
-    }
-    if (element.className) {
-      script.className = element.className;
-    }
-    if (element.type) {
-      script.type = element.type;
-    }
-    if (element.src) {
-      script.src = element.src;
-      // Force synchronous loading of peripheral JS.
-      script.async = false;
-    }
-    if (element.getAttribute('pjax') !== null) {
-      script.setAttribute('pjax', '');
-    }
-    if (code !== '') {
-      script.appendChild(document.createTextNode(code));
-    }
-    parent.appendChild(script);
-  });
-  NexT.boot.refresh();
-  // Define Motion Sequence & Bootstrap Motion.
-  if (CONFIG.motion.enable) {
-    NexT.motion.integrator
-      .init()
-      .add(NexT.motion.middleWares.subMenu)
-      .add(NexT.motion.middleWares.postList)
-      .bootstrap();
-  }
-  NexT.utils.updateSidebarPosition();
-});
-</script>
-
-
-
-
-  
-
-
-
-  <script pjax>
-  if (CONFIG.page.isPost) {
-    wpac_init = window.wpac_init || [];
-    wpac_init.push({
-      widget: 'Rating',
-      id    : 30061,
-      el    : 'wpac-rating',
-      color : 'fc6423'
-    });
-    (function() {
-      if ('WIDGETPACK_LOADED' in window) return;
-      WIDGETPACK_LOADED = true;
-      var mc = document.createElement('script');
-      mc.type = 'text/javascript';
-      mc.async = true;
-      mc.src = '//embed.widgetpack.com/widget.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
-    })();
-  }
-  </script>
-
-  
-<script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div id="pjax">
-  
-
-  
-
-  
-
-<script>
-  function loadCount() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://wangzhe.disqus.com/count.js';
-    s.id = 'dsq-count-scr';
-    (d.head || d.body).appendChild(s);
-  }
-  // defer loading until the whole page loading is completed
-  window.addEventListener('load', loadCount, false);
-</script>
-<script>
-  var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2020/12/25/sicp_overview/";
-    this.page.identifier = "2020/12/25/sicp_overview/";
-    this.page.title = "SICP";
-    };
-  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
-      });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://wangzhe.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
-  });
-</script>
-
     </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
 </body>
 </html>

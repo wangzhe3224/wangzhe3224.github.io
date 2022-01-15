@@ -99,7 +99,7 @@
     <url>/2022/01/01/crypto_observation/</url>
     <content><![CDATA[<h2 id="一些观察"><a href="#一些观察" class="headerlink" title="一些观察"></a>一些观察</h2><h3 id="金融属性"><a href="#金融属性" class="headerlink" title="金融属性"></a>金融属性</h3><p>2021年区块链又火了一波，整个区块链总市值达到2万亿美金，整个币圈都在为NFT疯狂，比特币一度达到6万美金。上一次这种盛况还是在2017年，那时候比特币的达到2万美金，整个币圈在位空气币ICO疯狂。</p>
 <p>这波币圈牛市主要是专业风投支撑的。请看下图，Solana 50%代币SOL被insider持有；Polkadot超过70%的代币被创造者和insider持有；Binance公链，超过50%；以太坊稍好，20%。比特币出初始代币发行没有机构接入，只是创始人自己挖矿，他有用多个账号，但是这些账号几乎没有太多动静，中本聪也销声匿迹了<a href="https://whale-alert.io/transaction/bitcoin/a922ec6d34e1a36cc935c7e9b37b5d8be826e11fb299a25d83285cc8b484e965">^4</a>。</p>
-<p><img data-src="https://i.imgur.com/5YscdOk.png" alt=""></p>
+<p><img src="https://i.imgur.com/5YscdOk.png" alt=""></p>
 <h3 id="共识算法、黑客和硬分叉"><a href="#共识算法、黑客和硬分叉" class="headerlink" title="共识算法、黑客和硬分叉"></a>共识算法、黑客和硬分叉</h3><p>2021年，第二大公链以太坊ETH准备做一次硬分叉，因为要更换共识算法，提高网络处理交易的容量，从 Proof of work，POW 到 Proof of stake，POS。当然，这不是ETH第一次硬分叉了，比2016年，以太坊漏洞被黑客利用，公链必须硬分叉修复Bug，老的ETH变成了ETH Classic。</p>
 <p>在ETH完成POS更新后，几乎所有的智能合约平台都将采用POS系的共识算法。包括新秀智能合约平台Solana和Polkadot。</p>
 <p>智能合约公链并不稳定，ETH屡次被黑客攻击，导致分叉<a href="https://medium.com/mycrypto/the-history-of-ethereum-hard-forks-6a6dae76d56f">^2</a>；新秀平台Solana，成块时间只有400ms（比特币大概10分钟），但是启动一年多的时间，网络瘫痪两次，其中一次主网掉线超过17小时<a href="https://solana.com/news/9-14-network-outage-initial-overview">^1</a>。比特币从2009年主网上线以来遭受多次攻击，但是没有导致主网掉线或者硬分叉<a href="https://en.wikipedia.org/wiki/List_of_bitcoin_forks">^3</a>。</p>
@@ -127,7 +127,7 @@
 <p>因为，区块链在这么拓展，性能也不会超过中心化数据中心，因为哪里没有恶意节点，效率才会最大化。现在新兴公链都在迁移POS，其实就是在渐渐放弃去中心化换取可拓展，这绝对是得不偿失，毫无意义。</p>
 <h2 id="怎么办"><a href="#怎么办" class="headerlink" title="怎么办"></a>怎么办</h2><p>如果你想投资币圈，很简单，买上比特币，存入自己的私钥地址，不要放在交易所里。然后，时间就会证明他的价值。</p>
 <p>如果你想择时，那么比特币四年一个循环，增加难度。</p>
-<p><img data-src="https://i.imgur.com/s89SJX5.png" alt=""></p>
+<p><img src="https://i.imgur.com/s89SJX5.png" alt=""></p>
 ]]></content>
       <categories>
         <category>Investing</category>
@@ -188,23 +188,23 @@
 <p>这一篇，泛泛给大家聊聊如何利用GitHub获取资源和入门GitHub，以后会给大家具体讲讲上面提到的一些功能，比如如何实现博客、图床、写书、代码阅读等等。</p>
 <h2 id="GitHub·如何检索资源？"><a href="#GitHub·如何检索资源？" class="headerlink" title="GitHub·如何检索资源？"></a>GitHub·如何检索资源？</h2><p>GitHub获取资源主要靠搜索和索引仓库。</p>
 <h3 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h3><p>首先注册一个GitHub账号，只需要一个邮箱，就可以开启GitHub之旅了。访问 <a href="https://github.com/">https://github.com/</a> 会看到这样一个页面：</p>
-<p><img data-src="https://i.imgur.com/1eTu38j.png" alt=""></p>
+<p><img src="https://i.imgur.com/1eTu38j.png" alt=""></p>
 <p>具体的功能已经放在图例说明啦。需要注意的是，输入关键词后，会出现提示，注意观察：<code>All GitHub</code> 意味着从整个Github进行搜索，有时候可能会出现其他选项，比如 <code>搜索当前仓库</code>等等。</p>
-<p><img data-src="https://i.imgur.com/qKfnD2W.png" alt=""></p>
+<p><img src="https://i.imgur.com/qKfnD2W.png" alt=""></p>
 <p>一般我们会得到如下结果，我们可以利用GitHub的选项进一步对结果进行筛选和排序，得到我们想要的结果。</p>
-<p><img data-src="https://i.imgur.com/ZRljtqv.png" alt=""></p>
+<p><img src="https://i.imgur.com/ZRljtqv.png" alt=""></p>
 <h3 id="索引仓库"><a href="#索引仓库" class="headerlink" title="索引仓库"></a>索引仓库</h3><p>GitHub的搜索功能比较强大，但是肯定没有“人工”智能更加智能，因此我们需要找到相关主题的索引仓库。这些仓库一般是其他开发人员花时间精心整理的，一般汇集了更加实用和相关的仓库和文章。比如这个仓库（哈哈）包含了泛泛整理的量化交易相关的代码仓库和教程仓库：</p>
 <p>![](<a href="https://i.imgur.com/6TCdJN9.png">https://i.imgur.com/6TCdJN9.png</a> =x300) </p>
 <p>另外，推荐一个索引仓库 <a href="https://github.com/EvanLi/Github-Ranking">GitHub Ranking</a>，这里你可以查看GitHub上 Star最多、Fork最多、还有按照语言排序的仓库榜单等等。</p>
-<p><img data-src="https://i.imgur.com/DY9f0kN.png" alt="GitHub Ranking"></p>
+<p><img src="https://i.imgur.com/DY9f0kN.png" alt="GitHub Ranking"></p>
 <p>上面可以找到非常实用的资源，比如 <a href="https://github.com/freeCodeCamp/freeCodeCamp">freeCodeCamp.org</a>，该项目有33万star，里面包含很多入门计算机、编程的教程，还可以在 Issue 区讨论和寻求帮助。</p>
 <p>![freeCodeCamp.org](<a href="https://i.imgur.com/1rrd9eo.png">https://i.imgur.com/1rrd9eo.png</a> =x400)</p>
 <p>当然，闲来无事，可以当抖音刷刷，经常会发现宝藏。比如这货 <a href="https://github.com/996icu/996.ICU/blob/master/README_CN.md">996.ICU</a>- 这仓库有26万star，是用来吐槽和黑名单那些黑心996企业的。</p>
 <p>![996.ICU](<a href="https://i.imgur.com/P6fAPq3.png">https://i.imgur.com/P6fAPq3.png</a> =250x)<br>![](<a href="https://i.imgur.com/nY3tgFV.png">https://i.imgur.com/nY3tgFV.png</a> =400x)</p>
 <h3 id="通过follow专家用户"><a href="#通过follow专家用户" class="headerlink" title="通过follow专家用户"></a>通过follow专家用户</h3><p>比如，你发现了一个仓库很好，然后你就可以看看他的作者，如果他是一个活跃的贡献者，你就可以follow他，接到他的动态。比如数据科学家： Nicolas P. Rougier，他持续的输出各种高质量的数据科学教程：</p>
-<p><img data-src="https://i.imgur.com/IXHiEcc.png" alt=""></p>
+<p><img src="https://i.imgur.com/IXHiEcc.png" alt=""></p>
 <h2 id="GitHub·如何参与开源和社交"><a href="#GitHub·如何参与开源和社交" class="headerlink" title="GitHub·如何参与开源和社交"></a>GitHub·如何参与开源和社交</h2><p>GitHub是一个合作软件开发平台，一旦你找到了你感兴趣的项目，就可以通过GitHub提供的各种功能参与其中。我给大家举个例子，比如下面这个<a href="https://github.com/pola-rs/polars">Polars</a>。</p>
-<p><img data-src="https://i.imgur.com/p2jLzbV.png" alt=""></p>
+<p><img src="https://i.imgur.com/p2jLzbV.png" alt=""></p>
 <p>Issues通常会被标记不同的tag，比如<code>Bug</code>,<code>Feature</code>,<code>Help Wanted</code>等等。通常想要开始贡献开源项目通常有如下几个情况：</p>
 <ul>
 <li>在使用过程中自己发现Bug，这时就可以自己提交Issue说明</li>
@@ -250,15 +250,15 @@
 </ul>
 <h3 id="Covid-19"><a href="#Covid-19" class="headerlink" title="Covid-19"></a>Covid-19</h3><p>一个代号19年的病毒，影响了整个2020年，也影响了整个2021年，想想有点后怕呢。也许，他还会继续影响2022年。</p>
 <p>Covid-19在2021年经历了Delta，Omicron两个变种，从发病至今，世界范围内累积感染2亿人口，死亡4百万人。</p>
-<p><img data-src="https://i.imgur.com/7XOBxYP.png" alt="COVID-19"></p>
+<p><img src="https://i.imgur.com/7XOBxYP.png" alt="COVID-19"></p>
 <h3 id="证券市场"><a href="#证券市场" class="headerlink" title="证券市场"></a>证券市场</h3><p>虽然，Covid-19还在，但是今年却没有发生2020那样的股票市场“闪崩”，相反的标普竟然是大涨27%。</p>
-<p><img data-src="https://i.imgur.com/dWpAetD.png" alt="SP500指数"></p>
+<p><img src="https://i.imgur.com/dWpAetD.png" alt="SP500指数"></p>
 <p>当然，这里不仅跟市场对Covid的态度有关系，也跟美联储的大放水分不开。看下图，从2020闪崩开始，美国10年国债利息一度降到近50年最低点：0.33%。随后，在2021年缓慢增加，可以预知，美联储在2022年仍然会继续加息。</p>
-<p><img data-src="https://i.imgur.com/Gfrpc9b.png" alt="10年国债利率"></p>
+<p><img src="https://i.imgur.com/Gfrpc9b.png" alt="10年国债利率"></p>
 <p>我通常用下面的这几个图来观察市场状态：标普、20年国债、黄金、日元、VIX。从目前的状态看，市场仍然比较兴奋，但是TLT的价格增加也意味着来年的大牛市应该不会出现了，不过经典的避险资产黄金和日元持续走低，证明资本还是Risk on的，VIM指标也比较正常。</p>
-<p><img data-src="https://i.imgur.com/h8vDtXL.png" alt="我的市场晴雨表"></p>
+<p><img src="https://i.imgur.com/h8vDtXL.png" alt="我的市场晴雨表"></p>
 <h3 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h3><h4 id="金融属性"><a href="#金融属性" class="headerlink" title="金融属性"></a>金融属性</h4><p>Crypto已经成了一个不能忽略的“正经”金融产品了，这一年标普也启动了一系列Crypto指数，下图是Large cap Crypto指数，可以看到2021年，该指数获得了411%的收益，远远超过了股票市场。当然，其波动率也是非常可观，可以说是投机的绝佳·标的物。</p>
-<p><img data-src="https://i.imgur.com/2BSUMGJ.png" alt="S&amp;P Cryptocurrency BDM Ex-LargeCap Index"></p>
+<p><img src="https://i.imgur.com/2BSUMGJ.png" alt="S&amp;P Cryptocurrency BDM Ex-LargeCap Index"></p>
 <p>关于Crypto在投资组合中的作用，可以参考：<a href="https://wangzhe3224.github.io/2021/12/01/portfolio_with_crypto/">为什么你的投资组合需要Crypto？
 </a></p>
 <p>事实上，自从比特币期货在CBOE发行后，数字货币已经被主流金融机构接受了，2021年，第一个比特币ETF也发行了，标志着数字货币渐渐被被动投资人接受，从投机产品，逐渐过度到稳定的金融产品。</p>
@@ -269,7 +269,7 @@
 <p>现在的价值交换是通过什么呢？货币和银行。货币和银行是谁掌握的？国家和政府。国家和政府是谁掌握的？资本家。</p>
 <p>区块链提供的价值交换是通过什么？Crypto和分布式账本。看起来很美好对吗？真正的民主胜利（去了解一下DAO）？其实不然，资本家不会放弃自己的对货币控制，国家如果没有对货币的控制，就好像壮汉断了一臂（另一只手臂是军队）。</p>
 <p>那么，区块链就没未来了吗？也不是，因为区块链确实实现了去中心化，但是对应的代币（token）并没有。资本家可以控制代币，特别是当目前区块链技术由proof of work 像 proof of stake 过度后，掌握大量的代币就相当于控制了该代币的网络。</p>
-<p><img data-src="https://i.imgur.com/SKCNKsI.png" alt=""></p>
+<p><img src="https://i.imgur.com/SKCNKsI.png" alt=""></p>
 <p>看一下这张图就知道，绝大部分网络的代币由投资人（即资本家）控制。特别是新兴的“第三代”区块链技术，比如Solana、Binance Chain，Polkadot。而这些区块链无疑都是POS，即只要你手握大量代币，你就是大概率成为Validator。而且，成为这些公链的验证节点，你需要购买强大的计算中心，普通的个人电脑是不能挖矿的，或者挖矿效率低下。</p>
 <p>一个事实是：比特币。它是一个例外，第一个数字货币，至今仍然是POW，这就意味着控制比特币网络非常的困难。而且，比特币 没有 机构投资人参与，是一个完全的大众链。最后，比特币节点的门槛极低，个人电脑即可。</p>
 <p>所以，Crypo肯定会在以后的很长一段时间存在，但是就其社会意义而言，只有比特币是独特的，而且他公链总归是资本家的工具。我个人看好整个区块链产业，因为其一，比特币提供了一种独特的价值交换方式，其二，资本家已经控制了大部分公链，不会很快放弃他们的。</p>
@@ -420,7 +420,7 @@
 </li>
 <li>其他相关的不同类型资产</li>
 </ul>
-<h3 id="统计学习"><a href="#统计学习" class="headerlink" title="统计学习"></a>统计学习</h3><h2 id="组合预测（Combine-Alpha）"><a href="#组合预测（Combine-Alpha）" class="headerlink" title="组合预测（Combine Alpha）"></a>组合预测（Combine Alpha）</h2><h3 id="相关性和分散"><a href="#相关性和分散" class="headerlink" title="相关性和分散"></a>相关性和分散</h3><p><img data-src="https://i.imgur.com/vhdJKHw.png" alt="分散度提升的极限"></p>
+<h3 id="统计学习"><a href="#统计学习" class="headerlink" title="统计学习"></a>统计学习</h3><h2 id="组合预测（Combine-Alpha）"><a href="#组合预测（Combine-Alpha）" class="headerlink" title="组合预测（Combine Alpha）"></a>组合预测（Combine Alpha）</h2><h3 id="相关性和分散"><a href="#相关性和分散" class="headerlink" title="相关性和分散"></a>相关性和分散</h3><p><img src="https://i.imgur.com/vhdJKHw.png" alt="分散度提升的极限"></p>
 <h3 id="维度缩减"><a href="#维度缩减" class="headerlink" title="维度缩减"></a>维度缩减</h3><h3 id="Alpha-池管理"><a href="#Alpha-池管理" class="headerlink" title="Alpha 池管理"></a>Alpha 池管理</h3><blockquote>
 <p>维护一个分散化的Alpha池，运行一个有效的组合算法，以及一个考虑花费的投资组合优化算法，这三者可能是最有效的量化模型了。<br>但是我们很难知道一个组合算法是否是最好的，有时候组合alpha的开销，可能达到了挖掘一个alpha开销的30%。</p>
 </blockquote>
@@ -483,7 +483,7 @@
 <ol>
 <li><a href="https://www.tiobe.com/tiobe-index/">TIOBE Index</a></li>
 </ol>
-<p><img data-src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211212111029.png" alt="TIOBE Index"></p>
+<p><img src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211212111029.png" alt="TIOBE Index"></p>
 <p>上图列出了排名前五的语言的趋势图，C++，Java 都在走下坡路，Js在震动，Python显著增长。金融领域有个名词叫：趋势交易。就是假设过去看涨的股票，未来还会继续增长；反之亦然。</p>
 <p>显然，单看趋势应该选择<code>Python</code>。那如果我已经是一个 Python程序员了，应该如何选择？继续看。</p>
 <ol start="2">
@@ -491,8 +491,8 @@
 </ol>
 <p>Stack Overflow 是程序员的问答社区，每年它会做一个开发人员调研，会调研开发人员对不同技术、框架、语言的喜好程度以及他们的流行程度。</p>
 <p>比如下面是程序员最爱的语言排行榜：</p>
-<p><img data-src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211212114545.png" alt="Most loved languages"></p>
-<p><img data-src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211212114950.png" alt="Most wanted languages"></p>
+<p><img src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211212114545.png" alt="Most loved languages"></p>
+<p><img src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211212114950.png" alt="Most wanted languages"></p>
 <p>你看，你可能看到了一些“陌生”的名字：<code>Rust</code>, <code>Clojure</code>, <code>F#</code> 等等。而且Stack Overflow 还会告诉你：<code>Rust</code>已经连续6年是最爱的语言了（小知识 Rust 1.0 版本是2015年发行的）。而 <code>Python</code> 是程序员最想要学的语言，且连续5年都是如此。</p>
 <p>这个调研中 <code>Rust</code> 和 <code>Python</code> 无疑是胜利者。</p>
 <p>TIOBE Index排行中的前10名，<code>Java</code>, <code>C++</code>, <code>Js</code>，就好比蓝筹股，选择学习会不有太大问题，但是未来收益不一定可观；而<code>Rust</code>和<code>Go</code>这样的受欢迎语言就像小盘股，目前仍然相对小众，但是未来趋势良好，收益可观。</p>
@@ -672,7 +672,7 @@
 <li><a href="#写给选择下一门语言的人">写给选择下一门语言的人</a></li>
 </ul>
 <p>为什么重要？因为现在市面上的计算机语言太多了！看一下计算机语言指数，大家喜闻乐见的语言都不下10种了，且不说一些比较小众的语言。不花时间，我们很难弄清楚这些语言之间的区别，或者弄清楚那个语言更是我们的需求。这篇小文就尝试给大家一个选择语言的方向。</p>
-<p><img data-src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211207153533.png" alt="计算机语言指数"></p>
+<p><img src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211207153533.png" alt="计算机语言指数"></p>
 <p>当然，也有很多时候，你并没有什么选择，你只能用你公司或者课程指定你用的语言 ：）</p>
 <h2 id="选择语言"><a href="#选择语言" class="headerlink" title="选择语言"></a>选择语言</h2><p>当我们有一堆东西要选择的时间，最明智的做法是首先归类。谈到语言的归类，最先映入脑海的就是所谓”编程范式“。比如，我们经常听到：面向过程、面向对象、或者函数式等等。但是，一会儿我们就会发现，现代语言多数都是多范式的，不同范式之间的界限也没有那么明确。相反，现代计算机语言可能在抽象、生态上更加能够区分彼此，而不是范式。</p>
 <p>在我们开始选择语言之前，还有一点我觉得值得说明，即<strong>所有的语言几乎都是等价的，他们可以做的事情是相同的</strong>，比如打印、计算、IO等等。他们不同的地方在于你可以如何做这些事情。比如有一些语言更加适合做数值计算，有一些语言更加适合做高并发网站后台，而另一些语言则适合做网页或者移动端应用。</p>
@@ -894,19 +894,19 @@
 <h2 id="量化分析"><a href="#量化分析" class="headerlink" title="量化分析"></a>量化分析</h2><p>先给我们的讨论定个调调。假设我们的benchmark是一个按月再平衡的投资组合: SPY + TLT + GLD。就是一个股票、债券、黄金的组合。每月按照波动率取逆确定权重，即波动率调整。具体可以看我之前的文章(<a href="https://zhuanlan.zhihu.com/p/249909117">https://zhuanlan.zhihu.com/p/249909117</a>)。</p>
 <p><strong>总而言之，无他：低相关 + 正期望 = 成功的投资组合</strong></p>
 <p>可以看到，我们的基准是 sharpe 1 年化 8% 的策略，这个策略只有三个ETF，每个月rebalance一次。</p>
-<p><img data-src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211130224840.png" alt="SPY + TLT + GLD"></p>
+<p><img src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211130224840.png" alt="SPY + TLT + GLD"></p>
 <p>以下是一些投资组合的统计指标：</p>
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Stats for classic from 2014-09-15 00:00:00 - 2021-11-29 00:00:00</span><br><span class="line">Annual risk-free rate considered: 0.00%</span><br><span class="line">Summary:</span><br><span class="line">Total Return      Sharpe  CAGR    Max Drawdown</span><br><span class="line">--------------  --------  ------  --------------</span><br><span class="line">82.83%              1.06  8.73%   -13.77%</span><br><span class="line"></span><br><span class="line">Annualized Returns:</span><br><span class="line">mtd    3m     6m     ytd    1y     3y      5y      10y    incep.</span><br><span class="line">-----  -----  -----  -----  -----  ------  ------  -----  --------</span><br><span class="line">0.85%  0.72%  4.66%  4.63%  6.85%  15.27%  10.93%  -      8.73%</span><br><span class="line"></span><br><span class="line">Drawdowns:</span><br><span class="line">max      avg       # days</span><br><span class="line">-------  ------  --------</span><br><span class="line">-13.77%  -1.28%     27.75</span><br></pre></td></tr></table></figure>
 
 <p>接下来，我们加入BTC，其他不变。可以发现，加入BTC可以轻松将sharpe 提高到1.7！如果我们继续加入ETH，sharpe将超过2.0。</p>
-<p><img data-src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211130225507.png" alt="加入Crypto的投资组合对比"></p>
+<p><img src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211130225507.png" alt="加入Crypto的投资组合对比"></p>
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Stat                 spy,tlt,btc-usd    spy,tlt,btc-usd,gld    spy,tlt,gld    spy,tlt,btc,eth</span><br><span class="line">-------------------  -----------------  ---------------------  -------------  -----------------</span><br><span class="line">Start                2015-08-06         2015-08-06             2015-08-06     2015-08-06</span><br><span class="line">End                  2021-11-26         2021-11-26             2021-11-26     2021-11-26</span><br><span class="line">Risk-free rate       0.00%              0.00%                  0.00%          0.00%</span><br><span class="line"></span><br><span class="line">Total Return         237.23%            172.09%                78.72%         542.72%</span><br><span class="line">Daily Sharpe         1.79               1.70                   1.15           2.12</span><br><span class="line">Daily Sortino        2.79               2.72                   1.84           3.47</span><br><span class="line">CAGR                 21.25%             17.20%                 9.64%          34.31%</span><br><span class="line">Max Drawdown         -19.85%            -16.34%                -13.77%        -23.92%</span><br><span class="line">Calmar Ratio         1.07               1.05                   0.70           1.43</span><br><span class="line"></span><br><span class="line">MTD                  -0.37%             -0.02%                 0.70%          -0.85%</span><br><span class="line">3m                   3.66%              2.47%                  1.60%          5.10%</span><br><span class="line">6m                   11.75%             5.99%                  4.54%          13.43%</span><br><span class="line">YTD                  15.77%             8.83%                  4.47%          29.00%</span><br><span class="line">1Y                   24.29%             15.99%                 6.98%          40.47%</span><br><span class="line">3Y (ann.)            28.42%             23.85%                 15.46%         41.19%</span><br><span class="line">5Y (ann.)            22.68%             18.13%                 10.93%         33.77%</span><br><span class="line">10Y (ann.)           -                  -                      -              -</span><br><span class="line">Since Incep. (ann.)  21.25%             17.20%                 9.64%          34.31%</span><br></pre></td></tr></table></figure>
 
 <p>我们得承认Crypto再过去的今年确实是牛市。但是通过相关性可以发现，Crypto与股票市场和债券市场相关性较低。这也是为什么加入Crypto可以轻松提高收益风险回报率。</p>
-<p><img data-src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211130225620.png" alt="各个策略的相关性"></p>
+<p><img src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211130225620.png" alt="各个策略的相关性"></p>
 <p>从相关性可以看出，加入crypto的投资组合回报率与我们的基准投资组合的相关性只有0.56，这是我们希望看到的，这也是sharpe提高的因素之一。</p>
 <p>如果我们观察这些标底资产的相关性：</p>
-<p><img data-src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211130225843.png" alt="20211130225843"></p>
+<p><img src="https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20211130225843.png" alt="20211130225843"></p>
 <p>可以crypto和其他资产比如股票、债券、黄金的相关性都非常低，而它具有正期望（背后的原因下一节讲），这是加入投资组合最好的特性，而 2.0 的 sharpe ratio 也证明了这个事实。</p>
 <h2 id="基本面分析"><a href="#基本面分析" class="headerlink" title="基本面分析"></a>基本面分析</h2><p>我们再来看看Crypto的基本面。我们得承认Crypto市场目前有泡沫，但是时至今日没有人可以忽略Crypto这个市场了，或者还在叫嚷这Crypto是骗局。</p>
 <p>今天我们从一下几个点看看Crypto的“基本面”，其实也不算基本面，就是一些帮助我看Crypto这个市场的指标。这行指标可以帮助我们明确Crypto（垃圾币、烂项目另说）是一个实际存在生态，特别Defi和Web3，有很多人正在为这个产业实际付出。正式这些因素佐证了Crypto的未来的正期望。</p>
@@ -1041,7 +1041,7 @@
 <h3 id="分解任务"><a href="#分解任务" class="headerlink" title="分解任务"></a>分解任务</h3><blockquote>
 <p>造成拖延的首要原因之一，同时也是造成生产力低下的祸根，就是总是在感慨一个问题:好忙啊，问题好大啊。实际上，你并没有真正试着去解决问题。</p>
 </blockquote>
-<h3 id="任何行动都比不行动好（真的吗？）"><a href="#任何行动都比不行动好（真的吗？）" class="headerlink" title="任何行动都比不行动好（真的吗？）"></a>任何行动都比不行动好（真的吗？）</h3><p><img data-src="https://i.imgur.com/irSQI2y.png" alt=""></p>
+<h3 id="任何行动都比不行动好（真的吗？）"><a href="#任何行动都比不行动好（真的吗？）" class="headerlink" title="任何行动都比不行动好（真的吗？）"></a>任何行动都比不行动好（真的吗？）</h3><p><img src="https://i.imgur.com/irSQI2y.png" alt=""></p>
 ]]></content>
       <categories>
         <category>Reading</category>
@@ -1166,20 +1166,20 @@
 <p>让他在对冲基金领域声望达到顶点的事件正是成功的预测08年次贷危机，并且顶着各种压力，说服高盛在内的多家投行，卖给他次级贷款CDS，在那次金融海啸中获利超过8亿美金，其中1亿是他自己的收益，其余是他为投资人赚得利润。电影《大空头》就是以他为原型拍的。</p>
 <p>其实，麦克并不是依靠运气，他属于价值投资的跟随者，最擅长做空估值过高的股票。2001年，美国标普暴跌11.8%，他的基金，Scion Capital，上涨55%；2002年，标普暴跌22%，Scion再次上涨16%；2003年，标普回暖涨幅28%，Scion却再一次击败了标普，上涨50%。</p>
 <h2 id="Scion的持仓"><a href="#Scion的持仓" class="headerlink" title="Scion的持仓"></a>Scion的持仓</h2><p>Micheal早在去年就开始发表一些空头言论了，只不过直到2021年第三季度，他的基金（Scion）才真正减仓！我们看一下他Q3和Q2的持仓变化：</p>
-<p><img data-src="https://i.imgur.com/EKXajMa.png" alt=""></p>
-<p><img data-src="https://i.imgur.com/CWC40pm.png" alt=""></p>
+<p><img src="https://i.imgur.com/EKXajMa.png" alt=""></p>
+<p><img src="https://i.imgur.com/CWC40pm.png" alt=""></p>
 <p>大家注意前两行就好，当前持仓面值4千万美金，而Q2的持仓面值20亿美金，另外Scion的AUM大约是6亿美金。这些数字告诉我们什么呢？Micheal这次不是用推特看空，而是用真金白银看空了。从20亿到4千万，他几乎等于持有现金了。</p>
-<p><img data-src="https://i.imgur.com/XP74Tet.png" alt=""></p>
+<p><img src="https://i.imgur.com/XP74Tet.png" alt=""></p>
 <p>目前，他只持有6只股票，抛掉绝大部分股票和看涨期权。重仓股票只有三只，分别是CVS、LMT和GEO，分别属于医疗、军工和地产。</p>
-<p><img data-src="https://i.imgur.com/SKJ2rdH.png" alt=""></p>
+<p><img src="https://i.imgur.com/SKJ2rdH.png" alt=""></p>
 <h2 id="美股怎么样了？"><a href="#美股怎么样了？" class="headerlink" title="美股怎么样了？"></a>美股怎么样了？</h2><p>下面几幅图分别是：PE，Shiller PE，SP500价格和Earning。</p>
 <p>这几个图说明啥呢？PE ratio逼近2000年互联网泡沫，SP500经历了长达10年牛市，而经济大周期一般是10年左右，这几个事实通常意味着崩盘；但是另一方面，我们看到Earning也是历史高位，换句话说目前的价格高位有高位的Earning支持，看起来还是比较健康的。</p>
-<p><img data-src="https://i.imgur.com/2S9uYVC.png" alt="PE ratio"></p>
-<p><img data-src="https://i.imgur.com/CHOsOXK.png" alt="Shiller PE Ratio"></p>
-<p><img data-src="https://i.imgur.com/FmbnQ4m.png" alt="S&amp;P 500"></p>
-<p><img data-src="https://i.imgur.com/qtnGgpl.png" alt="Earning"></p>
+<p><img src="https://i.imgur.com/2S9uYVC.png" alt="PE ratio"></p>
+<p><img src="https://i.imgur.com/CHOsOXK.png" alt="Shiller PE Ratio"></p>
+<p><img src="https://i.imgur.com/FmbnQ4m.png" alt="S&amp;P 500"></p>
+<p><img src="https://i.imgur.com/qtnGgpl.png" alt="Earning"></p>
 <p>但是，有一个事实我们也不应该忽略，就是10年国债的利息已经是近100年的最低值了。换句话说，政府已经没水可以放了，美国人只能印钱。</p>
-<p><img data-src="https://i.imgur.com/eYH6gUk.png" alt=""></p>
+<p><img src="https://i.imgur.com/eYH6gUk.png" alt=""></p>
 <h2 id="我该怎么办"><a href="#我该怎么办" class="headerlink" title="我该怎么办"></a>我该怎么办</h2><p>我目前的持仓是一个近似60股票30债券10其他的投资组合，我认为崩盘发生的几率不大，即使发生也不会产生想2000年那样深远的影响。但是，考虑到我们的Big Short大王已经清仓了，我还是有点慌乱，所以我的策略是：</p>
 <ul>
 <li>买长期看跌期权做保险</li>
@@ -1562,27 +1562,27 @@
 </li>
 <li>无他，唯手熟尔</li>
 </ul>
-<h2 id="2015"><a href="#2015" class="headerlink" title="2015"></a>2015</h2><p><img data-src="https://i.imgur.com/Hhoybvl.png" alt="2015年的Github主页"></p>
+<h2 id="2015"><a href="#2015" class="headerlink" title="2015"></a>2015</h2><p><img src="https://i.imgur.com/Hhoybvl.png" alt="2015年的Github主页"></p>
 <p>那一年，我做了我的第一个博客，另外两个仓库：一个是 《<code>C++</code>Primer 5th》的练习题，一个是《数据结构与算法分析<code>C++</code>实现（第五版》的练习题。燃鹅，我点进去一看，一个做了三章，一个做了两章，就没有后续了。:) 具体发生了什么已经记不住了，但是隐约感觉自己应该是被C++给恶心到了，感觉自己完全不适合学习计算机，因为练习题都做不出啊，全是抄代码。</p>
 <p>同年12月，开了另一个坑《Data Structures and Algorithms in Python》，这次坚持了4章。但是，感觉Python跟<code>C++</code>比起来好舒服啊，算法题居然也能写出几个了。在那个时候，我还不清楚C++和Python究竟哪里不一样，编译型？解释器？分不清，仅仅是听说过。总之，我的自学之旅就这么开始了。</p>
 <h2 id="2016"><a href="#2016" class="headerlink" title="2016"></a>2016</h2><p>2016年，我博士三年级，找到了人生的第一个“计算机”行业的兼职工作。是一家只有两个人的金融公司，老板是半个程序员+交易员，而我，就是所谓的程序员。</p>
-<p><img data-src="https://i.imgur.com/cdtzsXv.png" alt="2016"></p>
+<p><img src="https://i.imgur.com/cdtzsXv.png" alt="2016"></p>
 <p>那一年，我的Github上面有了第一个给其他仓库的PR，<a href="https://github.com/vnpy/vnpy">VNPY</a>。PR的内容竟然是把IB的API接口翻译成了英文哈哈。那时候，VNPY只有几百个星吧，现在已经有足足16k星了！除此之外，我的github没什么动静了。那一年，我大部分时间都用在了工作上。因为公司只有我跟老板两个人，老板大部分时间用来搞业务了，我就成了唯一的开发人员。我魔改了VNPY的事件引擎，做了自己的交易系统，用来交易老板的一个日内CFD策略。而开发语言就是Python。</p>
 <p>现在想想也是后怕，当时FUM大概7百万英镑，不是大数目，但是我的代码就那么风风火火的上线了。这期间，乱七八糟的功能修修补补的，也除了各种Bug，也赔过钱。但是，我对编程的理解加深了，然后莫名其妙的学会一些量化交易的知识。</p>
 <h2 id="2017"><a href="#2017" class="headerlink" title="2017"></a>2017</h2><p>2017年，那年我博士毕业了（结构工程方向的博士，如果你感兴趣的话）。我的github留下了我的第一个“开源项目”：<a href="https://github.com/wangzhe3224/chanlun">缠论（已经不再维护了）</a>。因为工作一直都是量化交易、金融相关的，哪一年我其实花了很多时间在学些这方面的知识，就是所谓的 Domain Knowledge。</p>
 <p>但是，我的计算机知识并没有太多提升，我只是会用Python实现一些不那么优雅的代码，它们刚好可以完成我想做的事情，虽然有各种各样的问题，但是我能忍受，况且，我也不知道要怎么改善它们。但是，好在公司很小很小（虽然陆陆续续又来了几个程序员），我几乎成了全干程序员。从后台数据库、API、到前端的Web我都碰过，因为工作需要，我们不追求好看、高效，仅仅追求快速迭代、上线，实现最基本的监控和操作。</p>
 <p>这期间，我给 VNPY 和 QUANTAXIS 这两个仓库提了一些Issue，而我也从这两个项目中间获得了很多灵感。</p>
-<p><img data-src="https://i.imgur.com/7vCKXCM.png" alt="我的第一个笔记仓库（已经归档了）"></p>
+<p><img src="https://i.imgur.com/7vCKXCM.png" alt="我的第一个笔记仓库（已经归档了）"></p>
 <h2 id="2018"><a href="#2018" class="headerlink" title="2018"></a>2018</h2><p>2018年，我的Github格外安静。这一年除了工作，就是零零星星的学习一些计算机“技术”，为了应付工作中的各种问题，比如AWS全家桶。。。这一年，我开始逐渐意识到计算机科学和所谓的“技术”是不一样的。</p>
-<p><img data-src="https://i.imgur.com/HDuxHTu.png" alt=""></p>
+<p><img src="https://i.imgur.com/HDuxHTu.png" alt=""></p>
 <h2 id="2019"><a href="#2019" class="headerlink" title="2019"></a>2019</h2><p>这一年，我开始刷leetcode了，因为想要跳槽换工作，换一个平台去学习新的技术。</p>
 <p>这一年，我也fork了许多量化交易的框架仓库，比如 <code>AlgoTrade</code>, <code>backtrader</code>, <code>bt</code> 等等，主要是学习他们的框架和编码模式。</p>
 <p>这一年，我开源了一个奇葩库：<a href="https://github.com/wangzhe3224/zhihu-hotlist">知乎热榜</a>。哈哈哈，可能算不上库把。。</p>
-<p><img data-src="https://i.imgur.com/dAcCPz4.png" alt=""></p>
+<p><img src="https://i.imgur.com/dAcCPz4.png" alt=""></p>
 <p>这一年，我的忘了我的初心：计算机科学。我花了不少时间在量化交易的框架上，也花了很多时间研究一些交易策略。我为数不多的commit都去了自己的一个研究量化策略的私有仓库里。所以，我开始计划零零星星的时间去学习计算机科学的基础知识：计算机组成原理、操作系统、数据库、计算机网路、编译原理。</p>
 <h2 id="2020"><a href="#2020" class="headerlink" title="2020"></a>2020</h2><p>啊，2020年，我换了新的工作，到了一个大一些的对冲基金，公司的FUM从1亿美金变成了40亿美金。我终于看到了“大”的对冲基金是怎么用计算机的。每天除了完成被分配的任务，就是疯狂的阅读代码，感受到了真的成长。以前，什么都是自己写，没有参考，在这个更成熟的代码仓库里，我看到了自己曾经想要而不得的东西：如何构建大尺度的项目？如何协调计算机集群进行计算？当然，我也学到了更多关于量化交易的 Domain 知识，如何构建复杂计算？如何处理异常？如何设计API和前端？等等。</p>
 <p>啊，2020年，新冠疫情来了，我开始了长达一年的“work from home”。我的Github也热闹起来了。</p>
-<p><img data-src="https://i.imgur.com/vMwhfPY.png" alt="2020"></p>
+<p><img src="https://i.imgur.com/vMwhfPY.png" alt="2020"></p>
 <p>我提交了两个更加有意思的项目：<a href="https://github.com/wangzhe3224/pygraph">Py Graph</a> 和 <a href="https://github.com/wangzhe3224/">pyca</a>。这两个项目，无论是成熟度和完整度都更高了。</p>
 <p>这一年，我开始集中补充我的计算机基础知识，开始上一些网上的公开课，写作业，读计算机的经典书籍，基础各种各样的计算机语言：C，Java，Haskell，Ocaml，Erlang，Clojure，基本上是课程或者书籍设计到的语言我都接触一下。</p>
 <p>这里是我的<a href="https://github.com/wangzhe3224/books">计算机书单</a>，然而，我又犯了老毛病：没长性。很多课程和书籍都是，学了一点点就放弃了，或者被其他的主题吸引了。所以这一年，我是涨了见识，但是我觉得我的思想似乎没有变得更深邃，我写了一片关于这个的文章：<a href="https://wangzhe3224.github.io/2021/05/30/admin2/">https://wangzhe3224.github.io/2021/05/30/admin2/</a> 。 即便如此，付出还是有收获的，我对计算机本身和编程也算有了更深的认识，也更认识到计算机这行业，基础知识是何等的重要，特别是对于转行的人来说。这不是学习一门语言或者学习一个框架可以带给你的。</p>
@@ -1591,9 +1591,9 @@
 <h2 id="2021"><a href="#2021" class="headerlink" title="2021"></a>2021</h2><p>转眼已经是第五年了，兜兜转转我还是决定回到基础了。我终于慢慢的读完了CSAPP这本书，慢慢做了很多练习，慢慢的发现C语言其实挺好理解的，并发和并行也不再神秘。我终于慢慢的读完了SICP这本书，慢慢的做了很多联系，慢慢的发现Clojure其实也挺好理解的。我终于完成CS3110这门课的联系，慢慢的发现组织程序的规则其实也挺好理解的，慢慢的发现Ocaml其实也很有意思，一点都不另类。</p>
 <p>这一年，我的博客也开始热闹起来了，我开始更新自己对CPython内部的各种新的认识，毕竟Python仍然是我的灵魂语言！与当年不同的是，因为基础变得好起来了，Python对我来说不再神秘，不再是一个黑盒子，我渐渐的了解如何去分析程序，如何去理解它的性能，如何理解他跟其他语言的区别，明白他的长处和弱点。</p>
 <p>这一年，我也开始变成了视频博主，开始把自己的得找分享给更多像我一样的人，像我一样想要在计算机中寻找乐趣的人们。<a href="https://github.com/wangzhe3224/Python-zhifou">Python知否</a></p>
-<p><img data-src="https://i.imgur.com/HXk9H9N.png" alt=""></p>
+<p><img src="https://i.imgur.com/HXk9H9N.png" alt=""></p>
 <p>这一年，我也真正意义的开始为开源社区做贡献了！</p>
-<p><img data-src="https://i.imgur.com/enU3SoJ.png" alt=""></p>
+<p><img src="https://i.imgur.com/enU3SoJ.png" alt=""></p>
 <h2 id="2026"><a href="#2026" class="headerlink" title="2026"></a>2026</h2><p>我希望5年后，当我再次回首，可以看着过往微笑。然后，写下下一个5年。</p>
 ]]></content>
       <categories>
@@ -1748,9 +1748,9 @@
 </ul>
 <p>集群控制没有使用K8s，因为k8s对32位处理器支持一般，而且没有原生的ARM支持，只能用一个API协调的软件叫k3s，后来发现还不如直接用<code>Docker Swarm</code>就行集群资源管理。反正所有的服务都是 docker 容器，后期集群扩容，只需要在新节点上加入集群即可。</p>
 <p>最终我的集群包含两个Docker Swarm节点：</p>
-<p><img data-src="https://i.imgur.com/qphWSv6.png" alt=""></p>
+<p><img src="https://i.imgur.com/qphWSv6.png" alt=""></p>
 <p>集群运行服务：</p>
-<p><img data-src="https://i.imgur.com/evOfMHt.png" alt=""></p>
+<p><img src="https://i.imgur.com/evOfMHt.png" alt=""></p>
 <h2 id="树莓派设置"><a href="#树莓派设置" class="headerlink" title="树莓派设置"></a>树莓派设置</h2><p>首先，安装操作系统，具体可以<a href="https://www.raspberrypi.org/documentation/computers/getting-started.html">参考</a>。基本的操作就是下载操作系统，烧录在sd卡里，然后把卡查回树莓派。<br>这里注意SD卡烧制系统结束后，在SD卡跟目录里加入一个空的叫<code>ssh</code>的文件，这样树莓派会自动激活ssh服务。默认用户是<code>pi</code>，密码是<code>raspberry</code>。这样就可以实现headless部署。</p>
 <p>将多个树莓派通过集线器或者路由器连接起来，然后设置每个树莓派的hostname和静态IP地址。</p>
 <p>静态IP地址可以在这里设置：<code>/etc/dhcpcd.conf</code></p>
@@ -1816,7 +1816,7 @@
 <p><em>一般文件</em>：一个正常文件中的内容分页（page）被映射到（虚拟）内存地址上。但是，直到CPU<br>主动请求某个页的时候，文件中的内从才会被拷贝进入内存。</p>
 <p><em>匿名文件</em>：系统把一部分内存映射到一个匿名文件中，并且用0填充该内存空间，这些页也被称为<br>demand-zero page。</p>
 <p>无论是哪种情况，虚拟内存也被初始化后，他就会与一个交换文件（swap file）连接，并与他不断<br>交换数据。(每一个进程都有一个交换文件吗？)</p>
-<p><img data-src="https://i.imgur.com/vRpgBpw.jpg" alt="内存心智模型"></p>
+<p><img src="https://i.imgur.com/vRpgBpw.jpg" alt="内存心智模型"></p>
 <h3 id="堆内存动态分配"><a href="#堆内存动态分配" class="headerlink" title="堆内存动态分配"></a>堆内存动态分配</h3><p>动态内存分配就是负责管理堆内存空间的，而在内存中申请空间的就是通过内存映射（Demand-zero）。</p>
 <p><em>为什么需要动态内存分配</em>？因为程序与在运行过程中不可避免要动态的产生和销毁对象，但是我们不能<br>无限分配内存，而不去回收不再需要的对象，否则内存最终会溢出。</p>
 <p>内存分配器主要有两种风格：</p>
@@ -1840,7 +1840,7 @@
 </ul>
 <p>我们会在后面讨论具体的实现，但是分配器的新式模型如下：</p>
 <p>在堆内存中构建一系列块（节点、Block等等名字），这些块包含两部分内容：元信息（Meta Data）和数据，这些<br>块有一些写代数据（就是包含了应用程序来的数据），另外一些则是空的，仅仅包含元信息。这些块通过元信息进行<br>连接，从而实现分配和释放。比如，这些块可以是一个链表，也可以是其他更加复杂的数据结构，比如分段链表等等。<br>从概念上，不同的数据结构实现，就会有不同的效率，需要根据具体情况选择。</p>
-<p><img data-src="https://i.imgur.com/lem9r6i.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/lem9r6i.jpg" alt=""></p>
 <p><strong>隐式分配器</strong></p>
 <h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://users.cs.northwestern.edu/~pdinda/icsclass/doc/dsa.pdf">Dynamic Storage Allocation: A Survey and Critical Review</a></li>
@@ -1915,7 +1915,7 @@
 <blockquote>
 <p>相关源代码：<a href="https://github.com/wangzhe3224/high_performance_python">https://github.com/wangzhe3224/high_performance_python</a><br>更多学习资源：微信搜索   泛程序员   并添加关注，点击资源按钮。<br>更多学习视频：微信视频号  Python知否</p>
 </blockquote>
-<p><img data-src="https://i.imgur.com/sFSXT7N.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/sFSXT7N.jpg" alt=""></p>
 <p>上一篇我们分析了计算机的三个组成部分，以及对应到Python程序的意义，这一篇我们从比较概括的角度介绍高性能编程的第一步：Profiling。（这个词我也不知道该怎么翻译，程序侧写？）</p>
 <p>Profiling可以帮助我们发现：程序的那个部分运行缓慢（计算单元）、哪个部分占用大量内存（存储单元）、那个部分占用了网络、硬盘IO（通信单元）等等。所以Profiling是我们提高运行效率的第一步。</p>
 <p><strong>划重点</strong>：</p>
@@ -1931,7 +1931,7 @@
 <p>有了上面的分析后，我们基本可以确定程序的CPU和内存瓶颈，我们就可以对症下药，提高性能，比如编译、查看ByteCode等等。具体方法我们在后面的文章继续说明。</p>
 <h2 id="例子：生成Julia集"><a href="#例子：生成Julia集" class="headerlink" title="例子：生成Julia集"></a>例子：生成Julia集</h2><p>为了让讨论更加具体，这个系列会用通过一个实际的例子说明：生成Julia集。这个例子属于计算密集型函数，覆盖了Python常见的一些操作，比如循环、判断等。<a href="https://github.com/wangzhe3224/high_performance_python/blob/master/src/julia_set.py">具体代码</a>在这里。</p>
 <p>直接运行的结果为：</p>
-<p><img data-src="https://i.imgur.com/iKTwdN6.png" alt="Julia集"></p>
+<p><img src="https://i.imgur.com/iKTwdN6.png" alt="Julia集"></p>
 <p>这一篇我们首先用纯Python实现Julia集，然后以这个函数为例，讲解如何对Python程序Profiling。</p>
 <p>下面就是julia集的核心函数，由纯Python实现。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate_z_serial_purepython</span>(<span class="params">max_iter, zs, cs</span>):</span></span><br><span class="line">    output = [<span class="number">0</span>] * <span class="built_in">len</span>(zs)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(zs)):</span><br><span class="line">        n = <span class="number">0</span></span><br><span class="line">        z = zs[i]</span><br><span class="line">        c = cs[i]</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">abs</span>(z)) &lt; <span class="number">2</span> <span class="keyword">and</span> n &lt; max_iter:</span><br><span class="line">            z = z*z + c</span><br><span class="line">            n += <span class="number">1</span></span><br><span class="line">        output[i] = n</span><br><span class="line">    <span class="keyword">return</span> output</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_pure_python</span>(<span class="params">width: <span class="built_in">int</span>, max_iter: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; Create a list of complex coordinates &quot;&quot;&quot;</span></span><br><span class="line">    x_step = ( x2 - x1 ) / width</span><br><span class="line">    y_step = ( y2 - y1 ) / width</span><br><span class="line">    x, y = [], []</span><br><span class="line">    ycood = y1 </span><br><span class="line">    <span class="keyword">while</span> ycood &lt; y2:</span><br><span class="line">        y.append(ycood)</span><br><span class="line">        ycood += y_step</span><br><span class="line">    xcood = x1</span><br><span class="line">    <span class="keyword">while</span> xcood &lt; x2:</span><br><span class="line">        x.append(xcood)</span><br><span class="line">        xcood += x_step</span><br><span class="line"></span><br><span class="line">    zs = []</span><br><span class="line">    cs = []</span><br><span class="line">    <span class="keyword">for</span> ycoord <span class="keyword">in</span> y:</span><br><span class="line">        <span class="keyword">for</span> xcoord <span class="keyword">in</span> x:</span><br><span class="line">            zs.append(<span class="built_in">complex</span>(xcoord, ycoord)) </span><br><span class="line">            cs.append(<span class="built_in">complex</span>(c_real, c_imag))</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Length of x: <span class="subst">&#123;<span class="built_in">len</span>(x)&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Total elements: <span class="subst">&#123;<span class="built_in">len</span>(zs)&#125;</span>&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 这里我们进行一个简单的计时，来粗略估计函数的运行时间。</span></span><br><span class="line">    start_time = time.time()</span><br><span class="line">    output = calculate_z_serial_purepython(max_iter, zs, cs)</span><br><span class="line">    end_time = time.time()</span><br><span class="line">    secs = end_time - start_time</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;calculate_z_serial_purepython.__name__&#125;</span> took <span class="subst">&#123;secs&#125;</span> seconds.&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;<span class="built_in">sum</span>(output) = &#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> output</span><br></pre></td></tr></table></figure>
@@ -1962,7 +1962,7 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Tue Jul 20 22:37:12 2021    profile.stats</span><br><span class="line"></span><br><span class="line">         36682126 function calls (36675327 primitive calls) in 10.651 seconds</span><br><span class="line"></span><br><span class="line">   Ordered by: cumulative time</span><br><span class="line">   List reduced from 2611 to 10 due to restriction &lt;10&gt;</span><br><span class="line"></span><br><span class="line">   ncalls  tottime  percall  cumtime  percall filename:lineno(function)</span><br><span class="line">    578&#x2F;1    0.001    0.000   10.652   10.652 &#123;built-in method builtins.exec&#125;</span><br><span class="line">        1    0.032    0.032   10.652   10.652 src&#x2F;julia_set.py:1(&lt;module&gt;)</span><br><span class="line">        1    0.468    0.468    9.979    9.979 src&#x2F;julia_set.py:54(calc_pure_python)</span><br><span class="line">        1    7.072    7.072    9.357    9.357 src&#x2F;julia_set.py:40(calculate_z_serial_purepython)</span><br><span class="line"> 34220076    2.285    0.000    2.285    0.000 &#123;built-in method builtins.abs&#125;</span><br></pre></td></tr></table></figure>
 
 <p>可以很容易识别瓶颈：<code>calculate_z_serial_purepython</code>。不过<code>cProfiler</code>的输出结果非常多，不是很容易读。可是使用<code>snakeviz</code>对profile的结果文件进行可视化：<code>snakeviz profile.stats</code></p>
-<p><img data-src="https://i.imgur.com/rjGz6yO.png" alt=""></p>
+<p><img src="https://i.imgur.com/rjGz6yO.png" alt=""></p>
 <h2 id="line-profiler"><a href="#line-profiler" class="headerlink" title="line_profiler"></a><code>line_profiler</code></h2><p>在识别瓶颈函数后，可以通过<code>line_profiler</code>对该函数进行逐行分析，从而进一步了解计算瓶颈。</p>
 <p>安装profiler：<code>pip install line_profiler</code></p>
 <p>在需要profile 的函数前加入<code>@profile</code>装饰器：</p>
@@ -1979,16 +1979,16 @@
 <h2 id="memory-profiler"><a href="#memory-profiler" class="headerlink" title="memory_profiler"></a><code>memory_profiler</code></h2><p>下一步就是对程序的内存使用进行profile，可以使用<code>memory_profiler</code>，安装：<code>pip install memory_profiler</code>。另外建议同时安装：<code>pip install psutil</code>，这样可以加速profile的速度。</p>
 <p><code>mprof run src/julia_set_memory_profiler.py</code></p>
 <p>在profile结束后，我们可以用<code>mprof plot</code>画出内存增长的趋势图，并且标注目标函数：</p>
-<p><img data-src="https://i.imgur.com/ubbnTIe.png" alt=""></p>
+<p><img src="https://i.imgur.com/ubbnTIe.png" alt=""></p>
 <p>我们发现<code>calculate_z_serial_purepython</code>这段时间内存持续增加，这是由于Python不会断创建新的<code>int</code>和<code>float</code>对象（还记得吗？Python中每一个对象都会占用较大的内存空间，即使是int，因为Python的内存模型就是object，无论是什么对象。）</p>
 <p>同样这部分可以通过numba或者cython编译，跳过python解释器执行，降低内存使用。</p>
 <h2 id="PySpy"><a href="#PySpy" class="headerlink" title="PySpy"></a><code>PySpy</code></h2><p>最后，介绍一下如何用<code>pyspy</code>对正在运行的Python进程进行实时监测。这种方法可以对进程进行在线debug，工程中非常实用。</p>
 <p>安装：<code>pip install py-spy</code></p>
 <p>pyspy 主要由两种常用模式：dump和top。dump会为指定的process一个snapshot，然后dump到文件；而top会进行实时采样，或一种类似系统top命名的界面，实时监控进程的内存和CPU使用情况。</p>
 <p>也可以通过record获得不同函数的资源图：<code>sudo py-spy record -o profile.svg -- python src/julia_set.py</code></p>
-<p><img data-src="https://i.imgur.com/4OO294A.png" alt=""></p>
+<p><img src="https://i.imgur.com/4OO294A.png" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了4中主要的profile工具，其中2种是CPU相关的，1种是内存相关的，最后的py-spy是针对长寿命进程的采样分析。</p>
-<p><img data-src="https://i.imgur.com/ctU3xEJ.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/ctU3xEJ.jpg" alt=""></p>
 ]]></content>
       <categories>
         <category>Coding</category>
@@ -2014,7 +2014,7 @@
 <h3 id="《Structure-and-Interpretation-of-Computer-Programs》（SICP）"><a href="#《Structure-and-Interpretation-of-Computer-Programs》（SICP）" class="headerlink" title="《Structure and Interpretation of Computer Programs》（SICP）"></a>《Structure and Interpretation of Computer Programs》（SICP）</h3><blockquote>
 <p>《计算机程序的构造和解释》</p>
 </blockquote>
-<p><img data-src="https://i.imgur.com/rHsSNr8.png" alt="SICP"></p>
+<p><img src="https://i.imgur.com/rHsSNr8.png" alt="SICP"></p>
 <p>这是一本来自麻省理工大学，经历20多年仍然充满活力的好书。这是一本关于计算机程序设计的总体性观念的入门书，书本中采用一种lisp方言 - Scheme作为所有例子和练习的实现语言。作者从基础的程序设计一直讲道了解释器和编译器的实现，编程范式从过程式、函数式到面向对象、面向并发都有涉及，但是讲解非常清晰。小编读完（花了两年时间，期间放弃了无数次）后，只能说：我还想再读一遍。</p>
 <blockquote>
 <p>小知识：Lisp诞生于1958年，是一个比C和Fortran更古老的函数式编程语言。</p>
@@ -2028,13 +2028,13 @@
 <h3 id="《How-to-Design-Programs》"><a href="#《How-to-Design-Programs》" class="headerlink" title="《How to Design Programs》"></a>《How to Design Programs》</h3><blockquote>
 <p>《如何设计程序》</p>
 </blockquote>
-<p><img data-src="https://i.imgur.com/VMju2ju.png" alt="HTDP"></p>
+<p><img src="https://i.imgur.com/VMju2ju.png" alt="HTDP"></p>
 <p>这是同样是一本经典的计算机程序设计入门书，采用另一个更现代的Lisp方言 - Racket 作为实现语言（是的，又是Lisp，这门古老的语言拥有强大的生命力）。与 SICP 相比，HTDP 更加注重程序设计的基本原则，材料组织更加平易近人，更容易读，难度也更低。小编认为是一本非常好的编程入门书，书中有大量的实例和练习题，从最简单的数据结构、递归讲到各种程序设计的抽象方法。</p>
 <p>这本书的在线版本：<a href="https://htdp.org">https://htdp.org</a></p>
 <h3 id="《Computer-Systems-A-Programmer’s-Perspective》"><a href="#《Computer-Systems-A-Programmer’s-Perspective》" class="headerlink" title="《Computer Systems: A Programmer’s Perspective》"></a>《Computer Systems: A Programmer’s Perspective》</h3><blockquote>
 <p>《深入理解计算机系统》</p>
 </blockquote>
-<p><img data-src="https://i.imgur.com/NkjpmYJ.png" alt="CSAPP"></p>
+<p><img src="https://i.imgur.com/NkjpmYJ.png" alt="CSAPP"></p>
 <p>这本书中文被翻译成：深入理解计算机系统，我觉得不妥。原文的意思是给程序员看的计算机系书。这本书与前两本大不相同，他是从计算机硬件的角度切入的；而前两本是从软件和程序设计的角度切入。因此，这本书会解释你写的程序是如何被翻译成指令，如何被计算机执行，读完此书，你会理解：进程、并发、编译、虚拟内存、缓存等等计算机概念。此书采用C语言作为实现语言，总体来说，这是一门很“底层”的计算机入门课。</p>
 <p>如果你觉得只读书有点无趣，可以考虑这门课：</p>
 <p><strong><a href="https://www.bilibili.com/video/BV1XW411A7fB/">中文字幕的公开课！</a></strong></p>
@@ -2042,14 +2042,14 @@
 <h3 id="《Algorithms》"><a href="#《Algorithms》" class="headerlink" title="《Algorithms》"></a>《Algorithms》</h3><blockquote>
 <p>《算法》</p>
 </blockquote>
-<p><img data-src="https://i.imgur.com/g8PPdyW.png" alt=""></p>
+<p><img src="https://i.imgur.com/g8PPdyW.png" alt=""></p>
 <p>此书算是两大算法经典的另一个了，但是内容更加具体和实际一些，Java实现的，全部读完也需要一定的时间和耐心。</p>
 <p>可以配合这个Coursera课程：</p>
 <p><a href="https://www.coursera.org/learn/algorithms-part1">同名课程</a></p>
 <h3 id="《Data-Structures-and-Algorithms-in-Python》"><a href="#《Data-Structures-and-Algorithms-in-Python》" class="headerlink" title="《Data Structures and Algorithms in Python》"></a>《Data Structures and Algorithms in Python》</h3><blockquote>
 <p>《数据结构和算法 - Python》</p>
 </blockquote>
-<p><img data-src="https://i.imgur.com/T7QHhmB.png" alt="Data Structures and Algorithms in Python"></p>
+<p><img src="https://i.imgur.com/T7QHhmB.png" alt="Data Structures and Algorithms in Python"></p>
 <p>这一本我觉得更加亲民，特别是如果你已经在使用Python了，这本读起来会非常舒服，而且内容覆盖也比较全面。</p>
 <h2 id="编程语言"><a href="#编程语言" class="headerlink" title="编程语言"></a>编程语言</h2><p>编程语言书籍的推荐比较困难，因为各人的差异巨大。我的建议是根据自己的工作情况选择一个语言，然后再去选择书籍。</p>
 <p>这里只推荐一门非常棒的课程，来自康奈尔的 CS3110。这是一门教你学会如何学会任何编程语言的课程，让你成为一个更好的程序员。</p>
@@ -2131,7 +2131,7 @@
 </blockquote>
 <h2 id="为什么大家都很心急？"><a href="#为什么大家都很心急？" class="headerlink" title="为什么大家都很心急？"></a>为什么大家都很心急？</h2><p>如果你走进书店，你就会看到这样的书：Java自学一日通或者C、SQL、Ruby、算法自学三月通。如果去Amazon搜索<a href="https://www.amazon.com/s?i=stripbooks&rh=p_28%3Ateach+yourself+hours&s=relevanceexprank&Adv-Srch-Books-Submit.x=16&Adv-Srch-Books-Submit.y=5&field-dateop=After&field-dateyear=2000&unfiltered=1&ref=sr_adv_b">title: teach, youself, hours, since: 2000</a>，你会发现512本书。前10本书中，有9本是编程书籍，还有一个本是关于书籍管理的。如果把自学替换成学习，小时换成天，会得到类似的结果。</p>
 <p>结论是：要么人们很急切的想要学习编程，要么学习编程比学习其他技能更加容易。《How to design programs》的作者们“认可”了这个说法，书中提到：“差劲的编程很简单，傻子都能在21天内学会编程，即使他们是傻子”。Abtruse Goose的搞笑漫画持类似<a href="https://abstrusegoose.com/249">观点</a></p>
-<p><img data-src="https://i.imgur.com/SCAQMb5.png" alt="21天学会C++"></p>
+<p><img src="https://i.imgur.com/SCAQMb5.png" alt="21天学会C++"></p>
 <p>我们来分析一下：24小时自学C++：</p>
 <ul>
 <li><strong>自学</strong>：24小时，你没有时间写出一些有用的程序，并且从这些项目中吸取经验教训。你也没有时间与一个有经验的<code>C++</code>程序员一起工作并且理解真实的<code>C++</code>开发环境。长话短说，你没有时间学很多东西。所以这个本书只能给你一种假的熟悉感，而不是深入理解。就像Alexander Pope说的：学一点点是很危险的！</li>
@@ -2222,7 +2222,7 @@
 </ul>
 <p>鉴于这些标准，我对第一种编程语言的建议是 Python 或 Scheme。 另一个选择是 Javascript，不是因为它非常适合初学者，而是因为它的在线教程太多了，例如可汗学院的教程。 但是您的情况可能会有所不同，还有其他不错的选择。 如果您的年龄是个位数，您可能更喜欢 Alice 或 Squeak 或 Blockly（年龄较大的学习者可能也喜欢这些）。重要的是你选择并开始编程。</p>
 <p>欢迎关注 泛程序员 获得更多编程知识：</p>
-<p><img data-src="https://i.imgur.com/5e9RRJy.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/5e9RRJy.jpg" alt=""></p>
 ]]></content>
       <categories>
         <category>Reading</category>
@@ -2384,9 +2384,9 @@
 <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>进程是构建并发程序最简单和直接的方式，主要是通过fork, exec, waitpid等系统函数联合实现，而进程间是通过socket两端的文件标识符进行通讯。</p>
 <p>以经典的服务器-客户端模式为例，首先服务器端启动主进程（p1），unix系统默认会开放三个文件标识符，即fd0，fd1，fd2，分别对应标准输入、输出、和异常。为了接受其他进程的连接，p1开放一个新的socket标识符，listenfd。由于文件标识符通常是按照顺序取最小的一个可用数字，因此一般系统会分配标识符3给listenfd，但是这个并不重要，我们只需要知道listenfd即可。</p>
 <p>在客户端进程中，通过socket连接服务端端口，获得一个客户端的文件标识符，clientfd，这个socket的另一端的是服务器端的一个新的、由accept返回的标识符，connfd，需要注意的是connfd与listenfd是不同的标识符。在服务端，主进程会通过fork得到一个新的子进程来负责与client通讯，而connfd本来是属于主进程，在fork的过程中被子进程获得，而主进程则关闭其对应的connfd，子进程关闭无用的listenfd（从主进程拷贝获得）。至此，客户端与服务端的连接由子进程完成，而主进程已经准备好下一个连接，如下图所示：</p>
-<p><img data-src="https://i.imgur.com/RwdRovf.png" alt=""></p>
-<p><img data-src="https://i.imgur.com/GXjP3yy.png" alt=""></p>
-<p><img data-src="https://i.imgur.com/OHpPbxU.png" alt=""></p>
+<p><img src="https://i.imgur.com/RwdRovf.png" alt=""></p>
+<p><img src="https://i.imgur.com/GXjP3yy.png" alt=""></p>
+<p><img src="https://i.imgur.com/OHpPbxU.png" alt=""></p>
 <p>需要注意的是，子进程结束后会变成僵尸进程，需要由主进程进行清理（reap），否则就会造成内存泄漏。回收工作是通过SIGCHLD信号量的处理函数完成的：</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sigchld_handler</span><span class="params">(<span class="keyword">int</span> sig)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (waitpid(<span class="number">-1</span>, <span class="number">0</span>, WNOHANG) &gt; <span class="number">0</span>)</span><br><span class="line">        <span class="comment">// 清理所有目前看到的僵尸进程</span></span><br><span class="line">        ;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -2541,7 +2541,7 @@
 <li>v-node table（VT）：多个进程共享</li>
 </ul>
 <p>这三种结构分别包含一个指针：DT -&gt; FT -&gt; VT。</p>
-<p><img data-src="https://i.imgur.com/2jUJ9Lx.png" alt=""></p>
+<p><img src="https://i.imgur.com/2jUJ9Lx.png" alt=""></p>
 <p>值得注意的是，fork后的父进程和子进程由于共享文件标识符，所以两个进程打开的文件共享file table entry（FTE），因此两个进程共享该文件的读取位置。而同一个进程通过两个<code>open</code>打开同一个文件获得两个标识符，不共享file table entry，因此两个文件标识符的读取和写入是独立的。</p>
 <h2 id="IO重新定向"><a href="#IO重新定向" class="headerlink" title="IO重新定向"></a>IO重新定向</h2><p>IO重新定向的秘密在于系统函数：<code>dup2</code>。</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dup2</span><span class="params">(<span class="keyword">int</span> oldfd, <span class="keyword">int</span> newfd)</span></span>;</span><br></pre></td></tr></table></figure>
@@ -2572,7 +2572,7 @@
 <li>未缓存</li>
 </ul>
 <h2 id="Linux中的虚拟内存"><a href="#Linux中的虚拟内存" class="headerlink" title="Linux中的虚拟内存"></a>Linux中的虚拟内存</h2><p>Linux Kernel 通常把进程的虚拟内存空间用一系列的 Segment (Area) 表达。Kernel会管理这些segment，进程也只能引用segment指向的内存空间。</p>
-<p><img data-src="https://i.imgur.com/ks7WKIw.png" alt=""></p>
+<p><img src="https://i.imgur.com/ks7WKIw.png" alt=""></p>
 <p><strong>demand paging</strong>：只有在需要的时候，硬盘上内容才会被读入物理内存。</p>
 <p><strong>copy-on-write</strong>：共享的可写内容，只有在需要写入的时候，才会只做副本。</p>
 <p>Linux初始化虚拟内存空间是通过Memory Mapping进行的，kernel会把硬盘上某个文件的内容与该内存空间联系起来。一旦虚拟内存<strong>分页</strong>初始化结束，kernel会在内存和一个特殊的 swap 文件中进行 paging 操作。</p>
@@ -2819,7 +2819,7 @@
 <h3 id="execve"><a href="#execve" class="headerlink" title="execve"></a><code>execve</code></h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">execve</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *filename, <span class="keyword">const</span> <span class="keyword">char</span> *argv[], <span class="keyword">const</span> <span class="keyword">char</span> *envp[])</span></span>;</span><br><span class="line"><span class="comment">// Dose NOT return if OK, else return -1 on error.</span></span><br></pre></td></tr></table></figure>
 
 <p>与 fork 不同（调用一次，返回两次），execve 调用后不返回。在execve将目标文件的程序读入内存，就会为它分配栈，并把执行权限交给该目标程序。</p>
-<p><img data-src="https://i.imgur.com/oK74LQj.png" alt="新的目标程序的内存配置"></p>
+<p><img src="https://i.imgur.com/oK74LQj.png" alt="新的目标程序的内存配置"></p>
 <p><strong>Practice Problem 8.6</strong></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">unix&gt; .&#x2F;myecho arg1 arg2 </span><br><span class="line">Command line arguments:</span><br><span class="line">    argv[ 0]: myecho</span><br><span class="line">    argv[ 1]: arg1</span><br><span class="line">    argv[ 2]: arg2</span><br><span class="line">Environment variables:</span><br><span class="line">    envp[ 0]: PWD&#x3D;&#x2F;usr0&#x2F;droh&#x2F;ics&#x2F;code&#x2F;ecf</span><br><span class="line">    envp[ 1]: TERM&#x3D;emacs</span><br><span class="line">...</span><br><span class="line">    envp[25]: USER&#x3D;droh</span><br><span class="line">    envp[26]: SHELL&#x3D;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;tcsh</span><br><span class="line">    envp[27]: HOME&#x3D;&#x2F;usr0&#x2F;droh</span><br></pre></td></tr></table></figure>
 
@@ -3044,7 +3044,7 @@
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 1000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> vel[<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">int</span> acc[<span class="number">3</span>];</span><br><span class="line">&#125; point;</span><br><span class="line"></span><br><span class="line">point p[N];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">clear1</span><span class="params">(point *p, <span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i, j;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;n; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;<span class="number">3</span>; j++)</span><br><span class="line">            p[i].vel[j] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;<span class="number">3</span>; j++)</span><br><span class="line">            p[i].acc[j] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="存储的层次"><a href="#存储的层次" class="headerlink" title="存储的层次"></a>存储的层次</h2><p>从寄存器到硬盘，再到网络服务器，计算机系统的存储系统是一个层状结构。越往上读写速度越快，但是价格也越高，相应的存储空间也越小。所以上一层的内存通常是作为下一层内存的<strong>缓存（Cache）</strong> 使用。</p>
-<p><img data-src="https://i.imgur.com/8BRKwX4.png" alt=""></p>
+<p><img src="https://i.imgur.com/8BRKwX4.png" alt=""></p>
 <p>通常k和k+1的缓存关系具有固定的block大小。如果程序想要读取k+1的信息，会搜索k中k+1的缓存block，如果找到（cache hit）读取，如果没找到（cache miss）则会从K+1读取，并放入k层缓存，不过放入缓存的具体方式跟不同的缓存策略有关。</p>
 <p>Cache hit 大家都开心，如果出现 Cache miss，我们需要分析原因。一般miss可以分成：</p>
 <ul>
@@ -3570,7 +3570,7 @@
 <li>匹配词长度 &gt;  A的长度</li>
 </ol>
 <p>假设我们有一个 word list： <code>[&#39;acbe&#39;, &#39;ca&#39;, &#39;bca&#39;, &#39;bbac&#39;]</code>，反向可以形成如下 Trie：</p>
-<p><img data-src="https://i.imgur.com/wn2uMo1.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/wn2uMo1.jpg" alt=""></p>
 <p>现在我们看情况1：匹配词长度 &lt;= A的长度，假设我们搜索 <code>acbe</code> 可以匹配出回文的词。首先，我们选择 <code>a</code> 开头的path，因为其他path没有可能。然后看 <code>c</code>，也发现了一个路径，而且c有index标记，是一个终端词。这时候，我们检查余下的部分be是否是回文（也就是看这个组合<code>acbe + ac</code>），发现不是回文，继续看下一个字母b，又发现了一个路径，且是终端词，检查余下的部分，<code>e</code>，是回文（只有一个字母），此时我们就发现了一组，即<code>acbe + bca</code>（记得我们的Trie是逆向构建的，acb就是词bac）。</p>
 <p>继续看情况2：匹配词长度 &gt;  A的长度，假设我们搜索<code>ca</code>的可能匹配。选择了上图中间的路径，不过因为ca短，没有到达任何一个词，但是这样也意味着，ca可能跟这个路径上剩下词形成回文，只要剩下的部分是回文。</p>
 <p><strong>代码</strong></p>
@@ -3669,7 +3669,7 @@
 <li><code>0xFC(,%ecx,4)</code>: 0xFF, 0xFC + ECX * 4, 0x4 + 0xFC = 0x100</li>
 <li><code>(%eax,%edx,4)</code>: 0x11, address of 0x10C</li>
 </ul>
-<h3 id="Problem-3-2"><a href="#Problem-3-2" class="headerlink" title="Problem 3.2"></a>Problem 3.2</h3><p><img data-src="https://i.imgur.com/yJpWTI9.png" alt="寄存器分布"></p>
+<h3 id="Problem-3-2"><a href="#Problem-3-2" class="headerlink" title="Problem 3.2"></a>Problem 3.2</h3><p><img src="https://i.imgur.com/yJpWTI9.png" alt="寄存器分布"></p>
 <p>1 word = 2 byte = 16 bits，所以一个32位寄存器包含4个byte或者2个word或者32bit。</p>
 <p>一个16进制的单位，包含4个bit。所以16进制经常是两个两个写在一起，代表一个byte的宽度。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">movl %eax, (%esp)       将 EAX 寄存器的内容移动到 ESP 指向的内存空间</span><br><span class="line">movw (%eax), %dx        将 EAX 寄存器指向的内存空间内容移动到 DX 寄存器，</span><br><span class="line">movb $0xFF, %bl         bl 是特殊寄存器，可以分别单独访问低位的两个byte空间</span><br><span class="line">movb (%esp,%edx,4)     </span><br><span class="line">pushl $0xFF</span><br><span class="line">movw %dx, (%eax)        dx 是高位的两个byte，即 1 word</span><br><span class="line">popl %edi</span><br></pre></td></tr></table></figure>
@@ -4091,11 +4091,11 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">❯ go run main.go</span><br><span class="line">bb</span><br><span class="line">ba</span><br><span class="line">ab</span><br><span class="line">aa</span><br><span class="line">fatal error: all goroutines are asleep - deadlock!</span><br><span class="line"></span><br><span class="line">goroutine 1 [select (no cases)]:</span><br><span class="line">main.main()</span><br><span class="line">        mani.go:6 +0x52</span><br><span class="line">exit status 2</span><br></pre></td></tr></table></figure>
 
 <p>程序首先启动两个 goroutine，<code>a</code> 和 <code>b</code>，然后他们分别会启动两个给子的子协程。这里需要注意，goroutine 本身是没有父子关系的（对吗？）。程序的执行情况如下所示：</p>
-<p><img data-src="https://i.imgur.com/TKxKBUK.png" alt="并行执行"></p>
+<p><img src="https://i.imgur.com/TKxKBUK.png" alt="并行执行"></p>
 <p>每一个 goroutine 会占据一个线程，实现了并行并发。但是执行顺序也是随机的，我们看到 <code>bb</code> 比 <code>ab</code> 更先被打印了。</p>
 <p>但是，我们也观察到程序出现了 fatal error，因为 select 是阻塞操作，为了让方便观察结果，但是由于 runtime 已经没有任何活跃的 goroutine 了，程序就会报错。（当然，main goroutine 仍然是活跃的）。</p>
 <p>当然，我们也可以通过同步操作，让所有 goroutine 在一个线程中执行。</p>
-<p><img data-src="https://i.imgur.com/YbRfzzW.png" alt="顺序执行"></p>
+<p><img src="https://i.imgur.com/YbRfzzW.png" alt="顺序执行"></p>
 <p>这两种调度方式都可以，但是为了简化我们后面的实现，我们选择后者，即单线程并发。</p>
 <h3 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h3><p>Go 通过 Chan 实现并发通讯。考虑如下程序：</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;time&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">	<span class="keyword">go</span> a(ch)</span><br><span class="line">	<span class="keyword">go</span> b(ch)</span><br><span class="line">	<span class="keyword">select</span> &#123;&#125; <span class="comment">// prevent the program from terminating, ignore for now</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">a</span><span class="params">(ch <span class="keyword">chan</span> <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;a before&quot;</span>)</span><br><span class="line">	ch &lt;- <span class="number">5</span></span><br><span class="line">    time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;a after&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">b</span><span class="params">(ch <span class="keyword">chan</span> <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;b before&quot;</span>)</span><br><span class="line">	<span class="built_in">println</span>(&lt;-ch)</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;b after&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -4486,7 +4486,7 @@
 <li><code>*ob_type</code> 是对象的类型指针，决定了这个对象是什么类型，比如 int 或者 其他自定义类型。</li>
 </ul>
 <p>实际上，<strong>所有</strong> Python 在内存中的头部都是一个 <code>PyObject</code> 结构，如下图所示。</p>
-<p><img data-src="https://i.imgur.com/qBt3pvW.png" alt="对象的内存分布"></p>
+<p><img src="https://i.imgur.com/qBt3pvW.png" alt="对象的内存分布"></p>
 <p>让我们继续看 <code>PyTypeObject</code> 这个结构体，内部定义了类型支持的操作的<em>指针</em>。举个例子，<code>*tp_as_number</code> 是一个指向 <code>PyNumberMethod</code> 结构体的指针。这个结构体包含了一系列函数指针，这些函数就是数字类型支持的计算，比如 <code>nb_add</code>, <code>nb_and</code> 等等。这里也包含了指向魔法函数的指针，比如 <code>tp_new</code> 指向的就是 <code>__new__</code> 的函数代码。这个类型结构体囊括了python类型可能支持的所有功能，其中有些其他类型是强制必须实现的，比如 <code>tp_new</code>，有些则是可选的，比如 <code>tp_init</code> 。</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Include/cpython/object.h</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">typeobject</span> &#123;</span></span><br><span class="line">    PyObject_VAR_HEAD</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *tp_name; <span class="comment">/* For printing, in format &quot;&lt;module&gt;.&lt;name&gt;&quot; */</span></span><br><span class="line">    Py_ssize_t tp_basicsize, tp_itemsize; <span class="comment">/* For allocation */</span></span><br><span class="line"></span><br><span class="line">    destructor tp_dealloc;</span><br><span class="line">    Py_ssize_t tp_vectorcall_offset;</span><br><span class="line">    getattrfunc tp_getattr;</span><br><span class="line">    setattrfunc tp_setattr;</span><br><span class="line">    PyAsyncMethods *tp_as_async; <span class="comment">/* formerly known as tp_compare (Python 2)</span></span><br><span class="line"><span class="comment">                                    or tp_reserved (Python 3) */</span></span><br><span class="line">    reprfunc tp_repr;</span><br><span class="line">    </span><br><span class="line">    PyNumberMethods *tp_as_number;</span><br><span class="line">    PySequenceMethods *tp_as_sequence;</span><br><span class="line">    PyMappingMethods *tp_as_mapping;</span><br><span class="line"></span><br><span class="line">    hashfunc tp_hash;</span><br><span class="line">    ternaryfunc tp_call;</span><br><span class="line">    reprfunc tp_str;</span><br><span class="line">    getattrofunc tp_getattro;</span><br><span class="line">    setattrofunc tp_setattro;</span><br><span class="line">    <span class="comment">//。。。</span></span><br><span class="line">    <span class="comment">//此处省略</span></span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    binaryfunc nb_add;</span><br><span class="line">    binaryfunc nb_subtract;</span><br><span class="line">    binaryfunc nb_multiply;</span><br><span class="line">    binaryfunc nb_remainder;</span><br><span class="line">    binaryfunc nb_divmod;</span><br><span class="line">    ternaryfunc nb_power;</span><br><span class="line">    <span class="comment">//。。。。</span></span><br><span class="line">    <span class="comment">//此处省略</span></span><br><span class="line">    &#125; PyNumberMethods;</span><br></pre></td></tr></table></figure>
 
@@ -4497,7 +4497,7 @@
 <li><code>PyMappingMethods</code>，定义了一些字典类的函数</li>
 </ul>
 <p>总结一下 Python 内存中的对都拥有类似的头部和组织结构：</p>
-<p><img data-src="https://i.imgur.com/D3euvFc.png" alt=""></p>
+<p><img src="https://i.imgur.com/D3euvFc.png" alt=""></p>
 <h2 id="tuple-类"><a href="#tuple-类" class="headerlink" title="tuple 类"></a><code>tuple</code> 类</h2><p>我们来看一个具体的例子，<code>tuple</code>。这里先介绍语言的内建类型，对于自定义类型（自己写的类）的说明，放在后面说。</p>
 <p><code>PyTuple_Type</code> 就是 <code>PyTypeObject</code> 的一个实例：</p>
 <p>首先，第一个 field 是 tuple 的基类：<code>PyType_Type</code>，其实在 python 解释器中就是 <code>type</code> 。第二个 field 是这个类打印出来的名字，这里就是 tuple，也就是解释器中 <code>type(a_tuple)</code> 的返回值。接下来就是tuple对象的大小和其内部元素的大小。注意到其中很多 0，这就表示这个类型没有实现哪些接口。</p>
@@ -4513,7 +4513,7 @@
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    PyObject_VAR_HEAD</span><br><span class="line">    <span class="comment">/* ob_item contains space for &#x27;ob_size&#x27; elements.</span></span><br><span class="line"><span class="comment">       Items must normally not be NULL, except during construction when</span></span><br><span class="line"><span class="comment">       the tuple is not yet visible outside the function that builds it. */</span></span><br><span class="line">    PyObject *ob_item[<span class="number">1</span>];</span><br><span class="line">&#125; PyTupleObject;</span><br></pre></td></tr></table></figure>
 
 <p><strong>这里需要注意</strong>：<code>PyTupleObject</code> 是实际被分配在堆内存的对象，我们可以创建很多对象，但是他们对应的函数都被包含在 <code>PyTuple_Type</code> 中，而这个对象是唯一的，所有 tuple 对象都会指向他。</p>
-<p><img data-src="https://i.imgur.com/LxvTRK4.png" alt=""></p>
+<p><img src="https://i.imgur.com/LxvTRK4.png" alt=""></p>
 <h2 id="实例化自定义类型"><a href="#实例化自定义类型" class="headerlink" title="实例化自定义类型"></a>实例化自定义类型</h2><p>那么当我们实例化自定义类型的时候，发生了什么？</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line">a = A()</span><br></pre></td></tr></table></figure>
 
@@ -4595,7 +4595,7 @@
 
 <p>可以看出，即使直接编译纯 Python 文件，性能也提升近2倍，而使用 Cython 语法后，性能提升约20倍。而且，这个函数比较简单，大部分代码的都在与 CPython 运行时互动，如果是复杂的函数，性能提升更加明显。</p>
 <p>编译器还会生成一个函数与Cpython互动的 html 文件用来检查：</p>
-<p><img data-src="https://i.imgur.com/n1GILGd.png" alt=""></p>
+<p><img src="https://i.imgur.com/n1GILGd.png" alt=""></p>
 <h2 id="Numba"><a href="#Numba" class="headerlink" title="Numba"></a>Numba</h2><p>Numba 走的是 JIT 的路线，不需要 Cython 哪样提前编译。使用起来非常简单！</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> numba <span class="keyword">import</span> jit</span><br><span class="line"></span><br><span class="line"><span class="meta">@jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">primes_python</span>(<span class="params">nb_primes</span>):</span></span><br><span class="line">    p = []</span><br><span class="line">    n = <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> <span class="built_in">len</span>(p) &lt; nb_primes:</span><br><span class="line">        <span class="comment"># Is n prime?</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> p:</span><br><span class="line">            <span class="keyword">if</span> n % i == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># If no break occurred in the loop</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            p.append(n)</span><br><span class="line">        n += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> p</span><br></pre></td></tr></table></figure>
 
@@ -4812,7 +4812,7 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">x, y</span>):</span></span><br><span class="line">    <span class="keyword">yield</span> a + b</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    y = <span class="keyword">yield</span> add(<span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(y)</span><br><span class="line">    <span class="keyword">yield</span></span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span>():</span></span><br><span class="line">    m      = main()       </span><br><span class="line">    sub    = m.send(<span class="literal">None</span>)             </span><br><span class="line">    result = sub.send(<span class="literal">None</span>)</span><br><span class="line">    m.send(result)</span><br><span class="line">    </span><br><span class="line">run()</span><br></pre></td></tr></table></figure>
 
 <p>上面这段函数的调用过程如下图：</p>
-<p><img data-src="https://i.imgur.com/WBtCFuj.png" alt="Copyright (C) 2009, David Beazley, http://www.dabeaz.com"></p>
+<p><img src="https://i.imgur.com/WBtCFuj.png" alt="Copyright (C) 2009, David Beazley, http://www.dabeaz.com"></p>
 <p>问题出在我们的 Task 的结构，如果我们想要进行子函数调用，我们就需要一个 栈。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Task</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    taskid = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,target</span>):</span></span><br><span class="line">        Task.taskid += <span class="number">1</span></span><br><span class="line">        self.tid     = Task.taskid   <span class="comment"># Task ID</span></span><br><span class="line">        self.target  = target        <span class="comment"># Target coroutine</span></span><br><span class="line">        self.sendval = <span class="literal">None</span>          <span class="comment"># Value to send</span></span><br><span class="line">        self.stack   = []            <span class="comment"># Call stack</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 加入 栈 后我们需要更新 task 的运行</span></span><br><span class="line">    <span class="comment"># 之前我们只需要直接通过send 触发 协程，现在我们需要考虑函数栈的值</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="comment"># 执行到下一个 yield</span></span><br><span class="line">                result = self.target.send(self.sendval)</span><br><span class="line">                <span class="comment"># 检查结果</span></span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">isinstance</span>(result, SystemCall): <span class="keyword">return</span> result</span><br><span class="line">                <span class="comment"># 我们关心返回值为协程的调用，意味着发生了子函数调用</span></span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">isinstance</span>(result, types.GeneratorType):</span><br><span class="line">                    <span class="comment"># 我们需要把 主函数 进栈，把执行对象换成 子函数</span></span><br><span class="line">                    self.stack.append(self.target)</span><br><span class="line">                    self.sendval = <span class="literal">None</span></span><br><span class="line">                    self.target  = result</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment"># 如果返回值不是协程，说明子函数已经返回了</span></span><br><span class="line">                    <span class="keyword">if</span> <span class="keyword">not</span> self.stack: <span class="keyword">return</span></span><br><span class="line">                    <span class="comment"># 这时，我们把子函数的返回值发送给 主函数，并把当前执行对象换成主函数</span></span><br><span class="line">                    self.sendval = result</span><br><span class="line">                    self.target  = self.stack.pop()</span><br><span class="line">            <span class="keyword">except</span> StopIteration:</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> self.stack: <span class="keyword">raise</span></span><br><span class="line">                self.sendval = <span class="literal">None</span></span><br><span class="line">                self.target = self.stack.pop()</span><br></pre></td></tr></table></figure>
 
@@ -4885,7 +4885,7 @@
 <p>对协程不太了解的同学请看：<a href="https://zhuanlan.zhihu.com/p/354982602">https://zhuanlan.zhihu.com/p/354982602</a></p>
 <h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><p>需要指出的是，当CPU（假设只有一个核心）运行你的代码时，OS自己的代码就不可能被执行。那么，操作系统是如何拿回控制权的呢？通常，操作系统有两种方式拿回CPU的控制权：Interrupt和Traps。Interrupt通常是IO或者计时器发出的，而Trap是其他软件生成的给CPU的信号。当CPU收到这两种信号后，会挺会手上的活，移交执行权给OS代码。当应用程序调用OS提供的底层函数时，通常会产生Trap，从而把执行权交还OS。</p>
 <p>所以，某种程度上说，OS的一个重要的组成部分就是多任务切换和管理，充分利用有限的CPU资源。</p>
-<p><img data-src="https://i.imgur.com/pYNOZgW.png" alt="OS多任务"></p>
+<p><img src="https://i.imgur.com/pYNOZgW.png" alt="OS多任务"></p>
 <h2 id="用-协程-构建OS"><a href="#用-协程-构建OS" class="headerlink" title="用 协程 构建OS"></a>用 协程 构建OS</h2><p>如果你还记得上一次我们讲到的<code>yield</code>关键字，你会发现他就是一个Trap，一个协程会在 yield的时候交出执行权！利用这点，我们就可以用 协程 构建一个多任务操作系统！不需要线程、进程。</p>
 <p>首先，既然是多任务系统，我们首先要抽象一个Task对象出来，代表任务。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Task</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    taskid = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,target</span>):</span></span><br><span class="line">        <span class="comment"># class variable</span></span><br><span class="line">        Task.taskid += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># object</span></span><br><span class="line">        self.tid     = Task.taskid   <span class="comment"># Task ID</span></span><br><span class="line">        self.target  = target        <span class="comment"># Target coroutine</span></span><br><span class="line">        self.sendval = <span class="literal">None</span>          <span class="comment"># Value to send</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Run a task until it hits the next yield statement</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.target.send(self.sendval)</span><br><span class="line"></span><br><span class="line"><span class="comment"># A simple generator/coroutine function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>():</span></span><br><span class="line">    <span class="built_in">print</span> ( <span class="string">&quot;Part 1&quot;</span> )</span><br><span class="line">    <span class="keyword">yield</span></span><br><span class="line">    <span class="built_in">print</span> ( <span class="string">&quot;Part 2&quot;</span> )</span><br><span class="line">    <span class="keyword">yield</span></span><br><span class="line"></span><br><span class="line">t1 = Task(foo())</span><br><span class="line"><span class="built_in">print</span> ( <span class="string">&quot;Running foo()&quot;</span> )</span><br><span class="line">t1.run()</span><br><span class="line"><span class="built_in">print</span> ( <span class="string">&quot;Resuming foo()&quot;</span> )</span><br><span class="line">t1.run()</span><br></pre></td></tr></table></figure>
@@ -4961,7 +4961,7 @@
     <title>重新认识 Python（4）并发模型</title>
     <url>/2021/03/05/python_concurrent/</url>
     <content><![CDATA[<h1 id="重新认识-Python（4）并发模型"><a href="#重新认识-Python（4）并发模型" class="headerlink" title="重新认识 Python（4）并发模型"></a>重新认识 Python（4）并发模型</h1><h2 id="并发是什么？"><a href="#并发是什么？" class="headerlink" title="并发是什么？"></a>并发是什么？</h2><p>并发一般是指多个计算在时间上无固定先后顺序的执行。并发程序不一定存在并行。举个例子<a href="https://web.mit.edu/6.005/www/fa14/classes/17-concurrency/#message_passing_example">reference</a>: </p>
-<p><img data-src="https://i.imgur.com/LG0PL9t.png" alt="并发实例"></p>
+<p><img src="https://i.imgur.com/LG0PL9t.png" alt="并发实例"></p>
 <p>上面的例子中我们有三个任务，T1~3，这三个任务就属于并发执行，而且因为有两个CPU，所以存在一定的并行。左图是每一个任务在CPU核心的执行情况，而右图是从任务自身的时间线角度表达任务的执行情况。可以看到任务通常不是连续执行，而是根据调度情况间断执行。</p>
 <p>并发编程的一个好处就是可以让数量有限的CPU核心，“看起来”同时执行数量远远大于核心数量的任务，换句话说，增加系统的对请求的响应程度。</p>
 <p>并发模型最常见的程序其实就是操作系统，一个普通的操作系统运行在一个8核CPU上，却可以“看起来”同时执行成千上万个任务，这就是并发模型的效果。</p>
@@ -5228,7 +5228,7 @@
 <li>empty，空</li>
 </ul>
 <p>为了提高寻址效率，Python还维护一个array <code>usedpools</code>, 存储不同分组的pool的头地址。如下：</p>
-<p><img data-src="https://i.imgur.com/Hg7D3Rl.png" alt=""></p>
+<p><img src="https://i.imgur.com/Hg7D3Rl.png" alt=""></p>
 <p>另外，block和pool不会直接分配内存，他们只是维护内存的数据结构，内存是由 <code>arena</code> 进行分配的。</p>
 <h3 id="Arena"><a href="#Arena" class="headerlink" title="Arena"></a>Arena</h3><p><code>Arena</code> 代表了一片大小为256kb的在堆上的内存空间，每一个 arena 包含 64 个pool。arena的结构如下：</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">arena_object</span> &#123;</span></span><br><span class="line">    <span class="keyword">uintptr_t</span> address;</span><br><span class="line">    block* pool_address;</span><br><span class="line">    uint nfreepools;</span><br><span class="line">    uint ntotalpools;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pool_header</span>* <span class="title">freepools</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">arena_object</span>* <span class="title">nextarena</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">arena_object</span>* <span class="title">prevarena</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -5454,7 +5454,7 @@
 <p>Example of rational number data abstraction: </p>
 <figure class="highlight clojure"><table><tr><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">make-rat</span> n d) (<span class="name"><span class="builtin-name">cons</span></span> n d))</span><br><span class="line">(<span class="name">define</span> (<span class="name">numer</span> x) (<span class="name">car</span> x))</span><br><span class="line">(<span class="name">define</span> (<span class="name">denom</span> x) (<span class="name">cdr</span> x))</span><br><span class="line">(<span class="name">define</span> (<span class="name">print-tar</span> x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">newline</span></span>)</span><br><span class="line">  (<span class="name">display</span> (<span class="name">numer</span> x))</span><br><span class="line">  (<span class="name">display</span> <span class="string">&quot;/&quot;</span>)</span><br><span class="line">  (<span class="name">display</span> (<span class="name">denom</span> x)))</span><br></pre></td></tr></table></figure>
 <p>The horizontal lines represent <code>abstraction barrier</code>.</p>
-<p><img data-src="https://i.imgur.com/jBwpFte.png" alt=""></p>
+<p><img src="https://i.imgur.com/jBwpFte.png" alt=""></p>
 <h3 id="What-is-Meant-by-Data"><a href="#What-is-Meant-by-Data" class="headerlink" title="What is Meant by Data??"></a>What is Meant by Data??</h3><p>In general, we can think of data as defined by some collection of selectors and constructors, together with specified conditions that these procedures must fulfill in order to be a valid representation.</p>
 <h2 id="Hierarchical-Data-and-the-Closure-Property"><a href="#Hierarchical-Data-and-the-Closure-Property" class="headerlink" title="Hierarchical Data and the Closure Property"></a>Hierarchical Data and the Closure Property</h2><p>THe ability to create pairs whose elements are pairs is the essence of list structure’s importance as a representational tool. This is called <code>closure property</code>: an operation for combining data objects satisfies the closure property if the results of combining things with that operation can themselves be combined using the same operation.</p>
 <blockquote>
@@ -5487,17 +5487,17 @@
 <p>So in addition to the data-abstraction barriers that isolate representation from use, we need abstraction barriers that isolate different design choices from each other and permit different choices to coexist in a single program. </p>
 <p>In addition, we need to make the system more additive.</p>
 <p>To achieve above, we need a new tool <code>generic procedure</code>. Type tags and data-directed style enable this.</p>
-<h3 id="Example-Complex-number"><a href="#Example-Complex-number" class="headerlink" title="Example: Complex-number"></a>Example: Complex-number</h3><p><img data-src="https://i.imgur.com/08f8LQm.png" alt=""></p>
+<h3 id="Example-Complex-number"><a href="#Example-Complex-number" class="headerlink" title="Example: Complex-number"></a>Example: Complex-number</h3><p><img src="https://i.imgur.com/08f8LQm.png" alt=""></p>
 <p>But we soon realized that, using type tag make the system not additive!<br>And this kind of system is hard to maintain.</p>
 <p>NOT A GOOD DESIGN!</p>
 <p>Here is Table of operations for the complex-number system:</p>
-<p><img data-src="https://i.imgur.com/1UiVC6S.png" alt=""></p>
+<p><img src="https://i.imgur.com/1UiVC6S.png" alt=""></p>
 <p>Data-directed programming is the technique of designing programs to work with such a table directly. If we do this, then to add a new representation package to the system we need not change any existing procedures; we need only add new entries to the table.</p>
 <figure class="highlight clojure"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">apply-generic</span> op . args)</span><br><span class="line">(<span class="name"><span class="builtin-name">let</span></span> ((<span class="name">type-tags</span> (<span class="name"><span class="builtin-name">map</span></span> type-tag args)))</span><br><span class="line">(<span class="name"><span class="builtin-name">let</span></span> ((<span class="name">proc</span> (<span class="name"><span class="builtin-name">get</span></span> op type-tags))) (<span class="name"><span class="builtin-name">if</span></span> proc</span><br><span class="line">          (<span class="name"><span class="builtin-name">apply</span></span> proc (<span class="name"><span class="builtin-name">map</span></span> contents args))</span><br><span class="line">          (<span class="name">error</span> <span class="string">&quot;No method for these types: APPLY-GENERIC&quot;</span></span><br><span class="line">(<span class="name"><span class="builtin-name">list</span></span> op type-tags))))))</span><br><span class="line"><span class="comment">;; selectors with generics</span></span><br><span class="line">(<span class="name">define</span> (<span class="name">real-part</span> z) (<span class="name">apply-generic</span> &#x27;real-part z))</span><br><span class="line">(<span class="name">define</span> (<span class="name">imag-part</span> z) (<span class="name">apply-generic</span> &#x27;imag-part z)) </span><br><span class="line">(<span class="name">define</span> (<span class="name">magnitude</span> z) (<span class="name">apply-generic</span> &#x27;magnitude z)) </span><br><span class="line">(<span class="name">define</span> (<span class="name">angle</span> z)     (<span class="name">apply-generic</span> &#x27;angle z))</span><br></pre></td></tr></table></figure>
 
 <p>In effect, this decomposes the operation-and-type table into rows, with each generic operation procedure representing a row of the table.</p>
 <p>An alternative implementation strategy is to decompose the table into columns. This style is called <code>message passing</code>.</p>
-<h2 id="Systems-with-Generic-Operations"><a href="#Systems-with-Generic-Operations" class="headerlink" title="Systems with Generic Operations"></a>Systems with Generic Operations</h2><h3 id="Generic-Arithmetic-Operations"><a href="#Generic-Arithmetic-Operations" class="headerlink" title="Generic Arithmetic Operations"></a>Generic Arithmetic Operations</h3><p><img data-src="https://i.imgur.com/Yf6vQCg.png" alt=""></p>
+<h2 id="Systems-with-Generic-Operations"><a href="#Systems-with-Generic-Operations" class="headerlink" title="Systems with Generic Operations"></a>Systems with Generic Operations</h2><h3 id="Generic-Arithmetic-Operations"><a href="#Generic-Arithmetic-Operations" class="headerlink" title="Generic Arithmetic Operations"></a>Generic Arithmetic Operations</h3><p><img src="https://i.imgur.com/Yf6vQCg.png" alt=""></p>
 <p>The generic arithmetic procedures are defined as</p>
 <figure class="highlight clojure"><table><tr><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">add</span> x y) (<span class="name">apply-generic</span> &#x27;add x y))</span><br><span class="line">(<span class="name">define</span> (<span class="name">sub</span> x y) (<span class="name">apply-generic</span> &#x27;sub x y))</span><br><span class="line">(<span class="name">define</span> (<span class="name">mul</span> x y) (<span class="name">apply-generic</span> &#x27;mul x y))</span><br><span class="line">(<span class="name">define</span> (<span class="name">div</span> x y) (<span class="name">apply-generic</span> &#x27;div x y))</span><br><span class="line"></span><br><span class="line"><span class="comment">;;</span></span><br><span class="line">(<span class="name">define</span> (<span class="name">install-scheme-number-package</span>)</span><br><span class="line">  (<span class="name">define</span> (<span class="name">tag</span> x) (<span class="name">attach-tag</span> &#x27;scheme-number x)) </span><br><span class="line">  (<span class="name">put</span> &#x27;add &#x27;(<span class="name">scheme-number</span> scheme-number)</span><br><span class="line">       (<span class="name">lambda</span> (<span class="name">x</span> y) (<span class="name">tag</span> (<span class="name"><span class="builtin-name">+</span></span> x y))))</span><br><span class="line">  (<span class="name">put</span> &#x27;sub &#x27;(<span class="name">scheme-number</span> scheme-number)</span><br><span class="line">       (<span class="name">lambda</span> (<span class="name">x</span> y) (<span class="name">tag</span> (<span class="name"><span class="builtin-name">-</span></span> x y))))</span><br><span class="line">  (<span class="name">put</span> &#x27;mul &#x27;(<span class="name">scheme-number</span> scheme-number)</span><br><span class="line">       (<span class="name">lambda</span> (<span class="name">x</span> y) (<span class="name">tag</span> (<span class="name"><span class="builtin-name">*</span></span> x y))))</span><br><span class="line">  (<span class="name">put</span> &#x27;div &#x27;(<span class="name">scheme-number</span> scheme-number)</span><br><span class="line">       (<span class="name">lambda</span> (<span class="name">x</span> y) (<span class="name">tag</span> (/ x y))))</span><br><span class="line">  (<span class="name">put</span> &#x27;make &#x27;scheme-number (<span class="name">lambda</span> (<span class="name">x</span>) (<span class="name">tag</span> x))) &#x27;done)</span><br></pre></td></tr></table></figure>
 
@@ -5598,15 +5598,15 @@
     <title>2020总结</title>
     <url>/2020/12/24/summary_2020/</url>
     <content><![CDATA[<h1 id="2020-年总结"><a href="#2020-年总结" class="headerlink" title="2020 年总结"></a>2020 年总结</h1><h2 id="世界"><a href="#世界" class="headerlink" title="世界"></a>世界</h2><p>今年对世界很独特。2020年1月，新冠（COVID-19）在武汉首先爆发，3月疫情拓展至美国、英国、欧洲等世界各地。在我写下这篇博客的时候，中国的疫情已经得到了完全控制，而欧洲、美国正处在新兴变种病毒的第三波高峰期。</p>
-<p><img data-src="https://i.imgur.com/v3YNSlk.png" alt="日新增病例"></p>
+<p><img src="https://i.imgur.com/v3YNSlk.png" alt="日新增病例"></p>
 <p>在新冠疫情的影响下，美股出现了前所未有的崩盘运动。2020年2月到3月之间，标普500期货连熔断三次，跌幅高达40%。</p>
-<p><img data-src="https://i.imgur.com/HRqM9sy.png" alt="标普500"></p>
+<p><img src="https://i.imgur.com/HRqM9sy.png" alt="标普500"></p>
 <p>连带影响，原油期货价格更是出现了前所未有的负值。</p>
-<p><img data-src="https://i.imgur.com/znXcKtx.png" alt="原油期货"></p>
+<p><img src="https://i.imgur.com/znXcKtx.png" alt="原油期货"></p>
 <p>不过，这种独特的情况也成就了某些公司，比如Zoom。Zoom的股票一年翻了8倍！</p>
-<p><img data-src="https://i.imgur.com/GDHzSob.png" alt="Zoom股票"></p>
+<p><img src="https://i.imgur.com/GDHzSob.png" alt="Zoom股票"></p>
 <p>年末另一个引起我注意的是比特币。比特币在18年泡沫破裂后，在2020年12月再创新高，达到了24000美金。。。</p>
-<p><img data-src="https://i.imgur.com/M2Fh105.png" alt="比特币"></p>
+<p><img src="https://i.imgur.com/M2Fh105.png" alt="比特币"></p>
 <p><strong>这些事情基本都在告诉我：黑天鹅事件必然会发生，而且概率远远超过统计数据。</strong><br>这不仅仅针对金融市场，世界的各个领域正在更加紧密的连接，不同领域的黑天鹅很可能对其他领域产生连锁效应。</p>
 <p>应对黑天鹅存在的世界，控制风险异常重要，预测异常困难。多样性仍然是在尽可能少的依赖预测前提下最好的风控方式。但是多样性有成本，无限多样得不偿失。</p>
 <p>多样性的本质是相关性，也许也有因果关系。</p>
@@ -5708,11 +5708,11 @@
 <h2 id="Beta-a-RISC-reduced-instruction-set-computer"><a href="#Beta-a-RISC-reduced-instruction-set-computer" class="headerlink" title="Beta: a RISC, reduced instruction set computer."></a>Beta: a RISC, reduced instruction set computer.</h2><h2 id="Assembly"><a href="#Assembly" class="headerlink" title="Assembly"></a>Assembly</h2><p>A human readable ISA+ </p>
 <h2 id="Compiler"><a href="#Compiler" class="headerlink" title="Compiler"></a>Compiler</h2><p>High level languages. Two basic execution logic: interpretation and complilation. </p>
 <p>Front end + Back end.</p>
-<p><img data-src="https://i.imgur.com/yC1UdhA.png" alt=""></p>
+<p><img src="https://i.imgur.com/yC1UdhA.png" alt=""></p>
 <h2 id="Procedures-abstraction-by-high-level-languages"><a href="#Procedures-abstraction-by-high-level-languages" class="headerlink" title="Procedures, abstraction by high level languages"></a>Procedures, abstraction by high level languages</h2><h1 id="Memory-tech"><a href="#Memory-tech" class="headerlink" title="Memory tech"></a>Memory tech</h1><blockquote>
 <p>Everything is cache of something else..</p>
 </blockquote>
-<p><img data-src="https://i.imgur.com/NMkOpar.png" alt=""></p>
+<p><img src="https://i.imgur.com/NMkOpar.png" alt=""></p>
 ]]></content>
       <categories>
         <category>Computing</category>
@@ -6301,7 +6301,7 @@
   <entry>
     <title>Efficiently Inefficient Market</title>
     <url>/2020/10/03/efficiently_inefficient/</url>
-    <content><![CDATA[<h1 id="Efficiently-Inefficient-Market"><a href="#Efficiently-Inefficient-Market" class="headerlink" title="Efficiently Inefficient Market"></a>Efficiently Inefficient Market</h1><p><a href="https://hackmd.io/DEJL1LPVSd6-XRKV85iEeg"><img data-src="https://hackmd.io/DEJL1LPVSd6-XRKV85iEeg/badge" alt="hackmd-github-sync-badge"></a></p>
+    <content><![CDATA[<h1 id="Efficiently-Inefficient-Market"><a href="#Efficiently-Inefficient-Market" class="headerlink" title="Efficiently Inefficient Market"></a>Efficiently Inefficient Market</h1><p><a href="https://hackmd.io/DEJL1LPVSd6-XRKV85iEeg"><img src="https://hackmd.io/DEJL1LPVSd6-XRKV85iEeg/badge" alt="hackmd-github-sync-badge"></a></p>
 <h1 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h1><p>作者认为，市场足够的有效，但是不是完全有效，也正式基金经理的主动挖掘无效性，才进一步促进了市场的有效。只不过，主动投资是有花销的，比如人力、技能、电脑、场地等等，这些都会为主动管理资金设立门槛，导致超过容量有限。</p>
 <p>作者在AQR从事量化投资相关研究，具有很好的学术和工业背景，所以他的见解更加贴合真是市场，但是又包含严谨的说明，没有任何玄学。比如，他就明确的说出：想要盈利就必须要预测，而且要做好的预测。</p>
 <p>这一点我很认同，母我看到太多所谓的“交易”达人胡扯：不预测，只是跟随市场。&lt;—- <strong>扯淡</strong>。</p>
@@ -6315,7 +6315,7 @@
 <h1 id="1、主动投资活动"><a href="#1、主动投资活动" class="headerlink" title="1、主动投资活动"></a>1、主动投资活动</h1><h2 id="评价策略表现"><a href="#评价策略表现" class="headerlink" title="评价策略表现"></a>评价策略表现</h2><p>Alpha, t-statics, sharpe ratio, information ratio, alpha-to-margin ratio, sortino ratio</p>
 <h2 id="寻找、回测策略"><a href="#寻找、回测策略" class="headerlink" title="寻找、回测策略"></a>寻找、回测策略</h2><p>每一个策略背后都应该有合理的盈利逻辑，因为你的每一笔交易都会存在对手方，如果你的策略真的有效，那么对手会亏损，问题在于他有什么理由一直亏损？</p>
 <p>所以超额利润，alpha，一般来源有两个：流动性的补偿和信息的补偿。</p>
-<p><img data-src="https://i.imgur.com/FRHkc6g.png" alt="Alpha的来源"></p>
+<p><img src="https://i.imgur.com/FRHkc6g.png" alt="Alpha的来源"></p>
 <p><strong>信息</strong></p>
 <p>市场价格如果可以反映该产品的一切信息，那么这个过程不是自动完成的，也不是瞬间完成的，需要有人去交易这些信息，把这些信息反映到市场价格中去。反过来说，如果市场自动、瞬间反映了所有信息，那么不会有人去收集并交易任何信息，因为没有意义。可以，如果是这样的话，市场优又如何可以反映新出现的信息？所以，对冲基金等主动管理者就通过收集和交易信息成全了市场的有效性。</p>
 <p>对冲基金往往也充当了信息的生产者，比如他们会对公司进行深入系统的研究，然后做出对应的交易，从而将这些信息反映到价格中。对冲基金也会高价购买信息，然后通过交易行为，将这些信息反映到价格中，并且从中盈利。同时，对冲基金也会交易一些非理性行为，比如</p>
@@ -6439,7 +6439,7 @@
   <entry>
     <title>Computer System</title>
     <url>/2020/09/20/cs_app/</url>
-    <content><![CDATA[<h1 id="Computer-System-A-Programmer’s-Perspectives"><a href="#Computer-System-A-Programmer’s-Perspectives" class="headerlink" title="Computer System: A Programmer’s Perspectives"></a>Computer System: A Programmer’s Perspectives</h1><p><a href="https://hackmd.io/fzzDuqP9TO2f8MOsqmOxUQ"><img data-src="https://hackmd.io/fzzDuqP9TO2f8MOsqmOxUQ/badge" alt="hackmd-github-sync-badge"></a></p>
+    <content><![CDATA[<h1 id="Computer-System-A-Programmer’s-Perspectives"><a href="#Computer-System-A-Programmer’s-Perspectives" class="headerlink" title="Computer System: A Programmer’s Perspectives"></a>Computer System: A Programmer’s Perspectives</h1><p><a href="https://hackmd.io/fzzDuqP9TO2f8MOsqmOxUQ"><img src="https://hackmd.io/fzzDuqP9TO2f8MOsqmOxUQ/badge" alt="hackmd-github-sync-badge"></a></p>
 <p>一个读书笔记。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这本书首先自底向上介绍现代计算机的基本工作原理，论述了计算软件和硬件如何协调工作。在此基础上，介绍了一个程序是如何从源代码，被编译，然后被执行的。然后，详细展开说明一个应用程序在硬件和操作系统层面是如何被执行的。 最后，介绍了多个程序之间是如何互动，比如IO、网络、以及并发。</p>
 <h2 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h2><p>这本书的角度很独特，作者从一个开发应用程序的程序员角度切入，而不是从操作系统开发人员的角度切入。刚开始读这本书的时候，原本的目的是学习操作系统，但是却意外发现这本书的角度其实非常适合非操作系统开发程序员阅读。因为他深入浅出的解释了很多幕后的事情，读后感觉对整个计算机工作原理有了更加深入的理解，同时也有助于写出更加高效的程序。</p>
@@ -6447,14 +6447,14 @@
 <p>Information is Bits + Context</p>
 </blockquote>
 <p>源代码的编译过程：</p>
-<p><img data-src="https://i.imgur.com/RBffpof.png" alt="源代码编译"></p>
+<p><img src="https://i.imgur.com/RBffpof.png" alt="源代码编译"></p>
 <p>编译过程主要包含：预处理，编译，汇编，连接等四个过程。预处理主要是扩充源代码的语法糖，比如宏，导入等等；编译器输出汇编版本的程序；汇编器会形成二进制的目标文件；最终，连接器会把各个目标文件组合在一起形成最终的可执行二进制文件。整个过程就是一个把高级语言翻译成二进制指令的过程。</p>
 <p>计算机只能执行二进制指令，这些指令通常涉及：读入、存储、计算和跳转。当我们执行一个程序的时候，就是执行编译产生的二进制文件的时候，所有指令和数据会被读入内存，然后CPU通过读取指令和数据完成计算。</p>
-<p><img data-src="https://i.imgur.com/ggjMHJJ.png" alt=""></p>
+<p><img src="https://i.imgur.com/ggjMHJJ.png" alt=""></p>
 <p>操作系统的主要功能就是提供一个硬件和一般引用程序之间的抽象，为每一个应用程序提供一个进程，也就是一个相对独立的CPU和内存环境。</p>
-<p><img data-src="https://i.imgur.com/79exfiM.png" alt=""></p>
+<p><img src="https://i.imgur.com/79exfiM.png" alt=""></p>
 <p>计算机的各个部分通过总线连接：</p>
-<p><img data-src="https://i.imgur.com/b9gUgiO.png" alt=""></p>
+<p><img src="https://i.imgur.com/b9gUgiO.png" alt=""></p>
 <h2 id="程序的结构"><a href="#程序的结构" class="headerlink" title="程序的结构"></a>程序的结构</h2><h3 id="信息的表达与操作"><a href="#信息的表达与操作" class="headerlink" title="信息的表达与操作"></a>信息的表达与操作</h3><p>word size: 寻址极限，指针的范围。因为1 byte = 8 bit. 所以在64位寻址系统中，一个指针类型由8 byte表达，即64bits。</p>
 <p>fix point fraction and floating point fraction。 这里有个不错的参考：<br><a href="https://ryanstutorials.net/binary-tutorial/binary-floating-point.php">https://ryanstutorials.net/binary-tutorial/binary-floating-point.php</a></p>
 <h4 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h4><p>bit wise 运算。</p>
@@ -6466,7 +6466,7 @@
 </ul>
 <p>为了避免这些，尽量考虑计算过程中的数值的极值范围，合理处理上面的极端情况。减少两个数量级相差很多的量进行计算， 通常先进行规范化处理后进行计算。</p>
 <h3 id="代码的机器层面表达"><a href="#代码的机器层面表达" class="headerlink" title="代码的机器层面表达"></a>代码的机器层面表达</h3><p>源代码经过编译，会形成汇编文件，这个文件其实就是通过简单的指令按顺序排列。只不过在这个阶段，指令使用人类可以理解的单词表达，比如<code>pushl</code>等等。汇编文件经过汇编，就形成了二进制文件，也就是把汇编指令一一对应的翻译成二进制（一般采用16进制表达），如下图所示：</p>
-<p><img data-src="https://i.imgur.com/LkwkUrY.png" alt=""></p>
+<p><img src="https://i.imgur.com/LkwkUrY.png" alt=""></p>
 <h3 id="提高速度的一些小技巧"><a href="#提高速度的一些小技巧" class="headerlink" title="提高速度的一些小技巧"></a>提高速度的一些小技巧</h3><ol>
 <li>减少循环</li>
 <li>循环中减少函数调用</li>
@@ -6499,13 +6499,13 @@
 <blockquote>
 <p>任何计算机问题都可以通过增加重新定向解决，Mapping。</p>
 </blockquote>
-<h3 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h3><p><img data-src="https://i.imgur.com/PPKEmBj.png" alt=""></p>
+<h3 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h3><p><img src="https://i.imgur.com/PPKEmBj.png" alt=""></p>
 <h2 id="程序的互动"><a href="#程序的互动" class="headerlink" title="程序的互动"></a>程序的互动</h2><h3 id="系统IO"><a href="#系统IO" class="headerlink" title="系统IO"></a>系统IO</h3><p>Input/Output，IO，指的是内存和其他外设之间的数据传输过程。Input，从外部设备拷贝数据进入内存；Output，从内存传输数据进入外部设备。外部设备可以是硬盘、终端、网络等等。</p>
 <p>系统内核，Kernel，提供了基本的IO操作。在Unix类系统中，所有的I/O设备，例如网络、硬盘、终端等，都用文件表达，所有的输入、输出都已读写对应的文件完成。文件，就是一些列的字节。</p>
 <p>注意到，这里出现了另一个重新定向，Mapping：I/O设备到文件。通过文件映射，统一了各类外设的操作方法。跟虚拟内存异曲同工。</p>
-<p><img data-src="https://i.imgur.com/vPBnwkw.png" alt=""></p>
+<p><img src="https://i.imgur.com/vPBnwkw.png" alt=""></p>
 <h3 id="网络IO"><a href="#网络IO" class="headerlink" title="网络IO"></a>网络IO</h3><p>Socket Interface.</p>
-<p><img data-src="https://i.imgur.com/QcA0tVp.png" alt=""></p>
+<p><img src="https://i.imgur.com/QcA0tVp.png" alt=""></p>
 <h3 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h3><p>这里是应用层面的并发。操作系统提供了三种并发方法：</p>
 <ul>
 <li>Process,进程</li>
@@ -6525,22 +6525,22 @@
     <title>Reinforment Learning 4 Dynamic Programming</title>
     <url>/2020/08/01/rl4/</url>
     <content><![CDATA[<p>In previous chapter, value functions are defined. Dynamic Programming method is used here to use value functions to organize and structure the search for agent best policy.</p>
-<p><img data-src="https://i.imgur.com/26qVDFu.png" alt=""></p>
-<p><img data-src="https://i.imgur.com/YFH5OcT.png" alt=""></p>
+<p><img src="https://i.imgur.com/26qVDFu.png" alt=""></p>
+<p><img src="https://i.imgur.com/YFH5OcT.png" alt=""></p>
 <p>In other words, DP algorithms are obtained by turning Bellman equations such as these into assignments, that is, into update rules for improving approximations of the desired value functions.</p>
 <h2 id="Policy-Evaluation"><a href="#Policy-Evaluation" class="headerlink" title="Policy Evaluation"></a>Policy Evaluation</h2><p>First thing, how can we compute value function $v_{\pi}$ given a policy? This is also known as <em>prediction problem</em> or <em>policy evaluation</em>. </p>
-<p><img data-src="https://i.imgur.com/GBtvnIv.png" alt=""></p>
+<p><img src="https://i.imgur.com/GBtvnIv.png" alt=""></p>
 <p>As above, there is a iterative method that we can solve this recursive problem.</p>
-<p><img data-src="https://i.imgur.com/qwEAxdf.png" alt=""></p>
+<p><img src="https://i.imgur.com/qwEAxdf.png" alt=""></p>
 <p>TODO: code to simulate Grid world value functions</p>
 <h2 id="Policy-Improvement"><a href="#Policy-Improvement" class="headerlink" title="Policy Improvement"></a>Policy Improvement</h2><p>The theory is simple. If $q_{\pi}(s,\pi’(s)) \gt v_{\pi}(s)$, then $\pi’$ must be as good as, or better than, $\pi$ . Hence $v_{\pi’}(s) \gt v_{\pi}(s)$</p>
-<p><img data-src="https://i.imgur.com/Yrw6w2t.png" alt=""></p>
+<p><img src="https://i.imgur.com/Yrw6w2t.png" alt=""></p>
 <p>Or in another equation:</p>
-<p><img data-src="https://i.imgur.com/NMnxuE7.png" alt=""></p>
+<p><img src="https://i.imgur.com/NMnxuE7.png" alt=""></p>
 <p>TODO：code</p>
 <h2 id="Policy-Iteration"><a href="#Policy-Iteration" class="headerlink" title="Policy Iteration"></a>Policy Iteration</h2><p>Once we know how to compute value function and how to improve a policy using value function, we can iterate the process to get a optimal policy.</p>
-<p><img data-src="https://i.imgur.com/39yUEIw.png" alt=""></p>
-<h2 id="Value-Iteration"><a href="#Value-Iteration" class="headerlink" title="Value Iteration"></a>Value Iteration</h2><p><img data-src="https://i.imgur.com/kfwyLJf.png" alt=""></p>
+<p><img src="https://i.imgur.com/39yUEIw.png" alt=""></p>
+<h2 id="Value-Iteration"><a href="#Value-Iteration" class="headerlink" title="Value Iteration"></a>Value Iteration</h2><p><img src="https://i.imgur.com/kfwyLJf.png" alt=""></p>
 ]]></content>
       <categories>
         <category>Quant</category>
@@ -6553,7 +6553,7 @@
   <entry>
     <title>Reinforment Learning 3 Markov Decision Process</title>
     <url>/2020/07/31/rl2/</url>
-    <content><![CDATA[<h1 id="Markov-Decision-Process-MDP"><a href="#Markov-Decision-Process-MDP" class="headerlink" title="Markov Decision Process, MDP"></a>Markov Decision Process, MDP</h1><p><a href="https://hackmd.io/BGkR2gTjTLy6oHBfkQ2EAQ"><img data-src="https://hackmd.io/BGkR2gTjTLy6oHBfkQ2EAQ/badge" alt="hackmd-github-sync-badge"></a></p>
+    <content><![CDATA[<h1 id="Markov-Decision-Process-MDP"><a href="#Markov-Decision-Process-MDP" class="headerlink" title="Markov Decision Process, MDP"></a>Markov Decision Process, MDP</h1><p><a href="https://hackmd.io/BGkR2gTjTLy6oHBfkQ2EAQ"><img src="https://hackmd.io/BGkR2gTjTLy6oHBfkQ2EAQ/badge" alt="hackmd-github-sync-badge"></a></p>
 <h2 id="High-level-overview-of-RL"><a href="#High-level-overview-of-RL" class="headerlink" title="High level overview of RL"></a>High level overview of RL</h2><p>At the heart of RL theory, it is Markov Decision Process.</p>
 <p>The general rule we follow is that anything that cannot be changed arbitrarily by the agent is considered to be outside of it and thus part of its environment.</p>
 <p>High level description of RL problem: three signals.</p>
@@ -6571,11 +6571,11 @@
 <p>$$p(s’,r|s,a) = Pr{R_{t+1}=r, S_{t+1}=s’|S_t, A_t}$$</p>
 <p>In order for these to be effective and informative, the state representation must be informative.</p>
 <h2 id="Markov-Decision-Process"><a href="#Markov-Decision-Process" class="headerlink" title="Markov Decision Process"></a>Markov Decision Process</h2><p>Expected rewords for state-action pairs:</p>
-<p><img data-src="https://i.imgur.com/64vtOf2.png" alt=""></p>
+<p><img src="https://i.imgur.com/64vtOf2.png" alt=""></p>
 <p>The state-transition probability:</p>
-<p><img data-src="https://i.imgur.com/eqZhGEy.png" alt=""></p>
+<p><img src="https://i.imgur.com/eqZhGEy.png" alt=""></p>
 <p>The expected rewards for state-action-next-state triples:</p>
-<p><img data-src="https://i.imgur.com/7xgrcZX.png" alt=""></p>
+<p><img src="https://i.imgur.com/7xgrcZX.png" alt=""></p>
 <h2 id="Value-functions"><a href="#Value-functions" class="headerlink" title="Value functions"></a>Value functions</h2><p>Value functions estimation how good is a state in terms of the goal. Accordingly, value functions are defined with respect to particular policies.</p>
 <p>For MDPs, we can define $v_{\pi}(s)$ formally as</p>
 <p>$$v_{\pi}(s)=\mathbb{E}_{\pi}[G_t|S_t=s]$$</p>
@@ -6591,9 +6591,9 @@
 <p>$$v_{<em>}=max\sum_{s’,r}p(s’,r|s,a)[r+\gamma v_{</em>}(s’)], for all A(s)$$</p>
 <p>$$q_{<em>}(s,a) = \sum_{s’,r}p(s’,r|s,a)[r + \gamma max q_{</em>}(s’,a’)]$$</p>
 <p>These are Bellman optimality equation.</p>
-<h2 id="Bellman-Equations"><a href="#Bellman-Equations" class="headerlink" title="Bellman Equations"></a>Bellman Equations</h2><p><img data-src="https://i.imgur.com/Ln7PnVy.png" alt=""></p>
+<h2 id="Bellman-Equations"><a href="#Bellman-Equations" class="headerlink" title="Bellman Equations"></a>Bellman Equations</h2><p><img src="https://i.imgur.com/Ln7PnVy.png" alt=""></p>
 <p>The are relationships between value function and q-function:</p>
-<p><img data-src="https://i.imgur.com/YEGGt2x.png" alt=""></p>
+<p><img src="https://i.imgur.com/YEGGt2x.png" alt=""></p>
 <p>Our goal in RL is to solve Bellman Optimality Equation. There are two ways of solving this non-linear problem:</p>
 <ul>
 <li>Dynamic Programming, this when you have a model of the MDP.<ul>
@@ -6658,7 +6658,7 @@
   <entry>
     <title>Reinforment Learning Introduction 1 - 2</title>
     <url>/2020/07/25/rl1/</url>
-    <content><![CDATA[<p><a href="https://hackmd.io/EF3LjEjfQtCa-yEZlFNCmQ"><img data-src="https://hackmd.io/EF3LjEjfQtCa-yEZlFNCmQ/badge" alt="hackmd-github-sync-badge"></a></p>
+    <content><![CDATA[<p><a href="https://hackmd.io/EF3LjEjfQtCa-yEZlFNCmQ"><img src="https://hackmd.io/EF3LjEjfQtCa-yEZlFNCmQ/badge" alt="hackmd-github-sync-badge"></a></p>
 <p>Reinforcement learning, RL is a framework that let an agent to make suitable  decisions to achieve best goal. Underneath math problem to solve is a  Markov Decision Process, MDP.  RL is different from both supervised and unsupervised learning. </p>
 <h1 id="Elements-of-RL"><a href="#Elements-of-RL" class="headerlink" title="Elements of RL"></a>Elements of RL</h1><p>Apart from Agent and Environment, following elements also play central<br>roles: Policy, Reward Signal, Value Function, and Model of environment. </p>
 <p>Policy, is a map from current states to actions to take. It might be<br>deterministic or stochastic.</p>
@@ -7117,25 +7117,25 @@
 <p>数学系统的基础是数字系统，而计算系统（比如细胞自动机）的基础是通过一个序列的代码。这种代码的表达方式在自然界非常常见，比如DNA。</p>
 <h2 id="基础代数"><a href="#基础代数" class="headerlink" title="基础代数"></a>基础代数</h2><p>基础代数的操作（operation，也可以看做规则的一种吧）非常简单，但是作者发现即使这种规则也可以产生复杂系统行为，就像上一章的细胞自动机。</p>
 <p>比如，以1作为基，持续加1，就像1，2，3，….从数学的角度看这是一个再简单不过的操作，但是如果我们看这个操作以二进制的形式就会呈现一定的复杂度。</p>
-<p><img data-src="https://i.imgur.com/7yhmZHN.png" alt="简单加法的二进制模式"></p>
+<p><img src="https://i.imgur.com/7yhmZHN.png" alt="简单加法的二进制模式"></p>
 <p>有人可能提出疑问，就是这种复杂度仅仅是看起来而已，并没有本质的复杂度。但是作者提出了新的例子：除法。</p>
 <p>(其实无理数对于数字来说已经非常奇葩了。。。随机性还记得吗？)</p>
-<p><img data-src="https://i.imgur.com/yNSwlnU.png" alt="这个看起来就好像股票价格"></p>
+<p><img src="https://i.imgur.com/yNSwlnU.png" alt="这个看起来就好像股票价格"></p>
 <p>这些系统与细胞自动机不同，细胞自动机的变化通常是局部的，而数字系统则没有这个限制。</p>
 <h2 id="递归序列"><a href="#递归序列" class="headerlink" title="递归序列"></a>递归序列</h2><p>比如，$f[n] = f[n-1] + f[n-2]$。简单的规则可以发现：</p>
-<p><img data-src="https://i.imgur.com/WCTTJpN.png" alt=""></p>
+<p><img src="https://i.imgur.com/WCTTJpN.png" alt=""></p>
 <p>但是，如果稍微增加复杂度，我们就会发现复杂系统行为：</p>
-<p><img data-src="https://i.imgur.com/kBF0hMf.png" alt=""></p>
+<p><img src="https://i.imgur.com/kBF0hMf.png" alt=""></p>
 <h2 id="数学常数"><a href="#数学常数" class="headerlink" title="数学常数"></a>数学常数</h2><p>常数比如$\pi$, $e$，无理数等等。</p>
-<p><img data-src="https://i.imgur.com/GxEXKZd.png" alt=""></p>
+<p><img src="https://i.imgur.com/GxEXKZd.png" alt=""></p>
 <p>作者表明，不论采用哪种形式表达，数学常数也表现了高的复杂度。</p>
 <h2 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h2><p>一个自然的推广就是函数。简单函数只要稍微叠加，就会出现复杂现象。</p>
-<p><img data-src="https://i.imgur.com/X5ANIxW.png" alt=""></p>
+<p><img src="https://i.imgur.com/X5ANIxW.png" alt=""></p>
 <h2 id="连续细胞自动机"><a href="#连续细胞自动机" class="headerlink" title="连续细胞自动机"></a>连续细胞自动机</h2><p>目前为止作者讨论的系统全部都是离散系统。</p>
-<p><img data-src="https://i.imgur.com/Wgjq8VT.png" alt=""></p>
+<p><img src="https://i.imgur.com/Wgjq8VT.png" alt=""></p>
 <h2 id="连续系统和离散系统"><a href="#连续系统和离散系统" class="headerlink" title="连续系统和离散系统"></a>连续系统和离散系统</h2><p>区别在哪里呢？</p>
 <h1 id="5、二维和更高维度"><a href="#5、二维和更高维度" class="headerlink" title="5、二维和更高维度"></a>5、二维和更高维度</h1><p>结论是，维度的增加并没有改变复杂度的基本特征。</p>
-<h2 id="高纬度细胞自动机"><a href="#高纬度细胞自动机" class="headerlink" title="高纬度细胞自动机"></a>高纬度细胞自动机</h2><p><img data-src="https://i.imgur.com/wKcVljW.png" alt=""></p>
+<h2 id="高纬度细胞自动机"><a href="#高纬度细胞自动机" class="headerlink" title="高纬度细胞自动机"></a>高纬度细胞自动机</h2><p><img src="https://i.imgur.com/wKcVljW.png" alt=""></p>
 <p>这个像不像雪花？自然界的现象。</p>
 <h2 id="图灵机"><a href="#图灵机" class="headerlink" title="图灵机"></a>图灵机</h2><h2 id="Substitute系统和分型"><a href="#Substitute系统和分型" class="headerlink" title="Substitute系统和分型"></a>Substitute系统和分型</h2><h2 id="网络系统"><a href="#网络系统" class="headerlink" title="网络系统"></a>网络系统</h2><p>这个其实已经看到了现在火爆的作者的物理学项目的影子了。</p>
 <h1 id="6、从随机性说起"><a href="#6、从随机性说起" class="headerlink" title="6、从随机性说起"></a>6、从随机性说起</h1><p>作者综合分析了细胞自动机的四类行为，并且认为这些行为具有通用价值。</p>
@@ -7288,7 +7288,7 @@
     <title>Graph basics - 1 Concepts</title>
     <url>/2020/04/25/graph1/</url>
     <content><![CDATA[<p>Graph is a mathematical object to model pairwise connections between objects. There are a lot of applications:</p>
-<p><img data-src="https://i.imgur.com/aDYbUMC.png" alt="Typical graph applications"></p>
+<p><img src="https://i.imgur.com/aDYbUMC.png" alt="Typical graph applications"></p>
 <span id="more"></span>
 
 <h1 id="1-Definitions"><a href="#1-Definitions" class="headerlink" title="1. Definitions"></a>1. Definitions</h1><p>Definition: </p>
@@ -7319,9 +7319,9 @@
 <ul>
 <li>The <code>density</code> of a graph is the proportion of possible pairs of vertices that are connected by edges.</li>
 </ul>
-<p><img data-src="https://i.imgur.com/goP5flX.png" alt="Anatomy of a graph"></p>
-<p><img data-src="https://i.imgur.com/RHAkNfF.png" alt="A tree"></p>
-<p><img data-src="https://i.imgur.com/zRy67JE.png" alt="A forest"></p>
+<p><img src="https://i.imgur.com/goP5flX.png" alt="Anatomy of a graph"></p>
+<p><img src="https://i.imgur.com/RHAkNfF.png" alt="A tree"></p>
+<p><img src="https://i.imgur.com/zRy67JE.png" alt="A forest"></p>
 <h1 id="2-Graph-Interface"><a href="#2-Graph-Interface" class="headerlink" title="2. Graph Interface"></a>2. Graph Interface</h1><p>We now need to define fundamental graph operation interface and find a data structure to represent undirected graph.</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> abc <span class="keyword">import</span> abstractmethod</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vertex</span>:</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; Vertex &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Edge</span>:</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; Edge &quot;&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GraphOperation</span>:</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; Graph operation interface &quot;&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_edge</span>(<span class="params">v: Vertex, m: Vertex</span>)-&gt;<span class="literal">None</span>:</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;&quot;&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">adj</span>(<span class="params">v: Vertex</span>) -&gt; []:</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; find adjacent to v &quot;&quot;&quot;</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">degree</span>(<span class="params">v: Vertex</span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; get degree of &quot;&quot;&quot;</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">count_self_loops</span>() -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; number of self loops &quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -7336,7 +7336,7 @@
 <p>However, the order of adjacent vertex is random for now. We could add order for it (but add some time complex).</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UndirectedGraph</span>(<span class="params">GraphOperation</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;  &quot;&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>():</span></span><br><span class="line">        self.__adj_list = []  <span class="comment"># type: <span class="type">List</span>[Vertex]</span></span><br></pre></td></tr></table></figure>
 
-<p><img data-src="https://i.imgur.com/G0aulAp.png" alt="Adjacent list representation"></p>
+<p><img src="https://i.imgur.com/G0aulAp.png" alt="Adjacent list representation"></p>
 <h1 id="4-Design-Pattern-of-graph-processing"><a href="#4-Design-Pattern-of-graph-processing" class="headerlink" title="4. Design Pattern of graph processing"></a>4. Design Pattern of graph processing</h1><p>The idea here is to delegate more complex operations from Graph interface, such as search connected vertex, find path or find shortest path.</p>
 <p>Common algorithms:</p>
 <ul>
@@ -7490,14 +7490,14 @@
 <li>Portfolio</li>
 <li>Speed and Size for all</li>
 </ul>
-<h3 id="Instruments"><a href="#Instruments" class="headerlink" title="Instruments"></a>Instruments</h3><p><img data-src="https://i.imgur.com/v9TZ5ds.png" alt=""></p>
+<h3 id="Instruments"><a href="#Instruments" class="headerlink" title="Instruments"></a>Instruments</h3><p><img src="https://i.imgur.com/v9TZ5ds.png" alt=""></p>
 <h3 id="Forecasts"><a href="#Forecasts" class="headerlink" title="Forecasts"></a>Forecasts</h3><ul>
 <li>Forecast should be a scale not binary</li>
 <li>Should be vol adjusted</li>
 <li>Should be consisten in scale</li>
 <li>Forecast should be capped</li>
 </ul>
-<p><img data-src="https://i.imgur.com/aTjsVtr.png" alt=""></p>
+<p><img src="https://i.imgur.com/aTjsVtr.png" alt=""></p>
 <p>The process works as following:</p>
 <p>$$<br>signal = cap({raw} / vol * scalar, up_limit, floor_limit)<br>$$</p>
 <p>where,<br>$raw$ is raw signal,<br>$vol$ is volatility estimation of underly asset(s),<br>$scalar$ is an enstimation number to scale the signal to a range, say -20~+20<br>$cap(.)$ is a function that cap the signal to $up_limit, floor_limit$ </p>
@@ -7512,7 +7512,7 @@
 <p>Again, after FDM, the signal level should be capped to 20, as we always do. (20 is just standard we selected, it needs to be consistent.)</p>
 <p>So in the end:</p>
 <p>$$<br>combined_signal = cap(raw_combined * FDM, -20, 20)$$</p>
-<p><img data-src="https://i.imgur.com/xMt7Oll.png" alt=""></p>
+<p><img src="https://i.imgur.com/xMt7Oll.png" alt=""></p>
 <h3 id="Vol-targeting"><a href="#Vol-targeting" class="headerlink" title="Vol targeting"></a>Vol targeting</h3><p>The end result of this is just float, which is a overall volatility target you want to achieve. In another word, a parameter in the system, that will be used across the system. </p>
 <p>There are two ways:</p>
 <ul>
@@ -7571,23 +7571,23 @@
     <url>/2020/04/13/chord_2/</url>
     <content><![CDATA[<p>在我们想要结束一段的时候，通常会用V -&gt; I的方式结束。以下我们用C调说明。</p>
 <p>比如，<code>G7 -&gt; C</code>:</p>
-<p><img data-src="https://i.imgur.com/9DPfaZS.png" alt=""></p>
+<p><img src="https://i.imgur.com/9DPfaZS.png" alt=""></p>
 <span id="more"></span>
 <p>但是，这种进行显得非常古典。我们可以通过采用属11和弦让进行听起来更加流行。比如<code>F/G</code>:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;:[GFAc]</span><br></pre></td></tr></table></figure>
 
 <p>这样我们的和声进行可以变成：</p>
-<p><img data-src="https://i.imgur.com/JqqVIIH.png" alt=""></p>
+<p><img src="https://i.imgur.com/JqqVIIH.png" alt=""></p>
 <p>这个<code>F/G</code> 也可以理解成G11但是去掉3和5音，也就是缩减版本的属11和弦。</p>
-<p><img data-src="https://i.imgur.com/pp6Q65K.png" alt=""></p>
+<p><img src="https://i.imgur.com/pp6Q65K.png" alt=""></p>
 <p>吉他版本的 <code>F/G</code> and <code>Cadd2</code>:</p>
-<p><img data-src="https://i.imgur.com/vWQGych.png" alt=""> <img data-src="https://i.imgur.com/r4rnaoa.png" alt=""></p>
+<p><img src="https://i.imgur.com/vWQGych.png" alt=""> <img src="https://i.imgur.com/r4rnaoa.png" alt=""></p>
 <p>也可以记成<code>G9sus</code></p>
-<p><img data-src="https://i.imgur.com/dqPj7q1.png" alt=""></p>
+<p><img src="https://i.imgur.com/dqPj7q1.png" alt=""></p>
 <p>吉他版本的 <code>G9sus4</code> 和 <code>Cmaj9</code> : </p>
-<p><img data-src="https://i.imgur.com/hGKcbVN.png" alt=""> <img data-src="https://i.imgur.com/kxEC3F9.png" alt=""></p>
+<p><img src="https://i.imgur.com/hGKcbVN.png" alt=""> <img src="https://i.imgur.com/kxEC3F9.png" alt=""></p>
 <p>所以，总结一下：</p>
-<p><img data-src="https://i.imgur.com/NCmERJy.png" alt=""></p>
+<p><img src="https://i.imgur.com/NCmERJy.png" alt=""></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://www.youtube.com/watch?v=EdT1xi4qtT4">https://www.youtube.com/watch?v=EdT1xi4qtT4</a></li>
 </ul>
@@ -7624,7 +7624,7 @@
 <p><strong>起初，神创造天地。</strong></p>
 </blockquote>
 <p>这就是创世纪的开始，也是时间的开始，我们的世界的开始。这句话的希伯来原文只有7个词，如下图（从右向左读）：</p>
-<p><img data-src="https://i.imgur.com/ArszXVF.png" alt="1.1"></p>
+<p><img src="https://i.imgur.com/ArszXVF.png" alt="1.1"></p>
 <span id="more"></span>
 
 <p>其中，第四个词是助词，没有实际含义。</p>
@@ -7635,7 +7635,7 @@
 <blockquote>
 <p><strong>地是空虚混沌，渊面黑暗；神的灵运行在水面上。</strong></p>
 </blockquote>
-<p><img data-src="https://i.imgur.com/svE2eaz.png" alt="1.2"></p>
+<p><img src="https://i.imgur.com/svE2eaz.png" alt="1.2"></p>
 <p>空虚混沌。空虚和混沌这两个次总是连在一起使用的，指荒凉的、不毛之地。但是，不是不存在或者无的状态。这也解释的通，因为神已经创造了天和地（即宇宙），物质已经被创造了。</p>
 <p>渊，这个词是很多水或者海洋的意思。渊面黑暗，就是说黑暗笼罩在水上。但是，这是光和暗并没有分开，这里的黑暗，可能就是在光以前的状态。</p>
 <p>灵，这个词有好多意思：风、心、灵、气息等。但是，这里就出现了神的第二个位格：灵。经文说，神的灵。</p>
@@ -7644,17 +7644,17 @@
 <blockquote>
 <p><strong>神说：『要有光』，就有了光。</strong></p>
 </blockquote>
-<p><img data-src="https://i.imgur.com/kCFamMh.png" alt="1.3"></p>
+<p><img src="https://i.imgur.com/kCFamMh.png" alt="1.3"></p>
 <p>说，是动词。神通过“说话”，继续他的创造。神的话语，有创造的能力。这是神的第三个位格，即道。至此，神的三个位格：神、灵、道都出现了。</p>
 <blockquote>
 <p><strong>神看光是好的，就把光暗分开了。</strong></p>
 </blockquote>
-<p><img data-src="https://i.imgur.com/H9B6Qza.png" alt="1.4"></p>
+<p><img src="https://i.imgur.com/H9B6Qza.png" alt="1.4"></p>
 <p>神看光是好的，他就“分开”光和黑暗。这种分别，就是秩序的表现，神通过分别把秩序带入宇宙。</p>
 <blockquote>
 <p><strong>神称光为『昼』，称暗为『夜』。有晚上，有早晨，这是头一日。</strong></p>
 </blockquote>
-<p><img data-src="https://i.imgur.com/QfudTNp.png" alt=""></p>
+<p><img src="https://i.imgur.com/QfudTNp.png" alt=""></p>
 <p>称，就是命名。在希伯来文化中，命名就象征这对该物的主权。</p>
 <p>接下来，神继续通过话语进行他的创造，直到：</p>
 <blockquote>
@@ -7865,7 +7865,7 @@
 <p>By orthonormal basis, </p>
 <p>$$\alpha_k=&lt;w, x&gt;$$</p>
 <p>Change basis:</p>
-<p><img data-src="https://i.imgur.com/9SdEpoD.png" alt="Change Basis"></p>
+<p><img src="https://i.imgur.com/9SdEpoD.png" alt="Change Basis"></p>
 <h2 id="Subspace-bases-approximations"><a href="#Subspace-bases-approximations" class="headerlink" title="Subspace bases approximations"></a>Subspace bases approximations</h2><p>Approximate using sub-space.</p>
 <h3 id="Least-square-approximation"><a href="#Least-square-approximation" class="headerlink" title="Least square approximation"></a>Least square approximation</h3><p>Given $s^{(k)}<em>{k=0,1,…,K-1}$ are orthonormal basis for S,<br>the orthogonal projection:<br>$$\hat{x}=\sum</em>{}^{}&lt;s^{(k)}, x&gt;s^{(k)}$$</p>
 <p>is the best approximation of over S. It has minimum norm error, the error is also orthogonal to approximation, which means this sub space cannot get more information any more.</p>
@@ -7879,14 +7879,14 @@
 <p>$$X_k = &lt;w_k, x&gt;$$</p>
 <p>The synthesis formula:</p>
 <p>$$x = \frac{1}{N}\sum_{k=0}^{N-1}X_kw^{(k)}$$</p>
-<h2 id="Interpreting-DFT"><a href="#Interpreting-DFT" class="headerlink" title="Interpreting DFT"></a>Interpreting DFT</h2><p><img data-src="https://i.imgur.com/z5XIDHQ.png" alt=""></p>
-<p><img data-src="https://i.imgur.com/aT146UI.png" alt=""></p>
+<h2 id="Interpreting-DFT"><a href="#Interpreting-DFT" class="headerlink" title="Interpreting DFT"></a>Interpreting DFT</h2><p><img src="https://i.imgur.com/z5XIDHQ.png" alt=""></p>
+<p><img src="https://i.imgur.com/aT146UI.png" alt=""></p>
 <h3 id="How-to-label-DFT-result"><a href="#How-to-label-DFT-result" class="headerlink" title="How to label DFT result?"></a>How to label DFT result?</h3><p>Given sample number is N, sample frequency is $f_s$, if we find a peak in DFT at k = 500, what is the corresponding frequency in Hz? </p>
 <p>The highest freqency in the system is $f_s/2$.</p>
 <p>$f = kf_s/N$</p>
 <h2 id="DFT-in-Music"><a href="#DFT-in-Music" class="headerlink" title="DFT in Music"></a>DFT in Music</h2><p>Frequency, harmonics. timbre is different because of the harmonics. But the pitch is just the first frequency component. </p>
-<p><img data-src="https://i.imgur.com/UnhGofZ.png" alt=""></p>
-<h2 id="DFT-synthesis"><a href="#DFT-synthesis" class="headerlink" title="DFT synthesis"></a>DFT synthesis</h2><p><img data-src="https://i.imgur.com/KfWDMkE.png" alt=""></p>
+<p><img src="https://i.imgur.com/UnhGofZ.png" alt=""></p>
+<h2 id="DFT-synthesis"><a href="#DFT-synthesis" class="headerlink" title="DFT synthesis"></a>DFT synthesis</h2><p><img src="https://i.imgur.com/KfWDMkE.png" alt=""></p>
 <p>Frequency in Hz and in radians:</p>
 <p>$$f = \frac{wf_s}{2\pi}$$</p>
 <h2 id="Convolution"><a href="#Convolution" class="headerlink" title="Convolution"></a>Convolution</h2><h2 id="STFT-short-term-fouries-transform"><a href="#STFT-short-term-fouries-transform" class="headerlink" title="STFT, short term fouries transform"></a>STFT, short term fouries transform</h2><p>Spectrogram is a way to show STFT. There are two variables: window and frequency. $X[m;k]$, where m is the window, k is frequency index.</p>
@@ -7898,9 +7898,9 @@
 <li>position of the window?</li>
 <li>shape of the window?</li>
 </ul>
-<p><img data-src="https://i.imgur.com/A5PBgce.png" alt=""></p>
+<p><img src="https://i.imgur.com/A5PBgce.png" alt=""></p>
 <p>Short window gives better time precision, while long window give better frequency precision.</p>
-<p><img data-src="https://i.imgur.com/L2UAe8g.png" alt=""></p>
+<p><img src="https://i.imgur.com/L2UAe8g.png" alt=""></p>
 <p>STFT leads to wavelet transform.</p>
 <h1 id="The-DFT-Numerical-Aspects"><a href="#The-DFT-Numerical-Aspects" class="headerlink" title="The DFT: Numerical Aspects"></a>The DFT: Numerical Aspects</h1><p>As a quick reminder, the definitions of the direct and inverse DFT for a length-$N$ signal are:</p>
 <p>\begin{align<em>}<br>    X[k] &amp;= \sum_{n=0}^{N-1} x[n], e^{-j\frac{2\pi}{N}nk}, \quad k=0, \ldots, N-1 \<br>    x[n] &amp;= \frac{1}{N}\sum_{k=0}^{N-1} X[k], e^{j\frac{2\pi}{N}nk}, \quad n=0, \ldots, N-1<br>\end{align</em>}</p>
@@ -7916,9 +7916,9 @@
 <li>N-point periodic: DFS</li>
 <li>infinite length: DTFT</li>
 </ul>
-<p><img data-src="https://i.imgur.com/ZnK3RgD.png" alt=""></p>
-<p><img data-src="https://i.imgur.com/uzP9LOM.png" alt=""></p>
-<p><img data-src="https://i.imgur.com/AUUxJbD.png" alt=""></p>
+<p><img src="https://i.imgur.com/ZnK3RgD.png" alt=""></p>
+<p><img src="https://i.imgur.com/uzP9LOM.png" alt=""></p>
+<p><img src="https://i.imgur.com/AUUxJbD.png" alt=""></p>
 <h2 id="Sinusoidal-modulation"><a href="#Sinusoidal-modulation" class="headerlink" title="Sinusoidal modulation"></a>Sinusoidal modulation</h2><p>Based on where most frequencies are located.</p>
 <ul>
 <li>lowpass signal</li>
@@ -7926,24 +7926,24 @@
 <li>bandpass signal</li>
 </ul>
 <p>How?</p>
-<p><img data-src="https://i.imgur.com/4VwKahL.png" alt=""></p>
+<p><img src="https://i.imgur.com/4VwKahL.png" alt=""></p>
 <p>Why?</p>
-<p><img data-src="https://i.imgur.com/JZGmVkB.png" alt=""></p>
-<h2 id="Filters"><a href="#Filters" class="headerlink" title="Filters"></a>Filters</h2><p><img data-src="" alt="Uploading file..._kr65l8uvc"></p>
+<p><img src="https://i.imgur.com/JZGmVkB.png" alt=""></p>
+<h2 id="Filters"><a href="#Filters" class="headerlink" title="Filters"></a>Filters</h2><p><img src="" alt="Uploading file..._kr65l8uvc"></p>
 <h3 id="Linear-time-invariant-filters"><a href="#Linear-time-invariant-filters" class="headerlink" title="Linear time-invariant filters"></a>Linear time-invariant filters</h3><p>Linearity</p>
-<p><img data-src="https://i.imgur.com/3qUraJ1.png" alt=""></p>
+<p><img src="https://i.imgur.com/3qUraJ1.png" alt=""></p>
 <p>Time-invariant</p>
-<p><img data-src="https://i.imgur.com/8nz362v.png" alt=""></p>
+<p><img src="https://i.imgur.com/8nz362v.png" alt=""></p>
 <p>Add them we have</p>
-<p><img data-src="https://i.imgur.com/HgmAN8f.png" alt=""></p>
+<p><img src="https://i.imgur.com/HgmAN8f.png" alt=""></p>
 <p>In formalar:</p>
-<p><img data-src="https://i.imgur.com/htfvgNy.png" alt=""></p>
+<p><img src="https://i.imgur.com/htfvgNy.png" alt=""></p>
 <h3 id="Convolution-1"><a href="#Convolution-1" class="headerlink" title="Convolution"></a>Convolution</h3><p>LTI filters are entirely characterized by their impulse reponse, i.e., their response to the impulse delta function $\delta[n]$, the output of an LTI filter y[n]  y[n] can be computed by convolving the input x[n]  x[n] with the impulse response,</p>
 <p>$$<br>\delta[n]=\sum_{k=-\inf}^{inf}x[k]h[n-k]<br>$$</p>
 <h3 id="Filter-by-examples"><a href="#Filter-by-examples" class="headerlink" title="Filter by examples"></a>Filter by examples</h3><p>Moving average: </p>
-<p><img data-src="https://i.imgur.com/C8gsV6B.png" alt=""></p>
+<p><img src="https://i.imgur.com/C8gsV6B.png" alt=""></p>
 <p>Leaky integrator: </p>
-<p><img data-src="https://i.imgur.com/5UgmloR.png" alt=""></p>
+<p><img src="https://i.imgur.com/5UgmloR.png" alt=""></p>
 <h3 id="Filter-types"><a href="#Filter-types" class="headerlink" title="Filter types"></a>Filter types</h3><ul>
 <li>lowpass, MA, leaky</li>
 <li>highpass</li>
@@ -7994,21 +7994,21 @@
 <li>桥：Dm，F，他们很喜欢去外面。ii, iv</li>
 <li>暂时的家，或者家的延伸：Em，Am. iii, vi</li>
 </ul>
-<p><img data-src="https://i.imgur.com/EFZjJPV.png" alt="功能"></p>
+<p><img src="https://i.imgur.com/EFZjJPV.png" alt="功能"></p>
 <span id="more"></span>
 
 <h2 id="递归上面的规则！"><a href="#递归上面的规则！" class="headerlink" title="递归上面的规则！"></a>递归上面的规则！</h2><p>可以选定目标和弦作为暂时的１级和弦，然后在前面添加该调的常见回家进行，比如ii -&gt; V -&gt; I.</p>
-<p><img data-src="https://i.imgur.com/n1bl3Ou.png" alt=""><br><img data-src="https://i.imgur.com/oAuXgIT.png" alt=""><br><img data-src="https://i.imgur.com/6buXmP8.png" alt=""></p>
+<p><img src="https://i.imgur.com/n1bl3Ou.png" alt=""><br><img src="https://i.imgur.com/oAuXgIT.png" alt=""><br><img src="https://i.imgur.com/6buXmP8.png" alt=""></p>
 <p>当然，使用上面的方法是，临时的V可以被另外一个包含相同三全音的和弦代替，比如比目标I和弦，高半个音的属和弦。比如下面这个例子：</p>
-<p><img data-src="https://i.imgur.com/3EzZzZ8.png" alt=""></p>
+<p><img src="https://i.imgur.com/3EzZzZ8.png" alt=""></p>
 <p>还可以通过从平行调中，借用和弦。比如在Ｃ调中，可以借用Ｃｍ中的Ｆｍ和弦，回到Ｃ和弦。</p>
-<p><img data-src="https://i.imgur.com/ymKfpIv.png" alt=""></p>
+<p><img src="https://i.imgur.com/ymKfpIv.png" alt=""></p>
 <h2 id="认识和弦"><a href="#认识和弦" class="headerlink" title="认识和弦"></a>认识和弦</h2><ul>
 <li>Major</li>
 <li>Minor</li>
 <li>Dominant</li>
 </ul>
-<p><img data-src="https://i.imgur.com/iJQPvFb.png" alt=""><br><img data-src="https://i.imgur.com/w4ttqAC.png" alt=""><br><img data-src="https://i.imgur.com/s2deAcz.png" alt=""><br><img data-src="https://i.imgur.com/0VhtLrr.png" alt=""></p>
+<p><img src="https://i.imgur.com/iJQPvFb.png" alt=""><br><img src="https://i.imgur.com/w4ttqAC.png" alt=""><br><img src="https://i.imgur.com/s2deAcz.png" alt=""><br><img src="https://i.imgur.com/0VhtLrr.png" alt=""></p>
 <h3 id="和弦变化"><a href="#和弦变化" class="headerlink" title="和弦变化"></a>和弦变化</h3><ul>
 <li>add</li>
 <li>sus</li>
@@ -8017,7 +8017,7 @@
 <li>转位</li>
 <li>其他家族</li>
 </ul>
-<p><img data-src="https://i.imgur.com/z8ax5Da.png" alt=""><br><img data-src="https://i.imgur.com/Bg4L8JM.png" alt=""><br><img data-src="https://i.imgur.com/7lDnl3B.png" alt=""><br><img data-src="https://i.imgur.com/sokdbbh.png" alt=""><br><img data-src="https://i.imgur.com/rvK0h7b.png" alt=""><br><img data-src="https://i.imgur.com/FKhpfiE.png" alt=""></p>
+<p><img src="https://i.imgur.com/z8ax5Da.png" alt=""><br><img src="https://i.imgur.com/Bg4L8JM.png" alt=""><br><img src="https://i.imgur.com/7lDnl3B.png" alt=""><br><img src="https://i.imgur.com/sokdbbh.png" alt=""><br><img src="https://i.imgur.com/rvK0h7b.png" alt=""><br><img src="https://i.imgur.com/FKhpfiE.png" alt=""></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://www.musictheory.net/products/lessons">Musictheory</a></li>
 <li><a href="https://www.youtube.com/channel/UCVXstWyJeO6No3jYELxYrjg">好和弦</a></li>

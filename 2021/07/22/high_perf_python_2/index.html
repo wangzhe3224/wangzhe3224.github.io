@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
+
+
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -12,15 +14,12 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic|Encode Sans:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
 
-  <meta name="description" content="高性能Python编程（2）Profiling寻找性能瓶颈  高性能Python编程（1）：理解Python的“性能”    相关源代码：https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224&#x2F;high_performance_python更多学习资源：微信搜索   泛程序员   并添加关注，点击资源按钮。更多学习视频：微信视频号  Python知否   上一篇我们分析了计算机的三个组成部分">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="高性能Python编程（2）Profiling寻找性能瓶颈  高性能Python编程（1）：理解Python的“性能”    相关源代码：https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224&#x2F;high_performance_python更多学习资源：微信搜索   泛程序员   并添加关注，点击资源按钮。更多学习视频：微信视频号  Python知否   上一篇我们分析了计算机的三个组成部分">
 <meta property="og:type" content="article">
 <meta property="og:title" content="高性能Python编程（2）Profiling寻找性能瓶颈">
 <meta property="og:url" content="http://yoursite.com/2021/07/22/high_perf_python_2/index.html">
@@ -34,106 +33,56 @@
 <meta property="og:image" content="https://i.imgur.com/4OO294A.png">
 <meta property="og:image" content="https://i.imgur.com/ctU3xEJ.jpg">
 <meta property="article:published_time" content="2021-07-22T00:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-08T12:16:10.173Z">
+<meta property="article:modified_time" content="2022-01-15T15:02:55.877Z">
 <meta property="article:author" content="FunCoder">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="Profiling">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.imgur.com/sFSXT7N.jpg">
 
+
 <link rel="canonical" href="http://yoursite.com/2021/07/22/high_perf_python_2/">
 
 
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
 
-  <title>高性能Python编程（2）Profiling寻找性能瓶颈 | FunCoder</title>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2021/07/22/high_perf_python_2/","path":"2021/07/22/high_perf_python_2/","title":"高性能Python编程（2）Profiling寻找性能瓶颈"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>高性能Python编程（2）Profiling寻找性能瓶颈 | FunCoder</title>
   
-    <script>
-      function sendPageView() {
-        if (CONFIG.hostname !== location.hostname) return;
-        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
-        localStorage.setItem('uid', uid);
-        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
-          v  : 1,
-          tid: 'UA-66629043-1',
-          cid: uid,
-          t  : 'pageview',
-          dp : encodeURIComponent(location.pathname)
-        }));
-      }
-      document.addEventListener('pjax:complete', sendPageView);
-      sendPageView();
-    </script>
-
-
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
 
 
 
 
   <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-  <script data-ad-client="ca-pub-9801985319378542" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <meta name="google-site-verification" content="MjVVxpOXJOpseO4Uw4kLKcO-jlZdu7grfbyyAbwnzG8" />
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66629043-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-66629043-1');
-  </script>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+  <div class="headband"></div>
 
+  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">FunCoder</h1>
-      <span class="logo-line-after"><i></i></span>
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">FunCoder</p>
   </div>
@@ -147,44 +96,15 @@
 
 
 
-
 <nav class="site-nav">
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
-
-  </li>
-        <li class="menu-item menu-item-arts">
-
-    <a href="/arts/" rel="section"><i class="fa fa-fw fa-microchip"></i>Arts</a>
-
-  </li>
-        <li class="menu-item menu-item-readings">
-
-    <a href="/readings/" rel="section"><i class="fa fa-fw fa-archive"></i>Readings</a>
-
-  </li>
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
         </a>
@@ -195,49 +115,131 @@
 
 
   <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
+    <div class="popup search-popup"><div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="off"
-           placeholder="Searching..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
 </div>
 
     </div>
   </div>
 
 </div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%AB%98%E6%80%A7%E8%83%BDPython%E7%BC%96%E7%A8%8B%EF%BC%882%EF%BC%89Profiling%E5%AF%BB%E6%89%BE%E6%80%A7%E8%83%BD%E7%93%B6%E9%A2%88"><span class="nav-number">1.</span> <span class="nav-text">高性能Python编程（2）Profiling寻找性能瓶颈</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%EF%BC%9A%E7%94%9F%E6%88%90Julia%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text">例子：生成Julia集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CPU%E5%92%8C%E5%86%85%E5%AD%98Profile%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">CPU和内存Profile方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#timeit"><span class="nav-number">1.2.1.</span> <span class="nav-text">timeit</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cProfiler"><span class="nav-number">1.3.</span> <span class="nav-text">cProfiler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#line-profiler"><span class="nav-number">1.4.</span> <span class="nav-text">line_profiler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#memory-profiler"><span class="nav-number">1.5.</span> <span class="nav-text">memory_profiler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PySpy"><span class="nav-number">1.6.</span> <span class="nav-text">PySpy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.7.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">129</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
     </header>
 
     
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
   <div class="reading-progress-bar"></div>
 
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
 
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
 
-          <div class="content">
-            
+    <div class="main-inner post posts-expand">
 
-  <div class="posts-expand">
-      
+
+  
+
+
+<div class="post-block">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/22/high_perf_python_2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -254,38 +256,46 @@
           高性能Python编程（2）Profiling寻找性能瓶颈
         </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-07-22 00:00:00" itemprop="dateCreated datePublished" datetime="2021-07-22T00:00:00Z">2021-07-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-                </span>
-            </span>
+      <time title="Created: 2021-07-22 00:00:00" itemprop="dateCreated datePublished" datetime="2021-07-22T00:00:00Z">2021-07-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-01-15 15:02:55" itemprop="dateModified" datetime="2022-01-15T15:02:55Z">2022-01-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
 
-          
-            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">Views: </span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
   
   <span class="post-meta-item">
     
       <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
+        <i class="far fa-comment"></i>
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
@@ -294,21 +304,23 @@
     </a>
   </span>
   
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>6.3k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>6 mins.</span>
-            </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>6.3k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>6 mins.</span>
+    </span>
+</div>
 
         </div>
       </header>
@@ -317,8 +329,6 @@
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
         <h1 id="高性能Python编程（2）Profiling寻找性能瓶颈"><a href="#高性能Python编程（2）Profiling寻找性能瓶颈" class="headerlink" title="高性能Python编程（2）Profiling寻找性能瓶颈"></a>高性能Python编程（2）Profiling寻找性能瓶颈</h1><blockquote>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://wangzhe3224.github.io/2021/06/24/high_perform_python/">高性能Python编程（1）：理解Python的“性能”</a></li>
@@ -327,7 +337,7 @@
 <blockquote>
 <p>相关源代码：<a target="_blank" rel="noopener" href="https://github.com/wangzhe3224/high_performance_python">https://github.com/wangzhe3224/high_performance_python</a><br>更多学习资源：微信搜索   泛程序员   并添加关注，点击资源按钮。<br>更多学习视频：微信视频号  Python知否</p>
 </blockquote>
-<p><img data-src="https://i.imgur.com/sFSXT7N.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/sFSXT7N.jpg" alt=""></p>
 <p>上一篇我们分析了计算机的三个组成部分，以及对应到Python程序的意义，这一篇我们从比较概括的角度介绍高性能编程的第一步：Profiling。（这个词我也不知道该怎么翻译，程序侧写？）</p>
 <p>Profiling可以帮助我们发现：程序的那个部分运行缓慢（计算单元）、哪个部分占用大量内存（存储单元）、那个部分占用了网络、硬盘IO（通信单元）等等。所以Profiling是我们提高运行效率的第一步。</p>
 <p><strong>划重点</strong>：</p>
@@ -343,7 +353,7 @@
 <p>有了上面的分析后，我们基本可以确定程序的CPU和内存瓶颈，我们就可以对症下药，提高性能，比如编译、查看ByteCode等等。具体方法我们在后面的文章继续说明。</p>
 <h2 id="例子：生成Julia集"><a href="#例子：生成Julia集" class="headerlink" title="例子：生成Julia集"></a>例子：生成Julia集</h2><p>为了让讨论更加具体，这个系列会用通过一个实际的例子说明：生成Julia集。这个例子属于计算密集型函数，覆盖了Python常见的一些操作，比如循环、判断等。<a target="_blank" rel="noopener" href="https://github.com/wangzhe3224/high_performance_python/blob/master/src/julia_set.py">具体代码</a>在这里。</p>
 <p>直接运行的结果为：</p>
-<p><img data-src="https://i.imgur.com/iKTwdN6.png" alt="Julia集"></p>
+<p><img src="https://i.imgur.com/iKTwdN6.png" alt="Julia集"></p>
 <p>这一篇我们首先用纯Python实现Julia集，然后以这个函数为例，讲解如何对Python程序Profiling。</p>
 <p>下面就是julia集的核心函数，由纯Python实现。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate_z_serial_purepython</span>(<span class="params">max_iter, zs, cs</span>):</span></span><br><span class="line">    output = [<span class="number">0</span>] * <span class="built_in">len</span>(zs)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(zs)):</span><br><span class="line">        n = <span class="number">0</span></span><br><span class="line">        z = zs[i]</span><br><span class="line">        c = cs[i]</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">abs</span>(z)) &lt; <span class="number">2</span> <span class="keyword">and</span> n &lt; max_iter:</span><br><span class="line">            z = z*z + c</span><br><span class="line">            n += <span class="number">1</span></span><br><span class="line">        output[i] = n</span><br><span class="line">    <span class="keyword">return</span> output</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_pure_python</span>(<span class="params">width: <span class="built_in">int</span>, max_iter: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; Create a list of complex coordinates &quot;&quot;&quot;</span></span><br><span class="line">    x_step = ( x2 - x1 ) / width</span><br><span class="line">    y_step = ( y2 - y1 ) / width</span><br><span class="line">    x, y = [], []</span><br><span class="line">    ycood = y1 </span><br><span class="line">    <span class="keyword">while</span> ycood &lt; y2:</span><br><span class="line">        y.append(ycood)</span><br><span class="line">        ycood += y_step</span><br><span class="line">    xcood = x1</span><br><span class="line">    <span class="keyword">while</span> xcood &lt; x2:</span><br><span class="line">        x.append(xcood)</span><br><span class="line">        xcood += x_step</span><br><span class="line"></span><br><span class="line">    zs = []</span><br><span class="line">    cs = []</span><br><span class="line">    <span class="keyword">for</span> ycoord <span class="keyword">in</span> y:</span><br><span class="line">        <span class="keyword">for</span> xcoord <span class="keyword">in</span> x:</span><br><span class="line">            zs.append(<span class="built_in">complex</span>(xcoord, ycoord)) </span><br><span class="line">            cs.append(<span class="built_in">complex</span>(c_real, c_imag))</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Length of x: <span class="subst">&#123;<span class="built_in">len</span>(x)&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Total elements: <span class="subst">&#123;<span class="built_in">len</span>(zs)&#125;</span>&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 这里我们进行一个简单的计时，来粗略估计函数的运行时间。</span></span><br><span class="line">    start_time = time.time()</span><br><span class="line">    output = calculate_z_serial_purepython(max_iter, zs, cs)</span><br><span class="line">    end_time = time.time()</span><br><span class="line">    secs = end_time - start_time</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;calculate_z_serial_purepython.__name__&#125;</span> took <span class="subst">&#123;secs&#125;</span> seconds.&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;<span class="built_in">sum</span>(output) = &#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> output</span><br></pre></td></tr></table></figure>
@@ -374,7 +384,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Tue Jul 20 22:37:12 2021    profile.stats</span><br><span class="line"></span><br><span class="line">         36682126 function calls (36675327 primitive calls) in 10.651 seconds</span><br><span class="line"></span><br><span class="line">   Ordered by: cumulative time</span><br><span class="line">   List reduced from 2611 to 10 due to restriction &lt;10&gt;</span><br><span class="line"></span><br><span class="line">   ncalls  tottime  percall  cumtime  percall filename:lineno(function)</span><br><span class="line">    578&#x2F;1    0.001    0.000   10.652   10.652 &#123;built-in method builtins.exec&#125;</span><br><span class="line">        1    0.032    0.032   10.652   10.652 src&#x2F;julia_set.py:1(&lt;module&gt;)</span><br><span class="line">        1    0.468    0.468    9.979    9.979 src&#x2F;julia_set.py:54(calc_pure_python)</span><br><span class="line">        1    7.072    7.072    9.357    9.357 src&#x2F;julia_set.py:40(calculate_z_serial_purepython)</span><br><span class="line"> 34220076    2.285    0.000    2.285    0.000 &#123;built-in method builtins.abs&#125;</span><br></pre></td></tr></table></figure>
 
 <p>可以很容易识别瓶颈：<code>calculate_z_serial_purepython</code>。不过<code>cProfiler</code>的输出结果非常多，不是很容易读。可是使用<code>snakeviz</code>对profile的结果文件进行可视化：<code>snakeviz profile.stats</code></p>
-<p><img data-src="https://i.imgur.com/rjGz6yO.png" alt=""></p>
+<p><img src="https://i.imgur.com/rjGz6yO.png" alt=""></p>
 <h2 id="line-profiler"><a href="#line-profiler" class="headerlink" title="line_profiler"></a><code>line_profiler</code></h2><p>在识别瓶颈函数后，可以通过<code>line_profiler</code>对该函数进行逐行分析，从而进一步了解计算瓶颈。</p>
 <p>安装profiler：<code>pip install line_profiler</code></p>
 <p>在需要profile 的函数前加入<code>@profile</code>装饰器：</p>
@@ -391,16 +401,16 @@
 <h2 id="memory-profiler"><a href="#memory-profiler" class="headerlink" title="memory_profiler"></a><code>memory_profiler</code></h2><p>下一步就是对程序的内存使用进行profile，可以使用<code>memory_profiler</code>，安装：<code>pip install memory_profiler</code>。另外建议同时安装：<code>pip install psutil</code>，这样可以加速profile的速度。</p>
 <p><code>mprof run src/julia_set_memory_profiler.py</code></p>
 <p>在profile结束后，我们可以用<code>mprof plot</code>画出内存增长的趋势图，并且标注目标函数：</p>
-<p><img data-src="https://i.imgur.com/ubbnTIe.png" alt=""></p>
+<p><img src="https://i.imgur.com/ubbnTIe.png" alt=""></p>
 <p>我们发现<code>calculate_z_serial_purepython</code>这段时间内存持续增加，这是由于Python不会断创建新的<code>int</code>和<code>float</code>对象（还记得吗？Python中每一个对象都会占用较大的内存空间，即使是int，因为Python的内存模型就是object，无论是什么对象。）</p>
 <p>同样这部分可以通过numba或者cython编译，跳过python解释器执行，降低内存使用。</p>
 <h2 id="PySpy"><a href="#PySpy" class="headerlink" title="PySpy"></a><code>PySpy</code></h2><p>最后，介绍一下如何用<code>pyspy</code>对正在运行的Python进程进行实时监测。这种方法可以对进程进行在线debug，工程中非常实用。</p>
 <p>安装：<code>pip install py-spy</code></p>
 <p>pyspy 主要由两种常用模式：dump和top。dump会为指定的process一个snapshot，然后dump到文件；而top会进行实时采样，或一种类似系统top命名的界面，实时监控进程的内存和CPU使用情况。</p>
 <p>也可以通过record获得不同函数的资源图：<code>sudo py-spy record -o profile.svg -- python src/julia_set.py</code></p>
-<p><img data-src="https://i.imgur.com/4OO294A.png" alt=""></p>
+<p><img src="https://i.imgur.com/4OO294A.png" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了4中主要的profile工具，其中2种是CPU相关的，1种是内存相关的，最后的py-spy是针对长寿命进程的采样分析。</p>
-<p><img data-src="https://i.imgur.com/ctU3xEJ.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/ctU3xEJ.jpg" alt=""></p>
 
     </div>
 
@@ -428,213 +438,106 @@
   </ul>
 
 
-      <footer class="post-footer">
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/Python/" rel="tag"># Python</a>
               <a href="/tags/Profiling/" rel="tag"># Profiling</a>
           </div>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-9801985319378542"
-     data-ad-slot="2686695678"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+
         
   <div class="post-widgets">
-    <div class="wp_rating">
+    <div class="wpac-rating-container">
       <div id="wpac-rating"></div>
     </div>
   </div>
 
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2021/07/18/learning_2/" rel="prev" title="自学计算机书籍和课程推荐">
-      <i class="fa fa-chevron-left"></i> 自学计算机书籍和课程推荐
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/08/08/csapp_bomb_lab/" rel="next" title="Bomb Lab">
-      Bomb Lab <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-  </div>
-
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/18/learning_2/" rel="prev" title="自学计算机书籍和课程推荐">
+                  <i class="fa fa-chevron-left"></i> 自学计算机书籍和课程推荐
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/08/08/csapp_bomb_lab/" rel="next" title="Bomb Lab">
+                  Bomb Lab <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
           </div>
-          
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
     
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
   </div>
   
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%AB%98%E6%80%A7%E8%83%BDPython%E7%BC%96%E7%A8%8B%EF%BC%882%EF%BC%89Profiling%E5%AF%BB%E6%89%BE%E6%80%A7%E8%83%BD%E7%93%B6%E9%A2%88"><span class="nav-number">1.</span> <span class="nav-text">高性能Python编程（2）Profiling寻找性能瓶颈</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%EF%BC%9A%E7%94%9F%E6%88%90Julia%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text">例子：生成Julia集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CPU%E5%92%8C%E5%86%85%E5%AD%98Profile%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">CPU和内存Profile方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#timeit"><span class="nav-number">1.2.1.</span> <span class="nav-text">timeit</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cProfiler"><span class="nav-number">1.3.</span> <span class="nav-text">cProfiler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#line-profiler"><span class="nav-number">1.4.</span> <span class="nav-text">line_profiler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#memory-profiler"><span class="nav-number">1.5.</span> <span class="nav-text">memory_profiler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PySpy"><span class="nav-number">1.6.</span> <span class="nav-text">PySpy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.7.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="FunCoder"
-      src="/images/funcoder.jpg">
-  <p class="site-author-name" itemprop="name">FunCoder</p>
-  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
 </div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">129</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-        <span class="site-state-item-count">15</span>
-        <span class="site-state-item-name">categories</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-        <span class="site-state-item-count">92</span>
-        <span class="site-state-item-name">tags</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
-      </span>
-  </div>
+  </main>
 
+  <footer class="footer">
+    <div class="footer-inner">
 
-      </div>
-        <div class="back-to-top motion-element">
-          <i class="fa fa-arrow-up"></i>
-          <span>0%</span>
-        </div>
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
 
 <div class="copyright">
-  
-  &copy; 2020 – 
+  &copy; 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">FunCoder</span>
-    <span class="post-meta-divider">|</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
     <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
+      <i class="fa fa-chart-line"></i>
     </span>
-      <span class="post-meta-item-text">Symbols count total: </span>
     <span title="Symbols count total">368k</span>
-    <span class="post-meta-divider">|</span>
+  </span>
+  <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-      <span class="post-meta-item-text">Reading time total &asymp;</span>
     <span title="Reading time total">5:34</span>
+  </span>
 </div>
-
-<span id="timeDate">Loding time...</span><span id="times">...</span>
-<script>
-    var now = new Date(); 
-    function createtime() { 
-        var grt= new Date("01/01/2020 00:00:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
-        now.setTime(now.getTime()+250); 
-        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
-        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
-        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
-        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
-        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
-        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
-        document.getElementById("timeDate").innerHTML = "Running for "+dnum+" Days "; 
-        document.getElementById("times").innerHTML = hnum + " Hour " + mnum + " Min " + snum + " Secs"; 
-    } 
-setInterval("createtime()",250);
-</script>
-
-        
 <div class="busuanzi-count">
-  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
       <span class="post-meta-item-icon">
         <i class="fa fa-user"></i>
       </span>
@@ -642,8 +545,7 @@ setInterval("createtime()",250);
         <span id="busuanzi_value_site_uv"></span>
       </span>
     </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
       <span class="post-meta-item-icon">
         <i class="fa fa-eye"></i>
       </span>
@@ -652,177 +554,43 @@ setInterval("createtime()",250);
       </span>
     </span>
 </div>
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
 
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
-  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-  <script>
-var pjax = new Pjax({
-  selectors: [
-    'head title',
-    '#page-configurations',
-    '.content-wrap',
-    '.post-toc-wrap',
-    '.languages',
-    '#pjax'
-  ],
-  switches: {
-    '.post-toc-wrap': Pjax.switches.innerHTML
-  },
-  analytics: false,
-  cacheBust: false,
-  scrollTo : !CONFIG.bookmark.enable
-});
-
-window.addEventListener('pjax:success', () => {
-  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
-    var code = element.text || element.textContent || element.innerHTML || '';
-    var parent = element.parentNode;
-    parent.removeChild(element);
-    var script = document.createElement('script');
-    if (element.id) {
-      script.id = element.id;
-    }
-    if (element.className) {
-      script.className = element.className;
-    }
-    if (element.type) {
-      script.type = element.type;
-    }
-    if (element.src) {
-      script.src = element.src;
-      // Force synchronous loading of peripheral JS.
-      script.async = false;
-    }
-    if (element.getAttribute('pjax') !== null) {
-      script.setAttribute('pjax', '');
-    }
-    if (code !== '') {
-      script.appendChild(document.createTextNode(code));
-    }
-    parent.appendChild(script);
-  });
-  NexT.boot.refresh();
-  // Define Motion Sequence & Bootstrap Motion.
-  if (CONFIG.motion.enable) {
-    NexT.motion.integrator
-      .init()
-      .add(NexT.motion.middleWares.subMenu)
-      .add(NexT.motion.middleWares.postList)
-      .bootstrap();
-  }
-  NexT.utils.updateSidebarPosition();
-});
-</script>
-
-
-
-
-  
-
-
-
-  <script pjax>
-  if (CONFIG.page.isPost) {
-    wpac_init = window.wpac_init || [];
-    wpac_init.push({
-      widget: 'Rating',
-      id    : 30061,
-      el    : 'wpac-rating',
-      color : 'fc6423'
-    });
-    (function() {
-      if ('WIDGETPACK_LOADED' in window) return;
-      WIDGETPACK_LOADED = true;
-      var mc = document.createElement('script');
-      mc.type = 'text/javascript';
-      mc.async = true;
-      mc.src = '//embed.widgetpack.com/widget.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
-    })();
-  }
-  </script>
-
-  
-<script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div id="pjax">
-  
-
-  
-
-  
-
-<script>
-  function loadCount() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://wangzhe.disqus.com/count.js';
-    s.id = 'dsq-count-scr';
-    (d.head || d.body).appendChild(s);
-  }
-  // defer loading until the whole page loading is completed
-  window.addEventListener('load', loadCount, false);
-</script>
-<script>
-  var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2021/07/22/high_perf_python_2/";
-    this.page.identifier = "2021/07/22/high_perf_python_2/";
-    this.page.title = "高性能Python编程（2）Profiling寻找性能瓶颈";
-    };
-  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
-      });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://wangzhe.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
-  });
-</script>
-
     </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
 </body>
 </html>
