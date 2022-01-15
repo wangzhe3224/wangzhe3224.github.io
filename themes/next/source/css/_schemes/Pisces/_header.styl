@@ -1,8 +1,10 @@
 .site-brand-container {
-  background: $black-deep;
+  background: var(--theme-color);
 
-  +tablet-mobile() {
-    box-shadow: 0 0 16px rgba(0, 0, 0, .5);
+  .site-nav-on & {
+    +tablet-mobile() {
+      box-shadow: 0 0 16px rgba(0, 0, 0, .5);
+    }
   }
 }
 
@@ -18,10 +20,16 @@
   margin: 10px 10px 0;
 }
 
-.custom-logo-image {
-  margin-top: 20px;
+.site-nav-toggle, .site-nav-right {
+  +tablet() {
+    flex-column();
+  }
 
-  +tablet-mobile() {
-    display: none;
+  .toggle {
+    color: white;
+
+    .toggle-line {
+      background: white;
+    }
   }
 }

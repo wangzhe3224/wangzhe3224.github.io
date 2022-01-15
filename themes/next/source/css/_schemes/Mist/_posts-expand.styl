@@ -1,19 +1,25 @@
 // Post Expand
 // --------------------------------------------------
 .posts-expand {
-  padding-top: 0;
-
-  .home {
-    .post-title, .post-meta {
-      text-align: $site-meta-text-align;
+  &.index {
+    .post-header {
+      text-align: left;
 
       +mobile() {
         text-align: center;
       }
     }
 
+    .post-meta-container {
+      margin-top: 5px;
+    }
+
     .post-meta {
-      margin: 5px 0 20px 0;
+      justify-content: flex-start;
+
+      +mobile() {
+        justify-content: center;
+      }
     }
   }
 
@@ -25,24 +31,20 @@
     margin-top: 120px;
   }
 
-  .post-title, .post-meta {
-    text-align: center;
-  }
-
-  .post-body img {
-    margin-left: 0;
+  .post-header {
+    margin-bottom: 20px;
   }
 
   .post-tags {
     text-align: left;
 
     a {
-      background: $whitesmoke;
-      border-bottom: none;
+      background: var(--content-bg-color);
+      border-bottom: 0;
       padding: 1px 5px;
 
       &:hover {
-        background: $grey-light;
+        background: var(--menu-item-bg-color);
       }
     }
   }
@@ -57,7 +59,6 @@
   text-align: left;
 
   .btn {
-    // color: $grey-dim;
     background: none;
     border: 0;
     border-bottom: 2px solid var(--btn-default-border-color);

@@ -28,7 +28,6 @@ post:
   modified: Modified
   edit: Edit this post
   in: In
-  more: more
   read_more: Read more
   untitled: Untitled
   sticky: Sticky
@@ -37,6 +36,8 @@ post:
   copyright:
     author: Post author
     link: Post link
+    post_author: Written by
+    post_link: This article originally appeared on
     license_title: Copyright Notice
     license_content: "All articles in this blog are licensed under %s unless stating additionally."
 
@@ -68,6 +69,9 @@ state:
 
 search:
   placeholder: Searching...
+  empty: "We didn't find any results for the search: %s"
+  hits_time: "%s results found in %s ms"
+  hits: "%s results found"
 
 cheers:
   um: Um..
@@ -98,6 +102,8 @@ accessibility:
   nav_toggle: Toggle navigation bar
   prev_page: Previous page
   next_page: Next page
+  back_to_top: Back to top
+  select_lang: Select language
 
 symbols_count_time:
   count: Symbols count in article
