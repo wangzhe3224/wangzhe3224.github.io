@@ -160,7 +160,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -171,7 +171,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-count">95</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -227,6 +227,125 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/20/python_6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/20/python_6/" class="post-title-link" itemprop="url">重新认识 Python（7）CPython初探</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-03-20 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-20T00:00:00Z">2021-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-01-23 12:02:42" itemprop="dateModified" datetime="2022-01-23T12:02:42Z">2022-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/03/20/python_6/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/20/python_6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>7.6k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="重新认识-Python（7）CPython初探"><a href="#重新认识-Python（7）CPython初探" class="headerlink" title="重新认识 Python（7）CPython初探"></a>重新认识 Python（7）CPython初探</h1><p>CPython 是 Python 社区的标准，其他版本的 Python，比如 pypy，都会遵行 CPython 的标准API实现。想要更深入的认识 Python，就需要了解 CPython 实现。这一期，我就带大家认识一下 CPython 源代码，为日后改造 Python 做准备。首先，展示如何本地编译最新的 CPython代码。然后，展示如何 debug 编译好的解释器。最后我们会利用 CPython 实现简单的函数调用。</p>
+<p>本文会为你揭开 CPython 的面纱，带你进入 C + Python 的世界。文章的最后，你也会对 Python 中最重要的概念：一切皆对象（object）有更深刻的认识；你还会发现一点点线索，为什么Python用起来比其他语言，比如 C 慢很多。</p>
+<p>请打开编辑器和命令行，我们开始。（本文主要使用MacOS，Windows 不一定可以直接实现）。</p>
+<h2 id="当我们再说-Python，我们在说什么？"><a href="#当我们再说-Python，我们在说什么？" class="headerlink" title="当我们再说 Python，我们在说什么？"></a>当我们再说 Python，我们在说什么？</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/20/python_6/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/11/python_5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -258,7 +377,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-22 09:17:53" itemprop="dateModified" datetime="2022-01-22T09:17:53Z">2022-01-22</time>
+      <time title="Modified: 2022-01-23 12:02:42" itemprop="dateModified" datetime="2022-01-23T12:02:42Z">2022-01-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -376,7 +495,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-22 09:17:53" itemprop="dateModified" datetime="2022-01-22T09:17:53Z">2022-01-22</time>
+      <time title="Modified: 2022-01-23 12:02:42" itemprop="dateModified" datetime="2022-01-23T12:02:42Z">2022-01-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -500,7 +619,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-22 09:17:53" itemprop="dateModified" datetime="2022-01-22T09:17:53Z">2022-01-22</time>
+      <time title="Modified: 2022-01-23 12:02:42" itemprop="dateModified" datetime="2022-01-23T12:02:42Z">2022-01-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -620,7 +739,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-22 09:17:53" itemprop="dateModified" datetime="2022-01-22T09:17:53Z">2022-01-22</time>
+      <time title="Modified: 2022-01-23 12:02:42" itemprop="dateModified" datetime="2022-01-23T12:02:42Z">2022-01-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -741,7 +860,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-22 09:17:53" itemprop="dateModified" datetime="2022-01-22T09:17:53Z">2022-01-22</time>
+      <time title="Modified: 2022-01-23 12:02:42" itemprop="dateModified" datetime="2022-01-23T12:02:42Z">2022-01-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -859,7 +978,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-22 09:17:53" itemprop="dateModified" datetime="2022-01-22T09:17:53Z">2022-01-22</time>
+      <time title="Modified: 2022-01-23 12:02:42" itemprop="dateModified" datetime="2022-01-23T12:02:42Z">2022-01-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -977,7 +1096,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-22 09:17:53" itemprop="dateModified" datetime="2022-01-22T09:17:53Z">2022-01-22</time>
+      <time title="Modified: 2022-01-23 12:02:42" itemprop="dateModified" datetime="2022-01-23T12:02:42Z">2022-01-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1098,7 +1217,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-22 09:17:53" itemprop="dateModified" datetime="2022-01-22T09:17:53Z">2022-01-22</time>
+      <time title="Modified: 2022-01-23 12:02:42" itemprop="dateModified" datetime="2022-01-23T12:02:42Z">2022-01-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1216,7 +1335,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-22 09:17:53" itemprop="dateModified" datetime="2022-01-22T09:17:53Z">2022-01-22</time>
+      <time title="Modified: 2022-01-23 12:02:42" itemprop="dateModified" datetime="2022-01-23T12:02:42Z">2022-01-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1295,124 +1414,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/16/python_1_gc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/funcoder.jpg">
-      <meta itemprop="name" content="FunCoder">
-      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FunCoder">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/02/16/python_1_gc/" class="post-title-link" itemprop="url">重新认识 Python（1）GC，垃圾回收</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-02-16 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-16T00:00:00Z">2021-02-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-22 09:17:53" itemprop="dateModified" datetime="2022-01-22T09:17:53Z">2022-01-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/02/16/python_1_gc/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/16/python_1_gc/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>3.8k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>3 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="重新认识-Python（1）：GC，垃圾回收"><a href="#重新认识-Python（1）：GC，垃圾回收" class="headerlink" title="重新认识 Python（1）：GC，垃圾回收"></a>重新认识 Python（1）：GC，垃圾回收</h1><p>Python是目前受众最为广泛的计算机语言之一，涉足的领域包罗万象：Web，机器学习，数据处理，爬虫等等。使用Python的人群也非常多样， 从专业的程序员到数据科学家。这种现状也导致了一个现象：大家对Python存在很多道听途说来的误解。比如，Python是解释型语言（其实python 还真不是，Python是编译型的，只不过他通过解释器执行编译后的代码，其实跟Java一样的，只不过java用虚拟机执行、解释代码），Python非常慢（讲快慢不讲场景都是耍流氓），GIL是垃圾设计（很多人其实不清楚GIL到底是什么？其设计初衷是什么？）， Python的GC很垃圾等等。这些误解通常是因为 Python过于火热，以至于内行、外行都可以随意评论一番，一些误解也就慢慢蔓延开来。我写这个系列的目的就是帮助大家重新认识Python，把 Python当成一个计算机语言，而不是一个工具来认识它。这样不仅会增加对语言本身的理解，也可以提高编写Python代码的质量。</p>
-<p>今天我们先来聊一聊Python的GC。(CPython)</p>
-<h2 id="Python的内存管理"><a href="#Python的内存管理" class="headerlink" title="Python的内存管理"></a>Python的内存管理</h2><p>说GC之前，我们先来看看Python的内存管理。与许多其他语言不同，由于Python中的所有值都是一个对象，object，所以Python程序运行的时候会产生数量众多但是体积很小的对象。因此，Python通常不会把已经申请的内存交还给操作系统，他会为每一个小于512byte的对象分配一个专门的allocator并且不会释放这些内存，方便以后继续使用。Python的很多内存直到进程结束才会释放给系统。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/02/16/python_1_gc/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1437,13 +1438,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">371k</span>
+    <span title="Symbols count total">374k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">5:38</span>
+    <span title="Reading time total">5:40</span>
   </span>
 </div>
 <div class="busuanzi-count">
