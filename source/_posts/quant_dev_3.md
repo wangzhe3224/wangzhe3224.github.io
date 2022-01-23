@@ -1,6 +1,6 @@
 ---
 title: 如何成为 Quant Dev 3 - 语言
-tags: [Hedge Fund, Quant， Python]
+tags: [Hedge Fund, Quant, Python]
 categories: Career
 date: 2022-01-22
 ---
