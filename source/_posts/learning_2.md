@@ -1,7 +1,7 @@
 ---
 title: 自学计算机书籍和课程推荐
 tags: Learning
-categories: FanCoder
+categories: FunCoder
 date: 2021-07-18
 ---
 
