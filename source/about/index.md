@@ -15,16 +15,23 @@ I am a Christian for $n$ years. Here is my church family: [https://www.st-helens
 
 我的公众号：泛程序员
 
-Here are something on github:
+Here are something I developed:
 
 - [Python Cellular Automata lib](https://github.com/wangzhe3224/pyca)
 - [pygraph: a library to interact with graphs in python](https://github.com/wangzhe3224/pygraph)
 - [The code of this website](https://github.com/wangzhe3224/wangzhe3224.github.io/tree/hexo-source)
 - [pysound: some tool I used to play sounds](https://github.com/wangzhe3224/pysound)
-- [vnpy: a systematic trading tool I used to work with](https://github.com/vnpy/vnpy)
 - [缠论的Python](https://github.com/wangzhe3224/chanlun)
 - [知乎热榜爬虫](https://github.com/wangzhe3224/zhihu-hotlist)
 - [React-Redux-Saga-*？晕了？一篇文章弄懂的实战指南！](https://zhuanlan.zhihu.com/p/82442831)
+- [A curated list of insanely awesome libraries, packages and resources for systematic trading. Crypto, Stock, Futures, Options, CFDs, FX, and more | 量化交易 | 量化投资](https://github.com/wangzhe3224/awesome-systematic-trading)
+
+Here are some projects that I contributed to:
+
+- [vnpy: a systematic trading tool I used to work with](https://github.com/vnpy/vnpy)
+- [cryptofeed](https://github.com/bmoscon/cryptofeed)
+- [cryptostore](https://github.com/bmoscon/cryptostore)
+- [nautilus_trader](https://github.com/nautechsystems/nautilus_trader)
 
 Solution for some books:
 
@@ -40,3 +47,7 @@ Tool I used to create this website:
 - [hexo-theme-next](https://github.com/theme-next/hexo-theme-next), to make it looks better
 - [hackmd.io](https://hackmd.io/), to create content using markdown
 - Python, to do other stuff..
+
+Something I used to do and still proud of:
+
+- <https://wangzhetju.wixsite.com/wangzhe>
