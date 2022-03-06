@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>谁持有比特币</title>
+    <url>/2022/03/06/who_has_bitcoin/</url>
+    <content><![CDATA[<blockquote>
+<p><strong>声明：</strong></p>
+<ul>
+<li>文章不涉及任何政治、经济、道德等非客观复杂事实</li>
+<li>文章不涉及比特币的实现原理、加密货币实现原理</li>
+<li>文章不涉及投资建议</li>
+</ul>
+</blockquote>
+<p>比特币，Bitcoin，是一个分布式账本系统，起源于 2008 年的一份白皮书文件，其作者 Satoshi Nakamoto 身份不详；其C++标准实现，Bitcoin Core，正式运行于2009年1月3日。比特币是该账本的原生代币，bitcoin。</p>
+<p>目前（2022-03），那些机构已经或者声明将要持有比特币？你可能想不到哪家机构是目前持有比特币最多的。。。</p>
+<h2 id="官网备案确认持有的机构"><a href="#官网备案确认持有的机构" class="headerlink" title="官网备案确认持有的机构"></a>官网备案确认持有的机构</h2><p><img src="https://i.imgur.com/jH4bzVw.png" alt=""></p>
+<h3 id="MicroStrategy"><a href="#MicroStrategy" class="headerlink" title="MicroStrategy"></a>MicroStrategy</h3><p>该公司持有至少 124391 BTC，约为 58 亿美金，作为公司的主要储备资金。</p>
+<p>该公司 CEO Michael Saylor 公开发文称他个人持有 17732 BTC，约为 8 亿美金。</p>
+<p><img src="https://i.imgur.com/63ipNeq.png" alt=""></p>
+<p>根据 BitInfoChart 的统计，单个地址持有超过 10万 BTC的地址只有3个。</p>
+<h3 id="特斯拉"><a href="#特斯拉" class="headerlink" title="特斯拉"></a>特斯拉</h3><p>根据美国 SEC Filing 的数据，特斯拉持有 42902 BTC，价值约为 20亿美金。</p>
+<h3 id="Galaxy-Digital-Holdings"><a href="#Galaxy-Digital-Holdings" class="headerlink" title="Galaxy Digital Holdings"></a>Galaxy Digital Holdings</h3><p>这是一家面向机构的加密货币投资公司，于 2022 年挂牌在多伦多上市。它持有 16400 BTC，价值约为 7.8 亿美金。</p>
+<p>2022年，该公司向美国证监会提交了 BTC 现货ETF，但是目前仍然在审理过程，暂未通过。</p>
+<h3 id="Voyager-Digital-LTD"><a href="#Voyager-Digital-LTD" class="headerlink" title="Voyager Digital LTD"></a>Voyager Digital LTD</h3><p>Voyager 是加密货币 Broker，持有 12260 BTC，价值约 5.8 亿美金。</p>
+<h3 id="Block-Inc"><a href="#Block-Inc" class="headerlink" title="Block, Inc"></a>Block, Inc</h3><p>Block 的前身就是线上支付公司 Square，创始人正是 Twitter 的创始人 Jack Dorsey。 Block 持有 8207 BTC，价值约为 3.8 亿美金。</p>
+<h3 id="Marathon-Digital-Holdings-Inc"><a href="#Marathon-Digital-Holdings-Inc" class="headerlink" title="Marathon Digital Holdings Inc."></a>Marathon Digital Holdings Inc.</h3><p>这是一家比特币挖矿公司，持有 7649 BTC，价值约为 3.6 亿美金。</p>
+<h3 id="Hut-8-Mining-Corp"><a href="#Hut-8-Mining-Corp" class="headerlink" title="Hut 8 Mining Corp"></a>Hut 8 Mining Corp</h3><p>持有 5242 BTC，约为 2.5 亿美金。</p>
+<h3 id="Coinbase-Global-Inc"><a href="#Coinbase-Global-Inc" class="headerlink" title="Coinbase Global, Inc."></a>Coinbase Global, Inc.</h3><p>持有 4482 BTC，约为 2.1 亿美金。</p>
+<h3 id="Riot-Blockchain-Inc"><a href="#Riot-Blockchain-Inc" class="headerlink" title="Riot Blockchain, Inc."></a>Riot Blockchain, Inc.</h3><p>持有 3995 BTC, 约为 1.9 亿美金。</p>
+<h3 id="Bitcoin-Group-SE"><a href="#Bitcoin-Group-SE" class="headerlink" title="Bitcoin Group SE"></a>Bitcoin Group SE</h3><p>德国的风投公司</p>
+<p>持有 3947 BTC, 约为 1.9 亿美金。</p>
+<h3 id="FBI-对联邦调查局，，，"><a href="#FBI-对联邦调查局，，，" class="headerlink" title="FBI (对联邦调查局，，，)"></a>FBI (对联邦调查局，，，)</h3><p>FBI 于 2022年2月报告，追缴回2016年被盗的比特币，合计 119754 BTC。。。<a href="https://www.justice.gov/opa/pr/two-arrested-alleged-conspiracy-launder-45-billion-stolen-cryptocurrency">^2</a> 所以，FBI 可能是目前个体机构持有比特币最多的，价值约为 45 亿美金。</p>
+<h2 id="声明将要或支持投资人持有的机构"><a href="#声明将要或支持投资人持有的机构" class="headerlink" title="声明将要或支持投资人持有的机构"></a>声明将要或支持投资人持有的机构</h2><h3 id="KPMG"><a href="#KPMG" class="headerlink" title="KPMG"></a>KPMG</h3><p>KPMG 的加拿大分部将比特币和以太币加入了他们的公司储备金。<a href="https://www.cityam.com/kpmg-canada-adds-bitcoin-and-ethereum-to-balance-sheet/">^1</a></p>
+<h3 id="ARK-Invest"><a href="#ARK-Invest" class="headerlink" title="ARK Invest"></a>ARK Invest</h3><p>ARK 是业界知名的资产管理公司，2020 年，该公司发出了一份名为：Bitcoin as an investment 的分析报告，详细分析了 BTC 进入资产投资组合的可能性、优势和风险。</p>
+<h3 id="Fidelity"><a href="#Fidelity" class="headerlink" title="Fidelity"></a>Fidelity</h3><p>Fidelity 是老派资管公司了，其管理资产超过 7 千亿美金，2022年，该公司的数字货币分公司发表了一份名为：Bitcoin first 的分析报告，分析了为什么投资人需要将 BTC 作为一个投资资产考虑，以及为什么应该把 BTC 和其他数字货币区别开来。</p>
+<h3 id="Blackrock-黑石基金"><a href="#Blackrock-黑石基金" class="headerlink" title="Blackrock, 黑石基金"></a>Blackrock, 黑石基金</h3><p>目前没有黑石没有明确表明自己持有 BTC，但是黑石分别持有 Marathon Digital 6% 股份、 riot blockchain 7% 股份，总计价值约 4 亿美金，而上述两家公司均持有大量比特币。</p>
+<h2 id="更多资源"><a href="#更多资源" class="headerlink" title="更多资源"></a>更多资源</h2><p><a href="https://github.com/wangzhe3224/all_about_bitcoin">https://github.com/wangzhe3224/all_about_bitcoin</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://en.wikipedia.org/wiki/Bitcoin">https://en.wikipedia.org/wiki/Bitcoin</a></li>
+<li>Bitcoin: A Peer-to-Peer Electronic Cash System</li>
+<li><a href="https://github.com/wangzhe3224/all_about_bitcoin/blob/main/report/bitcoin-first-fidelity.pdf">[Fidelity] Bitcoin first: why investor need to condsider bitcoin separately from other digital asset?</a></li>
+<li><a href="https://github.com/wangzhe3224/all_about_bitcoin/blob/main/report/ARKinvest_Bitcoin_II_An%20Investment.pdf">[ARK invest] Bitcoin as an investment</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Investing</category>
+      </categories>
+      <tags>
+        <tag>Bitcoin</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>感谢神, 我们有比特币</title>
     <url>/2022/01/23/bitcoin_fait/</url>
     <content><![CDATA[<blockquote>
@@ -7469,8 +7518,8 @@
       </categories>
       <tags>
         <tag>Data Structure</tag>
-        <tag>Graph</tag>
         <tag>Python</tag>
+        <tag>Graph</tag>
         <tag>Algorithms</tag>
       </tags>
   </entry>
@@ -7513,8 +7562,8 @@
       </categories>
       <tags>
         <tag>Data Structure</tag>
-        <tag>Graph</tag>
         <tag>Python</tag>
+        <tag>Graph</tag>
         <tag>Algorithms</tag>
       </tags>
   </entry>
