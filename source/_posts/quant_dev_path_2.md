@@ -2,7 +2,7 @@
 title: 如何成为 Quant Dev 2 - 技能树
 date: 2021-12-05
 categories: Career
-tag: [Quant, Hedge Fund]
+tags: [Quant, Hedge Fund]
 ---
 
 上一篇文章介绍了量化对冲基金中程序员的分类和职能，其中 `Quant Dev` 是量化对冲基金的核心业务开发人员，所以这一篇我们重点讨论 Quant Dev 的要求、技能和学习路径。
