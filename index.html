@@ -160,18 +160,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-count">136</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">95</span>
+        <span class="site-state-item-count">97</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -227,6 +227,139 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/19/pandas_and_more/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/19/pandas_and_more/" class="post-title-link" itemprop="url">大数据时代的“Pandas” - Dask|Ray|Modin|Vaex|Polars|...</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-03-19 00:00:00" itemprop="dateCreated datePublished" datetime="2022-03-19T00:00:00Z">2022-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-03-21 11:27:10" itemprop="dateModified" datetime="2022-03-21T11:27:10Z">2022-03-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Data-Engineering/" itemprop="url" rel="index"><span itemprop="name">Data Engineering</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/03/19/pandas_and_more/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/19/pandas_and_more/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>3.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="从-Pandas-说起"><a href="#从-Pandas-说起" class="headerlink" title="从 Pandas 说起"></a>从 Pandas 说起</h2><p>Pandas 在 Python 的数据工程领域可谓是半壁江山，Pandas 的作者 Wes Mckinney 于 2008 年开始构建 Pandas，至今已经走过了十几个年头。然而，Wes 在 2017 年的一篇博客中写道：</p>
+<blockquote>
+<p>我开始构建 Pandas 的时候并不是很了解软件工程，甚至不太会使用 Python 的科学计算生态。我当时的代码丑陋且缓慢，也是一边学一边写。2011年，我引入了 <code>BlockManager</code> 和 <code>Numpy</code> 作为 Pandas 的内部内存管理和数据结构。<br>。。。<br>然而这个决定也是 Pandas 如今无法自如处理超大数据的罪魁祸首。毕竟在 2011 年我们几乎不去思考处理超过100 GB 甚至 1TB 的数据。</p>
+<p><strong>如今，我的经验是：如果你想用 Pandas 分析一个 1GB 的数据，那么你至少需要 5 - 10 GB 的内存才可以。</strong>，然而，今天我们碰到更多地情况恰恰相反，分析的数据比内存大 5-10 倍。<br><a target="_blank" rel="noopener" href="https://wesmckinney.com/blog/apache-arrow-pandas-internals/">https://wesmckinney.com/blog/apache-arrow-pandas-internals/</a></p>
+</blockquote>
+<h3 id="Pandas-的“十一大”问题"><a href="#Pandas-的“十一大”问题" class="headerlink" title="Pandas 的“十一大”问题"></a>Pandas 的“十一大”问题</h3><ol>
+<li>内部数据结构距离硬件太过遥远</li>
+<li>没有内存映射</li>
+<li>数据库和文件读写性能差</li>
+<li>丢失值处理支持差</li>
+<li>内存管理不透明，过于复杂</li>
+<li>Category 数据类型支持差</li>
+<li>复杂的分组运算性能差</li>
+<li>数据Append性能差</li>
+<li>数据类型依赖于numpy，不完整</li>
+<li>只有Eager evaluation，没有询问计划（query plan）</li>
+<li>慢，大数据集多核性能很差</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/19/pandas_and_more/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/08/quant_dev_4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -258,7 +391,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-12 11:55:37" itemprop="dateModified" datetime="2022-03-12T11:55:37Z">2022-03-12</time>
+      <time title="Modified: 2022-03-21 11:27:10" itemprop="dateModified" datetime="2022-03-21T11:27:10Z">2022-03-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -401,7 +534,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-12 11:55:37" itemprop="dateModified" datetime="2022-03-12T11:55:37Z">2022-03-12</time>
+      <time title="Modified: 2022-03-21 11:27:10" itemprop="dateModified" datetime="2022-03-21T11:27:10Z">2022-03-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -527,7 +660,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-12 11:55:37" itemprop="dateModified" datetime="2022-03-12T11:55:37Z">2022-03-12</time>
+      <time title="Modified: 2022-03-21 11:27:10" itemprop="dateModified" datetime="2022-03-21T11:27:10Z">2022-03-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -649,7 +782,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-12 11:55:37" itemprop="dateModified" datetime="2022-03-12T11:55:37Z">2022-03-12</time>
+      <time title="Modified: 2022-03-21 11:27:10" itemprop="dateModified" datetime="2022-03-21T11:27:10Z">2022-03-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -774,7 +907,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-12 11:55:37" itemprop="dateModified" datetime="2022-03-12T11:55:37Z">2022-03-12</time>
+      <time title="Modified: 2022-03-21 11:27:10" itemprop="dateModified" datetime="2022-03-21T11:27:10Z">2022-03-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -896,7 +1029,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-12 11:55:37" itemprop="dateModified" datetime="2022-03-12T11:55:37Z">2022-03-12</time>
+      <time title="Modified: 2022-03-21 11:27:10" itemprop="dateModified" datetime="2022-03-21T11:27:10Z">2022-03-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1015,7 +1148,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-12 11:55:37" itemprop="dateModified" datetime="2022-03-12T11:55:37Z">2022-03-12</time>
+      <time title="Modified: 2022-03-21 11:27:10" itemprop="dateModified" datetime="2022-03-21T11:27:10Z">2022-03-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1140,7 +1273,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-12 11:55:37" itemprop="dateModified" datetime="2022-03-12T11:55:37Z">2022-03-12</time>
+      <time title="Modified: 2022-03-21 11:27:10" itemprop="dateModified" datetime="2022-03-21T11:27:10Z">2022-03-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1264,7 +1397,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-12 11:55:37" itemprop="dateModified" datetime="2022-03-12T11:55:37Z">2022-03-12</time>
+      <time title="Modified: 2022-03-21 11:27:10" itemprop="dateModified" datetime="2022-03-21T11:27:10Z">2022-03-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1343,127 +1476,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/12/31/github_speedup/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/funcoder.jpg">
-      <meta itemprop="name" content="FunCoder">
-      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FunCoder">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/31/github_speedup/" class="post-title-link" itemprop="url">国内如何提升GitHub访问速度</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-12-31 00:00:00" itemprop="dateCreated datePublished" datetime="2021-12-31T00:00:00Z">2021-12-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-12 11:55:37" itemprop="dateModified" datetime="2022-03-12T11:55:37Z">2022-03-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/FunCoder/" itemprop="url" rel="index"><span itemprop="name">FunCoder</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/12/31/github_speedup/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/12/31/github_speedup/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>249</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="使用镜像网站"><a href="#使用镜像网站" class="headerlink" title="使用镜像网站"></a>使用镜像网站</h2><p>可以用来现在下载github原版的的仓库：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://ghproxy.com/">https://ghproxy.com/</a> </li>
-<li><a target="_blank" rel="noopener" href="http://toolwa.com/github/">http://toolwa.com/github/</a></li>
-</ul>
-<h2 id="浏览器插件"><a href="#浏览器插件" class="headerlink" title="浏览器插件"></a>浏览器插件</h2><p><a target="_blank" rel="noopener" href="https://github.com/fhefh2015/Fast-GitHub">Fast-GitHub</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/31/github_speedup/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1488,13 +1500,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">381k</span>
+    <span title="Symbols count total">384k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">5:46</span>
+    <span title="Reading time total">5:49</span>
   </span>
 </div>
 <div class="busuanzi-count">
