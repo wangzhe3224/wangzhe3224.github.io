@@ -160,13 +160,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">109</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -237,6 +237,124 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/mit6828_lab1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/10/10/mit6828_lab1/" class="post-title-link" itemprop="url">MIT6828 lab 1</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-10-10 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-10T00:00:00Z">2020-10-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-05-22 22:39:11" itemprop="dateModified" datetime="2022-05-22T22:39:11Z">2022-05-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/10/10/mit6828_lab1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/10/10/mit6828_lab1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>6.9k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>6 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="Part-1"><a href="#Part-1" class="headerlink" title="Part 1"></a>Part 1</h2><p>First thing, what does it mean by saying <code>cs:ip</code>?<br>This is a old but still being used memory addressing method. <code>Segment: Offfset</code>. The absolute memory addres = (Segment * 16) + Offset. For example, <code>F000:FFFD</code> means address <code>FFFFD</code>. This strange way of expressing address is due to the fact that in the old days, CPU’s regeisters are only 16bit, which can only address a memeory address of 2^16 (which is 64KiB memory). This is even too small at that age. So CPU manufacturers combines two regiesters to express larger address, which is this <code>segment: offset</code> thing.<br><code>cs</code> means “code segment” and <code>ip</code> means “instruction pointer”. The combination represents the location where CPU is currently fetching instructions to execute.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\&#x2F;\</span><br><span class="line">|                  |</span><br><span class="line">|      Unused      |</span><br><span class="line">|                  |</span><br><span class="line">+------------------+  &lt;- depends on amount of RAM</span><br><span class="line">|                  |</span><br><span class="line">|                  |</span><br><span class="line">| Extended Memory  |</span><br><span class="line">|                  |</span><br><span class="line">|                  |</span><br><span class="line">+------------------+  &lt;- 0x00100000 (1MB)                 [Intel 8088]</span><br><span class="line">|     BIOS ROM     |</span><br><span class="line">+------------------+  &lt;- 0x000F0000 (960KB)</span><br><span class="line">|  16-bit devices, |</span><br><span class="line">|  expansion ROMs  |</span><br><span class="line">+------------------+  &lt;- 0x000C0000 (768KB)</span><br><span class="line">|   VGA Display    |</span><br><span class="line">+------------------+  &lt;- 0x000A0000 (640KB)</span><br><span class="line">|                  |</span><br><span class="line">|    Low Memory    |                                      [Conventional Memory]</span><br><span class="line">|                  |</span><br><span class="line">+------------------+  &lt;- 0x00000000</span><br></pre></td></tr></table></figure>
+<h3 id="Exercise-2-debug-boot"><a href="#Exercise-2-debug-boot" class="headerlink" title="Exercise 2: debug boot"></a>Exercise 2: debug boot</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> [CS:IP]    address: command  args</span><br><span class="line">[f000:fff0]    0xffff0: ljmp   $0xf000,$0xe05b   # goto 0xfe05b</span><br><span class="line">[f000:e05b]    0xfe05b: cmpl   $0x0,%cs:0x6c48</span><br><span class="line">[f000:e062]    0xfe062: jne    0xfd2e1</span><br><span class="line">[f000:e066]    0xfe066: xor    %dx,%dx</span><br><span class="line">[f000:e068]    0xfe068: mov    %dx,%ss</span><br><span class="line">[f000:e06a]    0xfe06a: mov    $0x7000,%esp</span><br><span class="line">[f000:e070]    0xfe070: mov    $0xf3691,%edx</span><br><span class="line">[f000:e076]    0xfe076: jmp    0xfd165</span><br><span class="line">[f000:d165]    0xfd165: mov    %eax,%ecx</span><br><span class="line">[f000:d168]    0xfd168: cli</span><br><span class="line">[f000:d169]    0xfd169: cld</span><br><span class="line">[f000:d16a]    0xfd16a: mov    $0x8f,%eax</span><br><span class="line">[f000:d170]    0xfd170: out    %al,$0x70</span><br><span class="line">[f000:d172]    0xfd172: in     $0x71,%al</span><br><span class="line">[f000:d174]    0xfd174: in     $0x92,%al</span><br><span class="line">[f000:d176]    0xfd176: or     $0x2,%al</span><br><span class="line">[f000:d178]    0xfd178: out    %al,$0x92</span><br><span class="line">[f000:d17a]    0xfd17a: lidtw  %cs:0x6c38</span><br><span class="line">[f000:d180]    0xfd180: lgdtw  %cs:0x6bf4</span><br><span class="line">[f000:d186]    0xfd186: mov    %cr0,%eax</span><br><span class="line">[f000:d189]    0xfd189: or     $0x1,%eax</span><br><span class="line">[f000:d18d]    0xfd18d: mov    %eax,%cr0</span><br><span class="line">[f000:d190]    0xfd190: ljmpl  $0x8,$0xfd198</span><br><span class="line">&#x3D;&gt; 0xfd198:     mov    $0x10,%eax</span><br><span class="line">&#x3D;&gt; 0xfd19d:     mov    %eax,%ds</span><br><span class="line">&#x3D;&gt; 0xfd19f:     mov    %eax,%es</span><br><span class="line">&#x3D;&gt; 0xfd1a1:     mov    %eax,%ss</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/10/10/mit6828_lab1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/03/efficiently_inefficient/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -268,7 +386,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-31 20:32:29" itemprop="dateModified" datetime="2022-03-31T20:32:29Z">2022-03-31</time>
+      <time title="Modified: 2022-05-22 22:39:11" itemprop="dateModified" datetime="2022-05-22T22:39:11Z">2022-05-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -386,7 +504,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-31 20:32:29" itemprop="dateModified" datetime="2022-03-31T20:32:29Z">2022-03-31</time>
+      <time title="Modified: 2022-05-22 22:39:11" itemprop="dateModified" datetime="2022-05-22T22:39:11Z">2022-05-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -504,7 +622,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-31 20:32:29" itemprop="dateModified" datetime="2022-03-31T20:32:29Z">2022-03-31</time>
+      <time title="Modified: 2022-05-22 22:39:11" itemprop="dateModified" datetime="2022-05-22T22:39:11Z">2022-05-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -624,7 +742,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-31 20:32:29" itemprop="dateModified" datetime="2022-03-31T20:32:29Z">2022-03-31</time>
+      <time title="Modified: 2022-05-22 22:39:11" itemprop="dateModified" datetime="2022-05-22T22:39:11Z">2022-05-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -742,7 +860,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-31 20:32:29" itemprop="dateModified" datetime="2022-03-31T20:32:29Z">2022-03-31</time>
+      <time title="Modified: 2022-05-22 22:39:11" itemprop="dateModified" datetime="2022-05-22T22:39:11Z">2022-05-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -861,7 +979,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-31 20:32:29" itemprop="dateModified" datetime="2022-03-31T20:32:29Z">2022-03-31</time>
+      <time title="Modified: 2022-05-22 22:39:11" itemprop="dateModified" datetime="2022-05-22T22:39:11Z">2022-05-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -979,7 +1097,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-31 20:32:29" itemprop="dateModified" datetime="2022-03-31T20:32:29Z">2022-03-31</time>
+      <time title="Modified: 2022-05-22 22:39:11" itemprop="dateModified" datetime="2022-05-22T22:39:11Z">2022-05-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1100,7 +1218,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-31 20:32:29" itemprop="dateModified" datetime="2022-03-31T20:32:29Z">2022-03-31</time>
+      <time title="Modified: 2022-05-22 22:39:11" itemprop="dateModified" datetime="2022-05-22T22:39:11Z">2022-05-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1219,7 +1337,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-31 20:32:29" itemprop="dateModified" datetime="2022-03-31T20:32:29Z">2022-03-31</time>
+      <time title="Modified: 2022-05-22 22:39:11" itemprop="dateModified" datetime="2022-05-22T22:39:11Z">2022-05-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1298,126 +1416,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/25/graph1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/funcoder.jpg">
-      <meta itemprop="name" content="FunCoder">
-      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FunCoder">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/04/25/graph1/" class="post-title-link" itemprop="url">Graph basics - 1 Concepts</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-04-25 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-25T00:00:00Z">2020-04-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-31 20:32:29" itemprop="dateModified" datetime="2022-03-31T20:32:29Z">2022-03-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/04/25/graph1/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/25/graph1/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>2.6k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Graph is a mathematical object to model pairwise connections between objects. There are a lot of applications:</p>
-<p><img src="https://i.imgur.com/aDYbUMC.png" alt="Typical graph applications"></p>
-<span id="more"></span>
-
-<h1 id="1-Definitions"><a href="#1-Definitions" class="headerlink" title="1. Definitions"></a>1. Definitions</h1><p>Definition: </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/25/graph1/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1442,13 +1440,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">356k</span>
+    <span title="Symbols count total">358k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">5:23</span>
+    <span title="Reading time total">5:25</span>
   </span>
 </div>
 <div class="busuanzi-count">
