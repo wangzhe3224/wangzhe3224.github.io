@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>比特币随想 - Altcoin 去哪了？</title>
+    <url>/2022/05/27/think_bitcoin_3/</url>
+    <content><![CDATA[<p>币圈历史不长，从2009年（比特币上线哪一年）算起不太合适，因为那时候还没有所谓的币圈。咱们就从2013年开始算吧，哪一年比特币第一次减半。</p>
+<p>首先我们看看过去的10年时间，币圈前十币。</p>
+<h2 id="Top-10-2013-2020"><a href="#Top-10-2013-2020" class="headerlink" title="Top 10 (2013 - 2020)"></a>Top 10 (2013 - 2020)</h2><p>比特币一直都是第一，我贴一个 Bitcoin Dominance 的图，这图代表了比特币市值在整个币圈市值的比例。可以看到有一个有意思的现象，比特币一直占据了50%左右的份额。</p>
+<p><img src="https://i.imgur.com/lFSvWCa.png" alt=""></p>
+<p>但是，如果我们在看历年前十的币，我们就发现一个现象：</p>
+<blockquote>
+<p>铁打的比特币，流水的Altcoin。</p>
+</blockquote>
+<p>牛市来了，Altcoin大涨；熊市来了，Altcoin大跌；牛市来了，新的Altcoin大涨，之前的一些币就说拜拜了。</p>
+<p>一般这些币撑不住 5 年，比如来特币，2013年还是第二，2016年已经部件踪影了：</p>
+<p><img src="https://i.imgur.com/HLnU1Tt.png" alt="LTC vs BTC"></p>
+<p>还有一些币呢，如果我们看长期对 BTC 的价值，他们绝大多数都在走下坡路，比如 XRP，虽然现在还在排行榜，但是对比特币已经跌破发行价了。即使是以太坊，似乎也无法再创新高了。</p>
+<p><img src="https://i.imgur.com/ykuZ7qu.png" alt=""></p>
+<p><img src="https://i.imgur.com/AE8A98V.png" alt=""></p>
+<p><img src="https://i.imgur.com/TPSm7pp.png" alt=""></p>
+<h2 id="历年-top10-截图"><a href="#历年-top10-截图" class="headerlink" title="历年 top10 截图"></a>历年 top10 截图</h2><p><img src="https://i.imgur.com/YgEruca.png" alt="2013"></p>
+<p><img src="https://i.imgur.com/JgCTPXi.png" alt="2014"></p>
+<p><img src="https://i.imgur.com/vtB1UBt.png" alt="2015"></p>
+<p><img src="https://i.imgur.com/kL8oVTY.png" alt="2016"></p>
+<p><img src="https://i.imgur.com/oagHoe8.png" alt="2017"></p>
+<p><img src="https://i.imgur.com/aZTcatj.png" alt="2018"></p>
+<p><img src="https://i.imgur.com/USIyap2.png" alt="2019"></p>
+<p><img src="https://i.imgur.com/0QEzMym.png" alt="2020"></p>
+<h2 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h2><p>其实，市场会发现价值，即使有各种定价问题，但是终究会发现合理的价格。这既是为啥比特币的市值一直保持在大于 50%，一个币撑住币圈半边天。</p>
+<p>关于比特币的价值请看：<a href="https://zhuanlan.zhihu.com/p/520555857">https://zhuanlan.zhihu.com/p/520555857</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.youtube.com/watch?v=nXfAMzu7eZk&list=RDCMUCF31eojFKhWQJviyMICWO2w&start_radio=1">Your Altcoin Is Dying</a></li>
+<li><a href="https://coinmarketcap.com/historical/">https://coinmarketcap.com/historical/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Bitcoin</category>
+      </categories>
+      <tags>
+        <tag>Bitcoin</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>比特币随想 - Proof of What?</title>
     <url>/2022/05/26/thinking_bitcoin_3/</url>
     <content><![CDATA[<h2 id="Proof-of-work-的价值在哪里？"><a href="#Proof-of-work-的价值在哪里？" class="headerlink" title="Proof of work 的价值在哪里？"></a>Proof of work 的价值在哪里？</h2><p>比特币区块链为什么有价值？他的价值在于它的账本，就是比特币公链。换句话说，他的账本有价值，为什么？正是因为 Proof of work。账本上的每一笔记录，每一个区块，背后都有相应真实世界成本（主要是电力，当然还有矿机、人力成本等等忽略不计）。这就是公链价值的来源，价值不能被凭空产生，特别是数字资产。我举个栗子，如果你有一个 SQL 数据库，在里面添加一条记录的成本是多少？0。再换个例子，魔兽世界的一件装备，你获得成本是多少啊？100元，但是你要信任游戏运营商的诚实和存在。这里涉及两个问题：创建数字资产几乎没有成本；数字资产想产生价值要么通过信任，要么通过做工，无论哪种你必须跟物理世界产生联系。</p>
