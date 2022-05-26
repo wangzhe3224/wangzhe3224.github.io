@@ -19,31 +19,30 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="关于动态内存分配动态内存分配通常是指堆内存（Heap，不是数据结构背景下的堆结构）的动态分配和收回。动态内存分配与程序的性能和内存使用情况息息相关。对于性能主要涉及两个方面：分配和释放内存的性能，即吞吐；内存的局部性（与缓存相关），即缓存友好。对于内存的利用率，主要是关于内存碎片的优化。 Mental Model (心智模型) A mental model is an explanation of">
+<meta name="description" content="Proof of work 的价值在哪里？比特币区块链为什么有价值？他的价值在于它的账本，就是比特币公链。换句话说，他的账本有价值，为什么？正是因为 Proof of work。账本上的每一笔记录，每一个区块，背后都有相应真实世界成本（主要是电力，当然还有矿机、人力成本等等忽略不计）。这就是公链价值的来源，价值不能被凭空产生，特别是数字资产。我举个栗子，如果你有一个 SQL 数据库，在里面添加一条">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于动态内存分配">
-<meta property="og:url" content="http://yoursite.com/2021/08/29/malloc_1/index.html">
+<meta property="og:title" content="比特币随想 - Proof of What?">
+<meta property="og:url" content="http://yoursite.com/2022/05/26/thinking_bitcoin_3/index.html">
 <meta property="og:site_name" content="FunCoder">
-<meta property="og:description" content="关于动态内存分配动态内存分配通常是指堆内存（Heap，不是数据结构背景下的堆结构）的动态分配和收回。动态内存分配与程序的性能和内存使用情况息息相关。对于性能主要涉及两个方面：分配和释放内存的性能，即吞吐；内存的局部性（与缓存相关），即缓存友好。对于内存的利用率，主要是关于内存碎片的优化。 Mental Model (心智模型) A mental model is an explanation of">
+<meta property="og:description" content="Proof of work 的价值在哪里？比特币区块链为什么有价值？他的价值在于它的账本，就是比特币公链。换句话说，他的账本有价值，为什么？正是因为 Proof of work。账本上的每一笔记录，每一个区块，背后都有相应真实世界成本（主要是电力，当然还有矿机、人力成本等等忽略不计）。这就是公链价值的来源，价值不能被凭空产生，特别是数字资产。我举个栗子，如果你有一个 SQL 数据库，在里面添加一条">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://i.imgur.com/vRpgBpw.jpg">
-<meta property="og:image" content="https://i.imgur.com/lem9r6i.jpg">
-<meta property="article:published_time" content="2021-08-29T00:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-26T18:11:31.589Z">
+<meta property="og:image" content="https://i.imgur.com/1EOD1sz.png">
+<meta property="article:published_time" content="2022-05-26T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-05-26T18:11:31.593Z">
 <meta property="article:author" content="FunCoder">
-<meta property="article:tag" content="Memory Allocation">
+<meta property="article:tag" content="Bitcoin">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.imgur.com/vRpgBpw.jpg">
+<meta name="twitter:image" content="https://i.imgur.com/1EOD1sz.png">
 
 
-<link rel="canonical" href="http://yoursite.com/2021/08/29/malloc_1/">
+<link rel="canonical" href="http://yoursite.com/2022/05/26/thinking_bitcoin_3/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2021/08/29/malloc_1/","path":"2021/08/29/malloc_1/","title":"关于动态内存分配"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2022/05/26/thinking_bitcoin_3/","path":"2022/05/26/thinking_bitcoin_3/","title":"比特币随想 - Proof of What?"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>关于动态内存分配 | FunCoder</title>
+<title>比特币随想 - Proof of What? | FunCoder</title>
   
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
   <script src="/js/third-party/analytics/google-analytics.js"></script>
@@ -152,7 +151,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="nav-number">1.</span> <span class="nav-text">关于动态内存分配</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mental-Model-%E5%BF%83%E6%99%BA%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">Mental Model (心智模型)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">虚拟内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%AD%98%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D"><span class="nav-number">1.1.2.</span> <span class="nav-text">堆内存动态分配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">实现方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.3.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Proof-of-work-%E7%9A%84%E4%BB%B7%E5%80%BC%E5%9C%A8%E5%93%AA%E9%87%8C%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">Proof of work 的价值在哪里？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Proof-of-Stack-%E7%9A%84%E4%BB%B7%E5%80%BC%E5%9C%A8%E5%93%AA%E9%87%8C%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">Proof of Stack 的价值在哪里？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%96%B0%E5%85%AC%E9%93%BE%E9%83%BD%E6%98%AF-PoS%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">为什么新公链都是 PoS？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%AA%E8%B4%B9%E8%B5%84%E6%BA%90%E8%BF%98%E6%98%AF%E4%BD%BF%E7%94%A8%E8%B5%84%E6%BA%90"><span class="nav-number">4.</span> <span class="nav-text">浪费资源还是使用资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -245,7 +244,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/29/malloc_1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/05/26/thinking_bitcoin_3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/funcoder.jpg">
@@ -258,7 +257,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          关于动态内存分配
+          比特币随想 - Proof of What?
         </h1>
 
         <div class="post-meta-container">
@@ -268,15 +267,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2021-08-29 00:00:00" itemprop="dateCreated datePublished" datetime="2021-08-29T00:00:00Z">2021-08-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-05-26 18:11:31" itemprop="dateModified" datetime="2022-05-26T18:11:31Z">2022-05-26</time>
+      <time title="Created: 2022-05-26 00:00:00 / Modified: 18:11:31" itemprop="dateCreated datePublished" datetime="2022-05-26T00:00:00Z">2022-05-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -284,7 +277,7 @@
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BA%95%E5%B1%82/" itemprop="url" rel="index"><span itemprop="name">底层</span></a>
+          <a href="/categories/Bitcoin/" itemprop="url" rel="index"><span itemprop="name">Bitcoin</span></a>
         </span>
     </span>
 
@@ -304,8 +297,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/08/29/malloc_1/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/08/29/malloc_1/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2022/05/26/thinking_bitcoin_3/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/26/thinking_bitcoin_3/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -316,14 +309,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.4k</span>
+      <span>2.1k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>2 mins.</span>
     </span>
 </div>
 
@@ -334,49 +327,45 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="关于动态内存分配"><a href="#关于动态内存分配" class="headerlink" title="关于动态内存分配"></a>关于动态内存分配</h1><p>动态内存分配通常是指堆内存（Heap，不是数据结构背景下的堆结构）的动态分配和收回。<br>动态内存分配与程序的性能和内存使用情况息息相关。对于性能主要涉及两个方面：<br>分配和释放内存的性能，即吞吐；内存的局部性（与缓存相关），即缓存友好。<br>对于内存的利用率，主要是关于内存碎片的优化。</p>
-<h2 id="Mental-Model-心智模型"><a href="#Mental-Model-心智模型" class="headerlink" title="Mental Model (心智模型)"></a>Mental Model (心智模型)</h2><blockquote>
-<p>A mental model is an explanation of someone’s thought process<br>about how something works in the real world.<br>– wiki</p>
+        <h2 id="Proof-of-work-的价值在哪里？"><a href="#Proof-of-work-的价值在哪里？" class="headerlink" title="Proof of work 的价值在哪里？"></a>Proof of work 的价值在哪里？</h2><p>比特币区块链为什么有价值？他的价值在于它的账本，就是比特币公链。换句话说，他的账本有价值，为什么？正是因为 Proof of work。账本上的每一笔记录，每一个区块，背后都有相应真实世界成本（主要是电力，当然还有矿机、人力成本等等忽略不计）。这就是公链价值的来源，价值不能被凭空产生，特别是数字资产。我举个栗子，如果你有一个 SQL 数据库，在里面添加一条记录的成本是多少？0。再换个例子，魔兽世界的一件装备，你获得成本是多少啊？100元，但是你要信任游戏运营商的诚实和存在。这里涉及两个问题：创建数字资产几乎没有成本；数字资产想产生价值要么通过信任，要么通过做工，无论哪种你必须跟物理世界产生联系。</p>
+<blockquote>
+<p>总体来说，计算（技术）是通过更快、更便宜来最大化其价值。比特币（作为一项技术）似乎走了一个诡异的路线：它不是通过工作（work）提供价值，而是工作证明（proof of work）。它依赖于增加的工作量，而不是提高效率；它用复杂性代替了简化。在我看来，这种情况颠覆了数字经济中流行的价值观念——因为这种价值源于通过不可逆的加密方式破坏信息的过程，它破坏了传统的价值意义观念。– 引用 <a target="_blank" rel="noopener" href="https://www.journals.uchicago.edu/doi/epdf/10.1086/717303">From work to proof of work</a></p>
 </blockquote>
-<p>在现代操作系统中，每一个进程都具有自己的独立<em>虚拟内存空间</em>。虚拟内存是一个抽象：<br>它隐藏了硬件存储系统的复杂度。存储系统包括：内存、硬盘、网络上其他计算机的存储系统。<br>进程对存储系统的操作就建立在这个抽象上：每个进程（同一个机器或者不同机器）看到的<br>内存地址空间都是一样的！</p>
-<h3 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h3><p>在进一步讨论之前，我们还需要了解另外一个<br>概念：内存映射（Memory Mapping）。Linux类系统在初始化虚拟内存空间时，会将这部分<br>内存与硬盘上的一个对象联系起来。内存映射有两种：</p>
+<blockquote>
+<p><strong>注意：在一个数据库添加一条记录的成本是 0，即使这是一条被数字签名的信息。</strong></p>
+</blockquote>
+<p>这就是 Proof of work 的价值，它把数字资产锚定到物理世界的资源（能源），这也是他价值的真实来源。记住：价值背后一定有物理世界的支持。当然，这不是什么新闻，我们对银行的信任也来自物理世界，我们看到银行的大楼、工作人员在工作、司法系统会运行等等，注意，这些东西背后都有能源投入，<strong>所以我们相信银行的账本有价值（第三方）</strong>，愿意把自己创造的价值放入这个账本。但是，比特币和工作证明提供了一种不需要信任第三方的方式存储价值，其价值来源是现实世界消耗的能源。</p>
+<blockquote>
+<p><strong>这就是 Proof of work 的价值，它把数字资产锚定到物理世界的资源（能源），这也是他价值的真实来源</strong></p>
+</blockquote>
+<p>换句话说，比特币是 Proof of energy。</p>
+<h2 id="Proof-of-Stack-的价值在哪里？"><a href="#Proof-of-Stack-的价值在哪里？" class="headerlink" title="Proof of Stack 的价值在哪里？"></a>Proof of Stack 的价值在哪里？</h2><p>Proof of stake （PoS）, 走上了另一个路线，无论社区如何改进这个算法，都没有改变这个事实：它去掉了区块链跟现实世界的联系：能源。按照我们刚才的逻辑，PoS 公链没有价值。从某种角度说，PoS 公链一条记录的成本几乎为 0 （当然运行服务器需要用电，但是跟 PoW 比起来可以忽略）。所以，从这个角度说，PoS 公链的物理价值为 0。</p>
+<p>PoS 算法无论在技术如何更新，它不能改变这个事实：</p>
+<p>PoS 通过拥有代币证明自己有能力增加一条记录，但是由于初始代币的获得几乎是没有成本的，因为 PoS 需要初始代币分发才可以启动节点运行。验证节点因为持有无成本代币就可以增加记录。<strong>那么这跟向一个 SQL 数据库写入一条记录一样廉价。</strong></p>
+<p>这个模型其实早就存在了，就是股票。IPO 股票（代币）被分发给持股人，然后持股人持续获得分红（验证节点的奖励）。但是股票跟物理世界有着非常强的连接，而区块链最终仅仅是一个账本，硬盘中的一串比特。PoS 决定了这串比特代表的价值为 0，因为没有物理价值被注入这个账本。</p>
+<p>更多细节，请看这篇博客：<a target="_blank" rel="noopener" href="https://medium.com/@BobMcElrath/whats-wrong-with-proof-of-stake-77d4f370be15">https://medium.com/@BobMcElrath/whats-wrong-with-proof-of-stake-77d4f370be15</a></p>
+<h2 id="为什么新公链都是-PoS？"><a href="#为什么新公链都是-PoS？" class="headerlink" title="为什么新公链都是 PoS？"></a>为什么新公链都是 PoS？</h2><p>为什么新公链多数选择了 PoS？我分析最直接的原因是：PoS 对开发人员更有吸引力。为什么?</p>
+<ol>
+<li>通过初始代币发行快速融资，即快钱</li>
+<li>PoW 的路走不通，因为比特币网络的哈希率太高</li>
+</ol>
+<p>比特币有独特的优势，2009年，几乎没人知道比特币，但是比特币网络就悄悄展开了。没有风投、没有宣传，甚至没有精神领袖。但是目前比特币已经是哈希率最高的网络，换句话说，后来者已经很难与之竞争。比如比特币的仿品来特比，或者比特币的硬分叉比比特币现金都已经几乎死亡。</p>
+<p>关于比特币现金，我可以讲另一个故事了，按下不表。但是比特币现金的故事向我们证明比特币协议的健壮和稳定。</p>
+<h2 id="浪费资源还是使用资源"><a href="#浪费资源还是使用资源" class="headerlink" title="浪费资源还是使用资源"></a>浪费资源还是使用资源</h2><p>另一个 PoS 的优势在于低能耗，网上对 PoW 的评价通常是浪费能源。这个问题要看从哪个角度看。</p>
+<p>我们的空调消耗掉的能源比比特币网络多得多，但是没人会说空调是浪费能源，因为我们使用资源创造了某种服务；同样，PoW 提供为数字资产注入能源的服务，不然我们需要第三方来记账。没有人说银行浪费资源，但是我敢肯定全世界各大银行用于交易的能源不会比比特币更低 + 你需要负担对手风险。</p>
+<p>PoS 确实实现了低能耗，但是正如我们分析的，它提供的是一个没有物理世界连接的账本，这个账本的价值是 0.换句话说， PoS 确实是低能耗，但是它也没有提供任何价值。</p>
+<p>公平吧，没有免费的午餐！</p>
+<p><img src="https://i.imgur.com/1EOD1sz.png" alt=""></p>
+<p>这张图告诉我们（<a target="_blank" rel="noopener" href="https://global-uploads.webflow.com/61d2416d1d63f07ecbfd010c/6269b2b0f7583e175cce2464_Key%20Facts%20on%20Bitcoin%20_%20the%20Environment-03%20_1_%20_1_%20_1_%20_1_%20(2).pdf">原图点这里</a>）：</p>
 <ul>
-<li><em>一般文件</em></li>
-<li><em>匿名文件</em></li>
+<li>将近一半的 PoW 使用了绿色能源</li>
+<li>比特币挖矿使用的能源低于金矿产业，远远低于空调使用的能源</li>
 </ul>
-<p><em>一般文件</em>：一个正常文件中的内容分页（page）被映射到（虚拟）内存地址上。但是，直到CPU<br>主动请求某个页的时候，文件中的内从才会被拷贝进入内存。</p>
-<p><em>匿名文件</em>：系统把一部分内存映射到一个匿名文件中，并且用0填充该内存空间，这些页也被称为<br>demand-zero page。</p>
-<p>无论是哪种情况，虚拟内存也被初始化后，他就会与一个交换文件（swap file）连接，并与他不断<br>交换数据。(每一个进程都有一个交换文件吗？)</p>
-<p><img src="https://i.imgur.com/vRpgBpw.jpg" alt="内存心智模型"></p>
-<h3 id="堆内存动态分配"><a href="#堆内存动态分配" class="headerlink" title="堆内存动态分配"></a>堆内存动态分配</h3><p>动态内存分配就是负责管理堆内存空间的，而在内存中申请空间的就是通过内存映射（Demand-zero）。</p>
-<p><em>为什么需要动态内存分配</em>？因为程序与在运行过程中不可避免要动态的产生和销毁对象，但是我们不能<br>无限分配内存，而不去回收不再需要的对象，否则内存最终会溢出。</p>
-<p>内存分配器主要有两种风格：</p>
-<ul>
-<li>显式，即应用程序主动申请和释放内存。比如C++中的<code>new</code>和<code>delete</code>，或者C中的<code>malloc</code>和<code>free</code>。</li>
-<li>隐式，也成为垃圾回收（GC），即应用程序不主动释放，有分配器自动释放。比如Java、Python、Ocaml都有自己的GC系统</li>
-</ul>
-<p><strong>显式分配器</strong></p>
-<p>显式分配器主要有两个API：alloc和free。alloc返回一个指针指向申请到的空间，<br>free回收某个指针指向的空间。显式分配器需要满足如下设计需求：</p>
-<ul>
-<li>处理任意组合的alloc和free序列</li>
-<li>快速的分配或者释放内存</li>
-<li>只使用堆内存</li>
-<li>满足特定的对齐标准</li>
-<li>不能改变已经分配的内存内容</li>
-</ul>
-<p>好的分配器需要：</p>
-<ul>
-<li>高吞吐</li>
-<li>高利用率</li>
-</ul>
-<p>我们会在后面讨论具体的实现，但是分配器的新式模型如下：</p>
-<p>在堆内存中构建一系列块（节点、Block等等名字），这些块包含两部分内容：元信息（Meta Data）和数据，这些<br>块有一些写代数据（就是包含了应用程序来的数据），另外一些则是空的，仅仅包含元信息。这些块通过元信息进行<br>连接，从而实现分配和释放。比如，这些块可以是一个链表，也可以是其他更加复杂的数据结构，比如分段链表等等。<br>从概念上，不同的数据结构实现，就会有不同的效率，需要根据具体情况选择。</p>
-<p><img src="https://i.imgur.com/lem9r6i.jpg" alt=""></p>
-<p><strong>隐式分配器</strong></p>
-<h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://users.cs.northwestern.edu/~pdinda/icsclass/doc/dsa.pdf">Dynamic Storage Allocation: A Survey and Critical Review</a></li>
-<li><a target="_blank" rel="noopener" href="https://people.freebsd.org/~jasone/jemalloc/bsdcan2006/jemalloc.pdf">jemalloc</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/research/uploads/prod/2019/06/mimalloc-tr-v1.pdf">mimalloc</a></li>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=RHqwYtGss_0">https://www.youtube.com/watch?v=RHqwYtGss_0</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.journals.uchicago.edu/doi/epdf/10.1086/717303">From work to proof of work</a></li>
+<li><a target="_blank" rel="noopener" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4067739">Proof-of-Stake Is a Defective Mechanism</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@BobMcElrath/whats-wrong-with-proof-of-stake-77d4f370be15">What’s Wrong with Proof of Stake?</a></li>
 </ul>
 
     </div>
@@ -385,6 +374,18 @@
     
     
       
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/05/18/think_bitcoin/" rel="bookmark">比特币随想 - 误解、现状、未来</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/05/23/thinking_bitcoin_2/" rel="bookmark">比特币随想 - 第三世界国家</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/03/06/who_has_bitcoin/" rel="bookmark">谁持有比特币</a></div>
+    </li>
+  </ul>
 
 
     <footer class="post-footer">
@@ -419,7 +420,7 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/Memory-Allocation/" rel="tag"><i class="fa fa-tag"></i> Memory Allocation</a>
+              <a href="/tags/Bitcoin/" rel="tag"><i class="fa fa-tag"></i> Bitcoin</a>
           </div>
 
         
@@ -431,14 +432,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/08/08/csapp_bomb_lab/" rel="prev" title="Bomb Lab">
-                  <i class="fa fa-chevron-left"></i> Bomb Lab
+                <a href="/2022/05/23/thinking_bitcoin_2/" rel="prev" title="比特币随想 - 第三世界国家">
+                  <i class="fa fa-chevron-left"></i> 比特币随想 - 第三世界国家
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/09/04/flink_raspberrypi/" rel="next" title="树莓派搭建流计算集群">
-                  树莓派搭建流计算集群 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
