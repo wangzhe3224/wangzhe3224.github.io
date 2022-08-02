@@ -160,7 +160,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -237,6 +237,124 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/05/python_concurrent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/05/python_concurrent/" class="post-title-link" itemprop="url">重新认识 Python（4）并发模型</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-03-05 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-05T00:00:00Z">2021-03-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-08-02 18:57:36" itemprop="dateModified" datetime="2022-08-02T18:57:36Z">2022-08-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/03/05/python_concurrent/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/05/python_concurrent/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>5.8k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>5 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="重新认识-Python（4）并发模型"><a href="#重新认识-Python（4）并发模型" class="headerlink" title="重新认识 Python（4）并发模型"></a>重新认识 Python（4）并发模型</h1><h2 id="并发是什么？"><a href="#并发是什么？" class="headerlink" title="并发是什么？"></a>并发是什么？</h2><p>并发一般是指多个计算在时间上无固定先后顺序的执行。并发程序不一定存在并行。举个例子<a target="_blank" rel="noopener" href="https://web.mit.edu/6.005/www/fa14/classes/17-concurrency/#message_passing_example">reference</a>: </p>
+<p><img src="https://i.imgur.com/LG0PL9t.png" alt="并发实例"></p>
+<p>上面的例子中我们有三个任务，T1~3，这三个任务就属于并发执行，而且因为有两个CPU，所以存在一定的并行。左图是每一个任务在CPU核心的执行情况，而右图是从任务自身的时间线角度表达任务的执行情况。可以看到任务通常不是连续执行，而是根据调度情况间断执行。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/05/python_concurrent/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/20/type_system/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -268,7 +386,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-07-25 17:17:48" itemprop="dateModified" datetime="2022-07-25T17:17:48Z">2022-07-25</time>
+      <time title="Modified: 2022-08-02 18:57:36" itemprop="dateModified" datetime="2022-08-02T18:57:36Z">2022-08-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -389,7 +507,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-07-25 17:17:48" itemprop="dateModified" datetime="2022-07-25T17:17:48Z">2022-07-25</time>
+      <time title="Modified: 2022-08-02 18:57:36" itemprop="dateModified" datetime="2022-08-02T18:57:36Z">2022-08-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -507,7 +625,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-07-25 17:17:48" itemprop="dateModified" datetime="2022-07-25T17:17:48Z">2022-07-25</time>
+      <time title="Modified: 2022-08-02 18:57:36" itemprop="dateModified" datetime="2022-08-02T18:57:36Z">2022-08-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -625,7 +743,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-07-25 17:17:48" itemprop="dateModified" datetime="2022-07-25T17:17:48Z">2022-07-25</time>
+      <time title="Modified: 2022-08-02 18:57:36" itemprop="dateModified" datetime="2022-08-02T18:57:36Z">2022-08-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -743,7 +861,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-07-25 17:17:48" itemprop="dateModified" datetime="2022-07-25T17:17:48Z">2022-07-25</time>
+      <time title="Modified: 2022-08-02 18:57:36" itemprop="dateModified" datetime="2022-08-02T18:57:36Z">2022-08-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -865,7 +983,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-07-25 17:17:48" itemprop="dateModified" datetime="2022-07-25T17:17:48Z">2022-07-25</time>
+      <time title="Modified: 2022-08-02 18:57:36" itemprop="dateModified" datetime="2022-08-02T18:57:36Z">2022-08-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -983,7 +1101,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-07-25 17:17:48" itemprop="dateModified" datetime="2022-07-25T17:17:48Z">2022-07-25</time>
+      <time title="Modified: 2022-08-02 18:57:35" itemprop="dateModified" datetime="2022-08-02T18:57:35Z">2022-08-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1107,7 +1225,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-07-25 17:17:48" itemprop="dateModified" datetime="2022-07-25T17:17:48Z">2022-07-25</time>
+      <time title="Modified: 2022-08-02 18:57:35" itemprop="dateModified" datetime="2022-08-02T18:57:35Z">2022-08-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1226,7 +1344,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-07-25 17:17:48" itemprop="dateModified" datetime="2022-07-25T17:17:48Z">2022-07-25</time>
+      <time title="Modified: 2022-08-02 18:57:35" itemprop="dateModified" datetime="2022-08-02T18:57:35Z">2022-08-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1306,125 +1424,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/18/vim_tags/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/funcoder.jpg">
-      <meta itemprop="name" content="FunCoder">
-      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FunCoder">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/11/18/vim_tags/" class="post-title-link" itemprop="url">Vim增加定制帮助文件</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-11-18 00:00:00" itemprop="dateCreated datePublished" datetime="2020-11-18T00:00:00Z">2020-11-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-07-25 17:17:48" itemprop="dateModified" datetime="2022-07-25T17:17:48Z">2022-07-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/11/18/vim_tags/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/11/18/vim_tags/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.2k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Vim增加自定义帮助文件"><a href="#Vim增加自定义帮助文件" class="headerlink" title="Vim增加自定义帮助文件"></a>Vim增加自定义帮助文件</h1><p>首先，准备一份帮助文件，文件名必须是 <code>*.txt</code>，然后该文件必须存放在vim的<code>runtimepath</code>。可以通过 <code>:echo &amp;runtimepath</code> 查看，通常就是在<br><code>~/.vim/doc</code> 或者 如果是 neovim 在 <code>~/.config/nvim/</code>。</p>
-<p>帮助文件的首行第一个字符必须是 <code>*</code>，文件的其余部分不限。但是文件中所有<br>包含在<code>**</code>内部的单词，都会被检索。所以应该注意不要与其他部分冲突。</p>
-<p>一个帮助文件例子：</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">*tidal.txt* Tidal documentation</span><br><span class="line"></span><br><span class="line">this <span class="keyword">file</span> <span class="keyword">is</span> <span class="keyword">a</span> consolidation of the official tidalCycles documentation : http<span class="variable">s:</span>//tidalcycles.org/<span class="built_in">index</span>.php/Userbase</span><br><span class="line"></span><br><span class="line"><span class="built_in">type</span> Time = Rational</span><br><span class="line"></span><br><span class="line">## CORE</span><br><span class="line"></span><br><span class="line">*(&lt;~)*:: Pattern Time -&gt; Pattern <span class="keyword">a</span> -&gt; Pattern <span class="keyword">a</span></span><br><span class="line">&lt;~ <span class="keyword">is</span> <span class="keyword">an</span> operator that shifts <span class="keyword">a</span> pattern backward in time, by the given amount.</span><br><span class="line">For example, <span class="keyword">to</span> shift <span class="keyword">a</span> pattern by <span class="keyword">a</span> quarter of <span class="keyword">a</span> cycle, every fourth cycle:</span><br><span class="line">d1 $ every <span class="number">4</span> (<span class="number">0.25</span> &lt;~) $ sound (<span class="string">&quot;arpy arpy:1 arpy:2 arpy:3&quot;</span>)</span><br><span class="line">Or <span class="keyword">to</span> alternate between different shift<span class="variable">s:</span></span><br><span class="line">d1 $ <span class="string">&quot;&lt;0 0.5 0.125&gt;&quot;</span> &lt;~ sound (<span class="string">&quot;arpy arpy:1 arpy:2 arpy:3&quot;</span>)</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/18/vim_tags/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1449,13 +1448,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">387k</span>
+    <span title="Symbols count total">389k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">5:51</span>
+    <span title="Reading time total">5:54</span>
   </span>
 </div>
 <div class="busuanzi-count">
