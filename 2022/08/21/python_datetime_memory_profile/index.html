@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="如何表达一个 datetime ？我们需要三个部分：date, time, timezone。 在 Python 的生态中主要的事件对象包括：  datetime： Python 原生的时间戳对象 np.datetime64： Numpy 的原生时间戳对象 pd.Timestamp： Pandas 的原生时间戳对象  不过近几年随着 arrow 的兴起，Arrow 的时间戳对象也进入了人们的视野。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 生态的时间戳内存探索">
+<meta property="og:url" content="http://yoursite.com/2022/08/21/python_datetime_memory_profile/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="如何表达一个 datetime ？我们需要三个部分：date, time, timezone。 在 Python 的生态中主要的事件对象包括：  datetime： Python 原生的时间戳对象 np.datetime64： Numpy 的原生时间戳对象 pd.Timestamp： Pandas 的原生时间戳对象  不过近几年随着 arrow 的兴起，Arrow 的时间戳对象也进入了人们的视野。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/ZOCoJwE.jpg">
+<meta property="og:image" content="https://i.imgur.com/9tPstpZ.png">
+<meta property="og:image" content="https://i.imgur.com/DZvLCUQ.png">
+<meta property="article:published_time" content="2022-08-21T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-08-21T20:49:29.208Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="datetime">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/ZOCoJwE.jpg">
+
+
+<link rel="canonical" href="http://yoursite.com/2022/08/21/python_datetime_memory_profile/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2022/08/21/python_datetime_memory_profile/","path":"2022/08/21/python_datetime_memory_profile/","title":"Python 生态的时间戳内存探索"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Python 生态的时间戳内存探索 | FunCoder</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">124</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">88</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://wangzhe3224.github.io/Jesus_is_Lord/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;Jesus_is_Lord&#x2F;" rel="noopener" target="_blank">圣经盐读</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/08/21/python_datetime_memory_profile/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python 生态的时间戳内存探索
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-08-21 00:00:00 / Modified: 20:49:29" itemprop="dateCreated datePublished" datetime="2022-08-21T00:00:00Z">2022-08-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/08/21/python_datetime_memory_profile/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/08/21/python_datetime_memory_profile/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>3.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>如何表达一个 <code>datetime</code> ？我们需要三个部分：<code>date</code>, <code>time</code>, <code>timezone</code>。</p>
+<p>在 Python 的生态中主要的事件对象包括：</p>
+<ul>
+<li><code>datetime</code>： Python 原生的时间戳对象</li>
+<li><code>np.datetime64</code>： Numpy 的原生时间戳对象</li>
+<li><code>pd.Timestamp</code>： Pandas 的原生时间戳对象</li>
+</ul>
+<p>不过近几年随着 <code>arrow</code> 的兴起，Arrow 的时间戳对象也进入了人们的视野。</p>
+<p>使用下面代码来 Benchmark 三个时间戳的内存使用情况。我们随机生成一百万时间戳。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> memray <span class="keyword">import</span> Tracker</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_a_lot_datetime</span>(<span class="params">n: <span class="built_in">int</span> = <span class="number">1_000_000</span></span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">with</span> Tracker(<span class="string">&quot;generate_a_lot_datetime.bin&quot;</span>):</span><br><span class="line">        res = []   </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            res.append(datetime(<span class="number">2022</span>, random.randint(<span class="number">1</span>, <span class="number">12</span>), random.randint(<span class="number">1</span>, <span class="number">28</span>), <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, i%<span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_a_lot_datetime64</span>(<span class="params">n: <span class="built_in">int</span> = <span class="number">1_000_000</span></span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> Tracker(<span class="string">&quot;generate_a_lot_datetime64.bin&quot;</span>):</span><br><span class="line">        res = []   </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            res.append(np.datetime64(<span class="string">f&quot;2022-<span class="subst">&#123;random.randint(<span class="number">1</span>, <span class="number">12</span>):02d&#125;</span>-<span class="subst">&#123;random.randint(<span class="number">1</span>, <span class="number">28</span>):02d&#125;</span>T01:02:03.123&quot;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_a_lot_Timestamp</span>(<span class="params">n: <span class="built_in">int</span> = <span class="number">1_000_000</span></span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> Tracker(<span class="string">&quot;generate_a_lot_Timestamp.bin&quot;</span>):</span><br><span class="line">        res = []   </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            res.append(pd.Timestamp(<span class="string">f&quot;2022-<span class="subst">&#123;random.randint(<span class="number">1</span>, <span class="number">12</span>):02d&#125;</span>-<span class="subst">&#123;random.randint(<span class="number">1</span>, <span class="number">28</span>):02d&#125;</span>T01:02:03.123&quot;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    </span><br><span class="line">    res = generate_a_lot_datetime()</span><br><span class="line"></span><br><span class="line">    res = generate_a_lot_datetime64()</span><br><span class="line"></span><br><span class="line">    res = generate_a_lot_Timestamp()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/ZOCoJwE.jpg" alt="三种时间戳的内存占用对比"></p>
+<p>可以发现，</p>
+<ul>
+<li><code>np.datetime64</code>： 39.061 MB， 32 字节每个</li>
+<li><code>datetime</code>: 55.063 MB，49 字节每个</li>
+<li><code>pd.Timestamp</code>: 117.05 MB， 114 每个</li>
+</ul>
+<p>numpy 表现最好，pandas 表现最差，而原生python的时间错表现不错，更加接近numpy。当然这个测试不完全是不同时间戳对象的大小不同，还包含了numpy 和 pandas 不同的实现消耗的内存。也许应该读取 <code>pymalloc_alloc</code> 函数调用内存更加准确，但是确实不变且影响较小。</p>
+<p>从 <code>memray</code> 的测试结果看，<code>pd.Timestamp</code> 的内存分配次数也最高，因此运行速度最慢。</p>
+<p>接下来我们测试如下，生成高频时间戳 18316800 个：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_large_pd_index</span>():</span></span><br><span class="line"></span><br><span class="line">    func = inspect.stack()[<span class="number">0</span>][<span class="number">3</span>]</span><br><span class="line">    <span class="keyword">with</span> Tracker(<span class="string">f&quot;<span class="subst">&#123;func&#125;</span>.bin&quot;</span>, native_traces=<span class="literal">True</span>):</span><br><span class="line">        index = pd.date_range(<span class="string">&#x27;2022-01-01&#x27;</span>, <span class="string">&#x27;2022-08-01&#x27;</span>, freq=<span class="string">&#x27;1s&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Length of index: <span class="subst">&#123;<span class="built_in">len</span>(index)&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> index</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_large_np_index</span>():</span></span><br><span class="line"></span><br><span class="line">    func = inspect.stack()[<span class="number">0</span>][<span class="number">3</span>]</span><br><span class="line">    <span class="keyword">with</span> Tracker(<span class="string">f&quot;<span class="subst">&#123;func&#125;</span>.bin&quot;</span>, native_traces=<span class="literal">True</span>):</span><br><span class="line">        index = np.arange(<span class="string">&#x27;2022-01-01&#x27;</span>, <span class="string">&#x27;2022-08-01&#x27;</span>, dtype=<span class="string">&#x27;datetime64[s]&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Length of index: <span class="subst">&#123;<span class="built_in">len</span>(index)&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> index</span><br></pre></td></tr></table></figure>
+
+<p>结果表明，pandas 和 numpy 使用内存完全一致，说明 Pandas 后台应该就是调用了numpy 的函数。</p>
+<p><img src="https://i.imgur.com/9tPstpZ.png" alt=""></p>
+<p>值得注意的是，<code>date_range</code> 生成的时间戳大小远远小于单独随机分配的对象大小。<code>date_range</code> 每一个时间戳大小为 8 字节（139.748 * 1024**2 / 18316800）。</p>
+<p>该时间戳大小与 Rust 实现的 chrono 库一致（没有timezone信息）：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">NaiveDateTime</span></span> &#123;</span><br><span class="line">    date: NaiveDate,</span><br><span class="line">    time: NaiveTime,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这里 date 是 i32， time 也是 i32， 合计 8 字节。</span></span><br></pre></td></tr></table></figure>
+
+<p>【问题】这里我们做到了时间戳最小的内存消耗了吗？ 8 字节。</p>
+<p>如果我们观察第一次的实验结果，<code>np.datetime64</code> 每一个对象的大小应该为 32 字节，而不是 8 字节。这应该与每一个对象的 Header 占用空间有关，当我们把时间戳放入一个固定的 array 里面， 8 字节应该是标准的时间戳大小。</p>
+<p>【Take Away】<code>np.datetime64</code> 是最节约的时间戳，前提是把他们放入一个<code>ndarray</code>。</p>
+<p>接下来我们看看时间戳的影响，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> inspect</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> memray <span class="keyword">import</span> Tracker</span><br><span class="line"><span class="keyword">import</span> pytz</span><br><span class="line"></span><br><span class="line">HK_TZ = pytz.timezone(<span class="string">&quot;Asia/Hong_Kong&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_a_lot_datetime</span>(<span class="params">n: <span class="built_in">int</span> = <span class="number">1_000_000</span>, tz: <span class="built_in">bool</span>=<span class="literal">False</span></span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">with</span> Tracker(<span class="string">&quot;generate_a_lot_datetime.bin&quot;</span>, native_traces=<span class="literal">True</span>):</span><br><span class="line">        res = []   </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            <span class="keyword">if</span> tz:</span><br><span class="line">                res.append(datetime(<span class="number">2022</span>, random.randint(<span class="number">1</span>, <span class="number">12</span>), random.randint(<span class="number">1</span>, <span class="number">28</span>), <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, i%<span class="number">1000</span>, tzinfo=HK_TZ))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                res.append(datetime(<span class="number">2022</span>, random.randint(<span class="number">1</span>, <span class="number">12</span>), random.randint(<span class="number">1</span>, <span class="number">28</span>), <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, i%<span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行结果表明，时间戳并没有增加额外的内存分配，说明他们都指向了同一个时间戳对象。</p>
+<p><img src="https://i.imgur.com/DZvLCUQ.png" alt="相同的tz信息"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html">chrono - Rust datetime library</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/numpy/numpy/blob/v1.23.0/numpy/core/src/multiarray/datetime.c">numpy - datetime64</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/bloomberg/memray">memray</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/04/04/go_python_1/" rel="bookmark">用Python重建Go并发模型 1</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/05/02/graph2_search/" rel="bookmark">Graph Algorithms - Search</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/05/09/graph3_digraph/" rel="bookmark">Graph - DiGraph</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/22/high_perf_python_2/" rel="bookmark">高性能Python编程（2）Profiling寻找性能瓶颈</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/06/24/high_perform_python/" rel="bookmark">高性能Python编程（1）</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/datetime/" rel="tag"><i class="fa fa-tag"></i> datetime</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/08/20/thinking_bitcoin_13/" rel="prev" title="比特币随想 - 10年后的数字资产市场？">
+                  <i class="fa fa-chevron-left"></i> 比特币随想 - 10年后的数字资产市场？
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FunCoder</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">395k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">5:59</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

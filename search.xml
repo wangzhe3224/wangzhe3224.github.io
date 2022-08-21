@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Python 生态的时间戳内存探索</title>
+    <url>/2022/08/21/python_datetime_memory_profile/</url>
+    <content><![CDATA[<p>如何表达一个 <code>datetime</code> ？我们需要三个部分：<code>date</code>, <code>time</code>, <code>timezone</code>。</p>
+<p>在 Python 的生态中主要的事件对象包括：</p>
+<ul>
+<li><code>datetime</code>： Python 原生的时间戳对象</li>
+<li><code>np.datetime64</code>： Numpy 的原生时间戳对象</li>
+<li><code>pd.Timestamp</code>： Pandas 的原生时间戳对象</li>
+</ul>
+<p>不过近几年随着 <code>arrow</code> 的兴起，Arrow 的时间戳对象也进入了人们的视野。</p>
+<p>使用下面代码来 Benchmark 三个时间戳的内存使用情况。我们随机生成一百万时间戳。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> memray <span class="keyword">import</span> Tracker</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_a_lot_datetime</span>(<span class="params">n: <span class="built_in">int</span> = <span class="number">1_000_000</span></span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">with</span> Tracker(<span class="string">&quot;generate_a_lot_datetime.bin&quot;</span>):</span><br><span class="line">        res = []   </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            res.append(datetime(<span class="number">2022</span>, random.randint(<span class="number">1</span>, <span class="number">12</span>), random.randint(<span class="number">1</span>, <span class="number">28</span>), <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, i%<span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_a_lot_datetime64</span>(<span class="params">n: <span class="built_in">int</span> = <span class="number">1_000_000</span></span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> Tracker(<span class="string">&quot;generate_a_lot_datetime64.bin&quot;</span>):</span><br><span class="line">        res = []   </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            res.append(np.datetime64(<span class="string">f&quot;2022-<span class="subst">&#123;random.randint(<span class="number">1</span>, <span class="number">12</span>):02d&#125;</span>-<span class="subst">&#123;random.randint(<span class="number">1</span>, <span class="number">28</span>):02d&#125;</span>T01:02:03.123&quot;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_a_lot_Timestamp</span>(<span class="params">n: <span class="built_in">int</span> = <span class="number">1_000_000</span></span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> Tracker(<span class="string">&quot;generate_a_lot_Timestamp.bin&quot;</span>):</span><br><span class="line">        res = []   </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            res.append(pd.Timestamp(<span class="string">f&quot;2022-<span class="subst">&#123;random.randint(<span class="number">1</span>, <span class="number">12</span>):02d&#125;</span>-<span class="subst">&#123;random.randint(<span class="number">1</span>, <span class="number">28</span>):02d&#125;</span>T01:02:03.123&quot;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    </span><br><span class="line">    res = generate_a_lot_datetime()</span><br><span class="line"></span><br><span class="line">    res = generate_a_lot_datetime64()</span><br><span class="line"></span><br><span class="line">    res = generate_a_lot_Timestamp()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/ZOCoJwE.jpg" alt="三种时间戳的内存占用对比"></p>
+<p>可以发现，</p>
+<ul>
+<li><code>np.datetime64</code>： 39.061 MB， 32 字节每个</li>
+<li><code>datetime</code>: 55.063 MB，49 字节每个</li>
+<li><code>pd.Timestamp</code>: 117.05 MB， 114 每个</li>
+</ul>
+<p>numpy 表现最好，pandas 表现最差，而原生python的时间错表现不错，更加接近numpy。当然这个测试不完全是不同时间戳对象的大小不同，还包含了numpy 和 pandas 不同的实现消耗的内存。也许应该读取 <code>pymalloc_alloc</code> 函数调用内存更加准确，但是确实不变且影响较小。</p>
+<p>从 <code>memray</code> 的测试结果看，<code>pd.Timestamp</code> 的内存分配次数也最高，因此运行速度最慢。</p>
+<p>接下来我们测试如下，生成高频时间戳 18316800 个：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_large_pd_index</span>():</span></span><br><span class="line"></span><br><span class="line">    func = inspect.stack()[<span class="number">0</span>][<span class="number">3</span>]</span><br><span class="line">    <span class="keyword">with</span> Tracker(<span class="string">f&quot;<span class="subst">&#123;func&#125;</span>.bin&quot;</span>, native_traces=<span class="literal">True</span>):</span><br><span class="line">        index = pd.date_range(<span class="string">&#x27;2022-01-01&#x27;</span>, <span class="string">&#x27;2022-08-01&#x27;</span>, freq=<span class="string">&#x27;1s&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Length of index: <span class="subst">&#123;<span class="built_in">len</span>(index)&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> index</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_large_np_index</span>():</span></span><br><span class="line"></span><br><span class="line">    func = inspect.stack()[<span class="number">0</span>][<span class="number">3</span>]</span><br><span class="line">    <span class="keyword">with</span> Tracker(<span class="string">f&quot;<span class="subst">&#123;func&#125;</span>.bin&quot;</span>, native_traces=<span class="literal">True</span>):</span><br><span class="line">        index = np.arange(<span class="string">&#x27;2022-01-01&#x27;</span>, <span class="string">&#x27;2022-08-01&#x27;</span>, dtype=<span class="string">&#x27;datetime64[s]&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Length of index: <span class="subst">&#123;<span class="built_in">len</span>(index)&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> index</span><br></pre></td></tr></table></figure>
+
+<p>结果表明，pandas 和 numpy 使用内存完全一致，说明 Pandas 后台应该就是调用了numpy 的函数。</p>
+<p><img src="https://i.imgur.com/9tPstpZ.png" alt=""></p>
+<p>值得注意的是，<code>date_range</code> 生成的时间戳大小远远小于单独随机分配的对象大小。<code>date_range</code> 每一个时间戳大小为 8 字节（139.748 * 1024**2 / 18316800）。</p>
+<p>该时间戳大小与 Rust 实现的 chrono 库一致（没有timezone信息）：</p>
+<figure class="highlight rust"><table><tr><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">NaiveDateTime</span></span> &#123;</span><br><span class="line">    date: NaiveDate,</span><br><span class="line">    time: NaiveTime,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这里 date 是 i32， time 也是 i32， 合计 8 字节。</span></span><br></pre></td></tr></table></figure>
+
+<p>【问题】这里我们做到了时间戳最小的内存消耗了吗？ 8 字节。</p>
+<p>如果我们观察第一次的实验结果，<code>np.datetime64</code> 每一个对象的大小应该为 32 字节，而不是 8 字节。这应该与每一个对象的 Header 占用空间有关，当我们把时间戳放入一个固定的 array 里面， 8 字节应该是标准的时间戳大小。</p>
+<p>【Take Away】<code>np.datetime64</code> 是最节约的时间戳，前提是把他们放入一个<code>ndarray</code>。</p>
+<p>接下来我们看看时间戳的影响，</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> inspect</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> memray <span class="keyword">import</span> Tracker</span><br><span class="line"><span class="keyword">import</span> pytz</span><br><span class="line"></span><br><span class="line">HK_TZ = pytz.timezone(<span class="string">&quot;Asia/Hong_Kong&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_a_lot_datetime</span>(<span class="params">n: <span class="built_in">int</span> = <span class="number">1_000_000</span>, tz: <span class="built_in">bool</span>=<span class="literal">False</span></span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">with</span> Tracker(<span class="string">&quot;generate_a_lot_datetime.bin&quot;</span>, native_traces=<span class="literal">True</span>):</span><br><span class="line">        res = []   </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            <span class="keyword">if</span> tz:</span><br><span class="line">                res.append(datetime(<span class="number">2022</span>, random.randint(<span class="number">1</span>, <span class="number">12</span>), random.randint(<span class="number">1</span>, <span class="number">28</span>), <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, i%<span class="number">1000</span>, tzinfo=HK_TZ))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                res.append(datetime(<span class="number">2022</span>, random.randint(<span class="number">1</span>, <span class="number">12</span>), random.randint(<span class="number">1</span>, <span class="number">28</span>), <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, i%<span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行结果表明，时间戳并没有增加额外的内存分配，说明他们都指向了同一个时间戳对象。</p>
+<p><img src="https://i.imgur.com/DZvLCUQ.png" alt="相同的tz信息"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html">chrono - Rust datetime library</a></li>
+<li><a href="https://github.com/numpy/numpy/blob/v1.23.0/numpy/core/src/multiarray/datetime.c">numpy - datetime64</a></li>
+<li><a href="https://github.com/bloomberg/memray">memray</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>datetime</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>比特币随想 - 10年后的数字资产市场？</title>
     <url>/2022/08/20/thinking_bitcoin_13/</url>
     <content><![CDATA[<blockquote>
@@ -205,7 +259,7 @@
 <p>密码朋克对任何针对密码学管制表示不满，因为加密本质上是一种私人行为。事实上，加密行为将信息从公共领域中删除。即使是反对密码学的法律也只能触及一个国家的边界和它的暴力武器。密码学将不可避免地传播到全球，随之而来的是它使匿名交易系统成为可能。</p>
 <p>为了让隐私广泛的得到任何，隐私必须是社会契约的一部分。人们必须一同部署这些软件。隐私只能在社会成员协作的基础上存在。我们会积极考虑各方面的声音和忧虑，否则我们就是自欺欺人。但是，我们不回应为任何人不同意我们的宣言就背弃密码朋克的原则。</p>
 <p>Cypherpunks 积极致力于使网络更安全，以保护隐私。让我们携手向前！</p>
-<p>Eric Hughes <a href="mailto:&#104;&#117;&#x67;&#104;&#x65;&#x73;&#64;&#115;&#111;&#100;&#97;&#x2e;&#x62;&#101;&#114;&#107;&#101;&#x6c;&#101;&#x79;&#x2e;&#101;&#100;&#117;">&#104;&#117;&#x67;&#104;&#x65;&#x73;&#64;&#115;&#111;&#100;&#97;&#x2e;&#x62;&#101;&#114;&#107;&#101;&#x6c;&#101;&#x79;&#x2e;&#101;&#100;&#117;</a></p>
+<p>Eric Hughes <a href="mailto:&#104;&#117;&#x67;&#104;&#101;&#115;&#64;&#x73;&#x6f;&#x64;&#97;&#46;&#98;&#x65;&#x72;&#107;&#x65;&#108;&#101;&#121;&#x2e;&#x65;&#x64;&#117;">&#104;&#117;&#x67;&#104;&#101;&#115;&#64;&#x73;&#x6f;&#x64;&#97;&#46;&#98;&#x65;&#x72;&#107;&#x65;&#108;&#101;&#121;&#x2e;&#x65;&#x64;&#117;</a></p>
 <p>1993 年 3 月 9 日。</p>
 ]]></content>
       <categories>
