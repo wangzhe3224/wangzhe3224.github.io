@@ -160,7 +160,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">129</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -171,7 +171,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-count">90</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -237,6 +237,155 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/11/30/vim1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/11/30/vim1/" class="post-title-link" itemprop="url">在VS Code中使用VIM (VIM教程)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-11-30 00:00:00" itemprop="dateCreated datePublished" datetime="2021-11-30T00:00:00Z">2021-11-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-09-27 18:21:56" itemprop="dateModified" datetime="2022-09-27T18:21:56Z">2022-09-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/11/30/vim1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/11/30/vim1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>1.6k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li><a href="#在vs-code中使用vim">在VS Code中使用VIM</a><ul>
+<li><a href="#一些基本配置">一些基本配置</a><ul>
+<li><a href="#中文输入法的梦魇">中文输入法的梦魇</a></li>
+<li><a href="#按键绑定">按键绑定</a></li>
+</ul>
+</li>
+<li><a href="#基础">基础</a><ul>
+<li><a href="#模式">模式</a></li>
+<li><a href="#移动">移动</a><ul>
+<li><a href="#normal-mode">Normal Mode</a></li>
+<li><a href="#insert-mode">Insert Mode</a></li>
+<li><a href="#visual-mode">Visual Mode</a></li>
+</ul>
+</li>
+<li><a href="#页面展示">页面展示</a></li>
+<li><a href="#编辑">编辑</a></li>
+</ul>
+</li>
+<li><a href="#常用操作">常用操作</a></li>
+<li><a href="#高级主题">高级主题</a><ul>
+<li><a href="#寄存器">寄存器</a></li>
+<li><a href="#标记">标记</a></li>
+</ul>
+</li>
+<li><a href="#插件">插件</a><ul>
+<li><a href="#surround">surround</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="一些基本配置"><a href="#一些基本配置" class="headerlink" title="一些基本配置"></a>一些基本配置</h2><p>:information_source: VS Code Vim 不是 Vim。不过他模拟了绝大部分的Vim操作。<br>但是也会出现很多支持不太好的功能，比如宏、Vim script等等。但是，就我个人的使用Code<br>的Vim模拟器已经满足我的需求了。更加复杂的功能，还是需要 code 的命令支持：<code>Cmd+Shift+p</code>.</p>
+<h3 id="中文输入法的梦魇"><a href="#中文输入法的梦魇" class="headerlink" title="中文输入法的梦魇"></a>中文输入法的梦魇</h3><p>如何解决VSCode Vim中文输入法切换问题？ - Daniel的回答 - 知乎<br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/303850876/answer/540324790">https://www.zhihu.com/question/303850876/answer/540324790</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/11/30/vim1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/11/21/bigshort/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -268,7 +417,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-09-24 21:49:30" itemprop="dateModified" datetime="2022-09-24T21:49:30Z">2022-09-24</time>
+      <time title="Modified: 2022-09-27 18:21:56" itemprop="dateModified" datetime="2022-09-27T18:21:56Z">2022-09-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -387,7 +536,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-09-24 21:49:30" itemprop="dateModified" datetime="2022-09-24T21:49:30Z">2022-09-24</time>
+      <time title="Modified: 2022-09-27 18:21:56" itemprop="dateModified" datetime="2022-09-27T18:21:56Z">2022-09-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -513,7 +662,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-09-24 21:49:30" itemprop="dateModified" datetime="2022-09-24T21:49:30Z">2022-09-24</time>
+      <time title="Modified: 2022-09-27 18:21:56" itemprop="dateModified" datetime="2022-09-27T18:21:56Z">2022-09-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -645,7 +794,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-09-24 21:49:30" itemprop="dateModified" datetime="2022-09-24T21:49:30Z">2022-09-24</time>
+      <time title="Modified: 2022-09-27 18:21:56" itemprop="dateModified" datetime="2022-09-27T18:21:56Z">2022-09-27</time>
     </span>
 
   
@@ -758,7 +907,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-09-24 21:49:30" itemprop="dateModified" datetime="2022-09-24T21:49:30Z">2022-09-24</time>
+      <time title="Modified: 2022-09-27 18:21:56" itemprop="dateModified" datetime="2022-09-27T18:21:56Z">2022-09-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -909,7 +1058,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-09-24 21:49:30" itemprop="dateModified" datetime="2022-09-24T21:49:30Z">2022-09-24</time>
+      <time title="Modified: 2022-09-27 18:21:56" itemprop="dateModified" datetime="2022-09-27T18:21:56Z">2022-09-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1033,7 +1182,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-09-24 21:49:30" itemprop="dateModified" datetime="2022-09-24T21:49:30Z">2022-09-24</time>
+      <time title="Modified: 2022-09-27 18:21:56" itemprop="dateModified" datetime="2022-09-27T18:21:56Z">2022-09-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1155,7 +1304,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-09-24 21:49:30" itemprop="dateModified" datetime="2022-09-24T21:49:30Z">2022-09-24</time>
+      <time title="Modified: 2022-09-27 18:21:56" itemprop="dateModified" datetime="2022-09-27T18:21:56Z">2022-09-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1275,7 +1424,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-09-24 21:49:30" itemprop="dateModified" datetime="2022-09-24T21:49:30Z">2022-09-24</time>
+      <time title="Modified: 2022-09-27 18:21:56" itemprop="dateModified" datetime="2022-09-27T18:21:56Z">2022-09-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1354,131 +1503,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/22/high_perf_python_2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/funcoder.jpg">
-      <meta itemprop="name" content="FunCoder">
-      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FunCoder">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/07/22/high_perf_python_2/" class="post-title-link" itemprop="url">高性能Python编程（2）Profiling寻找性能瓶颈</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-07-22 00:00:00" itemprop="dateCreated datePublished" datetime="2021-07-22T00:00:00Z">2021-07-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-09-24 21:49:30" itemprop="dateModified" datetime="2022-09-24T21:49:30Z">2022-09-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2021/07/22/high_perf_python_2/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/07/22/high_perf_python_2/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>6.3k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>6 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="高性能Python编程（2）Profiling寻找性能瓶颈"><a href="#高性能Python编程（2）Profiling寻找性能瓶颈" class="headerlink" title="高性能Python编程（2）Profiling寻找性能瓶颈"></a>高性能Python编程（2）Profiling寻找性能瓶颈</h1><blockquote>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://wangzhe3224.github.io/2021/06/24/high_perform_python/">高性能Python编程（1）：理解Python的“性能”</a></li>
-</ul>
-</blockquote>
-<blockquote>
-<p>相关源代码：<a target="_blank" rel="noopener" href="https://github.com/wangzhe3224/high_performance_python">https://github.com/wangzhe3224/high_performance_python</a><br>更多学习资源：微信搜索   泛程序员   并添加关注，点击资源按钮。<br>更多学习视频：微信视频号  Python知否</p>
-</blockquote>
-<p><img src="https://i.imgur.com/sFSXT7N.jpg" alt></p>
-<p>上一篇我们分析了计算机的三个组成部分，以及对应到Python程序的意义，这一篇我们从比较概括的角度介绍高性能编程的第一步：Profiling。（这个词我也不知道该怎么翻译，程序侧写？）</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/07/22/high_perf_python_2/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1503,13 +1527,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">404k</span>
+    <span title="Symbols count total">409k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">6:07</span>
+    <span title="Reading time total">6:12</span>
   </span>
 </div>
 <div class="busuanzi-count">
