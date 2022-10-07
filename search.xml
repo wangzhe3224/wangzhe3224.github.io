@@ -1,6 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Quant Dev 4 - 数据库</title>
+    <url>/2022/10/03/quant_dev_5/</url>
+    <content><![CDATA[<p>继续之前的系列，这一期我们讲讲 Quant Dev 经常会接触到的数据库。同样，这里我们不讨论高频交易，虽然决大部分内容都是重合的。</p>
+<p>数据库的类型和优缺点本身是一个非常大的主题，我无法也没有能力在一篇文章中阐述清楚，这里仅介绍一些量化领域常见的数据库实现和使用场景。</p>
+<p>应该注意的是，通用数据库不一定适合某些量化交易使用场景，因此很多公司在使用通用数据库的同时也会开发内部的专用数据可来解决特定的问题。</p>
+<h2 id="前置信息"><a href="#前置信息" class="headerlink" title="前置信息"></a>前置信息</h2><p>分析数据库，我们从以下几个方面展开：</p>
+<ul>
+<li>数据模型，Data Model<ul>
+<li>set of records，row based</li>
+<li>graph</li>
+<li>document，json，bson …</li>
+<li>columnar</li>
+</ul>
+</li>
+<li>数据类型描述，Data Define Language - Schema</li>
+<li>查询语言，Manipulation and Query Language<ul>
+<li>SQL</li>
+<li>awk</li>
+<li>通用语言，c,python,java,etc..</li>
+</ul>
+</li>
+<li>水平、纵向拓展模型</li>
+</ul>
+<p>量化交易涉及到的数据库可以分成几类：</p>
+<ul>
+<li>定制数据库<ul>
+<li>完全定制，比如<ul>
+<li><a href="https://github.com/man-group/arctic">Next generation of Arctic</a></li>
+</ul>
+</li>
+<li>半定制，比如<ul>
+<li><a href="https://github.com/man-group/arctic">Man Arctic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>通用数据库<ul>
+<li>有固定 Schema 的<ul>
+<li>关系型 Relational，比如 PostgreSQL，MySQL，TimescaleDB</li>
+<li>列数据库 Columnar，比如 KDB，Cassandra</li>
+</ul>
+</li>
+<li>无固定 Schema 的<ul>
+<li>文档型 Document，比如 MongoDB，InfluxDB</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>值得注意的是，很多时候定制数据库也不需要重新设计并实现一套数据库（存储、执行、优化等等），我们可以使用已有的数据库进行二次开发。比如，Arctic 就是一个基于 MongoDB 的时间序列数据库，而 TimescaleDB 就是基于 PostgreSQL 开发的时间序列数据库。</p>
+<p>另外，在分析数据库的时候还需要注意使用场景：</p>
+<ul>
+<li>OLTP：适合高写入、高读取，但是数据量较小的场景</li>
+<li>OLAP：适合低写入，但是分析复杂且数据量大的场景</li>
+</ul>
+<p><img src="https://i.imgur.com/aCsAYa3.png" alt=""></p>
+<h2 id="我们需要什么技能"><a href="#我们需要什么技能" class="headerlink" title="我们需要什么技能"></a>我们需要什么技能</h2><p><em>SQL 语言是必要的。</em></p>
+<p>因为 SQL 的使用场景已经超出了关系型数据库，比如列数据库 Cassandra 的查询语言 CQL 其实也是类 SQL 语言；TimescaleDB 是时间序列数据可，其查询语言也是 SQL；即使是文档型数据库 也可以使用 SQL 进行查询。</p>
+<p>另一方面，SQL 是一个设计非常优秀的描述性计算机语言，识别适合描述数据逻辑，由于不需要指定如何进行查询，数据库后台根据查询语句进行进行充分的优化。</p>
+<p>最后，SQL 也是很多 DataFrame API（如 Pandas）的设计蓝本。</p>
+<p><em>PostgreSQL</em></p>
+<p>选择一个 SQL 数据库，学习基本的 SQL 概念，比如Schema、表、View、Trigger、约束等等。至于使用那个一实现，可根据公司的情况，不知道用哪个就选择 PostgreSQL，它是最原汁原味的开源 SQL 数据库。</p>
+<p><em>MongoDB</em></p>
+<p>文档型数据库的使用，基本的增删查改操作，Index的使用等等。</p>
+<h2 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h2><p>量化行业绝大部分数据可以直接使用 SQL 数据库进行存储和查询。比如中低频的价格信息、标的物的参照信息、标的物的元数据（mapping、id等等）、财报数据等等。</p>
+<p>量化行业的另一类数据就是时间序列了。这类信息也可以采用 SQL 数据库存储，但是由于这种信息通常是追加为主，很少修改，而且查询通常涉及非常多的历史记录，且比较复杂，一般会采用专门的数据库或者数据库前端进行处理。比如 TimescaleDB 或者 Arctic。</p>
+]]></content>
+      <categories>
+        <category>Career</category>
+      </categories>
+      <tags>
+        <tag>Hedge Fund</tag>
+        <tag>Quant</tag>
+        <tag>Python，Database</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ASICs 和去中心化常见问答 - 译</title>
     <url>/2022/09/25/thinking_bitcoin_18/</url>
     <content><![CDATA[<p>本文翻译自：ASICs and Decentralization FAQ</p>
@@ -642,7 +720,7 @@
 <p>密码朋克对任何针对密码学管制表示不满，因为加密本质上是一种私人行为。事实上，加密行为将信息从公共领域中删除。即使是反对密码学的法律也只能触及一个国家的边界和它的暴力武器。密码学将不可避免地传播到全球，随之而来的是它使匿名交易系统成为可能。</p>
 <p>为了让隐私广泛的得到任何，隐私必须是社会契约的一部分。人们必须一同部署这些软件。隐私只能在社会成员协作的基础上存在。我们会积极考虑各方面的声音和忧虑，否则我们就是自欺欺人。但是，我们不回应为任何人不同意我们的宣言就背弃密码朋克的原则。</p>
 <p>Cypherpunks 积极致力于使网络更安全，以保护隐私。让我们携手向前！</p>
-<p>Eric Hughes <a href="mailto:&#104;&#x75;&#103;&#104;&#101;&#x73;&#x40;&#115;&#111;&#x64;&#97;&#x2e;&#x62;&#x65;&#114;&#x6b;&#x65;&#108;&#x65;&#x79;&#46;&#101;&#100;&#117;">&#104;&#x75;&#103;&#104;&#101;&#x73;&#x40;&#115;&#111;&#x64;&#97;&#x2e;&#x62;&#x65;&#114;&#x6b;&#x65;&#108;&#x65;&#x79;&#46;&#101;&#100;&#117;</a></p>
+<p>Eric Hughes <a href="mailto:&#104;&#x75;&#x67;&#x68;&#x65;&#115;&#64;&#115;&#x6f;&#100;&#x61;&#x2e;&#x62;&#x65;&#x72;&#x6b;&#x65;&#x6c;&#x65;&#x79;&#x2e;&#101;&#x64;&#117;">&#104;&#x75;&#x67;&#x68;&#x65;&#115;&#64;&#115;&#x6f;&#100;&#x61;&#x2e;&#x62;&#x65;&#x72;&#x6b;&#x65;&#x6c;&#x65;&#x79;&#x2e;&#101;&#x64;&#117;</a></p>
 <p>1993 年 3 月 9 日。</p>
 ]]></content>
       <categories>
