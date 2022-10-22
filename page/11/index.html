@@ -160,13 +160,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-count">131</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -237,6 +237,127 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/20/type_system/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/20/type_system/" class="post-title-link" itemprop="url">关于类型系统的一些思考</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-20 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-20T00:00:00Z">2021-02-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-10-22 09:08:02" itemprop="dateModified" datetime="2022-10-22T09:08:02Z">2022-10-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/02/20/type_system/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/20/type_system/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>4.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="类型系统是什么"><a href="#类型系统是什么" class="headerlink" title="类型系统是什么"></a>类型系统是什么</h2><blockquote>
+<p>类型系统是一个有多个规则组成的逻辑系统，系统内的规则会给程序中的每一个组成部分，包括变量、表达式、函数、甚至模块等等，制定一个 类型 属性。</p>
+</blockquote>
+<p>通俗的讲，类型系统是为了赋予程序或者数据意义。因为任何值或者一个函数，在内存里面都只是一串bits，而类型就是要给这串bits意义。例如，<code>10</code> 是的类型是一个奇怪的 int 类型，这个int只有两位。类型系统会给你加额外的信息让他变成一个 int，<code>01|10</code>，这里我们假设类型占两位，01就是int的bit表达，| 用来区分类型和值。这是，10就有了意义，而且程序在编译阶段或者运行时就可以通过这个类型标识确保采用合法的操作来操作这个值。</p>
+<p>换句话说，类型系统形成了一个除了语法（syntax）和语义（semantic）以外的另一套可以用来分析代码的系统。刚才我们也提到了，类型系统属于逻辑系统，就是通过规则（rule）可以进行推到和证明。所以我们可以肯定的说，好的类型系统可以帮助我们从逻辑角度分析程序，减少bug。因为语法和语义其实并没有办法从逻辑层面表达任何关于程序本身要做的事情。而类型系统可以发现一些逻辑错误，至少在他的rule可以推导的范围内。</p>
+<p>有些语言只会给变量制定类型，而表达式、函数则没有类型。比如 Python 中，<code>if a == 1: 1 else: 2</code> 这个表达式是没有类型的概念的。而在 Ocaml 中，<code>if a=1 then 1 else 2</code> 这个表达式有类型 int。事实上一般函数式语言的类型覆盖会更加广泛，而过程式语言覆盖则低很多，比如表达式基本都是没有类型的。显然，类型覆盖约广泛，这个逻辑系统能提供的帮助就越多。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/20/type_system/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/18/python_gil/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -268,7 +389,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-10-07 21:58:28" itemprop="dateModified" datetime="2022-10-07T21:58:28Z">2022-10-07</time>
+      <time title="Modified: 2022-10-22 09:08:02" itemprop="dateModified" datetime="2022-10-22T09:08:02Z">2022-10-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -386,7 +507,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-10-07 21:58:28" itemprop="dateModified" datetime="2022-10-07T21:58:28Z">2022-10-07</time>
+      <time title="Modified: 2022-10-22 09:08:02" itemprop="dateModified" datetime="2022-10-22T09:08:02Z">2022-10-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -504,7 +625,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-10-07 21:58:28" itemprop="dateModified" datetime="2022-10-07T21:58:28Z">2022-10-07</time>
+      <time title="Modified: 2022-10-22 09:08:02" itemprop="dateModified" datetime="2022-10-22T09:08:02Z">2022-10-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -622,7 +743,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-10-07 21:58:28" itemprop="dateModified" datetime="2022-10-07T21:58:28Z">2022-10-07</time>
+      <time title="Modified: 2022-10-22 09:08:02" itemprop="dateModified" datetime="2022-10-22T09:08:02Z">2022-10-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -744,7 +865,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-10-07 21:58:28" itemprop="dateModified" datetime="2022-10-07T21:58:28Z">2022-10-07</time>
+      <time title="Modified: 2022-10-22 09:08:02" itemprop="dateModified" datetime="2022-10-22T09:08:02Z">2022-10-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -862,7 +983,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-10-07 21:58:28" itemprop="dateModified" datetime="2022-10-07T21:58:28Z">2022-10-07</time>
+      <time title="Modified: 2022-10-22 09:08:02" itemprop="dateModified" datetime="2022-10-22T09:08:02Z">2022-10-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -986,7 +1107,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-10-07 21:58:28" itemprop="dateModified" datetime="2022-10-07T21:58:28Z">2022-10-07</time>
+      <time title="Modified: 2022-10-22 09:08:02" itemprop="dateModified" datetime="2022-10-22T09:08:02Z">2022-10-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1105,7 +1226,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-10-07 21:58:28" itemprop="dateModified" datetime="2022-10-07T21:58:28Z">2022-10-07</time>
+      <time title="Modified: 2022-10-22 09:08:02" itemprop="dateModified" datetime="2022-10-22T09:08:02Z">2022-10-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1224,7 +1345,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-10-07 21:58:28" itemprop="dateModified" datetime="2022-10-07T21:58:28Z">2022-10-07</time>
+      <time title="Modified: 2022-10-22 09:08:02" itemprop="dateModified" datetime="2022-10-22T09:08:02Z">2022-10-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1304,135 +1425,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/09/cs3110/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/funcoder.jpg">
-      <meta itemprop="name" content="FunCoder">
-      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FunCoder">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/11/09/cs3110/" class="post-title-link" itemprop="url">CS3110总结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-11-09 00:00:00" itemprop="dateCreated datePublished" datetime="2020-11-09T00:00:00Z">2020-11-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-10-07 21:58:28" itemprop="dateModified" datetime="2022-10-07T21:58:28Z">2022-10-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/11/09/cs3110/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/11/09/cs3110/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.7k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="总体感觉"><a href="#总体感觉" class="headerlink" title="总体感觉"></a>总体感觉</h2><p>总体感觉CS3110这门课程像是一个关于Coding的“大杂烩”，这里完全没有贬义，相反这门课对我这种转行背景的程序员非常有帮助。<br>正如这么课程介绍中说：</p>
-<blockquote>
-<p>This course is about making you a better programmer. </p>
-</blockquote>
-<p>为了实现这一目的，这门课程的内容涉及了较多方面的内容，而且每一个部分都有为这个目的贡献了力量：</p>
-<ul>
-<li>Functional Programming with Ocaml：为了说明如何系统化学习任何一门新的计算机预言</li>
-<li>Modular Programming: 为了说明如何构建大型程序</li>
-<li>Data Structures: 深度讲解了基本的数据结构,Mutable and Immutable, 比如流、红黑树、哈希表等等</li>
-<li>Interpreter: 讲解了计算机预言解释器，即更加了解程序员的工具：计算机语言</li>
-<li>Formal Methods: 讲解进行软件Formal verification</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/09/cs3110/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -1455,13 +1449,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">410k</span>
+    <span title="Symbols count total">412k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">6:13</span>
+    <span title="Reading time total">6:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

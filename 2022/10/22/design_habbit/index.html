@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="先设计，后编码 写”明显没有错误的“代码 学最激进的技术，用最简单的实现 把可变的东西隔离到配置数据中 多考虑意外情况，不要只实现 happy path 在设计阶段就开始考虑异常情况 复用的诀窍：只做一件事情 学习测试理论  先设计，后编码需求和设计阶段应该在软件开发的 60% 时间，而实现占 40%。没有事先规划，想哪写哪；结果被层出不穷的状况（还美其名曰需求变更）牵着鼻子、面多了加水水多了加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一些软件设计原则">
+<meta property="og:url" content="http://yoursite.com/2022/10/22/design_habbit/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="先设计，后编码 写”明显没有错误的“代码 学最激进的技术，用最简单的实现 把可变的东西隔离到配置数据中 多考虑意外情况，不要只实现 happy path 在设计阶段就开始考虑异常情况 复用的诀窍：只做一件事情 学习测试理论  先设计，后编码需求和设计阶段应该在软件开发的 60% 时间，而实现占 40%。没有事先规划，想哪写哪；结果被层出不穷的状况（还美其名曰需求变更）牵着鼻子、面多了加水水多了加">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-10-22T09:08:02.716Z">
+<meta property="article:modified_time" content="2022-10-22T09:08:02.716Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Design">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2022/10/22/design_habbit/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2022/10/22/design_habbit/","path":"2022/10/22/design_habbit/","title":"一些软件设计原则"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>一些软件设计原则 | FunCoder</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E8%AE%BE%E8%AE%A1%EF%BC%8C%E5%90%8E%E7%BC%96%E7%A0%81"><span class="nav-number">1.</span> <span class="nav-text">先设计，后编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E2%80%9D%E6%98%8E%E6%98%BE%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E7%9A%84%E2%80%9C%E4%BB%A3%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">写”明显没有错误的“代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E6%9C%80%E6%BF%80%E8%BF%9B%E7%9A%84%E6%8A%80%E6%9C%AF%EF%BC%8C%E7%94%A8%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">学最激进的技术，用最简单的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%8A%E5%8F%AF%E5%8F%98%E7%9A%84%E4%B8%9C%E8%A5%BF%E9%9A%94%E7%A6%BB%E5%88%B0%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E4%B8%AD"><span class="nav-number">4.</span> <span class="nav-text">把可变的东西隔离到配置数据中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E8%80%83%E8%99%91%E6%84%8F%E5%A4%96%E6%83%85%E5%86%B5%EF%BC%8C%E4%B8%8D%E8%A6%81%E5%8F%AA%E5%AE%9E%E7%8E%B0-happy-path"><span class="nav-number">5.</span> <span class="nav-text">多考虑意外情况，不要只实现 happy path</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E8%AE%BE%E8%AE%A1%E9%98%B6%E6%AE%B5%E5%B0%B1%E5%BC%80%E5%A7%8B%E8%80%83%E8%99%91%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5"><span class="nav-number">6.</span> <span class="nav-text">在设计阶段就开始考虑异常情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E7%94%A8%E7%9A%84%E8%AF%80%E7%AA%8D%EF%BC%9A%E5%8F%AA%E5%81%9A%E4%B8%80%E4%BB%B6%E4%BA%8B%E6%83%85"><span class="nav-number">7.</span> <span class="nav-text">复用的诀窍：只做一件事情</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E6%B5%8B%E8%AF%95%E7%90%86%E8%AE%BA"><span class="nav-number">8.</span> <span class="nav-text">学习测试理论</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://wangzhe3224.github.io/Jesus_is_Lord/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;Jesus_is_Lord&#x2F;" rel="noopener" target="_blank">圣经盐读</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/10/22/design_habbit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一些软件设计原则
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-10-22 09:08:02" itemprop="dateCreated datePublished" datetime="2022-10-22T09:08:02Z">2022-10-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Software-Engineering/" itemprop="url" rel="index"><span itemprop="name">Software Engineering</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/10/22/design_habbit/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/10/22/design_habbit/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>1.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <ul>
+<li><a href="#先设计后编码">先设计，后编码</a></li>
+<li><a href="#写明显没有错误的代码">写”明显没有错误的“代码</a></li>
+<li><a href="#学最激进的技术用最简单的实现">学最激进的技术，用最简单的实现</a></li>
+<li><a href="#把可变的东西隔离到配置数据中">把可变的东西隔离到配置数据中</a></li>
+<li><a href="#多考虑意外情况不要只实现-happy-path">多考虑意外情况，不要只实现 happy path</a></li>
+<li><a href="#在设计阶段就开始考虑异常情况">在设计阶段就开始考虑异常情况</a></li>
+<li><a href="#复用的诀窍只做一件事情">复用的诀窍：只做一件事情</a></li>
+<li><a href="#学习测试理论">学习测试理论</a></li>
+</ul>
+<h2 id="先设计，后编码"><a href="#先设计，后编码" class="headerlink" title="先设计，后编码"></a>先设计，后编码</h2><p>需求和设计阶段应该在软件开发的 60% 时间，而实现占 40%。没有事先规划，想哪写哪；结果被层出不穷的状况（还美其名曰需求变更）牵着鼻子、面多了加水水多了加面：这就是绝大多数软件开发时间冗长、状况不断、无疾而终的根本原因。</p>
+<h2 id="写”明显没有错误的“代码"><a href="#写”明显没有错误的“代码" class="headerlink" title="写”明显没有错误的“代码"></a>写”明显没有错误的“代码</h2><p>而不是”没有明显错误“的代码。</p>
+<p>除非你真的做了设计，否则你的代码一定没有什么”设计感“。用心设计，才能找到达到目标的路径中最短最快的那一条。<br>做到这一点，才能把代码写的简单，让人一眼看出意图、明显没有缺陷。</p>
+<p>把复杂的功能写简单、写的让人一眼看懂、且知道是不是有错误，需要深厚的功底。</p>
+<h2 id="学最激进的技术，用最简单的实现"><a href="#学最激进的技术，用最简单的实现" class="headerlink" title="学最激进的技术，用最简单的实现"></a>学最激进的技术，用最简单的实现</h2><h2 id="把可变的东西隔离到配置数据中"><a href="#把可变的东西隔离到配置数据中" class="headerlink" title="把可变的东西隔离到配置数据中"></a>把可变的东西隔离到配置数据中</h2><p>换句话说，程序最好只写不变的部分，如果需要变化，用最抽象的实现（元编程）。</p>
+<p>“开闭原则”说的其实就是，程序代码写出来就不用再动了，这叫对修改封闭；但随便你需要什么样的功能，都可以借助既有的代码完成，这叫“对扩展开放”。<br>真正做到了“对修改封闭”，表现是“不需要动”“不要去怀疑”“可以增加功能，但没必要触动已有代码”</p>
+<h2 id="多考虑意外情况，不要只实现-happy-path"><a href="#多考虑意外情况，不要只实现-happy-path" class="headerlink" title="多考虑意外情况，不要只实现 happy path"></a>多考虑意外情况，不要只实现 happy path</h2><p>Happy path 就是完全不考虑出错、不考虑数据竞争、不考虑操作提交时条件不满足、假定世界是完美的、按顺序来一切都能解决的这么一个执行流。</p>
+<p>当然，happy path也是必须先找出来的。</p>
+<p>先把happy path找出来，再一点点添加——这里可能出现意外，出现意外怎么办……逐渐添加、丰富下去，正确的设计稿就出来了。</p>
+<h2 id="在设计阶段就开始考虑异常情况"><a href="#在设计阶段就开始考虑异常情况" class="headerlink" title="在设计阶段就开始考虑异常情况"></a>在设计阶段就开始考虑异常情况</h2><p>首先，要把异常分为几类。</p>
+<p>然后，对确定来源的异常应设计正常处理流程——它是正常流程的一部分，是设计之初就应该考虑好的，可不是什么异常。</p>
+<p>之后，对未知来路的奇怪错误，不要姑息——见到了，就让程序崩掉。</p>
+<p>最终，如果我们的程序的确有极高可靠性要求的话，我们需要设计一个机制，及早发现程序崩溃并自动拉起新的实例。</p>
+<p>如此反复，最终就是：一出错就马上抛异常崩溃掉的程序，出错的机率越来越低、渐至于怎么折腾都不会崩溃、甚至单实例都能7x24小时可靠运行；而使劲容错、绝不崩溃的程序，它几乎每时每刻都在出错、逼得用户不得不“重启下说不定就好了”“这破系统用十分钟就得重启，不然丢数据……不是丢新数据，旧数据都会被破坏……”</p>
+<h2 id="复用的诀窍：只做一件事情"><a href="#复用的诀窍：只做一件事情" class="headerlink" title="复用的诀窍：只做一件事情"></a>复用的诀窍：只做一件事情</h2><p>其实一点也不难：只做一件事，把一件事做好，这玩意儿就天然是方便复用的。</p>
+<p>这很容易理解。玩过积木吧？什么样的积木摆什么造型都用得上？</p>
+<p>方块，对吧。</p>
+<p>为什么方块这么容易复用？因为它最简单。</p>
+<p>这实际上也是我前面说过的：把可变的东西隔离到数据中，程序只提供一组元规则！程序越简洁，就越是可以随意的拼起来、拼出千变万化五彩缤纷的大千世界。</p>
+<h2 id="学习测试理论"><a href="#学习测试理论" class="headerlink" title="学习测试理论"></a>学习测试理论</h2><p>嗯，不可否认，的确“总会有我们意想不到的状况”；但绝大多数情况，我们是可以预想到的。</p>
+<p>作者：invalid s<br>链接：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/32255673/answer/2325523343">https://www.zhihu.com/question/32255673/answer/2325523343</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/17/design_1/" rel="bookmark">系统化程序设计 - 函数式</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Design/" rel="tag"><i class="fa fa-tag"></i> Design</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/03/quant_dev_5/" rel="prev" title="Quant Dev 4 - 数据库">
+                  <i class="fa fa-chevron-left"></i> Quant Dev 4 - 数据库
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FunCoder</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">412k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
