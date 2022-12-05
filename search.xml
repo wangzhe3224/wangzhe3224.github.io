@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>一些软件设计原则</title>
-    <url>/2022/11/27/design_habbit/</url>
+    <url>/2022/12/05/design_habbit/</url>
     <content><![CDATA[<ul>
 <li><a href="#先设计后编码">先设计，后编码</a></li>
 <li><a href="#写明显没有错误的代码">写”明显没有错误的“代码</a></li>
@@ -40,6 +40,60 @@
       </categories>
       <tags>
         <tag>Design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>比特币随想 - 信任模型</title>
+    <url>/2022/12/04/thinking_bitcoin_20/</url>
+    <content><![CDATA[<blockquote>
+<p>本文偶尔使用“大饼”替换BTC，因此“大饼网络”，“大饼协议”等请自行替换。</p>
+</blockquote>
+<p>我通常称大饼网络的信任模型为“民主信任”模型。</p>
+<h2 id="信任不会消失，只会转移"><a href="#信任不会消失，只会转移" class="headerlink" title="信任不会消失，只会转移"></a>信任不会消失，只会转移</h2><p>每次重新思考这个问题的时候，我都会回到比特币的<a href="https://github.com/wangzhe3224/bitcoin-pro/blob/5fc6fd7140c60aa98fb24c069976873145afa827/docs/assets/Bitcoin%20A%20Peer-to-Peer%20Electronic%20Cash%20System.pdf">白皮书</a>。比特币网络提供了一个不依赖第三方金融机构的、纯点对点的在线电子支付系统。这句话很短，但是非常值得玩味。这句话有三个重点：</p>
+<ul>
+<li>电子支付</li>
+<li>纯点对点</li>
+<li>不依赖某<strong>一个或几个</strong>第三方</li>
+</ul>
+<p>支付系统，就是 A 把某个资产转移给 B 的系统。</p>
+<p>其实，在没有互联网的时代完成纯点对点、不依赖第三方的支付非常容易：以物易物即可。比如我把我的黄金给你，你把你的房子给我。但是互联网时代的电子支付让这两点变得很困难。通常，电子支付需要依赖第三方，因为第三方需要防止支付过程中的双花问题（double-spending），即如何确保 A 在支付给 B 的同时，没有也把同一个价值载体支付给 X。换句话说，电子支付无法实现纯点对点，人们需要信任某一个第三方来验证支付的有效性，即避免双花；另外一个第三方需要解决的问题就是资产归属权的问题，人们需要第三方来证明，某个资产属于谁。</p>
+<p><strong>大饼协议组成的网络就是为了实现 <code>A -&gt; B</code> 而不需要的第三方 C 的介入这一目的。</strong> 这就是大饼的创新之处：第三方被移除了。但是<strong>信任并没有被移除，只是从某个第三方转移到每个网络参与者</strong>。之前我写过一篇小文稍微涉及了信任的问题：<a href="https://wangzhe3224.github.io/2022/05/29/thinking_bitcoin_5/">比特币随想 - 从数字签名到信任</a>。最后这篇文章的落脚点是：</p>
+<ul>
+<li>归属权问题不应该是信任问题，而是验证问题（数字签名）</li>
+<li>信任不可以被算法移除，但是可以转移（工作量证明）</li>
+</ul>
+<h2 id="民主的信任模型"><a href="#民主的信任模型" class="headerlink" title="民主的信任模型"></a>民主的信任模型</h2><h3 id="工作量证明"><a href="#工作量证明" class="headerlink" title="工作量证明"></a>工作量证明</h3><p>大饼协议采用了<a href="https://wangzhe3224.github.io/2022/06/04/thinking_bitcoin_7/">工作量证明共识算法（PoW）</a>，这种共识算法将信任从某个第三方转移到了参与网络的群体，更准确的说是群体中付出最能量的群体。</p>
+<p>事实上，去中心化网络面临的主要问题是无法决定某个事件发生的先后顺序。因为，如果我们可以确定 A 到 B 的转账，发生在 A 到 C 的转账之前，我们就可以拒绝 A 到 C 的转账（双花）。</p>
+<p>那么，由谁来决定 AB 先发生，还是 AC 先发生呢？答案是：谁都可以，这并不是很重要。重要的是，AB发生后，怎么确保历史不会被重写，即 AC 代替 AB 交易（双花）？答案是：PoW。</p>
+<p>我们提到虽然网络中的任何人都可以决定 AB 或者 AC 哪一个先发生，但是提出这个<strong>提议</strong>的节点会付出相应的代价：就是挖矿。更具体的说，一个节点想要提出并广播一个提议前，需要进行相当数量的 CPU 计算，即花费相当数量的电能才有资格提出提议（即证明节点花费了相当的工作量）。更重要的是，在提议被接受后，如果有节点想要更改 AB 和 AC 发生的顺序，这个节点需要重复刚刚的计算。</p>
+<p>这样的前提下，只要网络中绝大多数节点（&gt;66%），作弊（双花）的经济效益并不高，同时成功率也会随着时间推移越来越低，呈指数级别降低。通过这种博弈的关系，网络中最长的链（最多工作量的链）就称为“真实”的历史，即所有人信任的基础。</p>
+<h3 id="网络构成"><a href="#网络构成" class="headerlink" title="网络构成"></a>网络构成</h3><p>大饼网络的节点主要分成了两种：矿工和全节点。矿工就是上面提到的进行工作量证明提出提议的节点，而全节点是负责验证、广播区块（提议）的节点。须知，全节点不会进行工作量证明，也不会提出区块，也就不会获得区块奖励。</p>
+<p>这两类节点都非常重要。矿工完成了打包区块、增添历史的功能；而全节点则承担了验证区块和传播区块的功能。</p>
+<h3 id="历史共识信任模型"><a href="#历史共识信任模型" class="headerlink" title="历史共识信任模型"></a>历史共识信任模型</h3><p>PoW 形成的共识是一种概率角度的共识，因为理论上，如果网络中出现大量恶意节点用超大的算力对一个新的历史进行快速的计算，并广播这个“伪历史”，且网络中绝大部分节点接受了这个链，那么原本“真实历史”就会被这段“伪历史”替换掉，形成一个新的共识。</p>
+<p>但是，这么做一来在技术上几乎不可行，而来其经济利益往往不如利用如此庞大的算力维护最长的“真历史”，从而获得大量区块奖励。</p>
+<p>从某个意义上说，工作量证明是“民主”的信任：每个节点都不需要信任任何另一个节点，但是节点可以信任节点群体形成的共识。</p>
+<h3 id="协议共识信任模型"><a href="#协议共识信任模型" class="headerlink" title="协议共识信任模型"></a>协议共识信任模型</h3><p>大饼的代币铸币系统设计的非常巧妙：</p>
+<ul>
+<li>代币的上限 2100 万</li>
+<li><a href="https://baloian.medium.com/why-21-million-is-the-maximum-number-of-bitcoins-can-be-created-ecc1ff6edc3d#:~:text=Bitcoin%20Halving%20and%20Reward%20in%20Source%20Code&text=Line%201157%20specifies%20that%20if,Bitcoins%20will%20be%20in%20circulation.">代币铸币政策</a><ul>
+<li>约 10 分钟铸造一次</li>
+<li>每 210240 个区块铸币量减半一次</li>
+</ul>
+</li>
+</ul>
+<p>为了维持铸币政策，即 10 分钟铸造一次，大饼协议会根据网络 PoW 的总算力调节铸币难度。每 2016 个区块，协议会计算这 2016 个区块所花的总时间，同目标时间 20,160 分钟比较，然后难度会相应调节。</p>
+<p>上面提到的就是大饼的协议共识，而网络节点对该协议的参数（比如 2100 万，10分钟等等）形成了信任：相信这些参数无法篡改，除非社区的绝大多数节点选择修改。</p>
+<p>这种协议共识是通过网络中的全节点实现的。只要网络中绝大多数节点遵守协议，拒绝不符合原有协议的区块，就实现了协议共识，也就确保了网络参数的稳定。</p>
+<h2 id="民主信任的弊端"><a href="#民主信任的弊端" class="headerlink" title="民主信任的弊端"></a>民主信任的弊端</h2><p>民主信任模型和第三方（集权）信任最显著的区别在于民主信任没有明确的被信任主体，但是民主信任通常是都是概率性的；集权信任有明确的信任主体，但是决策是决定性的（当然作弊行为也会是绝对的）。</p>
+<p>民主信任去除了明确的信任主体，也带来了一些问题。实现真正的民主共识需要更多时间，即需要时间将信息传播到网络的绝大多数<strong>独立的</strong>节点。相应的民主信任网络的执行效率较低。这里格外强调“独立”节点，因为如果传播到的节点不是相互独立，网络就做不到足够“民主”，也就没有所谓的去中心化（去第三方）。</p>
+<h2 id="信任的分层"><a href="#信任的分层" class="headerlink" title="信任的分层"></a>信任的分层</h2><p>越是民主信任，网络的效率越低，换来的是一个更加“民主”或者更加“中性”或者更加去中心化的网络层；而越是把信任放在某个、某些个体上，网络的效率越高，失去的是去中心化。</p>
+<p>所以，大饼网络提供了一个非常“民主”的信任网络；但是为了提高效率，进行更加复杂的操作，我们需要去掉一些民主，增加一些集权。这就是所谓的二级网络，也就是信任的分层。</p>
+]]></content>
+      <categories>
+        <category>Bitcoin</category>
+      </categories>
+      <tags>
+        <tag>Bitcoin</tag>
       </tags>
   </entry>
   <entry>
@@ -873,7 +927,7 @@
 <p>密码朋克对任何针对密码学管制表示不满，因为加密本质上是一种私人行为。事实上，加密行为将信息从公共领域中删除。即使是反对密码学的法律也只能触及一个国家的边界和它的暴力武器。密码学将不可避免地传播到全球，随之而来的是它使匿名交易系统成为可能。</p>
 <p>为了让隐私广泛的得到任何，隐私必须是社会契约的一部分。人们必须一同部署这些软件。隐私只能在社会成员协作的基础上存在。我们会积极考虑各方面的声音和忧虑，否则我们就是自欺欺人。但是，我们不回应为任何人不同意我们的宣言就背弃密码朋克的原则。</p>
 <p>Cypherpunks 积极致力于使网络更安全，以保护隐私。让我们携手向前！</p>
-<p>Eric Hughes <a href="mailto:&#x68;&#117;&#103;&#x68;&#x65;&#x73;&#64;&#x73;&#x6f;&#x64;&#x61;&#x2e;&#98;&#101;&#114;&#107;&#101;&#x6c;&#x65;&#x79;&#x2e;&#101;&#100;&#117;">&#x68;&#117;&#103;&#x68;&#x65;&#x73;&#64;&#x73;&#x6f;&#x64;&#x61;&#x2e;&#98;&#101;&#114;&#107;&#101;&#x6c;&#x65;&#x79;&#x2e;&#101;&#100;&#117;</a></p>
+<p>Eric Hughes <a href="mailto:&#x68;&#x75;&#x67;&#x68;&#101;&#x73;&#64;&#x73;&#x6f;&#100;&#x61;&#x2e;&#98;&#101;&#x72;&#x6b;&#101;&#108;&#101;&#x79;&#46;&#x65;&#100;&#x75;">&#x68;&#x75;&#x67;&#x68;&#101;&#x73;&#64;&#x73;&#x6f;&#100;&#x61;&#x2e;&#98;&#101;&#x72;&#x6b;&#101;&#108;&#101;&#x79;&#46;&#x65;&#100;&#x75;</a></p>
 <p>1993 年 3 月 9 日。</p>
 ]]></content>
       <categories>
@@ -6974,54 +7028,6 @@
       </tags>
   </entry>
   <entry>
-    <title>重新认识 Python（3）GIL</title>
-    <url>/2021/02/18/python_gil/</url>
-    <content><![CDATA[<h1 id="重新认识Python（3）：GIL，Global-Interpreter-Lock"><a href="#重新认识Python（3）：GIL，Global-Interpreter-Lock" class="headerlink" title="重新认识Python（3）：GIL，Global Interpreter Lock"></a>重新认识Python（3）：GIL，Global Interpreter Lock</h1><p>之前的两个文章主要简述了Python的内存管理模型和对应的GC模型。今天我们来看看Python的另一个“著名”特征：GIL，全局解释器锁。GIL长久以来被各种内行、外行诟病，可是很多人并不清楚GIL究竟是什么？为什么当初要设计GIL？GIL的优势在哪里？</p>
-<h2 id="Python-是如何工作的？"><a href="#Python-是如何工作的？" class="headerlink" title="Python 是如何工作的？"></a>Python 是如何工作的？</h2><p>要理解 GIL 需要知道一些Python解释器的运行原理。Python的解释器其实一个循环，循环里是一系列的cases，逐行读取编译后的Opcode进行计算，每一个线程都有独立的这么一个循环。这里插一嘴，其实Python不是解释型语言，起码不是纯粹的解释型，Python源代码会被编译成Python自己的byte code，就是上面循环中的那些opcode。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (;;) &#123;</span><br><span class="line">    assert(stack_pointer &gt;= f-&gt;f_valuestack); <span class="comment">/* else underflow */</span></span><br><span class="line">    assert(STACK_LEVEL() &lt;= co-&gt;co_stacksize);  <span class="comment">/* else overflow */</span></span><br><span class="line">    assert(!PyErr_Occurred());</span><br><span class="line">    <span class="comment">// 这部分省略的代码就是后面GIL的关键。。我们先来看看解释器的循环</span></span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">    <span class="comment">/* Extract opcode and argument */</span></span><br><span class="line"></span><br><span class="line">        NEXTOPARG();</span><br><span class="line">    dispatch_opcode:</span><br><span class="line">      <span class="keyword">switch</span> (opcode) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* BEWARE!</span></span><br><span class="line"><span class="comment">           It is essential that any operation that fails sets either</span></span><br><span class="line"><span class="comment">           x to NULL, err to nonzero, or why to anything but WHY_NOT,</span></span><br><span class="line"><span class="comment">           and that no operation that succeeds does this! */</span></span><br><span class="line"></span><br><span class="line">        TARGET(NOP)</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line"></span><br><span class="line">        TARGET(LOAD_FAST) &#123;</span><br><span class="line">            PyObject *value = GETLOCAL(oparg);</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="literal">NULL</span>) &#123;</span><br><span class="line">                format_exc_check_arg(PyExc_UnboundLocalError,</span><br><span class="line">                                     UNBOUNDLOCAL_ERROR_MSG,</span><br><span class="line">                                     PyTuple_GetItem(co-&gt;co_varnames, oparg));</span><br><span class="line">                <span class="keyword">goto</span> error;</span><br><span class="line">            &#125;</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        PREDICTED(LOAD_CONST);</span><br><span class="line">        TARGET(LOAD_CONST) &#123;</span><br><span class="line">            PyObject *value = GETITEM(consts, oparg);</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
-
-<p>主要参考的<a href="https://github.com/python/cpython/blob/ef5f4ba96e05f61ad3baca502012085f31e99342/Python/ceval.c#L930-L1064">源代码</a>在这里。</p>
-<p>当然，为了支持计算Python的runtime还会准备对应的Frame、全局变量等等。</p>
-<h2 id="GIL-是什么？"><a href="#GIL-是什么？" class="headerlink" title="GIL 是什么？"></a>GIL 是什么？</h2><p>上面我们提到，每一个线程都有自己独立的执行循环，但是这些执行循环并不是相互独立的，他们必然会共享一些内存，这里起就是经典的并发问题，比如race condition等等。并发模型的实现由很多方法，我们听到最多、看起来也最简单的方法就是基于锁的方法。Python其实就选择这个方法，GIL也就诞生了。</p>
-<p>GIL就是一个锁，每一个线程的执行循环，只有拿到GIL，才可以执行，否则就要等待，而一个Python进程只有一个GIL锁，所以它才叫全局锁。GIL可以保证，在同一时间，只有一个线程可以拿到这个锁。</p>
-<p>这里我参考了一个小哥的代码，他简单的实现了Python版本的GIL，方便我们理解GIL。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> SimpleNamespace</span><br><span class="line"></span><br><span class="line">DEFAULT_INTERVAL = <span class="number">0.05</span></span><br><span class="line"></span><br><span class="line">gil_mutex = threading.RLock()</span><br><span class="line">gil_condition = threading.Condition(lock=gil_mutex)</span><br><span class="line">switch_condition = threading.Condition()</span><br><span class="line"></span><br><span class="line"><span class="comment"># dictionary-like object that supports dot (attribute) syntax</span></span><br><span class="line">gil = SimpleNamespace(</span><br><span class="line">    drop_request=<span class="literal">False</span>,</span><br><span class="line">    locked=<span class="literal">True</span>,</span><br><span class="line">    switch_number=<span class="number">0</span>,</span><br><span class="line">    last_holder=<span class="literal">None</span>,</span><br><span class="line">    eval_breaker=<span class="literal">True</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">drop_gil</span>(<span class="params">thread_id</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> gil.locked:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;GIL is not locked&quot;</span>)</span><br><span class="line"></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    gil.last_holder = thread_id</span><br><span class="line">    gil.locked = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Signals that the GIL is now available for acquiring to the first awaiting thread</span></span><br><span class="line">    gil_condition.notify()</span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching</span></span><br><span class="line">    <span class="comment"># Lock current thread so it will not immediately reacquire the GIL</span></span><br><span class="line">    <span class="comment"># this ensures that another GIL-awaiting thread have a chance to get scheduled</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        switch_condition.acquire()</span><br><span class="line">        <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">            gil.drop_request = <span class="literal">False</span></span><br><span class="line">            switch_condition.wait()</span><br><span class="line"></span><br><span class="line">        switch_condition.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">take_gil</span>(<span class="params">thread_id</span>):</span></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> gil.locked:</span><br><span class="line">        saved_switchnum = gil.switch_number</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Release the lock and wait for a signal from a GIL holding thread,</span></span><br><span class="line">        <span class="comment"># set drop_request=True if the wait is timed out</span></span><br><span class="line"></span><br><span class="line">        timed_out = <span class="keyword">not</span> gil_condition.wait(timeout=DEFAULT_INTERVAL)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> timed_out <span class="keyword">and</span> gil.locked <span class="keyword">and</span> gil.switch_number == saved_switchnum:</span><br><span class="line">            gil.drop_request = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># lock for force switching</span></span><br><span class="line">    switch_condition.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Now we hold the GIL</span></span><br><span class="line">    gil.locked = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.last_holder != thread_id:</span><br><span class="line">        gil.last_holder = thread_id</span><br><span class="line">        gil.switch_number += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching, send signal to drop_gil</span></span><br><span class="line">    switch_condition.notify()</span><br><span class="line">    switch_condition.release()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execution_loop</span>(<span class="params">target_function, thread_id</span>):</span></span><br><span class="line">    <span class="comment"># Compile Python function down to bytecode and execute it in the while loop</span></span><br><span class="line"></span><br><span class="line">    bytecode = <span class="built_in">compile</span>(target_function)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># drop_request indicates that one or more threads are awaiting for the GIL</span></span><br><span class="line">        <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">            <span class="comment"># release the gil from the current thread</span></span><br><span class="line">            drop_gil(thread_id)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># immediately request the GIL for the current thread</span></span><br><span class="line">            <span class="comment"># at this point the thread will be waiting for GIL and suspended until the function return</span></span><br><span class="line">            take_gil(thread_id)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># bytecode execution logic, executes one instruction at a time</span></span><br><span class="line">        instruction = bytecode.next_instruction()</span><br><span class="line">        <span class="keyword">if</span> instruction <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            execute_opcode(instruction)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
-
-<p>看代码我们可以知道：</p>
-<ul>
-<li>Python创建一个新的thread的时候，会首先call <code>take_gil</code> 尝试得到 GIL，然后才进入执行循环</li>
-<li>通过在循环的开始部分检查gil状态，可以确保只有一个线程在执行</li>
-</ul>
-<p>目前这个版本的GIL其实也实现一些scheduler的功能，比如：</p>
-<p><code>gil.drop_request</code> 为True就表明有其他的线程在等待执行，当前进程就会首先尝试放弃gil，给其他线程机会，然后他会立刻尝试夺回gil，以便自己可以继续运行。聪明的你可能想问，马上尝试夺回，那别的进程怎么办啊？</p>
-<p>仔细看 <code>drop_gil</code> 函数:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> gil.drop_request:</span><br><span class="line">    switch_condition.acquire()</span><br><span class="line">    <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line">        switch_condition.wait()</span><br><span class="line"></span><br><span class="line">    switch_condition.release()</span><br></pre></td></tr></table></figure>
-
-<p>这段代码确保如果，OS分配的下一个线程还是自己，该线程就会被迫等待，确保其他进程有机会被系统的线程调度器分配。</p>
-<p>CPython的源码在<a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h">这里</a></p>
-<h2 id="关于GIL的思考"><a href="#关于GIL的思考" class="headerlink" title="关于GIL的思考"></a>关于GIL的思考</h2><p>GIL从1992年诞生到现在，其实经历一些变化。在GIL被设计的年代，多核CPU基本不存在，当时的线程也主要是用来做IO类型的工作，所以GIL的设计处理多线程IO效率非常高。</p>
-<p>GIL的存在也让Python的单核性能大大增加，其实GIL是Python成功的一个重要原因。后来GIL加入了 <code>switch_condition</code>, <code>switch_number</code>, <code>timeout</code> 等参数，很大程度改善了多核处理下GIL线程schedule的问题。Python3以后的GIL仍然无法实现真正的CPU密集并行的多线程。不过这里说的线程都是OS线程，这不妨碍实现软件线程。</p>
-<p>GIL难以被完全移除有很多原因，比如</p>
-<ul>
-<li>移除GIL，就需要修改Python的GC机制，特别是reference counting</li>
-<li>GIL移除，会降低单核性能。因为移除全局锁，必然要引入粒度更小的锁</li>
-<li>可以考虑其他的同步机制，比如Software transactional memory，那么就要修改整个C API，基本上所有的C-API库都废了。。。。</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://www.youtube.com/watch?v=7RlqbHCCVyc">https://www.youtube.com/watch?v=7RlqbHCCVyc</a></li>
-<li><a href="https://www.youtube.com/watch?v=4zeHStBowEk">https://www.youtube.com/watch?v=4zeHStBowEk</a></li>
-<li><a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h">https://github.com/python/cpython/blob/master/Python/ceval_gil.h</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Coding</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>CPython</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>重新认识 Python（2）内存管理</title>
     <url>/2021/02/18/python_memory_mgt/</url>
     <content><![CDATA[<h1 id="重新认识-Python（2）：内存管理"><a href="#重新认识-Python（2）：内存管理" class="headerlink" title="重新认识 Python（2）：内存管理"></a>重新认识 Python（2）：内存管理</h1><p>理解内存管理需要知道通常内存使用的基本规则。一般来说，一个进程的内存会被划分成两个部分，堆（heap）和栈（stack）。栈的结构相对简单，本质上就是一个先进后出队列，所有被分配在栈上的值必须是确定大小的、静态的。栈的功能主要是临时存储函数运行时的参数、临时变量和结果。显然，在程序运行的时候，我们需要产生许多大小不固定且动态的值，比如对象、列表、字典等等，这些数据结构不能直接分配到栈上，因此我们需要堆来存放这些值。相应的，堆的内存空间往往比栈大的多。</p>
@@ -7086,6 +7092,54 @@
 <li><a href="https://github.com/python/cpython/blob/master/Include/object.h">https://github.com/python/cpython/blob/master/Include/object.h</a></li>
 <li><a href="https://github.com/python/cpython/blob/ad051cbce1360ad3055a048506c09bc2a5442474/Objects/obmalloc.c#L534">https://github.com/python/cpython/blob/ad051cbce1360ad3055a048506c09bc2a5442474/Objects/obmalloc.c#L534</a></li>
 <li><a href="https://rushter.com/blog/python-memory-managment/">https://rushter.com/blog/python-memory-managment/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>CPython</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>重新认识 Python（3）GIL</title>
+    <url>/2021/02/18/python_gil/</url>
+    <content><![CDATA[<h1 id="重新认识Python（3）：GIL，Global-Interpreter-Lock"><a href="#重新认识Python（3）：GIL，Global-Interpreter-Lock" class="headerlink" title="重新认识Python（3）：GIL，Global Interpreter Lock"></a>重新认识Python（3）：GIL，Global Interpreter Lock</h1><p>之前的两个文章主要简述了Python的内存管理模型和对应的GC模型。今天我们来看看Python的另一个“著名”特征：GIL，全局解释器锁。GIL长久以来被各种内行、外行诟病，可是很多人并不清楚GIL究竟是什么？为什么当初要设计GIL？GIL的优势在哪里？</p>
+<h2 id="Python-是如何工作的？"><a href="#Python-是如何工作的？" class="headerlink" title="Python 是如何工作的？"></a>Python 是如何工作的？</h2><p>要理解 GIL 需要知道一些Python解释器的运行原理。Python的解释器其实一个循环，循环里是一系列的cases，逐行读取编译后的Opcode进行计算，每一个线程都有独立的这么一个循环。这里插一嘴，其实Python不是解释型语言，起码不是纯粹的解释型，Python源代码会被编译成Python自己的byte code，就是上面循环中的那些opcode。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (;;) &#123;</span><br><span class="line">    assert(stack_pointer &gt;= f-&gt;f_valuestack); <span class="comment">/* else underflow */</span></span><br><span class="line">    assert(STACK_LEVEL() &lt;= co-&gt;co_stacksize);  <span class="comment">/* else overflow */</span></span><br><span class="line">    assert(!PyErr_Occurred());</span><br><span class="line">    <span class="comment">// 这部分省略的代码就是后面GIL的关键。。我们先来看看解释器的循环</span></span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">    <span class="comment">/* Extract opcode and argument */</span></span><br><span class="line"></span><br><span class="line">        NEXTOPARG();</span><br><span class="line">    dispatch_opcode:</span><br><span class="line">      <span class="keyword">switch</span> (opcode) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* BEWARE!</span></span><br><span class="line"><span class="comment">           It is essential that any operation that fails sets either</span></span><br><span class="line"><span class="comment">           x to NULL, err to nonzero, or why to anything but WHY_NOT,</span></span><br><span class="line"><span class="comment">           and that no operation that succeeds does this! */</span></span><br><span class="line"></span><br><span class="line">        TARGET(NOP)</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line"></span><br><span class="line">        TARGET(LOAD_FAST) &#123;</span><br><span class="line">            PyObject *value = GETLOCAL(oparg);</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="literal">NULL</span>) &#123;</span><br><span class="line">                format_exc_check_arg(PyExc_UnboundLocalError,</span><br><span class="line">                                     UNBOUNDLOCAL_ERROR_MSG,</span><br><span class="line">                                     PyTuple_GetItem(co-&gt;co_varnames, oparg));</span><br><span class="line">                <span class="keyword">goto</span> error;</span><br><span class="line">            &#125;</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        PREDICTED(LOAD_CONST);</span><br><span class="line">        TARGET(LOAD_CONST) &#123;</span><br><span class="line">            PyObject *value = GETITEM(consts, oparg);</span><br><span class="line">            Py_INCREF(value);</span><br><span class="line">            PUSH(value);</span><br><span class="line">            FAST_DISPATCH();</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
+
+<p>主要参考的<a href="https://github.com/python/cpython/blob/ef5f4ba96e05f61ad3baca502012085f31e99342/Python/ceval.c#L930-L1064">源代码</a>在这里。</p>
+<p>当然，为了支持计算Python的runtime还会准备对应的Frame、全局变量等等。</p>
+<h2 id="GIL-是什么？"><a href="#GIL-是什么？" class="headerlink" title="GIL 是什么？"></a>GIL 是什么？</h2><p>上面我们提到，每一个线程都有自己独立的执行循环，但是这些执行循环并不是相互独立的，他们必然会共享一些内存，这里起就是经典的并发问题，比如race condition等等。并发模型的实现由很多方法，我们听到最多、看起来也最简单的方法就是基于锁的方法。Python其实就选择这个方法，GIL也就诞生了。</p>
+<p>GIL就是一个锁，每一个线程的执行循环，只有拿到GIL，才可以执行，否则就要等待，而一个Python进程只有一个GIL锁，所以它才叫全局锁。GIL可以保证，在同一时间，只有一个线程可以拿到这个锁。</p>
+<p>这里我参考了一个小哥的代码，他简单的实现了Python版本的GIL，方便我们理解GIL。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> SimpleNamespace</span><br><span class="line"></span><br><span class="line">DEFAULT_INTERVAL = <span class="number">0.05</span></span><br><span class="line"></span><br><span class="line">gil_mutex = threading.RLock()</span><br><span class="line">gil_condition = threading.Condition(lock=gil_mutex)</span><br><span class="line">switch_condition = threading.Condition()</span><br><span class="line"></span><br><span class="line"><span class="comment"># dictionary-like object that supports dot (attribute) syntax</span></span><br><span class="line">gil = SimpleNamespace(</span><br><span class="line">    drop_request=<span class="literal">False</span>,</span><br><span class="line">    locked=<span class="literal">True</span>,</span><br><span class="line">    switch_number=<span class="number">0</span>,</span><br><span class="line">    last_holder=<span class="literal">None</span>,</span><br><span class="line">    eval_breaker=<span class="literal">True</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">drop_gil</span>(<span class="params">thread_id</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> gil.locked:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;GIL is not locked&quot;</span>)</span><br><span class="line"></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    gil.last_holder = thread_id</span><br><span class="line">    gil.locked = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Signals that the GIL is now available for acquiring to the first awaiting thread</span></span><br><span class="line">    gil_condition.notify()</span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching</span></span><br><span class="line">    <span class="comment"># Lock current thread so it will not immediately reacquire the GIL</span></span><br><span class="line">    <span class="comment"># this ensures that another GIL-awaiting thread have a chance to get scheduled</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        switch_condition.acquire()</span><br><span class="line">        <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">            gil.drop_request = <span class="literal">False</span></span><br><span class="line">            switch_condition.wait()</span><br><span class="line"></span><br><span class="line">        switch_condition.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">take_gil</span>(<span class="params">thread_id</span>):</span></span><br><span class="line">    gil_mutex.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> gil.locked:</span><br><span class="line">        saved_switchnum = gil.switch_number</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Release the lock and wait for a signal from a GIL holding thread,</span></span><br><span class="line">        <span class="comment"># set drop_request=True if the wait is timed out</span></span><br><span class="line"></span><br><span class="line">        timed_out = <span class="keyword">not</span> gil_condition.wait(timeout=DEFAULT_INTERVAL)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> timed_out <span class="keyword">and</span> gil.locked <span class="keyword">and</span> gil.switch_number == saved_switchnum:</span><br><span class="line">            gil.drop_request = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># lock for force switching</span></span><br><span class="line">    switch_condition.acquire()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Now we hold the GIL</span></span><br><span class="line">    gil.locked = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.last_holder != thread_id:</span><br><span class="line">        gil.last_holder = thread_id</span><br><span class="line">        gil.switch_number += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># force switching, send signal to drop_gil</span></span><br><span class="line">    switch_condition.notify()</span><br><span class="line">    switch_condition.release()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    gil_mutex.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execution_loop</span>(<span class="params">target_function, thread_id</span>):</span></span><br><span class="line">    <span class="comment"># Compile Python function down to bytecode and execute it in the while loop</span></span><br><span class="line"></span><br><span class="line">    bytecode = <span class="built_in">compile</span>(target_function)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># drop_request indicates that one or more threads are awaiting for the GIL</span></span><br><span class="line">        <span class="keyword">if</span> gil.drop_request:</span><br><span class="line">            <span class="comment"># release the gil from the current thread</span></span><br><span class="line">            drop_gil(thread_id)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># immediately request the GIL for the current thread</span></span><br><span class="line">            <span class="comment"># at this point the thread will be waiting for GIL and suspended until the function return</span></span><br><span class="line">            take_gil(thread_id)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># bytecode execution logic, executes one instruction at a time</span></span><br><span class="line">        instruction = bytecode.next_instruction()</span><br><span class="line">        <span class="keyword">if</span> instruction <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            execute_opcode(instruction)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p>看代码我们可以知道：</p>
+<ul>
+<li>Python创建一个新的thread的时候，会首先call <code>take_gil</code> 尝试得到 GIL，然后才进入执行循环</li>
+<li>通过在循环的开始部分检查gil状态，可以确保只有一个线程在执行</li>
+</ul>
+<p>目前这个版本的GIL其实也实现一些scheduler的功能，比如：</p>
+<p><code>gil.drop_request</code> 为True就表明有其他的线程在等待执行，当前进程就会首先尝试放弃gil，给其他线程机会，然后他会立刻尝试夺回gil，以便自己可以继续运行。聪明的你可能想问，马上尝试夺回，那别的进程怎么办啊？</p>
+<p>仔细看 <code>drop_gil</code> 函数:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> gil.drop_request:</span><br><span class="line">    switch_condition.acquire()</span><br><span class="line">    <span class="keyword">if</span> gil.last_holder == thread_id:</span><br><span class="line">        gil.drop_request = <span class="literal">False</span></span><br><span class="line">        switch_condition.wait()</span><br><span class="line"></span><br><span class="line">    switch_condition.release()</span><br></pre></td></tr></table></figure>
+
+<p>这段代码确保如果，OS分配的下一个线程还是自己，该线程就会被迫等待，确保其他进程有机会被系统的线程调度器分配。</p>
+<p>CPython的源码在<a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h">这里</a></p>
+<h2 id="关于GIL的思考"><a href="#关于GIL的思考" class="headerlink" title="关于GIL的思考"></a>关于GIL的思考</h2><p>GIL从1992年诞生到现在，其实经历一些变化。在GIL被设计的年代，多核CPU基本不存在，当时的线程也主要是用来做IO类型的工作，所以GIL的设计处理多线程IO效率非常高。</p>
+<p>GIL的存在也让Python的单核性能大大增加，其实GIL是Python成功的一个重要原因。后来GIL加入了 <code>switch_condition</code>, <code>switch_number</code>, <code>timeout</code> 等参数，很大程度改善了多核处理下GIL线程schedule的问题。Python3以后的GIL仍然无法实现真正的CPU密集并行的多线程。不过这里说的线程都是OS线程，这不妨碍实现软件线程。</p>
+<p>GIL难以被完全移除有很多原因，比如</p>
+<ul>
+<li>移除GIL，就需要修改Python的GC机制，特别是reference counting</li>
+<li>GIL移除，会降低单核性能。因为移除全局锁，必然要引入粒度更小的锁</li>
+<li>可以考虑其他的同步机制，比如Software transactional memory，那么就要修改整个C API，基本上所有的C-API库都废了。。。。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.youtube.com/watch?v=7RlqbHCCVyc">https://www.youtube.com/watch?v=7RlqbHCCVyc</a></li>
+<li><a href="https://www.youtube.com/watch?v=4zeHStBowEk">https://www.youtube.com/watch?v=4zeHStBowEk</a></li>
+<li><a href="https://github.com/python/cpython/blob/master/Python/ceval_gil.h">https://github.com/python/cpython/blob/master/Python/ceval_gil.h</a></li>
 </ul>
 ]]></content>
       <categories>
