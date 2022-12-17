@@ -160,7 +160,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -237,6 +237,130 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/08/21/python_datetime_memory_profile/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/21/python_datetime_memory_profile/" class="post-title-link" itemprop="url">Python 生态的时间戳内存探索</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-08-21 00:00:00" itemprop="dateCreated datePublished" datetime="2022-08-21T00:00:00Z">2022-08-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-17 10:29:43" itemprop="dateModified" datetime="2022-12-17T10:29:43Z">2022-12-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/08/21/python_datetime_memory_profile/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/08/21/python_datetime_memory_profile/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>3.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>如何表达一个 <code>datetime</code> ？我们需要三个部分：<code>date</code>, <code>time</code>, <code>timezone</code>。</p>
+<p>在 Python 的生态中主要的事件对象包括：</p>
+<ul>
+<li><code>datetime</code>： Python 原生的时间戳对象</li>
+<li><code>np.datetime64</code>： Numpy 的原生时间戳对象</li>
+<li><code>pd.Timestamp</code>： Pandas 的原生时间戳对象</li>
+</ul>
+<p>不过近几年随着 <code>arrow</code> 的兴起，Arrow 的时间戳对象也进入了人们的视野。</p>
+<p>使用下面代码来 Benchmark 三个时间戳的内存使用情况。我们随机生成一百万时间戳。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/21/python_datetime_memory_profile/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/08/20/thinking_bitcoin_13/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -268,7 +392,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-05 23:37:13" itemprop="dateModified" datetime="2022-12-05T23:37:13Z">2022-12-05</time>
+      <time title="Modified: 2022-12-17 10:29:43" itemprop="dateModified" datetime="2022-12-17T10:29:43Z">2022-12-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -389,7 +513,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-05 23:37:13" itemprop="dateModified" datetime="2022-12-05T23:37:13Z">2022-12-05</time>
+      <time title="Modified: 2022-12-17 10:29:43" itemprop="dateModified" datetime="2022-12-17T10:29:43Z">2022-12-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -513,7 +637,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-05 23:37:13" itemprop="dateModified" datetime="2022-12-05T23:37:13Z">2022-12-05</time>
+      <time title="Modified: 2022-12-17 10:29:43" itemprop="dateModified" datetime="2022-12-17T10:29:43Z">2022-12-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -635,7 +759,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-05 23:37:13" itemprop="dateModified" datetime="2022-12-05T23:37:13Z">2022-12-05</time>
+      <time title="Modified: 2022-12-17 10:29:43" itemprop="dateModified" datetime="2022-12-17T10:29:43Z">2022-12-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -758,7 +882,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-05 23:37:13" itemprop="dateModified" datetime="2022-12-05T23:37:13Z">2022-12-05</time>
+      <time title="Modified: 2022-12-17 10:29:43" itemprop="dateModified" datetime="2022-12-17T10:29:43Z">2022-12-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -880,7 +1004,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-05 23:37:13" itemprop="dateModified" datetime="2022-12-05T23:37:13Z">2022-12-05</time>
+      <time title="Modified: 2022-12-17 10:29:43" itemprop="dateModified" datetime="2022-12-17T10:29:43Z">2022-12-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1002,7 +1126,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-05 23:37:13" itemprop="dateModified" datetime="2022-12-05T23:37:13Z">2022-12-05</time>
+      <time title="Modified: 2022-12-17 10:29:43" itemprop="dateModified" datetime="2022-12-17T10:29:43Z">2022-12-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1125,7 +1249,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-05 23:37:13" itemprop="dateModified" datetime="2022-12-05T23:37:13Z">2022-12-05</time>
+      <time title="Modified: 2022-12-17 10:29:43" itemprop="dateModified" datetime="2022-12-17T10:29:43Z">2022-12-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1253,7 +1377,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-05 23:37:13" itemprop="dateModified" datetime="2022-12-05T23:37:13Z">2022-12-05</time>
+      <time title="Modified: 2022-12-17 10:29:43" itemprop="dateModified" datetime="2022-12-17T10:29:43Z">2022-12-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1339,125 +1463,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/05/27/think_bitcoin_3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/funcoder.jpg">
-      <meta itemprop="name" content="FunCoder">
-      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FunCoder">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/27/think_bitcoin_3/" class="post-title-link" itemprop="url">比特币随想 - Altcoin 去哪了？</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-05-27 00:00:00" itemprop="dateCreated datePublished" datetime="2022-05-27T00:00:00Z">2022-05-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-05 23:37:13" itemprop="dateModified" datetime="2022-12-05T23:37:13Z">2022-12-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Bitcoin/" itemprop="url" rel="index"><span itemprop="name">Bitcoin</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2022/05/27/think_bitcoin_3/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/27/think_bitcoin_3/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>604</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>币圈历史不长，从2009年（比特币上线哪一年）算起不太合适，因为那时候还没有所谓的币圈。咱们就从2013年开始算吧，哪一年比特币第一次减半。</p>
-<p>首先我们看看过去的10年时间，币圈前十币。</p>
-<h2 id="Top-10-2013-2020"><a href="#Top-10-2013-2020" class="headerlink" title="Top 10 (2013 - 2020)"></a>Top 10 (2013 - 2020)</h2><p>比特币一直都是第一，我贴一个 Bitcoin Dominance 的图，这图代表了比特币市值在整个币圈市值的比例。可以看到有一个有意思的现象，比特币一直占据了50%左右的份额。</p>
-<p><img src="https://i.imgur.com/lFSvWCa.png" alt></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/27/think_bitcoin_3/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1482,13 +1487,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">417k</span>
+    <span title="Symbols count total">420k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">6:19</span>
+    <span title="Reading time total">6:22</span>
   </span>
 </div>
 <div class="busuanzi-count">

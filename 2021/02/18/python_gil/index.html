@@ -27,7 +27,7 @@
 <meta property="og:description" content="重新认识Python（3）：GIL，Global Interpreter Lock之前的两个文章主要简述了Python的内存管理模型和对应的GC模型。今天我们来看看Python的另一个“著名”特征：GIL，全局解释器锁。GIL长久以来被各种内行、外行诟病，可是很多人并不清楚GIL究竟是什么？为什么当初要设计GIL？GIL的优势在哪里？ Python 是如何工作的？要理解 GIL 需要知道一些Pyt">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-18T00:00:00.000Z">
-<meta property="article:modified_time" content="2022-12-05T23:37:13.341Z">
+<meta property="article:modified_time" content="2022-12-17T10:29:43.260Z">
 <meta property="article:author" content="FunCoder">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="CPython">
@@ -165,7 +165,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -274,7 +274,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-12-05 23:37:13" itemprop="dateModified" datetime="2022-12-05T23:37:13Z">2022-12-05</time>
+      <time title="Modified: 2022-12-17 10:29:43" itemprop="dateModified" datetime="2022-12-17T10:29:43Z">2022-12-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -440,13 +440,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/02/16/python_1_gc/" rel="prev" title="重新认识 Python（1）GC，垃圾回收">
-                  <i class="fa fa-chevron-left"></i> 重新认识 Python（1）GC，垃圾回收
+                <a href="/2021/02/18/python_memory_mgt/" rel="prev" title="重新认识 Python（2）内存管理">
+                  <i class="fa fa-chevron-left"></i> 重新认识 Python（2）内存管理
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/02/18/python_memory_mgt/" rel="next" title="重新认识 Python（2）内存管理">
-                  重新认识 Python（2）内存管理 <i class="fa fa-chevron-right"></i>
+                <a href="/2021/02/20/type_system/" rel="next" title="关于类型系统的一些思考">
+                  关于类型系统的一些思考 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -484,13 +484,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Symbols count total">417k</span>
+    <span title="Symbols count total">420k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">6:19</span>
+    <span title="Reading time total">6:22</span>
   </span>
 </div>
 <div class="busuanzi-count">
