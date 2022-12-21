@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>一些软件设计原则</title>
-    <url>/2022/12/17/design_habbit/</url>
+    <url>/2022/12/21/design_habbit/</url>
     <content><![CDATA[<ul>
 <li><a href="#先设计后编码">先设计，后编码</a></li>
 <li><a href="#写明显没有错误的代码">写”明显没有错误的“代码</a></li>
@@ -1024,7 +1024,7 @@
 <p>密码朋克对任何针对密码学管制表示不满，因为加密本质上是一种私人行为。事实上，加密行为将信息从公共领域中删除。即使是反对密码学的法律也只能触及一个国家的边界和它的暴力武器。密码学将不可避免地传播到全球，随之而来的是它使匿名交易系统成为可能。</p>
 <p>为了让隐私广泛的得到任何，隐私必须是社会契约的一部分。人们必须一同部署这些软件。隐私只能在社会成员协作的基础上存在。我们会积极考虑各方面的声音和忧虑，否则我们就是自欺欺人。但是，我们不回应为任何人不同意我们的宣言就背弃密码朋克的原则。</p>
 <p>Cypherpunks 积极致力于使网络更安全，以保护隐私。让我们携手向前！</p>
-<p>Eric Hughes <a href="mailto:&#x68;&#x75;&#x67;&#x68;&#x65;&#115;&#x40;&#115;&#x6f;&#100;&#x61;&#x2e;&#x62;&#101;&#114;&#x6b;&#x65;&#108;&#101;&#x79;&#x2e;&#101;&#x64;&#x75;">&#x68;&#x75;&#x67;&#x68;&#x65;&#115;&#x40;&#115;&#x6f;&#100;&#x61;&#x2e;&#x62;&#101;&#114;&#x6b;&#x65;&#108;&#101;&#x79;&#x2e;&#101;&#x64;&#x75;</a></p>
+<p>Eric Hughes <a href="mailto:&#x68;&#117;&#x67;&#104;&#101;&#x73;&#x40;&#115;&#x6f;&#100;&#97;&#x2e;&#98;&#101;&#114;&#x6b;&#x65;&#x6c;&#101;&#x79;&#x2e;&#101;&#x64;&#x75;">&#x68;&#117;&#x67;&#104;&#101;&#x73;&#x40;&#115;&#x6f;&#100;&#97;&#x2e;&#98;&#101;&#114;&#x6b;&#x65;&#x6c;&#101;&#x79;&#x2e;&#101;&#x64;&#x75;</a></p>
 <p>1993 年 3 月 9 日。</p>
 ]]></content>
       <categories>
@@ -1994,14 +1994,10 @@
 
 <p>访问 <a href="http://localhost:4000/Jesus_is_Lord/">http://localhost:4000/Jesus_is_Lord/</a> 即可看到网站。</p>
 <p>最后，我们把分支推送远端：</p>
-<div class="note info"><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>我们需要编辑隐藏的 <code>.gitignore</code> 文件，把 <code>public</code> 目录纳入 git 的追踪目录，否则无法推送 public 文件夹。打开 <code>.gitignore</code> 文件，删除 public 行，保存即可。</p>
-</div>
-
+<p>我们需要编辑隐藏的 <code>.gitignore</code> 文件，把 <code>public</code> 目录纳入 git 的追踪目录，否则无法推送 public 文件夹。打开 <code>.gitignore</code> 文件，删除 public 行，保存即可。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;first push&quot;</span><br></pre></td></tr></table></figure>
 
-<div class="note info"><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>我们需要改变Github Page 的入口到 <code>docs</code> 文件夹</p>
-</div>
-
+<p>我们需要改变Github Page 的入口到 <code>docs</code> 文件夹</p>
 <p>Push 后，我们就可以在之前的链接看到网站了。</p>
 <p><img src="https://i.imgur.com/ZdWnAmA.jpg" alt=""></p>
 <h2 id="自动化部署和发布"><a href="#自动化部署和发布" class="headerlink" title="自动化部署和发布"></a>自动化部署和发布</h2><p>现在，我们只要增加或者更新 <code>source/_post</code> 文件夹下面的 MD 文件，然后运行 <code>hexo g</code>，最后 Push 更新即可。</p>
