@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="基本原理使用 GitHub Page 功能，每一个仓库设置某个 Branch 为 Page 的 Host，然后再该 Branch 中的 index.html 文件就是网站的入口文件，设置好后，网站可以通过 https:&#x2F;&#x2F;&amp;#123;你的用户名&amp;#125;.github.io&#x2F;&amp;#123;你的仓库名&amp;#125;&#x2F; 访问。  创建仓库 创建网站分支 创建网站入口  创建仓库这一步很简单，去 GitH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 GitHub 设置任意网站">
+<meta property="og:url" content="http://yoursite.com/2022/01/15/github_4_build_website/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="基本原理使用 GitHub Page 功能，每一个仓库设置某个 Branch 为 Page 的 Host，然后再该 Branch 中的 index.html 文件就是网站的入口文件，设置好后，网站可以通过 https:&#x2F;&#x2F;&amp;#123;你的用户名&amp;#125;.github.io&#x2F;&amp;#123;你的仓库名&amp;#125;&#x2F; 访问。  创建仓库 创建网站分支 创建网站入口  创建仓库这一步很简单，去 GitH">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/ZdWnAmA.jpg">
+<meta property="article:published_time" content="2022-01-15T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-21T11:25:09.402Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="GitHub">
+<meta property="article:tag" content="建站">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/ZdWnAmA.jpg">
+
+
+<link rel="canonical" href="http://yoursite.com/2022/01/15/github_4_build_website/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2022/01/15/github_4_build_website/","path":"2022/01/15/github_4_build_website/","title":"使用 GitHub 设置任意网站"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 GitHub 设置任意网站 | FunCoder</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%BB%93%E5%BA%93"><span class="nav-number">1.1.</span> <span class="nav-text">创建仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E6%94%AF"><span class="nav-number">1.2.</span> <span class="nav-text">创建分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%85%A5%E5%8F%A3%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">创建入口文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-GitHub-Page"><span class="nav-number">1.4.</span> <span class="nav-text">配置 GitHub Page</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%BB%BA%E7%AB%99%E8%BD%AF%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">使用建站软件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">2.0.1.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">2.0.2.</span> <span class="nav-text">注意</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E5%92%8C%E5%8F%91%E5%B8%83"><span class="nav-number">3.</span> <span class="nav-text">自动化部署和发布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://wangzhe3224.github.io/Jesus_is_Lord/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;Jesus_is_Lord&#x2F;" rel="noopener" target="_blank">圣经盐读</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/01/15/github_4_build_website/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 GitHub 设置任意网站
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-01-15 00:00:00" itemprop="dateCreated datePublished" datetime="2022-01-15T00:00:00Z">2022-01-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-21 11:25:09" itemprop="dateModified" datetime="2022-12-21T11:25:09Z">2022-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/01/15/github_4_build_website/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/15/github_4_build_website/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><p>使用 GitHub Page 功能，每一个仓库设置某个 Branch 为 Page 的 Host，然后再该 Branch 中的 <code>index.html</code> 文件就是网站的入口文件，设置好后，网站可以通过 <code>https://&#123;你的用户名&#125;.github.io/&#123;你的仓库名&#125;/</code> 访问。</p>
+<ol>
+<li>创建仓库</li>
+<li>创建网站分支</li>
+<li>创建网站入口</li>
+</ol>
+<h3 id="创建仓库"><a href="#创建仓库" class="headerlink" title="创建仓库"></a>创建仓库</h3><p>这一步很简单，去 GitHub 网站即可完成。</p>
+<h3 id="创建分支"><a href="#创建分支" class="headerlink" title="创建分支"></a>创建分支</h3><p>把刚才建立的仓库 Clone 下来，进入 Clone 的目录，输入：<code>git checkout -b front-end</code>，开一个新的分支专门用来 Host 我们的网站。</p>
+<p>然后，把新的分支推到远端仓库：<code>git push -u origin front-end</code>，输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Total 0 (delta 0), reused 0 (delta 0), pack-reused 0</span><br><span class="line">remote:</span><br><span class="line">remote: Create a pull request for &#39;front-end&#39; on GitHub by visiting:</span><br><span class="line">remote:      https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224&#x2F;Jesus_is_Lord&#x2F;pull&#x2F;new&#x2F;front-end</span><br><span class="line">remote:</span><br><span class="line">To github.com:wangzhe3224&#x2F;Jesus_is_Lord.git</span><br><span class="line"> * [new branch]      front-end -&gt; front-end</span><br><span class="line">Branch &#39;front-end&#39; set up to track remote branch &#39;front-end&#39; from &#39;origin&#39;.</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建入口文件"><a href="#创建入口文件" class="headerlink" title="创建入口文件"></a>创建入口文件</h3><p>创建文件 <code>index.html</code> , 这就是我们网站的入口。Push 到 <code>front-end</code> 分支即可。</p>
+<h3 id="配置-GitHub-Page"><a href="#配置-GitHub-Page" class="headerlink" title="配置 GitHub Page"></a>配置 GitHub Page</h3><p>来到：<a target="_blank" rel="noopener" href="https://pages.github.com/">https://pages.github.com/</a> 选择 <code>Project Site</code>，按照提示配置入口页面为 <code>index.html</code></p>
+<p>然后我们就可以通过下面网址访问我们的网站：<code>https://&#123;你的用户名&#125;.github.io/&#123;你的仓库名&#125;/</code></p>
+<h2 id="使用建站软件"><a href="#使用建站软件" class="headerlink" title="使用建站软件"></a>使用建站软件</h2><p>当然，我们不希望自己一个一个的编写 html、css ，已经有很多建站工具在开源社区。比如个人博客，可以选择：<a target="_blank" rel="noopener" href="https://hexo.io/">hexo</a>；项目文档，可以选择：jekyll；甚至 GitHub 自己都有文档模板可以选择。</p>
+<p>这里我们选择 Hexo 作为例子。Hexo 简单说就是一个用 Markdown 作为输入的建站软件，所有的文章、博客采用 MD 的形式书写，框架会自动根据选定的主题和配置，生成对应的 Html 和 CSS 文件，然后就像我们之前的 <code>index.html</code> 会被 GitHub Page 锁定并载入。</p>
+<p>Hexo 的安装请参考官方文档：<a target="_blank" rel="noopener" href="https://hexo.io/docs/">https://hexo.io/docs/</a>，整体比较简单，基本上就是安装：<code>node.js</code> 和 <code>git</code>。</p>
+<p>首先，进入我们的分支根目录:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init page   <span class="comment"># 初始化一个博客的文件夹。</span></span><br><span class="line"><span class="built_in">cd</span> page</span><br><span class="line">npm install  <span class="comment"># 安装依赖</span></span><br></pre></td></tr></table></figure>
+
+<p>安装结束，可以看到如下文件架结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">└── themes</span><br></pre></td></tr></table></figure>
+
+<p>其中，网站的配置文件在 <code>_config.yml</code>，而博客的 MD 文件都在 <code>source/_post</code> 文件夹下。</p>
+<p>为了方便起见，我们修改 <code>_config.yml</code> 文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url: https:&#x2F;&#x2F;&#123;你的用户名&#125;.github.io&#x2F;&#123;你的仓库名&#125;&#x2F;</span><br><span class="line">public_dir: ..&#x2F;docs</span><br></pre></td></tr></table></figure>
+
+<p>这样，我们就把生成的网站文件生成在 <code>../docs</code> 文件夹，这主要是为了方便 GitHub Page 识别，因为 GitHub Page 只能识别根目录或者 <code>docs</code> 两个目录。还有一种办法就是把网站生成在另一个新的分支，但是比较麻烦。</p>
+<p>接下来，我们尝试本地生成并运行一下网站：<code>hexo s</code>，该命令会生成一个名为 <code>public</code> 的文件夹，里面就是生成的网站文件，其中 <code>index.html</code> 就是入口文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">❯ hexo s</span><br><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http:&#x2F;&#x2F;localhost:4000&#x2F;Jesus_is_Lord&#x2F; . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
+
+<p>访问 <a target="_blank" rel="noopener" href="http://localhost:4000/Jesus_is_Lord/">http://localhost:4000/Jesus_is_Lord/</a> 即可看到网站。</p>
+<p>最后，我们把分支推送远端：</p>
+<div class="note info"><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>我们需要编辑隐藏的 <code>.gitignore</code> 文件，把 <code>public</code> 目录纳入 git 的追踪目录，否则无法推送 public 文件夹。打开 <code>.gitignore</code> 文件，删除 public 行，保存即可。</p>
+</div>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;first push&quot;</span><br></pre></td></tr></table></figure>
+
+<div class="note info"><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>我们需要改变Github Page 的入口到 <code>docs</code> 文件夹</p>
+</div>
+
+<p>Push 后，我们就可以在之前的链接看到网站了。</p>
+<p><img src="https://i.imgur.com/ZdWnAmA.jpg" alt=""></p>
+<h2 id="自动化部署和发布"><a href="#自动化部署和发布" class="headerlink" title="自动化部署和发布"></a>自动化部署和发布</h2><p>现在，我们只要增加或者更新 <code>source/_post</code> 文件夹下面的 MD 文件，然后运行 <code>hexo g</code>，最后 Push 更新即可。</p>
+<p>这样呢，就是记得要多跑一步 <code>hexo g</code>，才能 push 文件。我们也可以通过设置 GitHub Action，来实现自动化部署，即我们只需要修改 MD 文件或者配置文件，然后直接 push，GitHub Action 运行 <code>hexo g</code>，然后把生成的网站文件部署到一个默认分支：<code>gh-page</code>。</p>
+<p>可以参考：</p>
+<p><a target="_blank" rel="noopener" href="https://hexo.io/docs/github-pages">https://hexo.io/docs/github-pages</a></p>
+<p>需要建立 <code>.github/workflows/pages.yml</code> 文件进行配置。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://pages.github.com/">https://pages.github.com/</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/12/28/github_1/" rel="bookmark">GitHub怎么用 - 1 入门和检索</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/12/31/github_speedup/" rel="bookmark">国内如何提升GitHub访问速度</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/GitHub/" rel="tag"><i class="fa fa-tag"></i> GitHub</a>
+              <a href="/tags/%E5%BB%BA%E7%AB%99/" rel="tag"><i class="fa fa-tag"></i> 建站</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/15/think_coding_1_abstraction/" rel="prev" title="编程时，你在思考什么 1 - 抽象">
+                  <i class="fa fa-chevron-left"></i> 编程时，你在思考什么 1 - 抽象
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/22/quant_dev_3/" rel="next" title="如何成为 Quant Dev 3 - 语言">
+                  如何成为 Quant Dev 3 - 语言 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FunCoder</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">420k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

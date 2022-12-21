@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="一个简单的算术 LL(1) Parser这篇文章探索如何手写一个简单的算术表达式 Parser。 问题我们要解决的问题是把一个算术表达式字符串转化成语法树（Abstract Syntax Tree，AST），就像通用计算机语言一样，然后evaluate该AST。算术表达式包含：+ - * &#x2F; ( ) 以及数字。 LL(1) Parsing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个简单的算术 LL1 Parser">
+<meta property="og:url" content="http://yoursite.com/2021/04/19/parser/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="一个简单的算术 LL(1) Parser这篇文章探索如何手写一个简单的算术表达式 Parser。 问题我们要解决的问题是把一个算术表达式字符串转化成语法树（Abstract Syntax Tree，AST），就像通用计算机语言一样，然后evaluate该AST。算术表达式包含：+ - * &#x2F; ( ) 以及数字。 LL(1) Parsing">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-19T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-21T11:25:09.402Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="LL1">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2021/04/19/parser/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2021/04/19/parser/","path":"2021/04/19/parser/","title":"一个简单的算术 LL1 Parser"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>一个简单的算术 LL1 Parser | FunCoder</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%AE%97%E6%9C%AF-LL-1-Parser"><span class="nav-number">1.</span> <span class="nav-text">一个简单的算术 LL(1) Parser</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LL-1-Parsing"><span class="nav-number">1.2.</span> <span class="nav-text">LL(1) Parsing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.4.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ref"><span class="nav-number">1.5.</span> <span class="nav-text">Ref</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://wangzhe3224.github.io/Jesus_is_Lord/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;Jesus_is_Lord&#x2F;" rel="noopener" target="_blank">圣经盐读</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/19/parser/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一个简单的算术 LL1 Parser
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-04-19 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-19T00:00:00Z">2021-04-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-21 11:25:09" itemprop="dateModified" datetime="2022-12-21T11:25:09Z">2022-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Compiler/" itemprop="url" rel="index"><span itemprop="name">Compiler</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/04/19/parser/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/19/parser/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>3k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="一个简单的算术-LL-1-Parser"><a href="#一个简单的算术-LL-1-Parser" class="headerlink" title="一个简单的算术 LL(1) Parser"></a>一个简单的算术 LL(1) Parser</h1><p>这篇文章探索如何手写一个简单的算术表达式 Parser。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>我们要解决的问题是把一个算术表达式字符串转化成语法树（Abstract Syntax Tree，AST），就像通用计算机语言一样，然后evaluate该AST。算术表达式包含：<code>+ - * / ( )</code> 以及数字。</p>
+<h2 id="LL-1-Parsing"><a href="#LL-1-Parsing" class="headerlink" title="LL(1) Parsing"></a>LL(1) Parsing</h2><p>这里我们采用LL(1）parsing。LL(1) parser 属于自顶向下的分析器，分析时不断用当前匹配的规则对分析器栈顶的元素进行替换。我们需要如下两个信息来进行分析：</p>
+<ul>
+<li>分析器栈顶的词法单元（token），要么是终端字符（Terminal），要么是非终端字符（Non-Terminal）。比如 <code>+</code> 就是终端字符，而非终结字符就是语法规则左手侧的，比如 <code>Exp</code>。</li>
+<li>当前正在处理的终结词法单元</li>
+</ul>
+<p>比如当前的栈顶单元是<code>S</code>，而当前处理的终结字符是<code>a</code>，同时我们以这样一个语法规则：<code>S -&gt; a P</code>。这时，我们需要将<code>S</code>替换成<code>a P</code>，其中<code>S</code>和<code>P</code>都是非终端字符，而<code>a</code>是终端。</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. Exp -&gt; Exp [ + | - ] Exp2</span><br><span class="line">2. Exp -&gt; Exp2</span><br><span class="line">3. Exp2 -&gt; Exp2 [ * | &#x2F; ] Exp3</span><br><span class="line">4. Exp2 -&gt; Exp3</span><br><span class="line">5. Exp3 -&gt; ( Exp )</span><br><span class="line">6. Exp3 -&gt; Num</span><br></pre></td></tr></table></figure>
+
+<p>按照上述语法，我们展开<code>2+3*4</code>： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Exp</span><br><span class="line">1. Exp + Exp2</span><br><span class="line">2. Exp2 + Exp2</span><br><span class="line">3. Exp3 + Exp2</span><br><span class="line">6. Num + Exp2</span><br><span class="line">3. Num + Exp2 * Exp3</span><br><span class="line">4. Num + Exp3 * Exp3</span><br><span class="line">6. Num + Num * Exp3</span><br><span class="line">6. Num + Num * Num</span><br></pre></td></tr></table></figure>
+
+<p>不过目前这个语法，我们还不能用<code>LL(1)</code>分析器分析，因为 LL1 要求只能每次看一个词法单元，而我们的语法的右手侧不是唯一的。我们需要重写语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1. S      -&gt; Exp $</span><br><span class="line">2. Exp    -&gt; Exp2 Exp&#39;</span><br><span class="line">3. Exp&#39;   -&gt; [ + | - ] Exp2 Exp&#39;</span><br><span class="line">4. Exp&#39;   -&gt; none</span><br><span class="line">5. Exp2   -&gt; Exp3 Exp2&#39;</span><br><span class="line">6. Exp2&#39;  -&gt; [ * | - ] Exp3 Exp2&#39;</span><br><span class="line">7. Exp2&#39;  -&gt; none</span><br><span class="line">8. Exp3   -&gt; num</span><br><span class="line">9. Exp3   -&gt; ( Exp )</span><br></pre></td></tr></table></figure>
+
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>首先定义词法单元，和AST节点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> enum</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TokenT</span>(<span class="params">enum.Enum</span>):</span></span><br><span class="line">    T_NUM = <span class="number">0</span></span><br><span class="line">    T_PLUS = <span class="number">1</span></span><br><span class="line">    T_MINUS = <span class="number">2</span></span><br><span class="line">    T_MULT = <span class="number">3</span></span><br><span class="line">    T_DIV = <span class="number">4</span></span><br><span class="line">    T_LPAR = <span class="number">5</span></span><br><span class="line">    T_RPAR = <span class="number">6</span></span><br><span class="line">    T_END = <span class="number">7</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, token_t, value=<span class="literal">None</span></span>):</span></span><br><span class="line">        self.token_t = token_t</span><br><span class="line">        self.value = value </span><br><span class="line">        self.children = []</span><br></pre></td></tr></table></figure>
+
+<p>然后我们写词法器，Lexer：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lex</span>(<span class="params">exp</span>):</span></span><br><span class="line">    mapping = &#123;</span><br><span class="line">        <span class="string">&quot;+&quot;</span>: TokenT.T_PLUS,</span><br><span class="line">        <span class="string">&quot;-&quot;</span>: TokenT.T_MINUS,</span><br><span class="line">        <span class="string">&quot;*&quot;</span>: TokenT.T_MULT,</span><br><span class="line">        <span class="string">&quot;/&quot;</span>: TokenT.T_DIV</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    tokens = []</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> exp:</span><br><span class="line">        <span class="keyword">if</span> c <span class="keyword">in</span> mapping:</span><br><span class="line">            token_t = mapping[c]</span><br><span class="line">            token = Node(token_t=token_t, value=c)</span><br><span class="line">        <span class="keyword">elif</span> re.match(<span class="string">r&quot;\d&quot;</span>, c):</span><br><span class="line">            token = Node(TokenT.T_NUM, value=<span class="built_in">int</span>(c))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">f&quot;Unknow token <span class="subst">&#123;c&#125;</span>&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        tokens.append(token)</span><br><span class="line"></span><br><span class="line">    tokens.append(Node(TokenT.T_END))</span><br><span class="line">    <span class="keyword">return</span> tokens</span><br></pre></td></tr></table></figure>
+
+<p>然后我们按照上面的语法写分析器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">match</span>(<span class="params">tokens, token</span>):</span></span><br><span class="line">    <span class="keyword">if</span> tokens[<span class="number">0</span>].token_t == token:</span><br><span class="line">        <span class="keyword">return</span> tokens.pop(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">raise</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_e</span>(<span class="params">tokens</span>):</span>  <span class="comment"># + -</span></span><br><span class="line">    left_node = parse_e2(tokens)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> tokens[<span class="number">0</span>].token_t <span class="keyword">in</span> [TokenT.T_PLUS, TokenT.T_MINUS]:</span><br><span class="line">        node = tokens.pop(<span class="number">0</span>)</span><br><span class="line">        node.children.append(left_node)</span><br><span class="line">        node.children.append(parse_e2(tokens))</span><br><span class="line">        left_node = node</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> left_node</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_e2</span>(<span class="params">tokens</span>):</span>  <span class="comment"># * /</span></span><br><span class="line">    left_node = parse_num(tokens)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> tokens[<span class="number">0</span>].token_t <span class="keyword">in</span> [TokenT.T_MULT, TokenT.T_DIV]:</span><br><span class="line">        node = tokens.pop(<span class="number">0</span>)</span><br><span class="line">        node.children.append(left_node)</span><br><span class="line">        node.children.append(parse_num(tokens))</span><br><span class="line">        left_node = node</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> left_node</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_num</span>(<span class="params">tokens</span>):</span>  <span class="comment"># num</span></span><br><span class="line">    <span class="keyword">if</span> tokens[<span class="number">0</span>].token_t == TokenT.T_NUM:</span><br><span class="line">        <span class="keyword">return</span> tokens.pop(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    match(tokens, TokenT.T_LPAR)</span><br><span class="line">    expression = parse_e(tokens)</span><br><span class="line">    match(tokens, TokenT.T_RPAR)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> expression</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span>(<span class="params">inputs</span>):</span></span><br><span class="line">    <span class="comment"># 返回语法树</span></span><br><span class="line">    tokens = lex(inouts)</span><br><span class="line">    ast = parse_e(tokens)</span><br><span class="line">    match(tokens, TokenT.T_END)</span><br><span class="line">    <span class="keyword">return</span> ast</span><br></pre></td></tr></table></figure>
+
+<p>当我们得到语法树后，就可以实现计算了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ops = &#123;</span><br><span class="line">    TokenT.T_PLUS: <span class="keyword">lambda</span> x,y: x+y,</span><br><span class="line">    TokenT.T_MINUS: <span class="keyword">lambda</span> x,y: x-y,</span><br><span class="line">    TokenT.T_MULT: <span class="keyword">lambda</span> x,y: x*y,</span><br><span class="line">    TokenT.T_DIV: <span class="keyword">lambda</span> x,y: <span class="built_in">int</span>(x/y),</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compute</span>(<span class="params">node</span>):</span></span><br><span class="line">    <span class="keyword">if</span> node.token_t == TokenT.T_NUM:</span><br><span class="line">        <span class="keyword">return</span> node.value</span><br><span class="line">    </span><br><span class="line">    left = compute(node.children[<span class="number">0</span>])</span><br><span class="line">    right = compute(node.children[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">return</span> ops[node.token_t](left, right)</span><br></pre></td></tr></table></figure>
+
+<p>比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">strings = <span class="string">&quot;1+2*(3-5)&quot;</span></span><br><span class="line">ast = parse(strings)</span><br><span class="line">res = compute(ast)</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"><span class="comment"># output: -3</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/gnebehay/parser/blob/master/parser.py">https://github.com/gnebehay/parser/blob/master/parser.py</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/LL1/" rel="tag"><i class="fa fa-tag"></i> LL1</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/04/18/leetcode_dfs/" rel="prev" title="回溯 DFS">
+                  <i class="fa fa-chevron-left"></i> 回溯 DFS
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/04/20/leetcode_tree1/" rel="next" title="Tree层遍历">
+                  Tree层遍历 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FunCoder</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">420k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

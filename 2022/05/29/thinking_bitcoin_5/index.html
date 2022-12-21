@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="长话短说：   比特币通过数字签名，把归属权问题从信任问题（高成本）变成了验证问题（极低成本）。 比特币通过工作量证明，把排序和维持不变的问题从信任第三方（不稳定且变数多）变成了信任能源消耗（稳定且标准）。   起起伏伏的密码学密码学最辉煌的世代可能是二战的时代（很不幸），战争把人类的通讯推向了密文时代，如何把一段信息从 A 传送给 B，并且不泄漏给第三方成了极为关键的问题，因为泄漏信息的代价可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="比特币随想 - 从数字签名到信任">
+<meta property="og:url" content="http://yoursite.com/2022/05/29/thinking_bitcoin_5/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="长话短说：   比特币通过数字签名，把归属权问题从信任问题（高成本）变成了验证问题（极低成本）。 比特币通过工作量证明，把排序和维持不变的问题从信任第三方（不稳定且变数多）变成了信任能源消耗（稳定且标准）。   起起伏伏的密码学密码学最辉煌的世代可能是二战的时代（很不幸），战争把人类的通讯推向了密文时代，如何把一段信息从 A 传送给 B，并且不泄漏给第三方成了极为关键的问题，因为泄漏信息的代价可">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-05-29T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-21T11:25:09.410Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Bitcoin">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2022/05/29/thinking_bitcoin_5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2022/05/29/thinking_bitcoin_5/","path":"2022/05/29/thinking_bitcoin_5/","title":"比特币随想 - 从数字签名到信任"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>比特币随想 - 从数字签名到信任 | FunCoder</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%B7%E8%B5%B7%E4%BC%8F%E4%BC%8F%E7%9A%84%E5%AF%86%E7%A0%81%E5%AD%A6"><span class="nav-number">1.</span> <span class="nav-text">起起伏伏的密码学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D-%E5%A6%82%E4%BD%95%E8%AF%81%E6%98%8E%E4%BD%A0%E5%8F%91%E5%87%BA%E8%BF%99%E6%AE%B5%E6%AF%94%E7%89%B9"><span class="nav-number">2.</span> <span class="nav-text">数字签名 - 如何证明你发出这段比特</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E5%92%8C%E6%AF%94%E7%89%B9%E5%B8%81"><span class="nav-number">3.</span> <span class="nav-text">数字签名和比特币</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E4%BB%BB%E5%9C%A8%E5%93%AA%E9%87%8C"><span class="nav-number">4.</span> <span class="nav-text">信任在哪里</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%95%BF%E8%AF%9D%E7%9F%AD%E8%AF%B4"><span class="nav-number">5.</span> <span class="nav-text">长话短说</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://wangzhe3224.github.io/Jesus_is_Lord/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;Jesus_is_Lord&#x2F;" rel="noopener" target="_blank">圣经盐读</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/05/29/thinking_bitcoin_5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          比特币随想 - 从数字签名到信任
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-05-29 00:00:00" itemprop="dateCreated datePublished" datetime="2022-05-29T00:00:00Z">2022-05-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-21 11:25:09" itemprop="dateModified" datetime="2022-12-21T11:25:09Z">2022-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Bitcoin/" itemprop="url" rel="index"><span itemprop="name">Bitcoin</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/05/29/thinking_bitcoin_5/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/29/thinking_bitcoin_5/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>2.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <blockquote>
+<p>长话短说： </p>
+<ul>
+<li>比特币通过数字签名，把归属权问题从信任问题（高成本）变成了验证问题（极低成本）。</li>
+<li>比特币通过工作量证明，把排序和维持不变的问题从信任第三方（不稳定且变数多）变成了信任能源消耗（稳定且标准）。</li>
+</ul>
+</blockquote>
+<h2 id="起起伏伏的密码学"><a href="#起起伏伏的密码学" class="headerlink" title="起起伏伏的密码学"></a>起起伏伏的密码学</h2><p>密码学最辉煌的世代可能是二战的时代（很不幸），战争把人类的通讯推向了密文时代，如何把一段信息从 A 传送给 B，并且不泄漏给第三方成了极为关键的问题，因为泄漏信息的代价可能是战争的失败。</p>
+<p>二战结束后，密码学仍然很重要，但是转为地下，而且继续主要为军事目的服务。毕竟，普通人能有什么不能告人的秘密呢（笑）。</p>
+<p>然而，90年代，互联网的出现再一次把密码学推向了风口浪尖！人们在互联网互动、娱乐、支付、交易，突然间普通人的信息也很重要了，人们可不希望自己的银行秘钥因为一次晚上交易就被盗，或者误认为一个黑客网站是他的银行网站。</p>
+<p>但是，密码学虽然成为了互联网的主要部分，密码学本身却还只是在一个小圈子里，比如学术圈和一些互联网的极客，毕竟普通人不需要知道信息论，也不需要知道如何分解质数也可以上网购物。</p>
+<p>然而，2009年一切都变了，一个匿名者：中本聪，在圈子里发布了一个名为比特币的点对点支付网络的提案。从那以后，民用领域最值钱的密码学产品诞生了：比特币。如今，你可以用 2 个比特币在村里买一栋不错的别墅。</p>
+<h2 id="数字签名-如何证明你发出这段比特"><a href="#数字签名-如何证明你发出这段比特" class="headerlink" title="数字签名 - 如何证明你发出这段比特"></a>数字签名 - 如何证明你发出这段比特</h2><p>比特币的基石之一：数字签名（Digital Signature）。数字签名可以干什么呢？</p>
+<p>咱们说，小明电脑里面有个文件，文件包含：小明给小红 40 元。现在小明把这份文件公开在网络，但是小明希望小红可以确认这文件的内容真的是小明本人发出的，因为互联网的特性，任何人都可以创建一个文件，然后写上：小明给小红 40 元，甚至写上：小明给小红 400 元。如此一来，小明岂不是成了冤大头，背上巨额债务？</p>
+<p>小明有两个选择：回到原始时代，写一封信给小红，然后签字画押；寻找一个大家都信任的第三方，证明这段信息是小明本人发出的，并且存留档案以后后续查阅。然鹅，这两个方案都不太理想，因为即使是签字画押也需要司法系统来背书，总之非常低效，与互联网时代格格不入。</p>
+<p>非对称密码学给出了答案。现在有一个办法让小明可以把这份文件公开在网上，并且小红可以验证这真的是小明发出的，而且其他人却不能伪造这份文件，即使这份文件只是一串比特而已。很神奇不是吗？</p>
+<p>以下是小名的做法：</p>
+<ol>
+<li>准备两个整数，一个秘密的，d；一个公开的，e （咱们先不说怎么准备，这是数学家们的事情），只需要知道这是两个双生的数字，相互关联，是成对出现的</li>
+<li>把 e 公开在网上，告诉大家：嘿！这是我的公钥，你们可以通过他来验证信息是不是我写的</li>
+<li>用 d 对那份文件的比特进行操作（没错，程序员负责这里，不是你）得到另一个整数，sig。这个 sig 就是所谓的数次签名了</li>
+<li>小明公开了他的文件，同时也公开了这个签名。然后告诉大家：嗨！这是我写给小红的信息，你们都来看看！哦对了，这是这份信息的签名，你们可以用之前的整数 e 来验证这信息确实是我写的。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">magic_number &#x3D; h(e, d) &lt;-- e 和 d 是相关的，但是不同的</span><br><span class="line">sig &#x3D; f(m, d)   &lt;-- 签名就是用 d （私钥） 处理信息后，得到的一串比特</span><br><span class="line">m &#x3D;？g(sig，e) 验证就是用 签名 sig、公钥 e 计算后得到数字跟信息源比较，对上了就验证成功</span><br></pre></td></tr></table></figure>
+
+<p>如此，小明就证明了信息的所有权。公钥密码学精妙的地方在于：咱们假设签名的信息是 m，即使m，e 和 sig 都是公开的，而且 sig 是根据 m 和 d 计算得到（没有任何随机性哦，确定的函数），黑客也无法轻易获得小明的私钥，d！奇妙的是，任何人都可以通过<br>m，sig，和 e 验证信息是否属于生成 e 的私钥 d，即小明！</p>
+<p>但是这里有两个问题：</p>
+<p>d 是秘密的，只有小明一个人知道。但是如果 d 被泄露，任何人都可以伪造小明的身份发言。在缺乏第三方的时候，你不是你，你的私钥就是你。所以比特币圈子有个名言：不是你的私钥，不是你的币！</p>
+<p>另外，我们说小名公开了自己的公钥，e，但是 <strong>我们如何相信 e 属于小名呢？</strong>。当然这个问题对比特币来说不重要，以为没有任何动机发布一个错的公钥。但是这个问题对于整个互联网安全却至关重要，为了解决这个问题甚至诞生了一个产业：证书颁发机构！基本上这就是一个被大众信任的第三方，用来确保公钥背真的是公钥应该的主人。</p>
+<h2 id="数字签名和比特币"><a href="#数字签名和比特币" class="headerlink" title="数字签名和比特币"></a>数字签名和比特币</h2><p>比特币的基础之一正式数字签名。比特币网络协议正式通过数字签名的方式证明交易记录的所有权的。正如刚才的例子，通过数字签名，小明证明了他发出了那段信息，同样，比特币交易的所有权也是通过数字签名的保证的。</p>
+<p>中本聪甚至在白皮书中这样定义比特币：我们将电子货币定义为：一串数字签名。所以，下次别人再问你比特币是啥，你就告诉他，比特币是一串数字签名！</p>
+<p>我们常说的比特币地址，就是上文例子中的，e，也叫公钥。这么说不全对，因为比特币地址跟私钥，d，的关系并不是一一对应的，而是一个私钥控制多个地址。但是道理一样，我们把地址理解公钥的作用就好了。</p>
+<p>而我们常说的钱包，其实就是私钥，d，就是那个你不能告诉别人的秘密数字！这么说也不全对，钱包的核心是私钥，但是钱包本身通常是套用来帮助你与比特币网络互动，但是只要你有私钥，e，你甚至可以直接编程与比特币网络互动，不需要钱包软件帮助你；同样，没有私钥，e，钱包什么也做不了。</p>
+<h2 id="信任在哪里"><a href="#信任在哪里" class="headerlink" title="信任在哪里"></a>信任在哪里</h2><p>正如公钥密码学把终极问题推向了信任，对公钥的信任；<strong>整个比特币网络也需要信任，这可能跟媒体的宣传不符</strong>，比特币难道不是去中心化网络吗？不需要信任吗？哈哈，对也不全对。</p>
+<p>比特币通过工作量证明去除了对第三方机构的信任，可以有效避免双花。但是比特币终归是交易系统，交易，或者说交流最终都要归于信任！只不过，比特币的工作量证明，有意或者无意的把信任推给了能源！</p>
+<p>我们为什么相信比特币区块链记录的信息呢？因为每条信息都需要矿工花费电力和CPU资源，换句话说，每天信息都有能源背书，有巨大的成本。这就是我们信任的基础！</p>
+<p>因为有了公钥密码学（数字签名）我们不需要<strong>信任</strong>交易的归属权，我们只需要<strong>验证</strong>归属权；但是关于交易还有一个重要的概念就是顺序和不可变性。试想，如果我今天付给你的钱，明天单方面反悔怎么办？你肯定会起诉我，让我付出代价对吧？但是这时我把信任放在了第三方仲裁机构上。</p>
+<p>比特币网络通过工作量证明，巧妙把排序和惩罚连接到了能源消耗上，我把信任放在能源的消耗上。只要作弊的经济收益小于作弊的成本，就没有理由作弊。</p>
+<h2 id="长话短说"><a href="#长话短说" class="headerlink" title="长话短说"></a>长话短说</h2><p>比特币通过数字签名，把归属权问题从信任问题（高成本）变成了验证问题（极低成本）。</p>
+<p>比特币通过工作量证明，把排序和维持不变的问题从信任第三方（不稳定且变数多）变成了信任能源消耗（稳定且标准）。</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/05/18/think_bitcoin/" rel="bookmark">比特币随想 - 误解、现状、未来</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/05/27/think_bitcoin_3/" rel="bookmark">比特币随想 - Altcoin 去哪了？</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/07/25/think_bitcoin_9/" rel="bookmark">英仕曼集团 - 加密货币投资指南 2022-06 - 译</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/08/02/thinking_bitcoin_12/" rel="bookmark">比特币随想 - 十问</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/08/20/thinking_bitcoin_13/" rel="bookmark">比特币随想 - 10年后的数字资产市场？</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Bitcoin/" rel="tag"><i class="fa fa-tag"></i> Bitcoin</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/05/27/think_bitcoin_3/" rel="prev" title="比特币随想 - Altcoin 去哪了？">
+                  <i class="fa fa-chevron-left"></i> 比特币随想 - Altcoin 去哪了？
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/06/01/thinking_bitcoin_6/" rel="next" title="比特币随想 - 诸多身份？">
+                  比特币随想 - 诸多身份？ <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FunCoder</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">420k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="如何阅读Layer 1 Read作者退休前是AHL的基金经理，经历过2008年的股灾。  这本书的目的 作者想要解决的问题 作者如何组织材料 作者的关键概念有哪些 作者的结论是 我学到了什么 与我有什么关系  Layer 2 Read">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Systematic Trading">
+<meta property="og:url" content="http://yoursite.com/2020/04/21/systematic_trading/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="如何阅读Layer 1 Read作者退休前是AHL的基金经理，经历过2008年的股灾。  这本书的目的 作者想要解决的问题 作者如何组织材料 作者的关键概念有哪些 作者的结论是 我学到了什么 与我有什么关系  Layer 2 Read">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/v9TZ5ds.png">
+<meta property="og:image" content="https://i.imgur.com/aTjsVtr.png">
+<meta property="og:image" content="https://i.imgur.com/xMt7Oll.png">
+<meta property="article:published_time" content="2020-04-21T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-21T11:25:09.406Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Investing">
+<meta property="article:tag" content="读书笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/v9TZ5ds.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/04/21/systematic_trading/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2020/04/21/systematic_trading/","path":"2020/04/21/systematic_trading/","title":"Systematic Trading"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Systematic Trading | FunCoder</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%98%85%E8%AF%BB"><span class="nav-number">1.</span> <span class="nav-text">如何阅读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Layer-1-Read"><span class="nav-number">1.1.</span> <span class="nav-text">Layer 1 Read</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Layer-2-Read"><span class="nav-number">1.2.</span> <span class="nav-text">Layer 2 Read</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Layer-3-read-%E7%B2%BE%E8%AF%BB%E6%84%9F%E5%85%B4%E8%B6%A3%E7%9A%84%E5%9C%B0%E6%96%B9%EF%BC%8C%E7%94%9A%E8%87%B3%E5%8A%A8%E6%89%8B%E6%93%8D%E4%BD%9C%E3%80%82"><span class="nav-number">1.3.</span> <span class="nav-text">Layer 3 read: 精读感兴趣的地方，甚至动手操作。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-I-theory"><span class="nav-number">2.</span> <span class="nav-text">Part I: theory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cognitive-bias"><span class="nav-number">2.1.</span> <span class="nav-text">Cognitive bias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Good-system-design"><span class="nav-number">2.2.</span> <span class="nav-text">Good system design</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What-makes-good-trading-rule"><span class="nav-number">2.3.</span> <span class="nav-text">What makes good trading rule</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-II-toolbox"><span class="nav-number">3.</span> <span class="nav-text">Part II: toolbox</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fitting"><span class="nav-number">3.1.</span> <span class="nav-text">Fitting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Portfolio-Allocation"><span class="nav-number">3.2.</span> <span class="nav-text">Portfolio Allocation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-III-framework"><span class="nav-number">4.</span> <span class="nav-text">Part III: framework</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Framework-overview"><span class="nav-number">4.1.</span> <span class="nav-text">Framework overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Instruments"><span class="nav-number">4.2.</span> <span class="nav-text">Instruments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Forecasts"><span class="nav-number">4.3.</span> <span class="nav-text">Forecasts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combined-Forecasts"><span class="nav-number">4.4.</span> <span class="nav-text">Combined Forecasts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vol-targeting"><span class="nav-number">4.5.</span> <span class="nav-text">Vol targeting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Position-sizing"><span class="nav-number">4.6.</span> <span class="nav-text">Position sizing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Portfolio"><span class="nav-number">4.7.</span> <span class="nav-text">Portfolio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Speed-and-size"><span class="nav-number">4.8.</span> <span class="nav-text">Speed and size</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Caluclate-cost-of-trading"><span class="nav-number">4.8.1.</span> <span class="nav-text">Caluclate cost of trading</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Turnover"><span class="nav-number">4.9.</span> <span class="nav-text">Turnover</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Determine-portfolio-size"><span class="nav-number">4.10.</span> <span class="nav-text">Determine portfolio size</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-IV-Practice"><span class="nav-number">5.</span> <span class="nav-text">Part IV Practice</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://wangzhe3224.github.io/Jesus_is_Lord/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;Jesus_is_Lord&#x2F;" rel="noopener" target="_blank">圣经盐读</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/21/systematic_trading/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Systematic Trading
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-04-21 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-21T00:00:00Z">2020-04-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-21 11:25:09" itemprop="dateModified" datetime="2022-12-21T11:25:09Z">2022-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Quant/" itemprop="url" rel="index"><span itemprop="name">Quant</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/04/21/systematic_trading/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/21/systematic_trading/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>6.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>6 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="如何阅读"><a href="#如何阅读" class="headerlink" title="如何阅读"></a>如何阅读</h2><h3 id="Layer-1-Read"><a href="#Layer-1-Read" class="headerlink" title="Layer 1 Read"></a>Layer 1 Read</h3><p>作者退休前是AHL的基金经理，经历过2008年的股灾。</p>
+<ul>
+<li>这本书的目的</li>
+<li>作者想要解决的问题</li>
+<li>作者如何组织材料</li>
+<li>作者的关键概念有哪些</li>
+<li>作者的结论是</li>
+<li>我学到了什么</li>
+<li>与我有什么关系</li>
+</ul>
+<h3 id="Layer-2-Read"><a href="#Layer-2-Read" class="headerlink" title="Layer 2 Read"></a>Layer 2 Read</h3><ul>
+<li>这一章在讲什么</li>
+<li>如何联系到作者的写作目的</li>
+<li>如何联系到上一章</li>
+<li>关键概念</li>
+<li>解决了什么问题</li>
+<li>结论</li>
+</ul>
+<h3 id="Layer-3-read-精读感兴趣的地方，甚至动手操作。"><a href="#Layer-3-read-精读感兴趣的地方，甚至动手操作。" class="headerlink" title="Layer 3 read: 精读感兴趣的地方，甚至动手操作。"></a>Layer 3 read: 精读感兴趣的地方，甚至动手操作。</h3><span id="more"></span>
+
+<h2 id="Part-I-theory"><a href="#Part-I-theory" class="headerlink" title="Part I: theory"></a>Part I: theory</h2><h3 id="Cognitive-bias"><a href="#Cognitive-bias" class="headerlink" title="Cognitive bias"></a>Cognitive bias</h3><ol>
+<li>hard to admit failure</li>
+<li>happy to be confirmed</li>
+<li>overconfident</li>
+</ol>
+<blockquote>
+<p>what makes an addictive game:</p>
+<ol>
+<li>an illusion of control</li>
+<li>frequent changes of <em>Almost</em> win big</li>
+<li>rapid and continous to give a constant flow of stimulation</li>
+</ol>
+</blockquote>
+<p>if we know most of player has these bias, we can leverage them by apply trading rules to remove our own bias.</p>
+<h3 id="Good-system-design"><a href="#Good-system-design" class="headerlink" title="Good system design"></a>Good system design</h3><ul>
+<li>objective</li>
+<li>easiy to explain/understand</li>
+<li>avoid over-fitting</li>
+<li>avoid over-trading</li>
+<li>avoid over-betting</li>
+</ul>
+<h3 id="What-makes-good-trading-rule"><a href="#What-makes-good-trading-rule" class="headerlink" title="What makes good trading rule"></a>What makes good trading rule</h3><ul>
+<li>Risk prem</li>
+<li>Skew trading</li>
+<li>Leverage</li>
+<li>Liquidity</li>
+<li>Correlation</li>
+</ul>
+<blockquote>
+<p>I also believe finding the best trading rules is less important than designing your trading system in the correct way.</p>
+</blockquote>
+<h2 id="Part-II-toolbox"><a href="#Part-II-toolbox" class="headerlink" title="Part II: toolbox"></a>Part II: toolbox</h2><h3 id="Fitting"><a href="#Fitting" class="headerlink" title="Fitting"></a>Fitting</h3><ol>
+<li>Come up with a small number of trading rules to exploit each idea I have about how the market behaves.</li>
+<li>For each rule select a few variations. At this stage I am not looking at performance, but at behaviour such as trading speed and correlation with other variations.</li>
+<li>Allocate forecast weights to each variation, taking uncertainty about Sharpe ratios into account. Poor rules will have lower weight, but are rarely entirely excluded.</li>
+</ol>
+<p><strong>Select rules from different themes</strong></p>
+<ul>
+<li>trend following</li>
+<li>carry </li>
+</ul>
+<p>Some points:</p>
+<ul>
+<li>So diversification amongst instruments is preferable to rule diversification, Adding new instruments is a tiresome task of uploading and checking data which is less fun than coming up with more trading rules, but in my experience is of far more benefit.</li>
+</ul>
+<h3 id="Portfolio-Allocation"><a href="#Portfolio-Allocation" class="headerlink" title="Portfolio Allocation"></a>Portfolio Allocation</h3><ul>
+<li>Forecast weights</li>
+<li>Instrument weights</li>
+</ul>
+<p>The goal here is given some constrains to produce allocation weights on underlyings (instruments or trading rules).</p>
+<p>Portfolio allocation should be tool to control risk, leverage divercification. Optimizaion is good but only when result is still reasonable in terms of diversification. </p>
+<p><strong>question:</strong> how can we quantify diversification?</p>
+<h2 id="Part-III-framework"><a href="#Part-III-framework" class="headerlink" title="Part III: framework"></a>Part III: framework</h2><h3 id="Framework-overview"><a href="#Framework-overview" class="headerlink" title="Framework overview"></a>Framework overview</h3><p>Components:</p>
+<ul>
+<li>Instruments to trade</li>
+<li>Forecasts</li>
+<li>Combine forecast</li>
+<li>Volatility targeting</li>
+<li>Portfolio</li>
+<li>Speed and Size for all</li>
+</ul>
+<h3 id="Instruments"><a href="#Instruments" class="headerlink" title="Instruments"></a>Instruments</h3><p><img src="https://i.imgur.com/v9TZ5ds.png" alt=""></p>
+<h3 id="Forecasts"><a href="#Forecasts" class="headerlink" title="Forecasts"></a>Forecasts</h3><ul>
+<li>Forecast should be a scale not binary</li>
+<li>Should be vol adjusted</li>
+<li>Should be consisten in scale</li>
+<li>Forecast should be capped</li>
+</ul>
+<p><img src="https://i.imgur.com/aTjsVtr.png" alt=""></p>
+<p>The process works as following:</p>
+<p>$$<br>signal = cap({raw} / vol * scalar, up_limit, floor_limit)<br>$$</p>
+<p>where,<br>$raw$ is raw signal,<br>$vol$ is volatility estimation of underly asset(s),<br>$scalar$ is an enstimation number to scale the signal to a range, say -20~+20<br>$cap(.)$ is a function that cap the signal to $up_limit, floor_limit$ </p>
+<h3 id="Combined-Forecasts"><a href="#Combined-Forecasts" class="headerlink" title="Combined Forecasts"></a>Combined Forecasts</h3><p>The purpose is that given more than 1 signals for 1 instrument (can be extented to multiple instruments), we need a function to aggregate thme. $fweight$ or forecast weights estimation is at the core of this stage. And they should all be positive and<br>add up to 100%.</p>
+<p><strong>Next question is how to choose an fweights given several signals?</strong></p>
+<p>To answer this, portfolio construction method is useful, although the underlyings here is signals not assets. And correlation of signal return (NOTE: not performance) are needed in order to come up with weights. Several level (say, 2 levels) of grouping is useful, if you have several types of signals, and each of them has several variances. </p>
+<p>$$raw_combined = f(corr, raw_signals)$$</p>
+<p>There is another concept is needed: forcast diversification multiplier, FDM. The reason is that we want to maintian the scale level of combined signal as same as scale level as individiual signals. When the signals are not perfectly correlated, the raw weighted combination will always results in a lower scale level. So we need a multiplier to scale it back.</p>
+<p>Agian, correlation is important here:</p>
+<p>$$FDM = target_vol / portfolio_vol$$</p>
+<p>NOTE: it is better to cap this formula as well to avoid large multiplier. </p>
+<p>Again, after FDM, the signal level should be capped to 20, as we always do. (20 is just standard we selected, it needs to be consistent.)</p>
+<p>So in the end:</p>
+<p>$$<br>combined_signal = cap(raw_combined * FDM, -20, 20)$$</p>
+<p><img src="https://i.imgur.com/xMt7Oll.png" alt=""></p>
+<h3 id="Vol-targeting"><a href="#Vol-targeting" class="headerlink" title="Vol targeting"></a>Vol targeting</h3><p>The end result of this is just float, which is a overall volatility target you want to achieve. In another word, a parameter in the system, that will be used across the system. </p>
+<p>There are two ways:</p>
+<ul>
+<li>vol in pct</li>
+<li>vol in cash value</li>
+</ul>
+<h3 id="Position-sizing"><a href="#Position-sizing" class="headerlink" title="Position sizing"></a>Position sizing</h3><p>In this stage, the task is to work out how scaled position, like how may shares (no rounding yet),given vol target and combined signal for one instrument. Note that, here we assumed that all the capital will be allocated to one instrument.</p>
+<p>To achieve this, the first quesitons: if I am holding 1 share/unit of this instrument, how much rish am I exposed to in terms of cash?</p>
+<p>To answer that question, we define <strong>block value</strong> as: when holding 1 unit of instrument, the cash value movement when the price of the instrument moves 1%. In this way, a connection between cash value movement and price quote movement is built. Then we just need to figure out the prive volatility. </p>
+<p>Bad news, estimation of volatility is not that easy.. </p>
+<p>What’more, if you are holding multiple currency, it is better to convert cash value movement into base currency.</p>
+<p>Now, without considering forecast, assume we put all the capital into one instrument, and want to achieve a cash volatility, we need a <strong>volatility scalar</strong>.</p>
+<p>$$vol_scalar = tartet_cash_risk / block_value$$</p>
+<p>Above vol scalar is associated to a average signal level 10, so the final position will be:</p>
+<p>$$pos_sub = signal_level * vol_scalar<br>$$</p>
+<h3 id="Portfolio"><a href="#Portfolio" class="headerlink" title="Portfolio"></a>Portfolio</h3><p>Finally, it is time to put all sub system above into a portfolio. Out of this, we will work out exactly how much units of each instruments we need to fill. In other words, generate a target position in terms of units (rounded).</p>
+<p>The concept here is as same as in Combine Forecasts, except that the underlyings are now correlation between sub systems, instead of instruments.</p>
+<blockquote>
+<p>A good approximation is that the correlation between subsystem returns will be 0.70 of the correlation of instrument returns. So if two assets have a correlation of 0.5 between their instrument returns in appendix C, then their subsystems will have a correlation of 0.7 × 0.5 = 0.35.</p>
+</blockquote>
+<p>Note that, similar to FDM, an Instrument diversification multiplier, IDM, is needed here to avoid low resulting vol.</p>
+<p>By this step, the positions are still fractional. Before we decide how much to trade, we need a buffer (position inertia) to avoid back forward small trade because of rounding. For the sake of reducing trading cost.</p>
+<h3 id="Speed-and-size"><a href="#Speed-and-size" class="headerlink" title="Speed and size"></a>Speed and size</h3><p>Now, we have system to trade, the next question is that how to config the system? For example, what kind of predicor should I used? what kind of instrument should I trade? What target vol should I select?</p>
+<h4 id="Caluclate-cost-of-trading"><a href="#Caluclate-cost-of-trading" class="headerlink" title="Caluclate cost of trading"></a>Caluclate cost of trading</h4><p>Types of cost:</p>
+<ul>
+<li>execution cost</li>
+<li>mamangement fee for ETFs</li>
+</ul>
+<p>Agian, the costs of different instruments should be normalized to be compared. </p>
+<p>$$ norm_cost = (2*C) / (16 * ICV)<br>$$</p>
+<p>where,<br>$C$ is cost to trade 1 unit in currency C,<br>$ICV$ is daily instrument currency volatility.  </p>
+<p>Note that 16 is for tha annulized vol. $norm_cost$ has the same unit as Sharpe ratio. So it is easy to compare the cost effect with the strategy sharpe ratio.</p>
+<p>Some experience value of costs:</p>
+<ul>
+<li>Futures: 0.001</li>
+<li>Spread betting: 0.01</li>
+<li>ETF: 0.08</li>
+</ul>
+<h3 id="Turnover"><a href="#Turnover" class="headerlink" title="Turnover"></a>Turnover</h3><p>Now we need to measure how qucikly you trade. The number of round trips per year is the turnover. </p>
+<p>A norm cost times turnover inshares, it is the final cost, in the same unit as sharpe ratio.</p>
+<h3 id="Determine-portfolio-size"><a href="#Determine-portfolio-size" class="headerlink" title="Determine portfolio size"></a>Determine portfolio size</h3><p>2 × volatility scalar × instrument weight × instrument diversification multiplier</p>
+<h2 id="Part-IV-Practice"><a href="#Part-IV-Practice" class="headerlink" title="Part IV Practice"></a>Part IV Practice</h2><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li>Systematic Trading: A unique new method for designing trading and investing systems</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/10/03/efficiently_inefficient/" rel="bookmark">Efficiently Inefficient Market</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/01/01/road_map/" rel="bookmark">Road Map for Investment Tool Box</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/12/31/how_to_read/" rel="bookmark">如何阅读一本书</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Investing/" rel="tag"><i class="fa fa-tag"></i> Investing</a>
+              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag"><i class="fa fa-tag"></i> 读书笔记</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/04/13/chord_2/" rel="prev" title="很潮的属11和弦">
+                  <i class="fa fa-chevron-left"></i> 很潮的属11和弦
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/04/25/graph1/" rel="next" title="Graph basics - 1 Concepts">
+                  Graph basics - 1 Concepts <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FunCoder</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">420k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

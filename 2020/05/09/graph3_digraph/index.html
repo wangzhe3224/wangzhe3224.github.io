@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="1. ConceptsDefinition. A directed graph or digraph is a set of nodes and acollection of directed edges. Each directed edge connects an orderedpair of nodes. Definition. A directed path is a path in a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Graph - DiGraph">
+<meta property="og:url" content="http://yoursite.com/2020/05/09/graph3_digraph/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="1. ConceptsDefinition. A directed graph or digraph is a set of nodes and acollection of directed edges. Each directed edge connects an orderedpair of nodes. Definition. A directed path is a path in a">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-09T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-21T11:25:09.402Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Data Structure">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Graph">
+<meta property="article:tag" content="Algorithms">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/05/09/graph3_digraph/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2020/05/09/graph3_digraph/","path":"2020/05/09/graph3_digraph/","title":"Graph - DiGraph"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Graph - DiGraph | FunCoder</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Concepts"><span class="nav-number">1.</span> <span class="nav-text">1. Concepts</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Data-Structure"><span class="nav-number">2.</span> <span class="nav-text">2. Data Structure</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Problems"><span class="nav-number">3.</span> <span class="nav-text">3. Problems</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-Single-source-reachability"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 Single-source reachability</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Topological-sort"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 Topological sort</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-Strong-connection"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 Strong connection</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://wangzhe3224.github.io/Jesus_is_Lord/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;Jesus_is_Lord&#x2F;" rel="noopener" target="_blank">圣经盐读</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/09/graph3_digraph/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Graph - DiGraph
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-05-09 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-09T00:00:00Z">2020-05-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-21 11:25:09" itemprop="dateModified" datetime="2022-12-21T11:25:09Z">2022-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/05/09/graph3_digraph/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/09/graph3_digraph/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>4.1k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="1-Concepts"><a href="#1-Concepts" class="headerlink" title="1. Concepts"></a>1. Concepts</h1><p><strong>Definition.</strong> A <code>directed graph</code> or <code>digraph</code> is a set of nodes and a<br>collection of <code>directed edges</code>. Each directed edge connects an ordered<br>pair of nodes.</p>
+<p><strong>Definition.</strong> A <code>directed path</code> is a path in a digraph is a sequence of nodes in which there is a directed edge pointing from each node in the sequence to its successor in the sequence. A <code>directed cycle</code> is a directed path with at least one edge whose first and last nodes are the same. A <code>simple cycle</code> is a cycle with no repeated edges or nodes. The <code>length</code> of a path is its number of edges.</p>
+<p>With above, we can define that a node a is reachable from node b if there is a directed path from a to b. </p>
+<h1 id="2-Data-Structure"><a href="#2-Data-Structure" class="headerlink" title="2. Data Structure"></a>2. Data Structure</h1><p>Again, before we go to the algorithms of DiGraph, let’s define our data structure representation of digraph. Full code can be found here: <a target="_blank" rel="noopener" href="https://github.com/wangzhe3224/pygraph/blob/master/pygraph/entities/digraph.py">https://github.com/wangzhe3224/pygraph/blob/master/pygraph/entities/digraph.py</a>.</p>
+<p>Here I list the important part. DiGraph is a bit different from Undirected graph in terms of its internal data containers. DiGraph has not only <code>_adj</code> for adjacent list, but also has <code>_succ</code> and <code>_pred</code> which is used to represent the direction of edges. What’s more, there is a <code>reverse</code> function to reverse the direction of the edges in the graph.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> Hashable</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pygraph.entities.graph <span class="keyword">import</span> GraphBase</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DiGraph</span>(<span class="params">GraphBase</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    dict_dict_dict = <span class="built_in">dict</span></span><br><span class="line">    dict_dict = <span class="built_in">dict</span></span><br><span class="line">    node_factory = <span class="built_in">dict</span></span><br><span class="line">    edge_factory = <span class="built_in">dict</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, **kwargs</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;&quot;&quot;&quot;</span></span><br><span class="line">        <span class="built_in">super</span>().__init__(kwargs)</span><br><span class="line">        self._succ = self._adj</span><br><span class="line">        self._pred = self.dict_dict_dict()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_node</span>(<span class="params">self, node: Hashable, **kwargs</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; Add node to graph,</span></span><br><span class="line"><span class="string">        :param node:</span></span><br><span class="line"><span class="string">        :param kwargs: node&#x27;s meta data</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> node <span class="keyword">not</span> <span class="keyword">in</span> self._succ:</span><br><span class="line">            self._succ[node] = self.dict_dict()</span><br><span class="line">            self._pred[node] = self.dict_dict()</span><br><span class="line">            attr_dict = self._nodes[node] = self.node_factory()</span><br><span class="line">            attr_dict.update(kwargs)</span><br><span class="line">        <span class="keyword">else</span>:  <span class="comment"># already existed</span></span><br><span class="line">            self._nodes[node].update(kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_edge</span>(<span class="params">self, node_a: Hashable, node_b: Hashable, **kwargs</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; add edge to graph</span></span><br><span class="line"><span class="string">        :param node_a:</span></span><br><span class="line"><span class="string">        :param node_b:</span></span><br><span class="line"><span class="string">        :param kwargs: meta data for edge, weights can go here!</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> node_a <span class="keyword">not</span> <span class="keyword">in</span> self._succ:</span><br><span class="line">            self._succ[node_a] = self.dict_dict()</span><br><span class="line">            self._pred[node_a] = self.dict_dict()</span><br><span class="line">            self._nodes[node_a] = self.node_factory()</span><br><span class="line">        <span class="keyword">if</span> node_b <span class="keyword">not</span> <span class="keyword">in</span> self._succ:</span><br><span class="line">            self._succ[node_b] = self.dict_dict()</span><br><span class="line">            self._pred[node_b] = self.dict_dict()</span><br><span class="line">            self._nodes[node_b] = self.node_factory()</span><br><span class="line"></span><br><span class="line">        data = self._adj[node_a].get(node_b, self.edge_factory())</span><br><span class="line">        data.update(kwargs)</span><br><span class="line">        self._succ[node_a][node_b] = data</span><br><span class="line">        self._pred[node_b][node_a] = data</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">adj_nodes</span>(<span class="params">self, node: Hashable</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; find adj nodes view</span></span><br><span class="line"><span class="string">        :param node:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> self._succ[node]</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverse</span>(<span class="params">self</span>) -&gt; GraphBase:</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; reverse the graph &quot;&quot;&quot;</span></span><br><span class="line">    gp = self.__class__()</span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> self.nodes:</span><br><span class="line">        <span class="keyword">for</span> b <span class="keyword">in</span> self._adj[a]:</span><br><span class="line">            gp.add_edge(b, a)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> gp</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-Problems"><a href="#3-Problems" class="headerlink" title="3. Problems"></a>3. Problems</h1><p>Ok, let’s visit some of the problems around DiGraph:</p>
+<ul>
+<li>Single-source reachability</li>
+<li>Topological sort</li>
+<li>Strong connectivity</li>
+</ul>
+<p>These problem is similar to what we have in <a target="_blank" rel="noopener" href="https://wangzhe3224.github.io/2020/05/02/graph2_search/">undirected graph</a>. </p>
+<h2 id="3-1-Single-source-reachability"><a href="#3-1-Single-source-reachability" class="headerlink" title="3.1 Single-source reachability"></a>3.1 Single-source reachability</h2><blockquote>
+<p>Given a digraph and a source node <em>a</em>, support query of the form: Is there a directed path from <em>a</em> to a given node <em>x</em>?</p>
+</blockquote>
+<p>This problem is solved using the same function as in undirected graph. Both single-source directed path(DFS) and shortest directed path (BFS).</p>
+<p>Related code: <a target="_blank" rel="noopener" href="https://github.com/wangzhe3224/pygraph/tree/master/pygraph/algos">https://github.com/wangzhe3224/pygraph/tree/master/pygraph/algos</a></p>
+<h2 id="3-2-Topological-sort"><a href="#3-2-Topological-sort" class="headerlink" title="3.2 Topological sort"></a>3.2 Topological sort</h2><p>This is a scheduling problem. Defines:</p>
+<blockquote>
+<p>Given a digraph, put the nodes in order such that all its directed edges point from a node earlier in the order to a node later in the order. Or does not exist. </p>
+</blockquote>
+<p>In order to solve this, we first need to make sure, there is no cyclic in the graph. or make sure the graph a DAG, directed acyclic graph. <strong>So first we need a algorithm to detect cyclic in a graph.</strong></p>
+<p>The solution is leverage DFS’s stack, one fact is that all the node in current stack is in the same path, of we find a node that appear twice in the stack, we know there is a cyclic, hence graph is not a DAG.</p>
+<p>Once we know we have a DAG, the next job is to find the order. It turns out that it is another application of DFS.</p>
+<h2 id="3-3-Strong-connection"><a href="#3-3-Strong-connection" class="headerlink" title="3.3 Strong connection"></a>3.3 Strong connection</h2><p>Strong connection between a and b is that they are mutually reachable. </p>
+<p>The solution is similar to cyclic detection in undriected graph, but we need loop through reverse post order in previous section. </p>
+<p>Check code here: <a target="_blank" rel="noopener" href="https://github.com/wangzhe3224/pygraph/blob/master/pygraph/algos/cyclic.py#L28">https://github.com/wangzhe3224/pygraph/blob/master/pygraph/algos/cyclic.py#L28</a></p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/05/02/graph2_search/" rel="bookmark">Graph Algorithms - Search</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/04/25/graph1/" rel="bookmark">Graph basics - 1 Concepts</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/11/09/cs3110/" rel="bookmark">CS3110总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/04/04/go_python_1/" rel="bookmark">用Python重建Go并发模型 1</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/22/high_perf_python_2/" rel="bookmark">高性能Python编程（2）Profiling寻找性能瓶颈</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Data-Structure/" rel="tag"><i class="fa fa-tag"></i> Data Structure</a>
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/Graph/" rel="tag"><i class="fa fa-tag"></i> Graph</a>
+              <a href="/tags/Algorithms/" rel="tag"><i class="fa fa-tag"></i> Algorithms</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/05/02/graph2_search/" rel="prev" title="Graph Algorithms - Search">
+                  <i class="fa fa-chevron-left"></i> Graph Algorithms - Search
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/05/16/a_new_kind_of_science/" rel="next" title="一种新科学">
+                  一种新科学 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FunCoder</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">420k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

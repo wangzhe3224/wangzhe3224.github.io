@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="高性能Python编程（1）：理解Python的“性能”引子Python的性能常常被人诟病，但是另一方面Python却又常常出现在高性能计算库中，比如tensorflow，numpy等等，这是为什么呢？Python的性能究竟差在哪里？理想的高性能程序应该是什么样的？如何能写出高性能的Python程序？这个系列我们就尝试探索这些问题的答案。 首先我们退一步看一下组成计算机的基本部分，这样我们才能下手">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高性能Python编程（1）">
+<meta property="og:url" content="http://yoursite.com/2021/06/24/high_perform_python/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="高性能Python编程（1）：理解Python的“性能”引子Python的性能常常被人诟病，但是另一方面Python却又常常出现在高性能计算库中，比如tensorflow，numpy等等，这是为什么呢？Python的性能究竟差在哪里？理想的高性能程序应该是什么样的？如何能写出高性能的Python程序？这个系列我们就尝试探索这些问题的答案。 首先我们退一步看一下组成计算机的基本部分，这样我们才能下手">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-06-24T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-21T11:25:09.402Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Profiling">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2021/06/24/high_perform_python/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2021/06/24/high_perform_python/","path":"2021/06/24/high_perform_python/","title":"高性能Python编程（1）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>高性能Python编程（1） | FunCoder</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%AB%98%E6%80%A7%E8%83%BDPython%E7%BC%96%E7%A8%8B%EF%BC%881%EF%BC%89%EF%BC%9A%E7%90%86%E8%A7%A3Python%E7%9A%84%E2%80%9C%E6%80%A7%E8%83%BD%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">高性能Python编程（1）：理解Python的“性能”</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%AD%90"><span class="nav-number">1.1.</span> <span class="nav-text">引子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%89%E5%A4%A7%E9%83%A8%E5%88%86"><span class="nav-number">1.2.</span> <span class="nav-text">计算机三大部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E5%8D%95%E5%85%83"><span class="nav-number">1.2.1.</span> <span class="nav-text">计算单元</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%8D%95%E5%85%83"><span class="nav-number">1.2.2.</span> <span class="nav-text">存储单元</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%AE%AF%E5%8D%95%E5%85%83"><span class="nav-number">1.2.3.</span> <span class="nav-text">通讯单元</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E6%83%B3%E7%9A%84%E9%AB%98%E6%80%A7%E8%83%BD%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.3.</span> <span class="nav-text">理想的高性能程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python%E6%85%A2%E5%9C%A8%E5%93%AA%E9%87%8C"><span class="nav-number">1.4.</span> <span class="nav-text">Python慢在哪里</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%82%A3%E4%B8%BA%E5%95%A5Python%E8%BF%98%E6%98%AF%E8%BF%99%E4%B9%88%E7%81%AB%EF%BC%9F"><span class="nav-number">1.5.</span> <span class="nav-text">那为啥Python还是这么火？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.6.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://wangzhe3224.github.io/Jesus_is_Lord/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;Jesus_is_Lord&#x2F;" rel="noopener" target="_blank">圣经盐读</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/24/high_perform_python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          高性能Python编程（1）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-06-24 00:00:00" itemprop="dateCreated datePublished" datetime="2021-06-24T00:00:00Z">2021-06-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-21 11:25:09" itemprop="dateModified" datetime="2022-12-21T11:25:09Z">2022-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/06/24/high_perform_python/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/06/24/high_perform_python/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>3.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="高性能Python编程（1）：理解Python的“性能”"><a href="#高性能Python编程（1）：理解Python的“性能”" class="headerlink" title="高性能Python编程（1）：理解Python的“性能”"></a>高性能Python编程（1）：理解Python的“性能”</h1><h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>Python的性能常常被人诟病，但是另一方面Python却又常常出现在高性能计算库中，比如tensorflow，numpy等等，这是为什么呢？Python的性能究竟差在哪里？理想的高性能程序应该是什么样的？如何能写出高性能的Python程序？这个系列我们就尝试探索这些问题的答案。</p>
+<p>首先我们退一步看一下组成计算机的基本部分，这样我们才能下手分析和提高程序的执行性能。</p>
+<h2 id="计算机三大部分"><a href="#计算机三大部分" class="headerlink" title="计算机三大部分"></a>计算机三大部分</h2><p>计算机的设备主要分成三类：<strong>计算单元、存贮单元、通讯单元</strong>。</p>
+<p>典型的计算机由计算单元（CPU），CPU会连接两类存贮单元：内存和硬盘，通讯单元（总线）就是连接计算单元和存储单元的桥梁。</p>
+<p>你可能会问：显卡呢？键盘呢？显示器呢？？懂行的你可能还会问：南北桥呢？细想一下，显卡其实是计算单元（GPU）和存储单元（显存）的组合体；而键盘、显示器、鼠标、网卡这些基本属于IO设备，所谓IO就是Input，字节写入内存，Output，字节读出内存，这类设备通常通过总线与内存沟通，利用中断与CPU协作。硬盘在这个意义上也是IO设备，因此这些设备我们姑且认为属于存储单元吧。南北桥其实算是通讯单元的司令部，北桥芯片，主要负责控制显卡、内存与CPU之间的数据交换；靠近PCI槽的为南桥芯片，主要负责硬盘、键盘以及附加卡的数据交换。</p>
+<p>说到底，计算过程就是：把字节（Byte）从存储单元放进计算单元“计算”，然后把结果放回存储单元，而“计算”就是改变字节。</p>
+<p>可以看出，影响程序执行效率的主要有两个因素：<strong>移动字节的速度和计算的速度</strong>。移动字节的速度主要受限于存储介质的读写速度和通讯的速度；计算速度的影响因素主要是计算单元的类型和架构，比如CPU和GPU对不同的指令执行效率不尽相同，而更极端的例子量子计算芯片，QPU，则拥有完全不同的“计算”方式。</p>
+<h3 id="计算单元"><a href="#计算单元" class="headerlink" title="计算单元"></a>计算单元</h3><p>计算单元种类繁多，有我们常见的CPU，GPU，也有一些不太常见的，比如TPU（张量处理器）,QPU(量子计算处理器)等等。不过不论是那种计算单元，他们的工作就是输入一串比特，输出另一串比特。计算单元的主要衡量标准就是单位时间内可以进行的计算量。</p>
+<p>我们那常见的CPU的性能举例，我们关心两个指标：一个cycle可以执行的指令数量；一秒钟最大的cycle数量。前者我们用IPC（Instruction Per Cycle）衡量，后者我们用时钟频率衡量。不同的CPU架构会有截然不同的特性，比如酷睿处理器的IPC非常高，但是频率较低；而早期的奔腾处理器IPC较低，但是频率非常高。</p>
+<p>提高主频对提高计算速度有直接的帮助，而提高IPC则可以有效的提高“向量化”操作的速度，即同时处理多组计算。你可以理解成一个是纵向提升，一个是横向提升。</p>
+<p>有时候你的编译器也会分析程序，然后根据CPU指令集做一些优化，进一步提升计算效率。</p>
+<p>在多核时代，程序尽可能多的利用多个带来的并行能力也是提升计算效率的常见手段。而且，由于目前CPU工艺经很难进一步提高时钟频率了，计算机更倾向于安装更多处理器核心，而不是主频更高的处理器。</p>
+<p>不过，在Python诞生的年代（上个世纪90年代），还是单核的时代，CPython实现引入了GIL，即Global Interpreter Lock，来处理多线程下的同步问题，你可以把他理解成一把大锁，用来保护解释器内部状态。这是设计其实在当年大大提高了单核执行效率，特别后来更新GIL调度方式以后，对IO多线程有巨大的贡献。然鹅，进入20世纪后，多核处理器成为了主流，Python的GIL导致解释器不能有效利用多核进行并行计算，不过Python社区也提出了多种方法解决这个问题，比如<code>multiprocessing</code>库，一些第三方库，比如<code>numpy</code>, <code>numexpr</code>等等，<code>Cython</code>编译器，以及利用计算集群进行计算。</p>
+<p>以上这些方法，我们在后续的文章中逐步介绍。</p>
+<h3 id="存储单元"><a href="#存储单元" class="headerlink" title="存储单元"></a>存储单元</h3><p>存储单元主要负责储存比特，这些比特可以是计算的输入，也可以是计算的输出。衡量存储单元的指标主要有三个：容量、读写速度、寻址速度。</p>
+<p>通常存储单元是分层的，容量从低到高，读写、寻址速度从高到低：</p>
+<ul>
+<li>CPU缓存L1、L2、L3</li>
+<li>内存</li>
+<li>固态硬盘</li>
+<li>机械硬盘</li>
+<li>网络</li>
+</ul>
+<p>为了提高计算的性能，我们应该尽可能多的使用读写速度更快的单元作为缓存，减少不同层次之间存储单元的数据移动，因为这种数据的时间成本非常高，而且约下层越高。这也是为什么编程时，Locality特别的重要，Locality不但可以降低寻址的时间，还可以最大程度的利用高速缓存。</p>
+<p>对于Python而言，Locality通常是被破坏的，这是CPython的实现机制导致的，不过我们也有办法克服。</p>
+<h3 id="通讯单元"><a href="#通讯单元" class="headerlink" title="通讯单元"></a>通讯单元</h3><p>典型计算机的通讯是通过某类总线（Bus）实现的，比如前端总线负责L1L2缓存和内存的通讯；而网卡可以认为是机器和机器之间存储单元的通讯。</p>
+<p>衡量总线性能指标主要由两个：一次移动比特的数量，即带宽；移动比特的频率，即总线频率。</p>
+<h2 id="理想的高性能程序"><a href="#理想的高性能程序" class="headerlink" title="理想的高性能程序"></a>理想的高性能程序</h2><p>现在我们了解了计算机计算的三个组成部分，下面我们用一个检测素数的小程序来说明如何构造一个“完美”的高效程序。</p>
+<p>首先我们写一段Python伪代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_prime</span>(<span class="params">number</span>):</span></span><br><span class="line">    sqrt = math.sqrt(number)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(sqrt)+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> (number / i).is_integer():</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    </span><br><span class="line">check_prime(<span class="number">11</span>)</span><br></pre></td></tr></table></figure>
+
+<p>我们抛开Python的实现机制，看看上面的程序是如何执行的。</p>
+<p>首先，为了计算<code>sqrt</code>，我们需要把<code>number</code>的值从内存送往CPU，理想情况下<code>number</code>会驻留在CPU的缓存。CPU计算<code>sqrt</code>后把值送回内存。然后我们进入循环，理想情况我们会一次性把<code>number</code>和<code>i</code>同时送往CPU，然后检查是否整除。</p>
+<p>如何进一步优化程序？第一个方法就是利用CPU的向量化能力，一次计算多组<code>number</code>和<code>i</code>。在这过过程中，充分利用缓存来存储尽可能多的i值和结果，这样就可以减少数据传输的时间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_prime</span>(<span class="params">number</span>):</span></span><br><span class="line">    sqrt_number = math.sqrt(number) </span><br><span class="line">    numbers = <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(sqrt_number)+<span class="number">1</span>) </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(numbers), <span class="number">5</span>):</span><br><span class="line">        result = (number / numbers[i:(i + <span class="number">5</span>)]).is_integer() </span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">any</span>(result):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Python慢在哪里"><a href="#Python慢在哪里" class="headerlink" title="Python慢在哪里"></a>Python慢在哪里</h2><p>好了，下面我们来说说Python究竟慢在哪里了。Python的解释器（虚拟机）是非常好的抽象，程序员不太需要考虑我们上面提到的三种计算单元，比如绝大多数情况下，Python程序员不需要考虑如何分配内存，如何优化缓存，或者如何把变量送到CPU。这是Python的优势，但是这些抽象会损害程序的执行效率。话句话说，Python的执行循环中有很多指令都是为了支持这些抽象的。</p>
+<p>当我们谈到Python的性能，其实有不同的维度。</p>
+<p>首先，Python代码的性能不容易直接推断，如果你恰好知道一些小技巧，你的程序就会快很多，而同样的业务逻辑其他的实现方法就会慢一些。我举个例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search_unknown1</span>(<span class="params">haystack, needle</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">any</span>((item == needle <span class="keyword">for</span> item <span class="keyword">in</span> haystack))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search_unknown2</span>(<span class="params">haystack, needle</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">any</span>([item == needle <span class="keyword">for</span> item <span class="keyword">in</span> haystack])</span><br></pre></td></tr></table></figure>
+
+<p>你觉得上面两个函数那个运行更快？？所以，Python这类语言提升性能之前，更应该首先进行Profiling，来确定性能瓶颈。</p>
+<p>其次，Python（CPython）的Object内存规划并没有很高效，这与Python的GC和内存池有关。但是这种内存使用和回收机制会破坏缓存，也会导致不能充分利用总线带宽。</p>
+<p>另外，Python语言灵活性的代价就是动态类型，解释器需要花费大量时间弄清楚对象的类型，寻找正确的函数等等。不过这个问题其实容易解决，只要我们可以识别性能瓶颈，就可以采用Cython这样的工具突破瓶颈。</p>
+<p>最后，就是GIL。上文已经提到了，GIL限制了并行计算能力，但是这个问题其实也很容易解决。</p>
+<h2 id="那为啥Python还是这么火？"><a href="#那为啥Python还是这么火？" class="headerlink" title="那为啥Python还是这么火？"></a>那为啥Python还是这么火？</h2><p>既然Python这么“慢”，为啥Python还是这么火？？网上已经很多讨论了，我就说几个：</p>
+<p>1、近乎完美的生态。从大数据、机器学习、数值计算到Web，再到量子计算。<br>2、对非计算机科学的小伙伴极度友好<br>3、计算机专业的人用起来真的很舒服，抽象能力还是很不错<br>4、大觉部分性能问题可以很轻松地解决（哈哈哈，这就是这个系列的重点）</p>
+<p>OK，下一篇我们来谈谈如何Profiling程序，这是提高执行效率的第一步！</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>《High Performance Python》</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/22/high_perf_python_2/" rel="bookmark">高性能Python编程（2）Profiling寻找性能瓶颈</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/04/04/go_python_1/" rel="bookmark">用Python重建Go并发模型 1</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/05/02/graph2_search/" rel="bookmark">Graph Algorithms - Search</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/05/09/graph3_digraph/" rel="bookmark">Graph - DiGraph</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/12/12/pick_next_language_2/" rel="bookmark">如何选择下一个语言 - 续</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/Profiling/" rel="tag"><i class="fa fa-tag"></i> Profiling</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/06/20/csapp_12_2/" rel="prev" title="CSAPP 12 并发编程 2">
+                  <i class="fa fa-chevron-left"></i> CSAPP 12 并发编程 2
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/07/17/learn_coding/" rel="next" title="10年自学编程">
+                  10年自学编程 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FunCoder</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">420k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

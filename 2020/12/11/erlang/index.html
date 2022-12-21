@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="被时间“埋没”的高并发王者：Erlang分布式、fault-tolerant、高并发等等这些名词变得越来越火爆，一个新的框架、数据库、语言如果不跟这几个名词沾边，都不好意思摆在台面上。可是，早在20-30年前的通信领域已经出现了这样的需求，比如 容错、超高并发、在线代码更新、99.9%在线率等等。而互联网领域直到最近10今年才特别关注这种系统。 大概在90年代初，Erlang诞生了，它的设计者正式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="被时间“埋没”的分布式王者：Erlang">
+<meta property="og:url" content="http://yoursite.com/2020/12/11/erlang/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="被时间“埋没”的高并发王者：Erlang分布式、fault-tolerant、高并发等等这些名词变得越来越火爆，一个新的框架、数据库、语言如果不跟这几个名词沾边，都不好意思摆在台面上。可是，早在20-30年前的通信领域已经出现了这样的需求，比如 容错、超高并发、在线代码更新、99.9%在线率等等。而互联网领域直到最近10今年才特别关注这种系统。 大概在90年代初，Erlang诞生了，它的设计者正式">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-12-11T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-21T11:25:09.402Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Erlang">
+<meta property="article:tag" content="Distributed System">
+<meta property="article:tag" content="Concurrency">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/12/11/erlang/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2020/12/11/erlang/","path":"2020/12/11/erlang/","title":"被时间“埋没”的分布式王者：Erlang"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>被时间“埋没”的分布式王者：Erlang | FunCoder</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A2%AB%E6%97%B6%E9%97%B4%E2%80%9C%E5%9F%8B%E6%B2%A1%E2%80%9D%E7%9A%84%E9%AB%98%E5%B9%B6%E5%8F%91%E7%8E%8B%E8%80%85%EF%BC%9AErlang"><span class="nav-number">1.</span> <span class="nav-text">被时间“埋没”的高并发王者：Erlang</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Erlang%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%93%B2%E5%AD%A6"><span class="nav-number">2.</span> <span class="nav-text">Erlang的设计哲学</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Erlang%E7%94%9F%E6%80%81"><span class="nav-number">3.</span> <span class="nav-text">Erlang生态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-number">4.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://wangzhe3224.github.io/Jesus_is_Lord/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;Jesus_is_Lord&#x2F;" rel="noopener" target="_blank">圣经盐读</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/11/erlang/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          被时间“埋没”的分布式王者：Erlang
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-12-11 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-11T00:00:00Z">2020-12-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-21 11:25:09" itemprop="dateModified" datetime="2022-12-21T11:25:09Z">2022-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/12/11/erlang/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/12/11/erlang/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>2.3k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="被时间“埋没”的高并发王者：Erlang"><a href="#被时间“埋没”的高并发王者：Erlang" class="headerlink" title="被时间“埋没”的高并发王者：Erlang"></a>被时间“埋没”的高并发王者：Erlang</h1><p>分布式、fault-tolerant、高并发等等这些名词变得越来越火爆，一个新的框架、数据库、语言如果不跟这几个名词沾边，都不好意思摆在台面上。可是，早在20-30年前的通信领域已经出现了这样的需求，比如 容错、超高并发、在线代码更新、99.9%在线率等等。而互联网领域直到最近10今年才特别关注这种系统。</p>
+<p>大概在90年代初，Erlang诞生了，它的设计者正式为了满足通讯领域系统高并发、高容错、分布式的需求设计Erlang和它的虚拟机，BEAM。（当然BEAM不是第一代虚拟机，而是经过几轮迭代后被大规模投入使用的版本）。</p>
+<p>虽然，很多年轻的程序员可能没有通过Erlang，提起分布式、高并发，他们更多想到的可能是 Golang，Scala/Akka等等。可是Erlang系统就在我们身边：Cisco超过90%的交换机仍然在使用Erlang；早在2012年，WhatApp的生产系统就实现了在单个Beam虚拟机节点上同时处理超过2百万个TCP/IP连接；RabbitMQ 服务器端代码是Erlang实现的；电信公司T-Mobile的短信业务也是Erlang实现的；Ericsson用Erlang生态构建新的5G基础设施软件；等等。</p>
+<p>可以说，在分布式、高并发、高容错这个领域，Erlang得到了广泛的应用，多年的使用也证明了Erlang生态在这个领域的可靠性。</p>
+<p>我有幸和Erlang最初的几个设计者之一Robert Virding 学习过一段时间，了解了一些Erlang背后的故事。</p>
+<h1 id="Erlang的设计哲学"><a href="#Erlang的设计哲学" class="headerlink" title="Erlang的设计哲学"></a>Erlang的设计哲学</h1><p>Erlang不是完美的语言，Erlang的设计具有鲜明的目的性：高并发、高容错、分布式。Erlang的虚拟机BEAM也是为了实现相同的目的，可以说，它只围绕这几个设计目的进行优化，比如它对Binary类型计算进行了优化，而浮点计算则非常缓慢。</p>
+<p>Erlang本身属于函数式语言，没有变量，循环，一切都是Immutable等等。而 Erlang 的 Pattern Matching 能力非常优秀且高效。代码精简且清晰，同时为信息传递奠定了基础。最近十几年，工业界也开始慢慢接受、甚至推崇函数式编程，但是Erlang已经在30年前把函数式代码部署在了生产环境。</p>
+<p>Erlang的并发模型属于Actor Model，它实现高并发的基石在于非常廉价的Process。这个Process不是操作系统中的进程，而是Beam虚拟机内部的一个抽象。Process非常廉价，每个进程只有2-4kb的foot print，一个Beam节点可以毫无压力的同事运行超过2百万个process。这些Process都是相互独立的，他们不共享任何内存，有独立的堆栈，除非建立连接，一个Process的崩溃完全不会影响到系统的其他进程。</p>
+<p>更加有意思的是，这200万个虚拟机进程，仅仅需要运行在一个操作系统线程内。换句话说，BEAM把并发模型从操作系统中抽象出来了。这样做的优势显而易见：如果我们有多核处理器，相同的代码可以毫不费力的通过增加节点分布在不同的内核里，增加处理能力。</p>
+<p>进程之间是通过传递信息实现互动，注意这些信息都是不可变的（immutable），同时信息的传递可以跨越节点，即可以实现不同内核中节点的通信、不同物理机器节点的通讯。事实上，代码中几乎不需要区分进程是local还是remote。这种跨节点通讯正式分布式系统的基础。</p>
+<p>在BEAM进程、进行通讯以及函数式语法的基础上，为了进一步增加容错能力，实现99.9%系统在线率，Erlang也发展出了非常独特的 异常处理 和 代码更新 模式。BEAM虚拟机可以实现系统在线的情况下修复bug，并仅仅重新部署一部分出问题的系统。</p>
+<p>大部分编程模式的异常处理都是基于 try-catch，也就是 Defensive Programming，即尽可能的捕捉异常，阻止程序崩溃。以为绝大部分系统不能接受线程异常，一个线程异常有肯能会导致整个系统崩溃。Erlang系统很不一样，因为所有进程都是独立的，一个进程的崩溃完全不会影响系统，甚至，系统中的大部分进程都不会意识到。所以，Erlang的 异常处理 更加专注于如何让仍然工作的进程修复崩溃的进程，也就是自我恢复，Self-healing。当然，Erlang生态并没有这个名词， 在Erlang 的世界里叫做 supervisor-tree。通常编写业务逻辑的时候，仅仅关注正确的情况，而不去主动捕捉异常，以为异常总是多种多样的，而且一定会发生。通常如果出现异常，进程就会终结，而他的supervisor进程会介入进行合理的操作，比如重启它等等。换句话说，把业务逻辑和异常处理逻辑分离。也正式因为这样的 异常处理和自我修复设计，实现了Erlang系统的高容错性能。</p>
+<h1 id="Erlang生态"><a href="#Erlang生态" class="headerlink" title="Erlang生态"></a>Erlang生态</h1><p>总结一下 Erlang 实现高并发、高容错、分布式的基石：</p>
+<ul>
+<li>函数式语言，Immutability</li>
+<li>超轻量线程，Process</li>
+<li>自愈模式的异常处理，Supervision tree</li>
+</ul>
+<p>无论是Erlang语言本身，还是他的虚拟机BEAM都是围绕上面那三个特征进行设计的。</p>
+<p>其实，很多新的语言和框架都或多或少的在学习上面的特性，比如 go routine 和 channel其实就是轻量级线程和通讯，但却没有Erlang进程那么轻，而且共享内存。Erlang的独特之处在于它的设计目的很单一：高并发。而上面的三个特征是实现可靠的高并发系统必不可少的，Erlang把他们做到了极致，不妥协。</p>
+<h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><blockquote>
+<p>正确的工具做正确的事情</p>
+</blockquote>
+<p>Erlang 就是高并发场景的正确工具，他非常不完美，但是他满足了高并发场景所需要的工程特征，而且经历近30年的生产环境考验。</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/04/04/go_python_1/" rel="bookmark">用Python重建Go并发模型 1</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Erlang/" rel="tag"><i class="fa fa-tag"></i> Erlang</a>
+              <a href="/tags/Distributed-System/" rel="tag"><i class="fa fa-tag"></i> Distributed System</a>
+              <a href="/tags/Concurrency/" rel="tag"><i class="fa fa-tag"></i> Concurrency</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/11/18/vim_tags/" rel="prev" title="Vim增加定制帮助文件">
+                  <i class="fa fa-chevron-left"></i> Vim增加定制帮助文件
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/12/19/6004_1/" rel="next" title="6.004 Basic of information">
+                  6.004 Basic of information <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FunCoder</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">420k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

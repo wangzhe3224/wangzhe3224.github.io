@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="用Python重建Go并发模型 1 主要译自Go Concurrency from the Ground Up  通过实现 Go 的并发模型增加对并发的理解和使用。 本文一共四个部分，部分1 针对前两个，后面两个在部分2：  设计：介绍 Go 的并发模型基本API 实现1：实现一个非抢占、单线程的 goroutine 调度器 实现2：带缓冲的 Channel 实现3：Async&#x2F;Await 范式实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用Python重建Go并发模型 1">
+<meta property="og:url" content="http://yoursite.com/2021/04/04/go_python_1/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="用Python重建Go并发模型 1 主要译自Go Concurrency from the Ground Up  通过实现 Go 的并发模型增加对并发的理解和使用。 本文一共四个部分，部分1 针对前两个，后面两个在部分2：  设计：介绍 Go 的并发模型基本API 实现1：实现一个非抢占、单线程的 goroutine 调度器 实现2：带缓冲的 Channel 实现3：Async&#x2F;Await 范式实">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/TKxKBUK.png">
+<meta property="og:image" content="https://i.imgur.com/YbRfzzW.png">
+<meta property="article:published_time" content="2021-04-04T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-21T11:25:09.402Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Concurrency">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/TKxKBUK.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2021/04/04/go_python_1/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2021/04/04/go_python_1/","path":"2021/04/04/go_python_1/","title":"用Python重建Go并发模型 1"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>用Python重建Go并发模型 1 | FunCoder</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8Python%E9%87%8D%E5%BB%BAGo%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B-1"><span class="nav-number">1.</span> <span class="nav-text">用Python重建Go并发模型 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.1.</span> <span class="nav-text">设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E6%96%B9%E5%BC%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">调度方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Channel"><span class="nav-number">1.1.2.</span> <span class="nav-text">Channel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Select"><span class="nav-number">1.1.3.</span> <span class="nav-text">Select</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B01%EF%BC%9A%E9%9D%9E%E6%8A%A2%E5%8D%A0%E8%B0%83%E5%BA%A6"><span class="nav-number">1.2.</span> <span class="nav-text">实现1：非抢占调度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E4%BE%8B%E5%AD%90-Concurrent-Merge-Sort"><span class="nav-number">1.3.</span> <span class="nav-text">一个例子 Concurrent Merge Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#tags-Go-Python"><span class="nav-number">1.3.0.0.0.1.</span> <span class="nav-text">tags: Go Python</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://wangzhe3224.github.io/Jesus_is_Lord/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;Jesus_is_Lord&#x2F;" rel="noopener" target="_blank">圣经盐读</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/04/go_python_1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用Python重建Go并发模型 1
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-04-04 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-04T00:00:00Z">2021-04-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-21 11:25:09" itemprop="dateModified" datetime="2022-12-21T11:25:09Z">2022-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/04/04/go_python_1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/04/go_python_1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>8.9k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>8 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="用Python重建Go并发模型-1"><a href="#用Python重建Go并发模型-1" class="headerlink" title="用Python重建Go并发模型 1"></a>用Python重建Go并发模型 1</h1><blockquote>
+<p>主要译自<a target="_blank" rel="noopener" href="http://www.doxsey.net/blog/go-concurrency-from-the-ground-up">Go Concurrency from the Ground Up</a></p>
+</blockquote>
+<p>通过实现 Go 的并发模型增加对并发的理解和使用。</p>
+<p>本文一共四个部分，部分1 针对前两个，后面两个在部分2：</p>
+<ul>
+<li><a href="#设计">设计</a>：介绍 Go 的并发模型基本API</li>
+<li><a href="#实现1：非抢占调度">实现1</a>：实现一个非抢占、单线程的 goroutine 调度器</li>
+<li>实现2：带缓冲的 Channel</li>
+<li>实现3：Async/Await 范式实现</li>
+</ul>
+<h2 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h2><p>我们的设计主要包含三个主要部分：调度器、channel和select操作。有了这几个东西，我们就可以重建 go 的并发模型。</p>
+<h3 id="调度方式"><a href="#调度方式" class="headerlink" title="调度方式"></a>调度方式</h3><p>考虑如下简单程序：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> a()</span><br><span class="line">	<span class="keyword">go</span> b()</span><br><span class="line">	<span class="keyword">select</span> &#123;&#125; <span class="comment">// prevent the program from terminating, ignore for now</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">a</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> aa()</span><br><span class="line">	<span class="keyword">go</span> ab()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">aa</span><span class="params">()</span></span> &#123; <span class="built_in">println</span>(<span class="string">&quot;aa&quot;</span>) &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ab</span><span class="params">()</span></span> &#123; <span class="built_in">println</span>(<span class="string">&quot;ab&quot;</span>) &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">b</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> ba()</span><br><span class="line">	<span class="keyword">go</span> bb()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ba</span><span class="params">()</span></span> &#123; <span class="built_in">println</span>(<span class="string">&quot;ba&quot;</span>) &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">bb</span><span class="params">()</span></span> &#123; <span class="built_in">println</span>(<span class="string">&quot;bb&quot;</span>) &#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行 <code>go run main.go</code> 会输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">❯ go run main.go</span><br><span class="line">bb</span><br><span class="line">ba</span><br><span class="line">ab</span><br><span class="line">aa</span><br><span class="line">fatal error: all goroutines are asleep - deadlock!</span><br><span class="line"></span><br><span class="line">goroutine 1 [select (no cases)]:</span><br><span class="line">main.main()</span><br><span class="line">        mani.go:6 +0x52</span><br><span class="line">exit status 2</span><br></pre></td></tr></table></figure>
+
+<p>程序首先启动两个 goroutine，<code>a</code> 和 <code>b</code>，然后他们分别会启动两个给子的子协程。这里需要注意，goroutine 本身是没有父子关系的（对吗？）。程序的执行情况如下所示：</p>
+<p><img src="https://i.imgur.com/TKxKBUK.png" alt="并行执行"></p>
+<p>每一个 goroutine 会占据一个线程，实现了并行并发。但是执行顺序也是随机的，我们看到 <code>bb</code> 比 <code>ab</code> 更先被打印了。</p>
+<p>但是，我们也观察到程序出现了 fatal error，因为 select 是阻塞操作，为了让方便观察结果，但是由于 runtime 已经没有任何活跃的 goroutine 了，程序就会报错。（当然，main goroutine 仍然是活跃的）。</p>
+<p>当然，我们也可以通过同步操作，让所有 goroutine 在一个线程中执行。</p>
+<p><img src="https://i.imgur.com/YbRfzzW.png" alt="顺序执行"></p>
+<p>这两种调度方式都可以，但是为了简化我们后面的实现，我们选择后者，即单线程并发。</p>
+<h3 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h3><p>Go 通过 Chan 实现并发通讯。考虑如下程序：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;time&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">	<span class="keyword">go</span> a(ch)</span><br><span class="line">	<span class="keyword">go</span> b(ch)</span><br><span class="line">	<span class="keyword">select</span> &#123;&#125; <span class="comment">// prevent the program from terminating, ignore for now</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">a</span><span class="params">(ch <span class="keyword">chan</span> <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;a before&quot;</span>)</span><br><span class="line">	ch &lt;- <span class="number">5</span></span><br><span class="line">    time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;a after&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">b</span><span class="params">(ch <span class="keyword">chan</span> <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;b before&quot;</span>)</span><br><span class="line">	<span class="built_in">println</span>(&lt;-ch)</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">&quot;b after&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过 <code>ch</code> 对象，我们可以确保 “b after” 一定会在 “a before” 以后执行。这就是所谓的同步，而两个 goroutine 就是在 <code>ch</code> 发生连接。</p>
+<p>程序输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">❯ go run main.go</span><br><span class="line">b before</span><br><span class="line">a before</span><br><span class="line">5</span><br><span class="line">b after</span><br><span class="line">a after</span><br></pre></td></tr></table></figure>
+
+<h3 id="Select"><a href="#Select" class="headerlink" title="Select"></a>Select</h3><p>Go  的 <code>select</code> 语句可以用来等待多个 Chan，然后处理第一个被释放的 Chan。</p>
+<p>看如下程序：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ch1, ch2 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>), <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">	<span class="keyword">go</span> a(ch2)</span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> value := &lt;-ch1:</span><br><span class="line">		<span class="built_in">println</span>(<span class="string">&quot;1:&quot;</span>, value)</span><br><span class="line">	<span class="keyword">case</span> value := &lt;-ch2:</span><br><span class="line">		<span class="built_in">println</span>(<span class="string">&quot;2:&quot;</span>, value)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">a</span><span class="params">(ch <span class="keyword">chan</span> <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	ch &lt;- <span class="number">5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>select 会同时等待 ch1 和 ch2，由于 a 会向 ch2 传递值，select 选择第二个branch，打印 <code>2：</code>。</p>
+<h2 id="实现1：非抢占调度"><a href="#实现1：非抢占调度" class="headerlink" title="实现1：非抢占调度"></a>实现1：非抢占调度</h2><p>我们首先来看下 Go 的并发 API：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Python</th>
+<th>Go</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>go</code></td>
+<td><code>go(lambda: print(&quot;in py routine&quot;))</code></td>
+<td><code>go println(&quot;in py routine&quot;)</code></td>
+</tr>
+<tr>
+<td><code>make</code></td>
+<td><code>ch = make()</code></td>
+<td><code>ch := make(chan int)</code></td>
+</tr>
+<tr>
+<td><code>len</code></td>
+<td><code>len(ch)</code></td>
+<td><code>len(ch)</code></td>
+</tr>
+<tr>
+<td><code>cap</code></td>
+<td><code>cap(ch)</code></td>
+<td><code>cap(ch)</code></td>
+</tr>
+<tr>
+<td><code>send</code></td>
+<td><code>send(ch, 5, lambda: print(&quot;sent&quot;))</code></td>
+<td><code>ch &lt;- 5</code></td>
+</tr>
+<tr>
+<td><code>recv</code></td>
+<td><code>recv(ch, lambda value, ok: pass)</code></td>
+<td><code>value, ok := &lt;- ch</code></td>
+</tr>
+<tr>
+<td><code>close</code></td>
+<td><code>close(ch)</code></td>
+<td><code>close(ch)</code></td>
+</tr>
+<tr>
+<td><code>select</code></td>
+<td><code>select([(), ()])</code></td>
+<td><code>select &#123;case ..&#125;</code></td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td><code>run()</code></td>
+<td>在主函数自动执行</td>
+</tr>
+</tbody></table>
+<p>我们看到 Python 版本的 API 中 send 和 recv 函数都有带有一个回调函数，这些是为了在阻塞之后可以继续执行回调函数。这种方式比较容易实现调度，但是看起来有点不舒服，在最后一个部分，我们会采用 python 的 <code>async</code> 和 <code>await</code> 语法去掉回调函数。</p>
+<p>API 有了，我们还需要实现一些数据结构，比如 Channel。Channel 的本质其实就是阻塞队列。我们采用如下实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Channel</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.closed = <span class="literal">False</span></span><br><span class="line">        <span class="comment"># 这里是两个队列用来存放发送和接受的信息</span></span><br><span class="line">        self.waiting_to_send = WaitingQueue()</span><br><span class="line">        self.waiting_to_recv = WaitingQueue()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WaitingQueue</span>(<span class="params"><span class="built_in">list</span></span>):</span></span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">enqueue</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        WaitingQueue.total += <span class="number">1</span></span><br><span class="line">        self.append(x)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dequeue</span>(<span class="params">self, x=<span class="literal">None</span></span>):</span></span><br><span class="line">        <span class="keyword">if</span> x <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            x = self.pop(<span class="number">0</span>)</span><br><span class="line">            WaitingQueue.total -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            idx = self.index(x)</span><br><span class="line">            <span class="keyword">if</span> idx <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                self.pop(idx)</span><br><span class="line">                WaitingQueue.total -= <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们实现调度相关的函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">execution_queue = []</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">go</span>(<span class="params">callback</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">callable</span>:</span><br><span class="line">        execution_queue.appendc(callback)</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span>():</span></span><br><span class="line">    WaitingQueue.total = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> execution_queue:</span><br><span class="line">        <span class="comment"># 进入执行循环</span></span><br><span class="line">        f = execution_queue.pop(<span class="number">0</span>)</span><br><span class="line">        f()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> WaitingQueue.total &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="comment"># 如果执行队列已经空了，但是还有在等待的任务，就会形成 deadlock</span></span><br><span class="line">        <span class="keyword">raise</span> RuntimeError(<span class="string">&quot;fatal error: all goroutines are asleep - deadlock&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>Channel Methods</strong></p>
+<p>相关的解释直接放在代码注释，目的就是模拟 Go 对 API 的各种 spec。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make</span>():</span></span><br><span class="line">    <span class="keyword">return</span> Channel()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">len</span>(<span class="params">chan</span>):</span></span><br><span class="line">    <span class="comment"># unbuffered channel 长度永远是0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cap</span>(<span class="params">chan</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">send</span>(<span class="params">chan, value, callback</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; Go&#x27;s Spec: </span></span><br><span class="line"><span class="string">    Communication blocks until the send can proceed.</span></span><br><span class="line"><span class="string">    A send on an unbuffered channel can proceed if a receiver is ready.</span></span><br><span class="line"><span class="string">    [...] A send on a closed channel proceeds by causing a run-time panic. </span></span><br><span class="line"><span class="string">    A send on a nil channel blocks forever.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># Nil chan 直接返回</span></span><br><span class="line">    <span class="keyword">if</span> chan <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        WaitingQueue.total += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> </span><br><span class="line">    </span><br><span class="line">    <span class="comment"># chan 关闭，panic</span></span><br><span class="line">    <span class="keyword">if</span> chan.closed:</span><br><span class="line">        <span class="keyword">raise</span> RuntimeError(<span class="string">&quot;panic: send on closed channel&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 有接受请求，处理</span></span><br><span class="line">    <span class="keyword">if</span> chan.waiting_to_recv:</span><br><span class="line">        receiver = chan.waiting_to_recv.dequeue()</span><br><span class="line">        go(callback)</span><br><span class="line">        go(<span class="keyword">lambda</span>: receiver(value, <span class="literal">True</span>))</span><br><span class="line">        <span class="keyword">return</span> </span><br><span class="line"></span><br><span class="line">    <span class="comment"># 无接收请求，入队，阻塞</span></span><br><span class="line">    chan.waiting_to_send.enqueue((value, callback))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recv</span>(<span class="params">channel, callback</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; Go&#x27;s Spec:</span></span><br><span class="line"><span class="string">    The expression blocks until a value is available. </span></span><br><span class="line"><span class="string">    Receiving from a nil channel blocks forever.</span></span><br><span class="line"><span class="string">    A receive operation on a closed channel can always proceed immediately, </span></span><br><span class="line"><span class="string">     yielding the element type&#x27;s zero value after any previously sent values have been received.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># &quot;Receiving from a nil channel blocks forever.&quot;</span></span><br><span class="line">    <span class="keyword">if</span> channel <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        WaitingQueue.total += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># &quot;if anything is currently blocked on sending for this channel, receive it&quot;</span></span><br><span class="line">    <span class="keyword">if</span> channel.waiting_to_send:</span><br><span class="line">        value, sender = channel.waiting_to_send.dequeue()</span><br><span class="line">        go(<span class="keyword">lambda</span>: callback(value, <span class="literal">True</span>))</span><br><span class="line">        go(sender)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># &quot;A receive operation on a closed channel can always proceed immediately,</span></span><br><span class="line">    <span class="comment"># yielding the element type&#x27;s zero value after any previously sent values have been received.&quot;</span></span><br><span class="line">    <span class="keyword">if</span> channel.closed:</span><br><span class="line">        go(<span class="keyword">lambda</span>: callback(<span class="literal">None</span>, <span class="literal">False</span>))</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    channel.waiting_to_recv.enqueue(callback)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">close</span>(<span class="params">channel</span>):</span></span><br><span class="line">    <span class="comment"># if the channel is already closed, we panic</span></span><br><span class="line">    <span class="keyword">if</span> channel.closed:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;close of closed channel&quot;</span>)</span><br><span class="line"></span><br><span class="line">    channel.closed = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># complete any senders</span></span><br><span class="line">    <span class="keyword">while</span> channel.waiting_to_send:</span><br><span class="line">        value, callback = channel.waiting_to_send.dequeue()</span><br><span class="line">        send(channel, value, callback)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># complete any receivers</span></span><br><span class="line">    <span class="keyword">while</span> channel.waiting_to_recv:</span><br><span class="line">        callback = channel.waiting_to_recv.dequeue()</span><br><span class="line">        recv(channel, callback)</span><br></pre></td></tr></table></figure>
+
+<p><code>select</code> API 实现相对复杂，我们的目的是如下使用场景：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select(</span><br><span class="line">  [</span><br><span class="line">    (recv, ch1, <span class="keyword">lambda</span> v1, ok: <span class="built_in">print</span>(<span class="string">&quot;received!&quot;</span>, v1, ok)),</span><br><span class="line">    (send, ch2, v2, <span class="keyword">lambda</span>: <span class="built_in">print</span>(<span class="string">&quot;sent!&quot;</span>)),</span><br><span class="line">    (default, <span class="keyword">lambda</span>: <span class="built_in">print</span>(<span class="string">&quot;default!&quot;</span>))</span><br><span class="line">  ],</span><br><span class="line">  <span class="keyword">lambda</span>: <span class="built_in">print</span>(<span class="string">&quot;after select&quot;</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>对应的 Go 程序为：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> &#123;</span><br><span class="line"><span class="keyword">case</span> v1, ok := &lt;-ch1:</span><br><span class="line">  <span class="built_in">println</span>(<span class="string">&quot;received!&quot;</span>, v1, ok)</span><br><span class="line"><span class="keyword">case</span> ch2 &lt;- v2:</span><br><span class="line">  <span class="built_in">println</span>(<span class="string">&quot;sent!&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">  <span class="built_in">println</span>(<span class="string">&quot;default!&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">println</span>(<span class="string">&quot;after select&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>根据 Spec，select的行为如下：</p>
+<ul>
+<li>如果有一个或以上 case 可以执行，随机选择一个执行</li>
+<li>如果没有 case 可以执行，执行 default</li>
+<li>如果内有 case 可以执行，也没有 default，</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">import</span> builtins</span><br><span class="line"></span><br><span class="line"><span class="comment"># used to indicate the default case in a select</span></span><br><span class="line">default = <span class="built_in">object</span>()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select</span>(<span class="params">cases, callback=<span class="literal">None</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_ready</span>(<span class="params">case</span>):</span></span><br><span class="line">        <span class="keyword">if</span> case[<span class="number">0</span>] == send:</span><br><span class="line">            <span class="keyword">return</span> case[<span class="number">1</span>].closed <span class="keyword">or</span> case[<span class="number">1</span>].waiting_to_recv</span><br><span class="line">        <span class="keyword">elif</span> case[<span class="number">0</span>] == recv:</span><br><span class="line">            <span class="keyword">return</span> case[<span class="number">1</span>].closed <span class="keyword">or</span> case[<span class="number">1</span>].waiting_to_send</span><br><span class="line">        <span class="keyword">elif</span> case[<span class="number">0</span>] == default:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># first see if any of the cases are ready to proceed</span></span><br><span class="line">    ready = [case <span class="keyword">for</span> case <span class="keyword">in</span> cases <span class="keyword">if</span> is_ready(case)]</span><br><span class="line">    <span class="keyword">if</span> ready:</span><br><span class="line">        <span class="comment"># pick a random one</span></span><br><span class="line">        case = ready[randint(<span class="number">0</span>, builtins.<span class="built_in">len</span>(ready)-<span class="number">1</span>)]</span><br><span class="line">        <span class="keyword">if</span> case[<span class="number">0</span>] == send:</span><br><span class="line">            send(case[<span class="number">1</span>], case[<span class="number">2</span>], case[<span class="number">3</span>])</span><br><span class="line">        <span class="keyword">elif</span> case[<span class="number">0</span>] == recv:</span><br><span class="line">            recv(case[<span class="number">1</span>], case[<span class="number">2</span>])</span><br><span class="line">        go(callback)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># next see if there&#x27;s a default case</span></span><br><span class="line">    defaults = [case <span class="keyword">for</span> case <span class="keyword">in</span> cases <span class="keyword">if</span> case[<span class="number">0</span>] == default]</span><br><span class="line">    <span class="keyword">if</span> defaults:</span><br><span class="line">        defaults[<span class="number">0</span>]()</span><br><span class="line">        go(callback)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># finally we will enqueue each case into the waiting queues</span></span><br><span class="line">    <span class="comment"># we also update each callback so it will cleanup all the</span></span><br><span class="line">    <span class="comment"># other cases so only one is fired</span></span><br><span class="line"></span><br><span class="line">    wrapped = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">cleanup</span>():</span></span><br><span class="line">        <span class="keyword">for</span> case <span class="keyword">in</span> wrapped:</span><br><span class="line">            <span class="keyword">if</span> case[<span class="number">0</span>] == send:</span><br><span class="line">                case[<span class="number">1</span>].waiting_to_send.dequeue((case[<span class="number">2</span>], case[<span class="number">3</span>]))</span><br><span class="line">            <span class="keyword">elif</span> case[<span class="number">0</span>] == recv:</span><br><span class="line">                case[<span class="number">1</span>].waiting_to_recv.dequeue(case[<span class="number">2</span>])</span><br><span class="line">        go(callback)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># overwrite all the callbacks and enqueue into the waiting queues</span></span><br><span class="line">    <span class="keyword">for</span> case <span class="keyword">in</span> cases:</span><br><span class="line">        <span class="keyword">if</span> case[<span class="number">0</span>] == send:</span><br><span class="line">            new_case = (case[<span class="number">0</span>], case[<span class="number">1</span>], case[<span class="number">2</span>],</span><br><span class="line">                        <span class="keyword">lambda</span>: (cleanup(), case[<span class="number">3</span>]()))</span><br><span class="line">            case[<span class="number">1</span>].waiting_to_send.enqueue((new_case[<span class="number">2</span>], new_case[<span class="number">3</span>]))</span><br><span class="line">            wrapped.append(new_case)</span><br><span class="line">        <span class="keyword">elif</span> case[<span class="number">0</span>] == recv:</span><br><span class="line">            new_case = (case[<span class="number">0</span>], case[<span class="number">1</span>],</span><br><span class="line">                        <span class="keyword">lambda</span> value, ok: (cleanup(), case[<span class="number">2</span>](value, ok)))</span><br><span class="line">            case[<span class="number">1</span>].waiting_to_recv.enqueue(new_case[<span class="number">2</span>])</span><br><span class="line">            wrapped.append(new_case)</span><br></pre></td></tr></table></figure>
+
+<h2 id="一个例子-Concurrent-Merge-Sort"><a href="#一个例子-Concurrent-Merge-Sort" class="headerlink" title="一个例子 Concurrent Merge Sort"></a>一个例子 Concurrent Merge Sort</h2><p>一下是一个 go 版本的并发排序：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">merge</span><span class="params">(l, r []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	m := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>, <span class="built_in">len</span>(l)+<span class="built_in">len</span>(r))</span><br><span class="line">	<span class="keyword">for</span> <span class="built_in">len</span>(l) &gt; <span class="number">0</span> || <span class="built_in">len</span>(r) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">switch</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="built_in">len</span>(l) == <span class="number">0</span>:</span><br><span class="line">			m = <span class="built_in">append</span>(m, r[<span class="number">0</span>])</span><br><span class="line">			r = r[<span class="number">1</span>:]</span><br><span class="line">		<span class="keyword">case</span> <span class="built_in">len</span>(r) == <span class="number">0</span>:</span><br><span class="line">			m = <span class="built_in">append</span>(m, l[<span class="number">0</span>])</span><br><span class="line">			l = l[<span class="number">1</span>:]</span><br><span class="line">		<span class="keyword">case</span> l[<span class="number">0</span>] &lt;= r[<span class="number">0</span>]:</span><br><span class="line">			m = <span class="built_in">append</span>(m, l[<span class="number">0</span>])</span><br><span class="line">			l = l[<span class="number">1</span>:]</span><br><span class="line">		<span class="keyword">case</span> l[<span class="number">0</span>] &gt; r[<span class="number">0</span>]:</span><br><span class="line">			m = <span class="built_in">append</span>(m, r[<span class="number">0</span>])</span><br><span class="line">			r = r[<span class="number">1</span>:]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> m</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ConcurrentMergSort</span><span class="params">(xs []<span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">switch</span> <span class="built_in">len</span>(xs) &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> <span class="number">1</span>, <span class="number">2</span>:</span><br><span class="line">		<span class="keyword">return</span> merge(xs[:<span class="number">1</span>], xs[<span class="number">1</span>:])</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		lc, rc := <span class="built_in">make</span>(<span class="keyword">chan</span> []<span class="keyword">int</span>), <span class="built_in">make</span>(<span class="keyword">chan</span> []<span class="keyword">int</span>)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			lc &lt;- ConcurrentMergSort(xs[:<span class="built_in">len</span>(xs)/<span class="number">2</span>])</span><br><span class="line">		&#125;()</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			rc &lt;- ConcurrentMergSort(xs[<span class="built_in">len</span>(xs)/<span class="number">2</span>:])</span><br><span class="line">		&#125;()</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> merge(&lt;-lc, &lt;-rc)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a := []<span class="keyword">int</span>&#123;<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">	b := ConcurrentMergSort(a)</span><br><span class="line">	fmt.Println(b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用对应的Python API 实现为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">merge</span>(<span class="params">l, r</span>):</span></span><br><span class="line">    m = []</span><br><span class="line">    <span class="keyword">while</span> <span class="built_in">len</span>(l) &gt; <span class="number">0</span> <span class="keyword">or</span> <span class="built_in">len</span>(r) &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(l) == <span class="number">0</span>:</span><br><span class="line">            m.append(r[<span class="number">0</span>])</span><br><span class="line">            r = r[<span class="number">1</span>:]</span><br><span class="line">        <span class="keyword">elif</span> <span class="built_in">len</span>(r) == <span class="number">0</span>:</span><br><span class="line">            m.append(l[<span class="number">0</span>])</span><br><span class="line">            l = l[<span class="number">1</span>:]</span><br><span class="line">        <span class="keyword">elif</span> l[<span class="number">0</span>] &lt;= r[<span class="number">0</span>]:</span><br><span class="line">            m.append(l[<span class="number">0</span>])</span><br><span class="line">            l = l[<span class="number">1</span>:]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            m.append(r[<span class="number">0</span>])</span><br><span class="line">            r = r[<span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">return</span> m</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">concurrent_merge_sort</span>(<span class="params">xs, callback</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(xs) &lt;= <span class="number">1</span>:</span><br><span class="line">        callback(xs)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        lc, rc = make(), make()</span><br><span class="line">        go(<span class="keyword">lambda</span>: concurrent_merge_sort(xs[:<span class="built_in">len</span>(xs)//<span class="number">2</span>], <span class="keyword">lambda</span> l:</span><br><span class="line">                                         send(lc, l, <span class="keyword">lambda</span>: <span class="literal">None</span>)))</span><br><span class="line">        go(<span class="keyword">lambda</span>: concurrent_merge_sort(xs[<span class="built_in">len</span>(xs)//<span class="number">2</span>:], <span class="keyword">lambda</span> r:</span><br><span class="line">                                         send(rc, r, <span class="keyword">lambda</span>: <span class="literal">None</span>)))</span><br><span class="line">        recv(lc, <span class="keyword">lambda</span> l, ok:</span><br><span class="line">             recv(rc, <span class="keyword">lambda</span> r, ok:</span><br><span class="line">                  callback(merge(l, r))))</span><br><span class="line"></span><br><span class="line"><span class="comment"># example usage:</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_concurrent_merge_sort</span>():</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">callback</span>(<span class="params">result</span>):</span></span><br><span class="line">        <span class="keyword">assert</span> result == [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">    concurrent_merge_sort([<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">4</span>], callback)</span><br><span class="line">    run()</span><br></pre></td></tr></table></figure>
+
+
+<h6 id="tags-Go-Python"><a href="#tags-Go-Python" class="headerlink" title="tags: Go Python"></a>tags: <code>Go</code> <code>Python</code></h6>
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/12/12/pick_next_language_2/" rel="bookmark">如何选择下一个语言 - 续</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/12/11/erlang/" rel="bookmark">被时间“埋没”的分布式王者：Erlang</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/28/go_2/" rel="bookmark">Go 学习笔记2 语法、语义</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/30/go_3/" rel="bookmark">Go 学习笔记3 程序的构成</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/03/30/go_4/" rel="bookmark">Go 学习笔记4 抽象方法</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Concurrency/" rel="tag"><i class="fa fa-tag"></i> Concurrency</a>
+              <a href="/tags/Go/" rel="tag"><i class="fa fa-tag"></i> Go</a>
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/04/02/go_5/" rel="prev" title="Go 学习笔记5 并发编程">
+                  <i class="fa fa-chevron-left"></i> Go 学习笔记5 并发编程
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/04/05/go_sync/" rel="next" title="Go 学习笔记 Memory Access Synchronization">
+                  Go 学习笔记 Memory Access Synchronization <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FunCoder</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">420k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

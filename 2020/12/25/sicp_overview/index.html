@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="SICP quick overview Building Abstraction with ProceduresThe Elements of ProgrammingThree machanisms of powerful language:  primitive expression, the simplest entities the language is concerned with me">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SICP">
+<meta property="og:url" content="http://yoursite.com/2020/12/25/sicp_overview/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="SICP quick overview Building Abstraction with ProceduresThe Elements of ProgrammingThree machanisms of powerful language:  primitive expression, the simplest entities the language is concerned with me">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/jBwpFte.png">
+<meta property="og:image" content="https://i.imgur.com/08f8LQm.png">
+<meta property="og:image" content="https://i.imgur.com/1UiVC6S.png">
+<meta property="og:image" content="https://i.imgur.com/Yf6vQCg.png">
+<meta property="article:published_time" content="2020-12-25T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-21T11:25:09.406Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="SICP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/jBwpFte.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/12/25/sicp_overview/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2020/12/25/sicp_overview/","path":"2020/12/25/sicp_overview/","title":"SICP"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SICP | FunCoder</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Building-Abstraction-with-Procedures"><span class="nav-number">1.</span> <span class="nav-text">Building Abstraction with Procedures</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Elements-of-Programming"><span class="nav-number">1.1.</span> <span class="nav-text">The Elements of Programming</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluating-Combinations"><span class="nav-number">1.1.1.</span> <span class="nav-text">Evaluating Combinations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compound-Procedures"><span class="nav-number">1.1.2.</span> <span class="nav-text">Compound Procedures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Substitution-Model-for-Procedure-Application"><span class="nav-number">1.1.3.</span> <span class="nav-text">Substitution Model for Procedure Application</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conditional-Expressions"><span class="nav-number">1.1.4.</span> <span class="nav-text">Conditional Expressions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Procedures-and-the-Processes-generated"><span class="nav-number">1.2.</span> <span class="nav-text">Procedures and the Processes generated</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linear-Recursion-and-Iteration"><span class="nav-number">1.2.1.</span> <span class="nav-text">Linear Recursion and Iteration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tree-Recursion"><span class="nav-number">1.2.2.</span> <span class="nav-text">Tree Recursion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Order-of-Growth"><span class="nav-number">1.2.3.</span> <span class="nav-text">Order of Growth</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exponentiation"><span class="nav-number">1.2.4.</span> <span class="nav-text">Exponentiation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Formulating-Abstractions-with-Higher-order-Functions"><span class="nav-number">1.3.</span> <span class="nav-text">Formulating Abstractions with Higher-order Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Procedures-as-Arguments"><span class="nav-number">1.3.1.</span> <span class="nav-text">Procedures as Arguments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Procedures-as-General-Methods"><span class="nav-number">1.3.2.</span> <span class="nav-text">Procedures as General Methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Procedures-as-Return-Values"><span class="nav-number">1.3.3.</span> <span class="nav-text">Procedures as Return Values</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Building-Abstractions-with-Data"><span class="nav-number">2.</span> <span class="nav-text">Building Abstractions with Data</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction-of-Data-Abstraction"><span class="nav-number">2.1.</span> <span class="nav-text">Introduction of Data Abstraction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#What-is-Meant-by-Data"><span class="nav-number">2.1.1.</span> <span class="nav-text">What is Meant by Data??</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hierarchical-Data-and-the-Closure-Property"><span class="nav-number">2.2.</span> <span class="nav-text">Hierarchical Data and the Closure Property</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sequences"><span class="nav-number">2.2.1.</span> <span class="nav-text">Sequences</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hierarchical-Structures"><span class="nav-number">2.2.2.</span> <span class="nav-text">Hierarchical Structures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sequences-as-Conventional-Interfaces"><span class="nav-number">2.2.3.</span> <span class="nav-text">Sequences as Conventional Interfaces</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-the-Picture-Language"><span class="nav-number">2.2.4.</span> <span class="nav-text">Example: the Picture Language</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Symbolic-Data"><span class="nav-number">2.3.</span> <span class="nav-text">Symbolic Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Symbolic-Differentiation"><span class="nav-number">2.3.1.</span> <span class="nav-text">Example: Symbolic Differentiation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multiple-Representations-for-Abstract-Data"><span class="nav-number">2.4.</span> <span class="nav-text">Multiple Representations for Abstract Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Complex-number"><span class="nav-number">2.4.1.</span> <span class="nav-text">Example: Complex-number</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Systems-with-Generic-Operations"><span class="nav-number">2.5.</span> <span class="nav-text">Systems with Generic Operations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Generic-Arithmetic-Operations"><span class="nav-number">2.5.1.</span> <span class="nav-text">Generic Arithmetic Operations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combining-Data-of-Different-Types"><span class="nav-number">2.5.2.</span> <span class="nav-text">Combining Data of Different Types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Symbolic-Algebra"><span class="nav-number">2.5.3.</span> <span class="nav-text">Example: Symbolic Algebra</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Modularity-Objects-and-State"><span class="nav-number">3.</span> <span class="nav-text">Modularity, Objects, and State</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Assignment-and-Local-State"><span class="nav-number">3.1.</span> <span class="nav-text">Assignment and Local State</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Environment-Model-of-Evaluation"><span class="nav-number">3.2.</span> <span class="nav-text">Environment Model of Evaluation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Modeling-with-Mutable-Data"><span class="nav-number">3.3.</span> <span class="nav-text">Modeling with Mutable Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Digital-Circuits"><span class="nav-number">3.3.1.</span> <span class="nav-text">Example: Digital Circuits</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Concurrency"><span class="nav-number">3.4.</span> <span class="nav-text">Concurrency</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mechanisms-for-Controlling-Concurrency"><span class="nav-number">3.4.1.</span> <span class="nav-text">Mechanisms for Controlling Concurrency</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stream"><span class="nav-number">3.5.</span> <span class="nav-text">Stream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Streams-Are-Delayed-Lists"><span class="nav-number">3.5.1.</span> <span class="nav-text">Streams Are Delayed Lists</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Metalinguistic-Abstraction"><span class="nav-number">4.</span> <span class="nav-text">Metalinguistic Abstraction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Metacircular-Evaluator"><span class="nav-number">4.1.</span> <span class="nav-text">The Metacircular Evaluator</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#The-core-of-evaluator"><span class="nav-number">4.1.1.</span> <span class="nav-text">The core of evaluator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Variations-on-a-Scheme-%E2%80%94-Lazy-Evaluation"><span class="nav-number">4.1.2.</span> <span class="nav-text">Variations on a Scheme — Lazy Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Normal-Order-and-Applicative-Order"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">Normal Order and Applicative Order</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Computing-with-Register-Machines"><span class="nav-number">5.</span> <span class="nav-text">Computing with Register Machines</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://wangzhe3224.github.io/Jesus_is_Lord/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;Jesus_is_Lord&#x2F;" rel="noopener" target="_blank">圣经盐读</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/25/sicp_overview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SICP
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-12-25 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-25T00:00:00Z">2020-12-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-21 11:25:09" itemprop="dateModified" datetime="2022-12-21T11:25:09Z">2022-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computing/" itemprop="url" rel="index"><span itemprop="name">Computing</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/12/25/sicp_overview/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/12/25/sicp_overview/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>16k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>15 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><strong>SICP quick overview</strong></p>
+<h1 id="Building-Abstraction-with-Procedures"><a href="#Building-Abstraction-with-Procedures" class="headerlink" title="Building Abstraction with Procedures"></a>Building Abstraction with Procedures</h1><h2 id="The-Elements-of-Programming"><a href="#The-Elements-of-Programming" class="headerlink" title="The Elements of Programming"></a>The Elements of Programming</h2><p>Three machanisms of powerful language:</p>
+<ul>
+<li>primitive expression, the simplest entities the language is concerned with</li>
+<li>means of combination, compound elements are built from simpler ones</li>
+<li>means of abstraction, compound elements can be named and manipulated as units</li>
+</ul>
+<p>Two elements in programming (maybe just one): data and procedures.</p>
+<p><code>define</code> is the simplest means of abstraction. </p>
+<p><code>environment</code> the memory to keep track name-value bindings.</p>
+<h3 id="Evaluating-Combinations"><a href="#Evaluating-Combinations" class="headerlink" title="Evaluating Combinations"></a>Evaluating Combinations</h3><p>General rule of evaluation of combinations:</p>
+<ol>
+<li>Evaluate the sub-expression of the combinations</li>
+<li>Apply the procedure: value of leftmost sub-expression to the arguments that are the value s of the other sub-expressions</li>
+</ol>
+<p><code>(define x 3)</code> is not a combination, which is not handled by above.<br>These kind of exceptions are <em>special forms</em>. Special forms have their<br>own evaluation rules.</p>
+<h3 id="Compound-Procedures"><a href="#Compound-Procedures" class="headerlink" title="Compound Procedures"></a>Compound Procedures</h3><p><code>(define (square x) (* x x))</code><br>in the form of<br><code>(define (&lt;name&gt; &lt;parameters&gt;) (body))</code></p>
+<p>we can now compound to more complex procedures:<br><code>(define (sum-of-square x y) (+ (square x) (square y)))</code>. </p>
+<p>From now on, compound procedures are as same as primitive procedures.</p>
+<h3 id="Substitution-Model-for-Procedure-Application"><a href="#Substitution-Model-for-Procedure-Application" class="headerlink" title="Substitution Model for Procedure Application"></a>Substitution Model for Procedure Application</h3><p>The application process is:</p>
+<blockquote>
+<p>To apply a compound procedure to arguments, evaluate the body of the procedure with each formal parameter replaced by the corresponding argument.</p>
+</blockquote>
+<p>This is the meaning of procedure application. <strong>But this is not necessarily how the program is executed.</strong></p>
+<p>(Applicative-order evaluation) The interpreter first evaluates the operator and operands and then applies the resulting procedure to the resulting arguments.<br>(Normal-order evaluation) An alternative evaluation model would not evaluate the operands until their values were needed.</p>
+<h3 id="Conditional-Expressions"><a href="#Conditional-Expressions" class="headerlink" title="Conditional Expressions"></a>Conditional Expressions</h3><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">abs</span> x)</span><br><span class="line"> (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">&gt;</span></span> x <span class="number">0</span>) x)</span><br><span class="line">       ((<span class="name"><span class="builtin-name">=</span></span> x <span class="number">0</span>) <span class="number">0</span>)</span><br><span class="line">       ((<span class="name"><span class="builtin-name">&lt;</span></span> x <span class="number">0</span>) (<span class="name"><span class="builtin-name">-</span></span> x)))</span><br></pre></td></tr></table></figure>
+
+<p>More examples:</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">a-plus-abs-b</span> a b) ((<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&gt;</span></span> b <span class="number">0</span>) + -) a b))</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Procedures-and-the-Processes-generated"><a href="#Procedures-and-the-Processes-generated" class="headerlink" title="Procedures and the Processes generated"></a>Procedures and the Processes generated</h2><blockquote>
+<p>The ability to visualize the consequences of the actions under consideration is crucial to becoming an expert programmer</p>
+</blockquote>
+<blockquote>
+<p>A procedure is a pattern for the local evolution of a computational process.</p>
+</blockquote>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">factorial</span> n) </span><br><span class="line"> (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> n <span class="number">1</span>)</span><br><span class="line">     <span class="number">1</span></span><br><span class="line">     (<span class="name"><span class="builtin-name">*</span></span> n (<span class="name">factorial</span> (<span class="name"><span class="builtin-name">-</span></span> n <span class="number">1</span>)))))</span><br></pre></td></tr></table></figure>
+
+<p>vs </p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">factorial</span> n) (<span class="name">fact-iter</span> <span class="number">1</span> <span class="number">1</span> n))</span><br><span class="line">(<span class="name">define</span> (<span class="name">fact-iter</span> product counter max-count) (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&gt;</span></span> counter max-count)</span><br><span class="line">product</span><br><span class="line">(<span class="name">fact-iter</span> (<span class="name"><span class="builtin-name">*</span></span> counter product)</span><br><span class="line">(<span class="name"><span class="builtin-name">+</span></span> counter <span class="number">1</span>) max-count)))</span><br></pre></td></tr></table></figure>
+
+<p>Here are some common pattern of computations.</p>
+<h3 id="Linear-Recursion-and-Iteration"><a href="#Linear-Recursion-and-Iteration" class="headerlink" title="Linear Recursion and Iteration"></a>Linear Recursion and Iteration</h3><p>The two procedures aim the same goal but the processes they generate<br>have different evaluation shapes. One is a linear recursive process,<br>and one is a linear iterative process.</p>
+<blockquote>
+<p>The contrast between the two processes can be seen in another way. In the iterative case, the program variables provide a complete description of the state of the process at any point.</p>
+</blockquote>
+<p>Note that, recursive procedure does not mean it will generate a recursive evaluation process (tail recursion for example). </p>
+<h3 id="Tree-Recursion"><a href="#Tree-Recursion" class="headerlink" title="Tree Recursion"></a>Tree Recursion</h3><p>Use transform can change a tree recursion to an iterative one.</p>
+<h3 id="Order-of-Growth"><a href="#Order-of-Growth" class="headerlink" title="Order of Growth"></a>Order of Growth</h3><p>Orders of growth provide only a crude description of the behavior of a process.</p>
+<h3 id="Exponentiation"><a href="#Exponentiation" class="headerlink" title="Exponentiation"></a>Exponentiation</h3><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">expt</span> b n)</span><br><span class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> n <span class="number">0</span>)</span><br><span class="line">      <span class="number">1</span></span><br><span class="line">      (<span class="name"><span class="builtin-name">*</span></span> b (<span class="name">expt</span> b (<span class="name"><span class="builtin-name">-</span></span> n <span class="number">1</span>)))))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">expt1</span> b n)</span><br><span class="line">  (<span class="name">expt-iter</span> b n <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">expt-iter</span> b counter product)</span><br><span class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> counter <span class="number">0</span>)</span><br><span class="line">      product</span><br><span class="line">      (<span class="name">expt-iter</span> b</span><br><span class="line">                 (<span class="name"><span class="builtin-name">-</span></span> counter <span class="number">1</span>)</span><br><span class="line">                 (<span class="name"><span class="builtin-name">*</span></span> b product))))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">fast-expt</span> b n)</span><br><span class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">=</span></span> n <span class="number">0</span>) <span class="number">1</span>)</span><br><span class="line">        ((<span class="name"><span class="builtin-name">even?</span></span> n) (<span class="name">square</span> (<span class="name">fast-expt</span> b (/ n <span class="number">2</span>))))</span><br><span class="line">        (<span class="name">else</span> (<span class="name"><span class="builtin-name">*</span></span> b (<span class="name">fast-expt</span> b (<span class="name"><span class="builtin-name">-</span></span> n <span class="number">1</span>))))))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name"><span class="builtin-name">even?</span></span> n)</span><br><span class="line">(<span class="name"><span class="builtin-name">=</span></span> (<span class="name">remainder</span> n <span class="number">2</span>) <span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">square</span> n)</span><br><span class="line">  (<span class="name"><span class="builtin-name">*</span></span> n n))</span><br></pre></td></tr></table></figure>
+<h2 id="Formulating-Abstractions-with-Higher-order-Functions"><a href="#Formulating-Abstractions-with-Higher-order-Functions" class="headerlink" title="Formulating Abstractions with Higher-order Functions"></a>Formulating Abstractions with Higher-order Functions</h2><p>Procedures are abstractions that describe compound operations.</p>
+<h3 id="Procedures-as-Arguments"><a href="#Procedures-as-Arguments" class="headerlink" title="Procedures as Arguments"></a>Procedures as Arguments</h3><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;; Procedures as Arguments</span></span><br><span class="line"><span class="comment">;; (define (inc n) (+ n 1))</span></span><br><span class="line">(<span class="name">define</span> (<span class="name">sum</span> term a next b)</span><br><span class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&gt;</span></span> a b)</span><br><span class="line">      <span class="number">0</span></span><br><span class="line">      (<span class="name"><span class="builtin-name">+</span></span> (<span class="name">term</span> a)</span><br><span class="line">         (<span class="name">sum</span> term (<span class="name"><span class="builtin-name">next</span></span> a) next b))))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">sum-iter</span> term a next b)</span><br><span class="line">  (<span class="name">define</span> (<span class="name">iter</span> a result)</span><br><span class="line">    (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&gt;</span></span> a b)</span><br><span class="line">        result</span><br><span class="line">        (<span class="name">iter</span> (<span class="name"><span class="builtin-name">next</span></span> a) (<span class="name"><span class="builtin-name">+</span></span> result (<span class="name">term</span> a)))))</span><br><span class="line">  (<span class="name">iter</span> a <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+
+<p><code>lambda</code> function is useful. <code>let</code> is useful to create local variables.</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">let</span></span> ((⟨var1⟩ ⟨exp1⟩) (⟨var2⟩ ⟨exp2⟩)</span><br><span class="line">...</span><br><span class="line">(⟨varn⟩ ⟨expn⟩)) ⟨body⟩)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Procedures-as-General-Methods"><a href="#Procedures-as-General-Methods" class="headerlink" title="Procedures as General Methods"></a>Procedures as General Methods</h3><h3 id="Procedures-as-Return-Values"><a href="#Procedures-as-Return-Values" class="headerlink" title="Procedures as Return Values"></a>Procedures as Return Values</h3><p>Elements with the fewest restrictions are said to have first-class status. Some of the “rights and privileges” of first-class elements are:</p>
+<ul>
+<li>They may be named by variables.</li>
+<li>They may be passed as arguments to procedures.</li>
+<li>They may be returned as the results of procedures.</li>
+<li>They may be included in data structures.</li>
+</ul>
+<h1 id="Building-Abstractions-with-Data"><a href="#Building-Abstractions-with-Data" class="headerlink" title="Building Abstractions with Data"></a>Building Abstractions with Data</h1><p>After compound procedures, we build abstractions by compounding data.</p>
+<blockquote>
+<p>Just as the ability to define procedures enables us to deal with processes at a higher conceptual level than that of the primitive operations of the language, the ability to construct compound data objects enables us to deal with data at a higher conceptual level than that of the primitive data objects of the language.</p>
+</blockquote>
+<p>The notion of <code>closure</code> is one of the key ideas dealing with compound<br>data. Another idea is <code>conventional interfaces</code> to combine program module in mix-and-match ways. </p>
+<p>Data may be represented differently by different parts of program, this leads to <code>generic operations</code>. </p>
+<h2 id="Introduction-of-Data-Abstraction"><a href="#Introduction-of-Data-Abstraction" class="headerlink" title="Introduction of Data Abstraction"></a>Introduction of Data Abstraction</h2><p><code>selector</code> and <code>constructor</code> as interface of abstract data.<br>Sometime, we also need <code>predicates</code>.</p>
+<p>Example of rational number data abstraction: </p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">make-rat</span> n d) (<span class="name"><span class="builtin-name">cons</span></span> n d))</span><br><span class="line">(<span class="name">define</span> (<span class="name">numer</span> x) (<span class="name">car</span> x))</span><br><span class="line">(<span class="name">define</span> (<span class="name">denom</span> x) (<span class="name">cdr</span> x))</span><br><span class="line">(<span class="name">define</span> (<span class="name">print-tar</span> x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">newline</span></span>)</span><br><span class="line">  (<span class="name">display</span> (<span class="name">numer</span> x))</span><br><span class="line">  (<span class="name">display</span> <span class="string">&quot;/&quot;</span>)</span><br><span class="line">  (<span class="name">display</span> (<span class="name">denom</span> x)))</span><br></pre></td></tr></table></figure>
+<p>The horizontal lines represent <code>abstraction barrier</code>.</p>
+<p><img src="https://i.imgur.com/jBwpFte.png" alt=""></p>
+<h3 id="What-is-Meant-by-Data"><a href="#What-is-Meant-by-Data" class="headerlink" title="What is Meant by Data??"></a>What is Meant by Data??</h3><p>In general, we can think of data as defined by some collection of selectors and constructors, together with specified conditions that these procedures must fulfill in order to be a valid representation.</p>
+<h2 id="Hierarchical-Data-and-the-Closure-Property"><a href="#Hierarchical-Data-and-the-Closure-Property" class="headerlink" title="Hierarchical Data and the Closure Property"></a>Hierarchical Data and the Closure Property</h2><p>THe ability to create pairs whose elements are pairs is the essence of list structure’s importance as a representational tool. This is called <code>closure property</code>: an operation for combining data objects satisfies the closure property if the results of combining things with that operation can themselves be combined using the same operation.</p>
+<blockquote>
+<p> very simplest programs rely on the fact that the elements of a combination can themselves be combinations.</p>
+</blockquote>
+<p>With pairs we could build a lot of stuff.</p>
+<h3 id="Sequences"><a href="#Sequences" class="headerlink" title="Sequences"></a>Sequences</h3><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;; Sequences</span></span><br><span class="line">(<span class="name">define</span> (<span class="name">list-ref</span> items n)</span><br><span class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> n <span class="number">0</span>)</span><br><span class="line">      (<span class="name">car</span> items)</span><br><span class="line">      (<span class="name">list-ref</span> (<span class="name">cdr</span> items) (<span class="name"><span class="builtin-name">-</span></span> n <span class="number">1</span>))))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name"><span class="builtin-name">map</span></span> proc items)</span><br><span class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name">null?</span> items)</span><br><span class="line">      <span class="literal">nil</span></span><br><span class="line">      (<span class="name"><span class="builtin-name">cons</span></span> (<span class="name">proc</span> (<span class="name">car</span> items))</span><br><span class="line">            (<span class="name"><span class="builtin-name">map</span></span> proc (<span class="name">cdr</span> items)))))</span><br></pre></td></tr></table></figure>
+
+<h3 id="Hierarchical-Structures"><a href="#Hierarchical-Structures" class="headerlink" title="Hierarchical Structures"></a>Hierarchical Structures</h3><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">count-leaves</span> x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name">null?</span> x) <span class="number">0</span>)</span><br><span class="line">        ((<span class="name"><span class="builtin-name">not</span></span> (<span class="name">pair?</span> x)) <span class="number">1</span>)</span><br><span class="line">        (<span class="name">else</span> (<span class="name"><span class="builtin-name">+</span></span> (<span class="name">count-leaves</span> (<span class="name">car</span> x))</span><br><span class="line">                 (<span class="name">count-leaves</span> (<span class="name">cdr</span> x))))))</span><br></pre></td></tr></table></figure>
+
+<h3 id="Sequences-as-Conventional-Interfaces"><a href="#Sequences-as-Conventional-Interfaces" class="headerlink" title="Sequences as Conventional Interfaces"></a>Sequences as Conventional Interfaces</h3><p><code>Conventional Interfaces</code> is anther powerful design tool other than data abstraction. </p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">enumerate-interval</span> low high)</span><br><span class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&gt;</span></span> low high)</span><br><span class="line">      <span class="literal">nil</span></span><br><span class="line">      (<span class="name"><span class="builtin-name">cons</span></span> low (<span class="name">enumerate-interval</span> (<span class="name"><span class="builtin-name">+</span></span> low <span class="number">1</span>) high))))</span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">enumerate-tree</span> tree)</span><br><span class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name">null?</span> tree) <span class="literal">nil</span>)</span><br><span class="line">        ((<span class="name"><span class="builtin-name">not</span></span> (<span class="name">pair?</span> tree)) (<span class="name"><span class="builtin-name">list</span></span> tree))</span><br><span class="line">        (<span class="name">else</span> (<span class="name">append</span> (<span class="name">enumerate-tree</span> (<span class="name">car</span> tree))</span><br><span class="line">                      (<span class="name">enumerate-tree</span> (<span class="name">cdr</span> tree))))))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">accumulate</span> op initial sequence) (<span class="name"><span class="builtin-name">if</span></span> (<span class="name">null?</span> sequence)</span><br><span class="line">      initial</span><br><span class="line">      (<span class="name">op</span> (<span class="name">car</span> sequence)</span><br><span class="line">          (<span class="name">accumulate</span> op initial (<span class="name">cdr</span> sequence)))))</span><br></pre></td></tr></table></figure>
+
+<h3 id="Example-the-Picture-Language"><a href="#Example-the-Picture-Language" class="headerlink" title="Example: the Picture Language"></a>Example: the Picture Language</h3><p>Good designs:</p>
+<ul>
+<li>Use data abstractions</li>
+<li>The means of combination satisfy the closure property</li>
+<li>With above, all the tools for abstracting procedures are available now</li>
+<li>complex system should be structured as a sequence of levels.</li>
+</ul>
+<p>The language used at each level of a stratified design has primitives, means of combination, and means of abstraction appropriate to that level of detail. This is called <code>Stratified design</code>.</p>
+<h2 id="Symbolic-Data"><a href="#Symbolic-Data" class="headerlink" title="Symbolic Data"></a>Symbolic Data</h2><p>Another type of data, Symbols, which is not numbers.<br>In order to manipulate symbols we need a new element in our language: the ability to <code>quote</code> a data object.</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">list</span></span> &#x27;a &#x27;b &#x27;c)</span><br><span class="line">(<span class="name">cdr</span> &#x27;((<span class="name">x1</span> x2) (<span class="name">y1</span> y2)))</span><br><span class="line">(<span class="name">cadr</span> &#x27;((<span class="name">x1</span> x2) (<span class="name">y1</span> y2)))</span><br><span class="line">(<span class="name">pair?</span> (<span class="name">car</span> &#x27;(<span class="name">a</span> short list)))</span><br></pre></td></tr></table></figure>
+
+<h3 id="Example-Symbolic-Differentiation"><a href="#Example-Symbolic-Differentiation" class="headerlink" title="Example: Symbolic Differentiation"></a>Example: Symbolic Differentiation</h3><p>First, work out the data abstractions needed: <code>constructor</code>, <code>selector</code>, and <code>predicator</code>. </p>
+<p>Then define the procedure to do derive on above data abstraction.</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">deriv</span> exp var) (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">number?</span></span> exp) <span class="number">0</span>)</span><br><span class="line">((<span class="name">variable?</span> exp) (<span class="name"><span class="builtin-name">if</span></span> (<span class="name">same-variable?</span> exp var) <span class="number">1</span> <span class="number">0</span>)) ((<span class="name">sum?</span> exp) (<span class="name">make-sum</span> (<span class="name">deriv</span> (<span class="name">addend</span> exp) var)</span><br><span class="line">                              (<span class="name">deriv</span> (<span class="name">augend</span> exp) var)))</span><br><span class="line">((<span class="name">product?</span> exp) (<span class="name">make-sum</span></span><br><span class="line">(<span class="name">make-product</span> (<span class="name">multiplier</span> exp)</span><br><span class="line">(<span class="name">deriv</span> (<span class="name">multiplicand</span> exp) var))</span><br><span class="line">(<span class="name">make-product</span> (<span class="name">deriv</span> (<span class="name">multiplier</span> exp) var) (<span class="name">multiplicand</span> exp))))</span><br><span class="line">(<span class="name">else</span></span><br><span class="line">(<span class="name">error</span> <span class="string">&quot;unknown expression type: DERIV&quot;</span> exp))))</span><br></pre></td></tr></table></figure>
+
+<h2 id="Multiple-Representations-for-Abstract-Data"><a href="#Multiple-Representations-for-Abstract-Data" class="headerlink" title="Multiple Representations for Abstract Data"></a>Multiple Representations for Abstract Data</h2><p>There might be more than one useful representation for a data object, and we might like to design systems that can deal with multiple representations. </p>
+<p>So in addition to the data-abstraction barriers that isolate representation from use, we need abstraction barriers that isolate different design choices from each other and permit different choices to coexist in a single program. </p>
+<p>In addition, we need to make the system more additive.</p>
+<p>To achieve above, we need a new tool <code>generic procedure</code>. Type tags and data-directed style enable this.</p>
+<h3 id="Example-Complex-number"><a href="#Example-Complex-number" class="headerlink" title="Example: Complex-number"></a>Example: Complex-number</h3><p><img src="https://i.imgur.com/08f8LQm.png" alt=""></p>
+<p>But we soon realized that, using type tag make the system not additive!<br>And this kind of system is hard to maintain.</p>
+<p>NOT A GOOD DESIGN!</p>
+<p>Here is Table of operations for the complex-number system:</p>
+<p><img src="https://i.imgur.com/1UiVC6S.png" alt=""></p>
+<p>Data-directed programming is the technique of designing programs to work with such a table directly. If we do this, then to add a new representation package to the system we need not change any existing procedures; we need only add new entries to the table.</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">(<span class="name">define</span> (<span class="name">apply-generic</span> op . args)</span><br><span class="line">(<span class="name"><span class="builtin-name">let</span></span> ((<span class="name">type-tags</span> (<span class="name"><span class="builtin-name">map</span></span> type-tag args)))</span><br><span class="line">(<span class="name"><span class="builtin-name">let</span></span> ((<span class="name">proc</span> (<span class="name"><span class="builtin-name">get</span></span> op type-tags))) (<span class="name"><span class="builtin-name">if</span></span> proc</span><br><span class="line">          (<span class="name"><span class="builtin-name">apply</span></span> proc (<span class="name"><span class="builtin-name">map</span></span> contents args))</span><br><span class="line">          (<span class="name">error</span> <span class="string">&quot;No method for these types: APPLY-GENERIC&quot;</span></span><br><span class="line">(<span class="name"><span class="builtin-name">list</span></span> op type-tags))))))</span><br><span class="line"><span class="comment">;; selectors with generics</span></span><br><span class="line">(<span class="name">define</span> (<span class="name">real-part</span> z) (<span class="name">apply-generic</span> &#x27;real-part z))</span><br><span class="line">(<span class="name">define</span> (<span class="name">imag-part</span> z) (<span class="name">apply-generic</span> &#x27;imag-part z)) </span><br><span class="line">(<span class="name">define</span> (<span class="name">magnitude</span> z) (<span class="name">apply-generic</span> &#x27;magnitude z)) </span><br><span class="line">(<span class="name">define</span> (<span class="name">angle</span> z)     (<span class="name">apply-generic</span> &#x27;angle z))</span><br></pre></td></tr></table></figure>
+
+<p>In effect, this decomposes the operation-and-type table into rows, with each generic operation procedure representing a row of the table.</p>
+<p>An alternative implementation strategy is to decompose the table into columns. This style is called <code>message passing</code>.</p>
+<h2 id="Systems-with-Generic-Operations"><a href="#Systems-with-Generic-Operations" class="headerlink" title="Systems with Generic Operations"></a>Systems with Generic Operations</h2><h3 id="Generic-Arithmetic-Operations"><a href="#Generic-Arithmetic-Operations" class="headerlink" title="Generic Arithmetic Operations"></a>Generic Arithmetic Operations</h3><p><img src="https://i.imgur.com/Yf6vQCg.png" alt=""></p>
+<p>The generic arithmetic procedures are defined as</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">add</span> x y) (<span class="name">apply-generic</span> &#x27;add x y))</span><br><span class="line">(<span class="name">define</span> (<span class="name">sub</span> x y) (<span class="name">apply-generic</span> &#x27;sub x y))</span><br><span class="line">(<span class="name">define</span> (<span class="name">mul</span> x y) (<span class="name">apply-generic</span> &#x27;mul x y))</span><br><span class="line">(<span class="name">define</span> (<span class="name">div</span> x y) (<span class="name">apply-generic</span> &#x27;div x y))</span><br><span class="line"></span><br><span class="line"><span class="comment">;;</span></span><br><span class="line">(<span class="name">define</span> (<span class="name">install-scheme-number-package</span>)</span><br><span class="line">  (<span class="name">define</span> (<span class="name">tag</span> x) (<span class="name">attach-tag</span> &#x27;scheme-number x)) </span><br><span class="line">  (<span class="name">put</span> &#x27;add &#x27;(<span class="name">scheme-number</span> scheme-number)</span><br><span class="line">       (<span class="name">lambda</span> (<span class="name">x</span> y) (<span class="name">tag</span> (<span class="name"><span class="builtin-name">+</span></span> x y))))</span><br><span class="line">  (<span class="name">put</span> &#x27;sub &#x27;(<span class="name">scheme-number</span> scheme-number)</span><br><span class="line">       (<span class="name">lambda</span> (<span class="name">x</span> y) (<span class="name">tag</span> (<span class="name"><span class="builtin-name">-</span></span> x y))))</span><br><span class="line">  (<span class="name">put</span> &#x27;mul &#x27;(<span class="name">scheme-number</span> scheme-number)</span><br><span class="line">       (<span class="name">lambda</span> (<span class="name">x</span> y) (<span class="name">tag</span> (<span class="name"><span class="builtin-name">*</span></span> x y))))</span><br><span class="line">  (<span class="name">put</span> &#x27;div &#x27;(<span class="name">scheme-number</span> scheme-number)</span><br><span class="line">       (<span class="name">lambda</span> (<span class="name">x</span> y) (<span class="name">tag</span> (/ x y))))</span><br><span class="line">  (<span class="name">put</span> &#x27;make &#x27;scheme-number (<span class="name">lambda</span> (<span class="name">x</span>) (<span class="name">tag</span> x))) &#x27;done)</span><br></pre></td></tr></table></figure>
+
+<p>In the end, we need a two level tag system for complex number.</p>
+<h3 id="Combining-Data-of-Different-Types"><a href="#Combining-Data-of-Different-Types" class="headerlink" title="Combining Data of Different Types"></a>Combining Data of Different Types</h3><p>We would like to introduce the cross-type operations in some carefully controlled way, so that we can support them without seriously violating our module boundaries.</p>
+<p>One strategy could be making a type transfer of types if possible.</p>
+<p>Or we could build a hierachies of type.</p>
+<h3 id="Example-Symbolic-Algebra"><a href="#Example-Symbolic-Algebra" class="headerlink" title="Example: Symbolic Algebra"></a>Example: Symbolic Algebra</h3><p>TODO.</p>
+<h1 id="Modularity-Objects-and-State"><a href="#Modularity-Objects-and-State" class="headerlink" title="Modularity, Objects, and State"></a>Modularity, Objects, and State</h1><p>Procedure and Data abstractions are powerful tools to deal with complex systems, but not enough. We need organizational principles that can guide us in formulating the overall design of a program.</p>
+<p>Two prominent organizational strategies: objects and streams.</p>
+<p>With objects, we must be concerned with how a computational object can change and yet maintain its identity. The stream approach can be most fully exploited when we decouple simulated time in our model from the order of the events that take place in the computer during evaluation.This essentially a environmental model instead of substitution model.</p>
+<p><strong>object</strong>, viewing a large system as a collection of distinct objects whose behaviors may change over time. </p>
+<p><strong>stream</strong>, viewing streams of information flow in the system. </p>
+<p>While using object to model state come with a price because it couples time and data at the same time. And <code>Stream</code> is a solution.</p>
+<h2 id="Assignment-and-Local-State"><a href="#Assignment-and-Local-State" class="headerlink" title="Assignment and Local State"></a>Assignment and Local State</h2><p>Two new operators are needed in order to mantain local state and assignment.<br><code>(set! &lt;name&gt; &lt;new-value&gt;)</code> and <code>(begin &lt;exp1&gt; &lt;exp1&gt; ...)</code>. The value of <code>begin</code> is the value of last expression. The we can use <code>let</code> to create some local variable in the procedure:</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> new-withdraw </span><br><span class="line">  (<span class="name"><span class="builtin-name">let</span></span> ((<span class="name">balance</span> <span class="number">100</span>))</span><br><span class="line">    (<span class="name">lambda</span> (<span class="name">amount</span>)</span><br><span class="line">      (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&gt;=</span></span> balance amount)</span><br><span class="line">        (<span class="name">begin</span> (<span class="name"><span class="builtin-name">set!</span></span> balance (<span class="name"><span class="builtin-name">-</span></span> balance amount)) balance)</span><br><span class="line">        <span class="string">&quot;Insufficient funds&quot;</span>))))</span><br></pre></td></tr></table></figure>
+
+<p>Then we can have a procedure to create objects:</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">make-withdraw</span> balance)</span><br><span class="line">  (<span class="name">lambda</span> (<span class="name">amount</span>)</span><br><span class="line">    (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&gt;=</span></span> balance amount)</span><br><span class="line">      (<span class="name">begin</span> (<span class="name"><span class="builtin-name">set!</span></span> balance (<span class="name"><span class="builtin-name">-</span></span> balance amount))</span><br><span class="line">             balance)</span><br><span class="line">      <span class="string">&quot;Insufficient funds&quot;</span>)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>With these techniques, we can create complex objects with more methods and local variable:</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define</span> (<span class="name">make-account</span> balance) </span><br><span class="line">  (<span class="name">define</span> (<span class="name">withdraw</span> amount) </span><br><span class="line">    (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&gt;=</span></span> balance amount)</span><br><span class="line">      (<span class="name">begin</span> (<span class="name"><span class="builtin-name">set!</span></span> balance (<span class="name"><span class="builtin-name">-</span></span> balance amount)) balance)</span><br><span class="line">      <span class="string">&quot;Insufficient funds&quot;</span>))</span><br><span class="line">  (<span class="name">define</span> (<span class="name">deposit</span> amount)</span><br><span class="line">    (<span class="name"><span class="builtin-name">set!</span></span> balance (<span class="name"><span class="builtin-name">+</span></span> balance amount))</span><br><span class="line">    balance)</span><br><span class="line">  (<span class="name">define</span> (<span class="name">dispatch</span> m)</span><br><span class="line">    (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name">eq?</span> m &#x27;withdraw) withdraw)</span><br><span class="line">          ((<span class="name">eq?</span> m &#x27;deposit) deposit)</span><br><span class="line">          (<span class="name">else</span> (<span class="name">error</span> <span class="string">&quot;Unknown request: MAKE-ACCOUNT&quot;</span></span><br><span class="line">                       m))))</span><br><span class="line">  dispatch)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Programming without any use of assignments, as we did throughout the first two chapters of this book, is accordingly known as functional programming. In contrast to functional programming, programming that makes ex- tensive use of assignment is known as imperative programming. </p>
+</blockquote>
+<p>As soon as we introduce assignment, a variable can no longer be simply a name. Now a variable somehow refers to a place where a value can be stored, and the value stored at this place can change. And the place is the environment.</p>
+<p>A language that supports the concept that “equals can be substituted for equals” in an expression without changing the value of the expression is said to be referentially transparent. </p>
+<h2 id="Environment-Model-of-Evaluation"><a href="#Environment-Model-of-Evaluation" class="headerlink" title="Environment Model of Evaluation"></a>Environment Model of Evaluation</h2><p>An environment is a sequence of frames. Each frame is a table (possibly empty) of bindings, which associate variable names with their corresponding values.</p>
+<p>In the environment model of evaluation, a procedure is always a pair consisting of some code and a pointer to an environment.</p>
+<p>The environment model of procedure application can be summa- rized by two rules:</p>
+<ul>
+<li>apply rule,  is applied to a set of arguments by constructing a frame, binding the formal parameters of the procedure to the arguments of the call, and then evaluating the body of the proce- dure in the context of the new environment constructed</li>
+<li>creation rule, created by evaluating a λ-expression relative to a given environment.</li>
+</ul>
+<h2 id="Modeling-with-Mutable-Data"><a href="#Modeling-with-Mutable-Data" class="headerlink" title="Modeling with Mutable Data"></a>Modeling with Mutable Data</h2><p>To model data that can change, we need not only <code>constructor</code> and <code>selector</code>, but also <code>moutator</code>. Data objects for which mutators are defined are known as mutable data objects.</p>
+<p>We introduce two primitives, which are similar to <code>cons</code>, <code>car</code>, and <code>cdr</code>: <code>set-car!</code> and <code>set-cdr!</code>.</p>
+<p>Just like pairs can be represented purely by procedures, mutation is just assignment.</p>
+<h3 id="Example-Digital-Circuits"><a href="#Example-Digital-Circuits" class="headerlink" title="Example: Digital Circuits"></a>Example: Digital Circuits</h3><p>TODO:</p>
+<h2 id="Concurrency"><a href="#Concurrency" class="headerlink" title="Concurrency"></a>Concurrency</h2><p>Before we introduced assignment, all our programs were timeless, in the sense that any expression that has a value always has the same value.</p>
+<p>So it is often natural to model systems as collections of computational processes that execute concurrently.<br>Just as we can make our programs modular by organizing models in terms of objects with separate local state, it is often appropriate to divide computational models into parts that evolve separately and concurrently.</p>
+<p>One possible restriction on concurrency would stipulate that no two operations that change any shared state variables can occur at the same time.<br>A less stringent restriction on concurrency would ensure that a concurrent system produces the same result as if the processes had run sequentially in some order.</p>
+<h3 id="Mechanisms-for-Controlling-Concurrency"><a href="#Mechanisms-for-Controlling-Concurrency" class="headerlink" title="Mechanisms for Controlling Concurrency"></a>Mechanisms for Controlling Concurrency</h3><p>We’ve seen that the difficulty in dealing with concurrent processes is rooted in the need to consider the interleaving of the order of events in the different processes. </p>
+<p>A more practical approach to the design of concurrent systems is to devise general mechanisms that allow us to constrain the interleaving of concurrent processes.</p>
+<p>For example <code>serilizing</code>: Serialization implements the following idea: Processes will execute con- currently, but there will be certain collections of procedures that cannot be executed concurrently. We implement serializers in terms of a more primitive synchronization mechanism called a mutex.</p>
+<blockquote>
+<p>The complexities we encounter in dealing with time and state in our computational models may in fact mirror a fundamental complexity of the physical universe.</p>
+</blockquote>
+<h2 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h2><h3 id="Streams-Are-Delayed-Lists"><a href="#Streams-Are-Delayed-Lists" class="headerlink" title="Streams Are Delayed Lists"></a>Streams Are Delayed Lists</h3><p>Streams are a clever idea that allows one to use sequence manipulations without incurring the costs of manipulating sequences as lists.<br>The key modularity issue was that we wished to hide the internal state.</p>
+<h1 id="Metalinguistic-Abstraction"><a href="#Metalinguistic-Abstraction" class="headerlink" title="Metalinguistic Abstraction"></a>Metalinguistic Abstraction</h1><p>Establishing new languages is a powerful strategy for controlling complexity in engineering design; we can often enhance our ability to deal with a complex problem by adopting a new language that enables us to describe (and hence to think about) the problem in a different way, using primitives, means of combination, and means of abstraction that suitable to the problem at hand.</p>
+<h2 id="The-Metacircular-Evaluator"><a href="#The-Metacircular-Evaluator" class="headerlink" title="The Metacircular Evaluator"></a>The Metacircular Evaluator</h2><p>An evaluator that is written in the same language that it evaluates is said to be metacircular.</p>
+<p>Here we talk about a Scheme formulation of the environment model of evaulation. Recall that the model has two parts:</p>
+<ol>
+<li>Evulation</li>
+<li>Application</li>
+</ol>
+<p>This is basically <code>eval</code> and <code>apply</code>. </p>
+<p>We will use <strong>data abstraction</strong> to make the evaluator independent of the representation of the language.</p>
+<h3 id="The-core-of-evaluator"><a href="#The-core-of-evaluator" class="headerlink" title="The core of evaluator"></a>The core of evaluator</h3><p><strong><code>eval</code></strong>: takes an expression and an environment.</p>
+<p>Rules:</p>
+<ul>
+<li>Primitives expression<ul>
+<li>self-evaluting expression -&gt; self</li>
+<li>lookup value in the environment</li>
+</ul>
+</li>
+<li>Special forms<ul>
+<li>quoted expression -&gt; expression that was qouted </li>
+<li>assignment</li>
+<li>if</li>
+<li>lambda</li>
+<li>begin</li>
+<li>case</li>
+</ul>
+</li>
+<li>Combinations<ul>
+<li>procedure application </li>
+</ul>
+</li>
+</ul>
+<p><strong><code>apply</code></strong>: takes a procedure and a list of argments.</p>
+<ul>
+<li>primitive procedures</li>
+<li>compound procedures</li>
+</ul>
+<h3 id="Variations-on-a-Scheme-—-Lazy-Evaluation"><a href="#Variations-on-a-Scheme-—-Lazy-Evaluation" class="headerlink" title="Variations on a Scheme — Lazy Evaluation"></a>Variations on a Scheme — Lazy Evaluation</h3><h4 id="Normal-Order-and-Applicative-Order"><a href="#Normal-Order-and-Applicative-Order" class="headerlink" title="Normal Order and Applicative Order"></a>Normal Order and Applicative Order</h4><h1 id="Computing-with-Register-Machines"><a href="#Computing-with-Register-Machines" class="headerlink" title="Computing with Register Machines"></a>Computing with Register Machines</h1><blockquote>
+<p>A more primitive level than Lisp itself.</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/SICP/" rel="tag"><i class="fa fa-tag"></i> SICP</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/12/24/summary_2020/" rel="prev" title="2020总结">
+                  <i class="fa fa-chevron-left"></i> 2020总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/02/16/python_1_gc/" rel="next" title="重新认识 Python（1）GC，垃圾回收">
+                  重新认识 Python（1）GC，垃圾回收 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FunCoder</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">420k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

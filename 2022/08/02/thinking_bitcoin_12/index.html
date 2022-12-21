@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="一些关于比特币的经典问题、新问题的思考：  比特币作为一个开源项目，为什么修改比特币如此困难，比如 2100 万的上限？ 量子计算机的商业化会摧毁比特币网络吗？ 除了投机，有人真的使用比特币吗？ 有“大公司”已经开始关注、持有、投资比特币吗？  为什么 2100 万不能被修改？这是一个经典问题。这个问题的答案是：不是不能修改，而是没人愿意修改；即使有人修改，硬分叉的网络不会有人参与，理性人会迅速将">
+<meta property="og:type" content="article">
+<meta property="og:title" content="比特币随想 - 十问">
+<meta property="og:url" content="http://yoursite.com/2022/08/02/thinking_bitcoin_12/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="一些关于比特币的经典问题、新问题的思考：  比特币作为一个开源项目，为什么修改比特币如此困难，比如 2100 万的上限？ 量子计算机的商业化会摧毁比特币网络吗？ 除了投机，有人真的使用比特币吗？ 有“大公司”已经开始关注、持有、投资比特币吗？  为什么 2100 万不能被修改？这是一个经典问题。这个问题的答案是：不是不能修改，而是没人愿意修改；即使有人修改，硬分叉的网络不会有人参与，理性人会迅速将">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/ZFKVmwq.png">
+<meta property="og:image" content="https://i.imgur.com/ZkNFvcU.png">
+<meta property="og:image" content="https://i.imgur.com/geA70rt.png">
+<meta property="article:published_time" content="2022-08-02T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-21T11:25:09.406Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Bitcoin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/ZFKVmwq.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2022/08/02/thinking_bitcoin_12/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2022/08/02/thinking_bitcoin_12/","path":"2022/08/02/thinking_bitcoin_12/","title":"比特币随想 - 十问"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>比特币随想 - 十问 | FunCoder</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-66629043-1","only_pageview":true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-arts"><a href="/arts/" rel="section"><i class="microchip fa-fw"></i>Arts</a></li>
+        <li class="menu-item menu-item-readings"><a href="/readings/" rel="section"><i class="archive fa-fw"></i>Readings</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-2100-%E4%B8%87%E4%B8%8D%E8%83%BD%E8%A2%AB%E4%BF%AE%E6%94%B9%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">为什么 2100 万不能被修改？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8F%E5%AD%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%95%86%E4%B8%9A%E5%8C%96%E4%BC%9A%E6%91%A7%E6%AF%81%E6%AF%94%E7%89%B9%E5%B8%81%E7%BD%91%E7%BB%9C%E5%90%97%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">量子计算机的商业化会摧毁比特币网络吗？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%AD%A6"><span class="nav-number">2.1.</span> <span class="nav-text">公钥密码学</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%96%E7%9F%BF"><span class="nav-number">2.2.</span> <span class="nav-text">挖矿</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%A4%E4%BA%86%E6%8A%95%E6%9C%BA%EF%BC%8C%E6%9C%89%E4%BA%BA%E7%9C%9F%E7%9A%84%E4%BD%BF%E7%94%A8%E6%AF%94%E7%89%B9%E5%B8%81%E5%90%97%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">除了投机，有人真的使用比特币吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E2%80%9C%E5%A4%A7%E5%85%AC%E5%8F%B8%E2%80%9D%E5%B7%B2%E7%BB%8F%E5%BC%80%E5%A7%8B%E5%85%B3%E6%B3%A8%E3%80%81%E6%8C%81%E6%9C%89%E3%80%81%E6%8A%95%E8%B5%84%E6%AF%94%E7%89%B9%E5%B8%81%E5%90%97%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">有“大公司”已经开始关注、持有、投资比特币吗？</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FunCoder"
+      src="/images/funcoder.jpg">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener" target="_blank">GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wangzhetju@gmail.com" title="E-Mail → mailto:wangzhetju@gmail.com" rel="noopener" target="_blank">E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=6yOk010AAAAJ" title="Google → https:&#x2F;&#x2F;scholar.google.co.uk&#x2F;citations?hl&#x3D;en&amp;user&#x3D;6yOk010AAAAJ" rel="noopener" target="_blank">Google</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="StackOverflow → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener" target="_blank">StackOverflow</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener" target="_blank">YouTube</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://wangzhe3224.github.io/Jesus_is_Lord/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;Jesus_is_Lord&#x2F;" rel="noopener" target="_blank">圣经盐读</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/08/02/thinking_bitcoin_12/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/funcoder.jpg">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          比特币随想 - 十问
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-08-02 00:00:00" itemprop="dateCreated datePublished" datetime="2022-08-02T00:00:00Z">2022-08-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-21 11:25:09" itemprop="dateModified" datetime="2022-12-21T11:25:09Z">2022-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Bitcoin/" itemprop="url" rel="index"><span itemprop="name">Bitcoin</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/08/02/thinking_bitcoin_12/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/08/02/thinking_bitcoin_12/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>一些关于比特币的经典问题、新问题的思考：</p>
+<ul>
+<li>比特币作为一个开源项目，为什么修改比特币如此困难，比如 2100 万的上限？</li>
+<li>量子计算机的商业化会摧毁比特币网络吗？</li>
+<li>除了投机，有人真的使用比特币吗？</li>
+<li>有“大公司”已经开始关注、持有、投资比特币吗？</li>
+</ul>
+<h2 id="为什么-2100-万不能被修改？"><a href="#为什么-2100-万不能被修改？" class="headerlink" title="为什么 2100 万不能被修改？"></a>为什么 2100 万不能被修改？</h2><p>这是一个经典问题。这个问题的答案是：不是不能修改，而是没人愿意修改；即使有人修改，硬分叉的网络不会有人参与，理性人会迅速将新分叉的代币，置换成比特币。</p>
+<p>我们应该从两个角度理解比特币网络。第一，比特币网络是由运行支持比特币网络协议的节点组成的，这些节点中有一些被称为矿工，他们负责出块；还有一些被称作全节点，他们复杂校验出块，并且把新的块快速的传播到与他相连的节点。第二，比特币网络也是人的网络。每一个参与比特币网络的人都有权运行任何版本的比特币协议，但是如果你运行的节点不能被其他人接受，达成共识，你投票的块不会有其他人接受，因此也就无法被大范围广播。</p>
+<p>其实，比特币网络的精髓就是协议和广播。</p>
+<p>我举个例子，假设我现在下载了比特币软件的源代码，BitcoinCore，然后再本地修改了该软件，把上限改成 4200 万。现在我就可以启动我的矿工节点，准备出块。我很幸运，很快我就解锁了一个新块，而这个块包含的信息指向了 4200 万的上限。当我广播这个块的时候，周围运行原始版本的代码的节点立刻拒绝这个新块，因为他们运行的软件认为这个块是无效的。一旦我出的块无法被其他节点接受，这个块就没有任何意义，因为他无法被广播到绝大多数节点，形成共识。</p>
+<p>再进一步，我知道我无法在原始比特币网络生存，我就去联系风投公司，给我的新比特币网络投资，构建我自己硬分叉网络。在这个网络，比特币的上限是 4200 万。但是，由于这是一个新网络，无论是节点数量，还是网络安全性都无法与比特币主网相比。这个硬分叉很难吸引人加入，即使加入，人们也会倾向把新分叉的代币，置换成更加安全、可用性更高的比特币代币，因为这么做符合经济利益。</p>
+<p>事实上，我觉得例子在历史上已经发生过好多次了，其中著名的例子：</p>
+<ul>
+<li>比特币现金</li>
+<li>BSV</li>
+<li>比特币黄金</li>
+</ul>
+<p>这几个项目基本上就是上面的例子的现实版。而他们现在的状况，也跟例子中描述的一样：<strong>无人问津</strong>。</p>
+<p>所以，2100 万可以被修改么？当然可以，可以随意修改。但是这个问题的关键并不是代码能不能改，而是网络中参与的人的共识和经济利益。</p>
+<h2 id="量子计算机的商业化会摧毁比特币网络吗？"><a href="#量子计算机的商业化会摧毁比特币网络吗？" class="headerlink" title="量子计算机的商业化会摧毁比特币网络吗？"></a>量子计算机的商业化会摧毁比特币网络吗？</h2><p>这个问题有两个分支：</p>
+<ul>
+<li>量子计算机破解公钥密码学，导致私钥泄露</li>
+<li>量子计算机挖矿，导致算力失衡</li>
+</ul>
+<p>简单的答案是：不必担心，也不会摧毁。</p>
+<h3 id="公钥密码学"><a href="#公钥密码学" class="headerlink" title="公钥密码学"></a>公钥密码学</h3><p>众所周知，比特币的核心就是公钥密码学，通过私钥和签名实现 UTXO 的转移。简单说，公钥密码学建立在一个假设上：有一类数学问题，目前的电子计算不能再多项式时间内求解。</p>
+<p>而目前的量子计算机研究表明，量子计算机可以在多项式时间内求解这类数学问题中的一部分，这其中就包含比特币使用的加密算法：Elliptic Curve Digital Signature Algorithm or ECDSA。</p>
+<p>这里面有几个问题：</p>
+<p>首先，能够破解该加密算法的量子算法叫做 Shor 算法。但是，有研究指出，按照目前的量子比特（量子计算的计算单元）质量，至少需要 100 万个量子比特，才有可能破解比特币加密强度的算法。而 2022 年，IBM 拥有的世界上最强大的量子计算机只有 100 多个量子比特。更加重要的是，没人知道量子比特是不是可以发展到 100 万级别，即没有知道这是一个简单的工程问题，还是根本无解的问题。</p>
+<p>第二，即便量子计算机实现了突破，可以运行大规模 Shor 算法，密码学界也有应对方案。其实，早在上个世纪 90 年代，量子安全的加密算法就已经出现了（有趣的是，Shor 算法也是上个世纪的产物，只不过但是还没有真的量子计算机）。换句话说，比特币可以通过硬分叉更换加密算法。联系上一个问题，这种硬分叉更容易形成共识，并且符合参与者的经济利益。</p>
+<p>最后，退一万步说，真的出现了强大的量子计算机，人们首先应该担心的一定不是比特币，而是整个互联网的安全。众所周知，我们日常的互联网行为都是基于公钥密码学来交换秘钥，对通讯进行加密的。一旦这种计算机出现，而互联网没有更新安全算法，几乎所有的加密通讯都不在成立，你的银行账号密码、邮箱密码都会暴露在互联网上。</p>
+<h3 id="挖矿"><a href="#挖矿" class="headerlink" title="挖矿"></a>挖矿</h3><p>关于挖矿，本质上是在一个极大的搜索空间内，搜索一个数字的问题。而一个叫做 grover 算法的量子算法可以把这种搜索从线性时间，降低成平方根时间。理论上，这种算法可以加速机器的挖矿速度。</p>
+<p>但是，跟前一个问题一样，这种级别的搜索，需要大量的量子比特。而比特币网络完全可以硬分叉，增大所搜空间，轻易解决这个问题。</p>
+<p>综上，量子计算机商业化不能对比特币网络构成实质性的威胁。</p>
+<h2 id="除了投机，有人真的使用比特币吗？"><a href="#除了投机，有人真的使用比特币吗？" class="headerlink" title="除了投机，有人真的使用比特币吗？"></a>除了投机，有人真的使用比特币吗？</h2><p>如果是 5 年前问这个问题，答案可能是很少或者没有。但是 2022 年，这个问题的答案是肯定的。</p>
+<p>萨尔瓦多共和国已经构建了比特币城市，该城市很多店铺可以使用比特币的闪电网络进行支付，其交易速度、吞吐量和成本都远远低于 VISA 网络。萨尔瓦多共和国属于第三世界国家，应急羸弱，长期以来他们只能依靠美金作为货币，来抑制是用本国货币导致的贬值和通胀。但是，大家都清楚一个国家实用外国货币作为法币的问题。因此，他们另辟蹊径，采用比特币作为法币。</p>
+<h2 id="有“大公司”已经开始关注、持有、投资比特币吗？"><a href="#有“大公司”已经开始关注、持有、投资比特币吗？" class="headerlink" title="有“大公司”已经开始关注、持有、投资比特币吗？"></a>有“大公司”已经开始关注、持有、投资比特币吗？</h2><p>2022 年，答案是有。</p>
+<p><a target="_blank" rel="noopener" href="https://www.buybitcoinworldwide.com/treasuries/">https://www.buybitcoinworldwide.com/treasuries/</a></p>
+<p>下图是持有比特币的上市公司：</p>
+<p><img src="https://i.imgur.com/ZFKVmwq.png" alt=""></p>
+<p>下图是持有比特币的国家和私人公司：</p>
+<p><img src="https://i.imgur.com/ZkNFvcU.png" alt=""></p>
+<p>下图是目前作为投资工具的比特币：</p>
+<p><img src="https://i.imgur.com/geA70rt.png" alt=""></p>
+<p>之前我翻译过一篇来自全球最大上市对冲基金公司英士曼集团的关于比特币机构用户投资的文章：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/546096802">https://zhuanlan.zhihu.com/p/546096802</a></p>
+<p>还有很多其他投资公司也都在关注比特币：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/528930900">比特币随想 - 机构投资评估 1</a></li>
+<li>Arc Investment</li>
+<li>富达投资，Fidelity</li>
+<li>黑石基金，BlackRock</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/05/18/think_bitcoin/" rel="bookmark">比特币随想 - 误解、现状、未来</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/05/27/think_bitcoin_3/" rel="bookmark">比特币随想 - Altcoin 去哪了？</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/07/25/think_bitcoin_9/" rel="bookmark">英仕曼集团 - 加密货币投资指南 2022-06 - 译</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/08/20/thinking_bitcoin_13/" rel="bookmark">比特币随想 - 10年后的数字资产市场？</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022/08/27/thinking_bitcoin_14/" rel="bookmark">比特币随想 - 为什么比特币的智能合约不是图灵完备</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: 'ca-pub-9801985319378542',
+          enable_page_level_ads: true
+     });
+</script>
+
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.png" alt="FunCoder Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/images/paypal.png" alt="FunCoder PayPal">
+        <span>PayPal</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.png" alt="FunCoder Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Bitcoin/" rel="tag"><i class="fa fa-tag"></i> Bitcoin</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wpac-rating-container">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/07/25/think_bitcoin_9/" rel="prev" title="英仕曼集团 - 加密货币投资指南 2022-06 - 译">
+                  <i class="fa fa-chevron-left"></i> 英仕曼集团 - 加密货币投资指南 2022-06 - 译
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/08/20/thinking_bitcoin_13/" rel="next" title="比特币随想 - 10年后的数字资产市场？">
+                  比特币随想 - 10年后的数字资产市场？ <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FunCoder</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">420k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:22</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+  <script src="https://embed.widgetpack.com/widget.js" async></script>
+  <script class="next-config" data-name="rating" type="application/json">{"enable":true,"id":30061,"color":"fc6423"}</script>
+  <script src="/js/third-party/rating.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch-lite.umd.js" integrity="sha256-48AZ24Ct05NAMLT7hvYgeW1X350OgEcZvHd6Ih6xwOA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.36.0/dist/instantsearch.production.min.js" integrity="sha256-2IhR6D0EWonVYvGbuQADSjD9VROGINJw9A8RFZEHXAM=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"wangzhe","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
