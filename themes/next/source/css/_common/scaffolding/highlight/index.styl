@@ -13,6 +13,7 @@ if (hexo-config('darkmode')) {
 }
 
 @require 'copy-code' if (hexo-config('codeblock.copy_button.enable'));
+@require 'fold' if (hexo-config('codeblock.fold.enable'));
 
 // Placeholder: $code-inline $code-block
 $code-inline {
@@ -70,6 +71,8 @@ kbd {
 // in Hexo config generates code.highlight elements
 figure.highlight {
   @extend $code-block;
+  // Reduce DOM reflow with wrapTableWithBox
+  overflow: auto;
   position: relative;
 
   pre {
@@ -134,7 +137,6 @@ pre {
   @extend $code-block;
   overflow: auto;
   padding: 10px;
-  position: relative;
 
   code {
     background: none;

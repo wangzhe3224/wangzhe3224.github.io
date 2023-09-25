@@ -18,6 +18,7 @@ menu:
 sidebar:
   overview: Огляд
   toc: Зміст
+  links: Links
 post:
   posted: Опубліковано
   edited: Змінено
@@ -37,10 +38,14 @@ post:
     post_link: This article originally appeared on
     license_title: Інформація про авторські права
     license_content: "Всі записи на цьому сайті захищені ліцензією %s, якщо не вказано додатково."
+    license_content_reprint: "This article is a reprinted article and has been reprinted with permission. Please indicate the source!"
 footer:
   powered: "Генератор — %s"
   total_views: Всього переглядів
   total_visitors: Всього відвідувачів
+widget:
+  github: Follow me on GitHub
+  chat: Chat
 counter:
   tag_cloud:
     zero: Немає тегів.
@@ -81,6 +86,7 @@ reward:
   alipay: Alipay
   paypal: PayPal
   bitcoin: Bitcoin
+  comment: Buy me a coffee
 follow_me:
   welcome: Мої інші видавничі канали
 accessibility:

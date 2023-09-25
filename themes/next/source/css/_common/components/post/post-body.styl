@@ -45,13 +45,13 @@
     margin-left: 4px;
   }
 
-  // For fancybox and pandoc
-  .image-caption, img + figcaption, .fancybox + figcaption {
+  // https://github.com/hexojs/hexo-renderer-marked/pull/264
+  img + figcaption, .fancybox + figcaption {
     color: $grey-dark;
     font-size: $font-size-small;
     font-weight: bold;
     line-height: 1;
-    margin: -20px auto 15px;
+    margin: -15px auto 15px;
     text-align: center;
   }
 

@@ -10,15 +10,17 @@
   </div>
 {%- endif %}
 
-<div class="copyright">
-  {%- set copyright_year = date(null, 'YYYY') %}
-  &copy; {% if theme.footer.since and theme.footer.since != copyright_year %}{{ theme.footer.since }} – {% endif %}
-  <span itemprop="copyrightYear">{{ copyright_year }}</span>
-  <span class="with-love">
-    <i class="{{ theme.footer.icon.name }}"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">{{ theme.footer.copyright or author }}</span>
-</div>
+{%- if theme.footer.copyright !== false %}
+  <div class="copyright">
+    {%- set copyright_year = date(null, 'YYYY') %}
+    &copy; {% if theme.footer.since and theme.footer.since != copyright_year %}{{ theme.footer.since }} – {% endif %}
+    <span itemprop="copyrightYear">{{ copyright_year }}</span>
+    <span class="with-love">
+      <i class="{{ theme.footer.icon.name }}"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">{{ theme.footer.copyright or author }}</span>
+  </div>
+{%- endif %}
 
 {%- if config.symbols_count_time.total_symbols or config.symbols_count_time.total_time %}
 <div class="wordcount">
@@ -78,12 +80,6 @@
   <div class="powered-by">
     {%- set next_site = 'https://theme-next.js.org' if theme.scheme === 'Gemini' else 'https://theme-next.js.org/' + theme.scheme | lower + '/' %}
     {{- __('footer.powered', next_url('https://hexo.io', 'Hexo') + ' & ' + next_url(next_site, 'NexT.' + theme.scheme)) }}
-  </div>
-{%- endif %}
-
-{%- if theme.add_this_id %}
-  <div class="addthis_inline_share_toolbox">
-    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid={{ theme.add_this_id }}" async="async"></script>
   </div>
 {%- endif %}
 

@@ -18,6 +18,7 @@ menu:
 sidebar:
   overview: 概要
   toc: 見出し
+  links: Links
 post:
   posted: 投稿日
   edited: 編集日
@@ -37,10 +38,14 @@ post:
     post_link: 元の記事
     license_title: 著作権表示
     license_content: "このブログ内のすべての記事は、特別な記載がない限り %s の下のライセンスで保護されています。"
+    license_content_reprint: "This article is a reprinted article and has been reprinted with permission. Please indicate the source!"
 footer:
   powered: "Powered by %s"
   total_views: 閲覧合計数
   total_visitors: 合計閲覧者数
+widget:
+  github: Follow me on GitHub
+  chat: Chat
 counter:
   tag_cloud:
     zero: タグなし
@@ -81,6 +86,7 @@ reward:
   alipay: Alipay
   paypal: PayPal
   bitcoin: ビットコイン
+  comment: Buy me a coffee
 follow_me:
   welcome: 他の公開チャンネルへようこそ
 accessibility:

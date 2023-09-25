@@ -9,24 +9,20 @@
   <noscript>
     <link rel="stylesheet" href="{{ url_for(theme.css) }}/noscript.css">
   </noscript>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9801985319378542"
-     crossorigin="anonymous"></script>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage"{% if theme.motion.enable %} class="use-motion"{% endif %}>
   <div class="headband"></div>
 
   <main class="main">
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
         {%- include '_partials/header/index.njk' -%}
-      </div>
+      </header>
       {%- if theme.sidebar.display !== 'remove' %}
         {% block sidebar %}{% endblock %}
       {%- endif %}
-    </header>
-
-    {{ partial('_partials/widgets.njk', {}, {cache: theme.cache.enable}) }}
+    </div>
 
     <div class="main-inner {% block class %}{% endblock %}">
       {%- include '_partials/header/sub-menu.njk' -%}
@@ -41,6 +37,8 @@
       {{ partial('_partials/footer.njk', {}, {cache: theme.cache.enable}) }}
     </div>
   </footer>
+
+  {{ partial('_partials/widgets.njk', {}, {cache: theme.cache.enable}) }}
 
   {{ partial('_scripts/index.njk', {}, {cache: theme.cache.enable}) }}
   {{ partial('_third-party/index.njk', {}, {cache: theme.cache.enable}) }}

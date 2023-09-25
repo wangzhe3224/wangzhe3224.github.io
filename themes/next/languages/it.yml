@@ -18,6 +18,7 @@ menu:
 sidebar:
   overview: Panoramica
   toc: Indice
+  links: Links
 post:
   posted: Scritto il
   edited: Edited on
@@ -37,10 +38,14 @@ post:
     post_link: This article originally appeared on
     license_title: Copyright
     license_content: "Tutti gli articoli in questo sito sono sotto licenza %s salvo disposizione contraria."
+    license_content_reprint: "This article is a reprinted article and has been reprinted with permission. Please indicate the source!"
 footer:
   powered: "Powered by %s"
   total_views: Total Views
   total_visitors: Total Visitors
+widget:
+  github: Follow me on GitHub
+  chat: Chat
 counter:
   tag_cloud:
     zero: Nessun tag
@@ -81,6 +86,7 @@ reward:
   alipay: Alipay
   paypal: PayPal
   bitcoin: Bitcoin
+  comment: Buy me a coffee
 follow_me:
   welcome: Welcome to my other publishing channels
 accessibility:

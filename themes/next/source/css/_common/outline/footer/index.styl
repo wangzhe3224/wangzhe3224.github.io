@@ -4,6 +4,8 @@
   color: $grey-dark;
   font-size: $font-size-small;
   padding: 20px 0;
+  transition: $transition-ease;
+  transition-property: left, right;
 
   &.footer-fixed {
     bottom: 0;
@@ -17,7 +19,7 @@
 // elements of .footer-inner through the `order` CSS property
 .footer-inner {
   box-sizing: border-box;
-  text-align: center;
+  text-align: $scheme-text-align;
   flex-column();
   main-container();
 }

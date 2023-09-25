@@ -18,6 +18,7 @@ menu:
 sidebar:
   overview: Syn
   toc: Mazmuny
+  links: Links
 post:
   posted: Goýuldy
   edited: Üýtgedildi
@@ -37,10 +38,14 @@ post:
     post_link: This article originally appeared on
     license_title: Awtorlyk hukugy hakynda maglumat
     license_content: "Eger-de goşmaça maglumat berilmedik bolsa, bu saýtdaky ähli maglumatlar %s lisenziýa bilen goragly."
+    license_content_reprint: "This article is a reprinted article and has been reprinted with permission. Please indicate the source!"
 footer:
   powered: "Генератор — %s"
   total_views: Görülme sany
   total_visitors: Girilen sany
+widget:
+  github: Follow me on GitHub
+  chat: Chat
 counter:
   tag_cloud:
     zero: Teg ýok.
@@ -81,6 +86,7 @@ reward:
   alipay: Alipay
   paypal: PayPal
   bitcoin: Bitcoin
+  comment: Buy me a coffee
 follow_me:
   welcome: Meniň başga paýlaşma platformalarym
 accessibility:

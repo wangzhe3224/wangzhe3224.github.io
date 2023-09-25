@@ -31,7 +31,7 @@
     }
   }
 
-  .fa, .fab, .far, .fas {
+  i[class^='fa'] {
     margin-right: 8px;
   }
 
@@ -51,6 +51,8 @@
   }
 }
 
-.use-motion .menu-item {
-  visibility: hidden;
+if (hexo-config('motion.transition.menu_item')) {
+  .use-motion .menu-item {
+    visibility: hidden;
+  }
 }

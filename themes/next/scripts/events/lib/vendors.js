@@ -19,6 +19,12 @@ module.exports = hexo => {
   if (typeof internal === 'function') {
     internal(hexo, dependencies);
   }
+  let { plugins = 'cdnjs' } = vendors;
+  if (plugins === 'local' && typeof internal === 'undefined') {
+    hexo.log.warn('Dependencies for `plugins: local` not found. The default CDN provider CDNJS is used instead.');
+    hexo.log.warn('Run `npm install @next-theme/plugins` in Hexo site root directory to install the plugin.');
+    plugins = 'cdnjs';
+  }
   for (const [key, value] of Object.entries(dependencies)) {
     // This script will be executed repeatedly when Hexo listens file changes
     // But the variable vendors[key] only needs to be modified once
@@ -34,18 +40,15 @@ module.exports = hexo => {
     if (key === 'pace_css') {
       value.file = `${value.dir}/${pace.color}/pace-theme-${pace.theme}.css`;
     }
-    const { name, file, unavailable } = value;
+    const { name, file } = value;
     const links = getVendors({
       ...value,
       minified: file,
       local   : url_for.call(hexo, `lib/${name}/${file}`),
       custom  : vendors.custom_cdn_url
     });
-    let { plugins = 'jsdelivr' } = vendors;
-    if (plugins === 'cdnjs' && unavailable && unavailable.includes('cdnjs')) plugins = 'jsdelivr';
-    if (plugins === 'local' && typeof internal === 'undefined') plugins = 'jsdelivr';
     vendors[key] = {
-      url      : links[plugins] || links.jsdelivr,
+      url      : links[plugins] || links.cdnjs,
       integrity: value.integrity
     };
   }

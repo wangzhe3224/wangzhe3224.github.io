@@ -18,6 +18,7 @@ menu:
 sidebar:
   overview: Tổng Quan
   toc: Mục Lục
+  links: Links
 post:
   posted: Tạo lúc
   edited: Chỉnh sửa vào
@@ -37,10 +38,14 @@ post:
     post_link: This article originally appeared on
     license_title: Chú ý bản quyền
     license_content: "Tất cả bài viết trong blog này được đăng ký bởi %s trừ khi có thông báo bổ sung."
+    license_content_reprint: "This article is a reprinted article and has been reprinted with permission. Please indicate the source!"
 footer:
   powered: "Cung cấp bởi %s"
   total_views: Tổng số người xem
   total_visitors: Tổng số truy cập
+widget:
+  github: Follow me on GitHub
+  chat: Chat
 counter:
   tag_cloud:
     zero: Không có thẻ nào
@@ -81,6 +86,7 @@ reward:
   alipay: Alipay
   paypal: Paypal
   bitcoin: Bitcoin
+  comment: Buy me a coffee
 follow_me:
   welcome: Xin chào mừng đến với các kênh khác của tôi
 accessibility:
