@@ -2,6 +2,7 @@
 title: 一些软件设计原则
 tags: Design
 categories: Software Engineering
+date: 2022-10-02
 ---
 
 - [先设计，后编码](#先设计后编码)
