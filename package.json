@@ -12,7 +12,7 @@
     "version": "5.4.2"
   },
   "dependencies": {
-    "hexo": "^5.0.0",
+    "hexo": "^7.0.0",
     "hexo-excerpt": "^1.1.6",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
@@ -27,6 +27,7 @@
     "hexo-symbols-count-time": "^0.7.1",
     "hexo-tag-cloud": "^2.1.2",
     "hexo-tag-scripture": "^1.0.1",
-    "hexo-wordcount": "^6.0.1"
+    "hexo-wordcount": "^6.0.1",
+    "highlight.js": "^11.8.0"
   }
 }
