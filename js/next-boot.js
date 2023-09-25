@@ -29,6 +29,10 @@ NexT.boot.registerEvents = function() {
       target && target.click();
     }
   });
+
+  window.addEventListener('tabs:click', e => {
+    NexT.utils.registerCodeblock(e.target);
+  });
 };
 
 NexT.boot.refresh = function() {
@@ -45,13 +49,13 @@ NexT.boot.refresh = function() {
   CONFIG.pangu && window.pangu.spacingPage();
 
   CONFIG.exturl && NexT.utils.registerExtURL();
-  NexT.utils.registerCopyCode();
+  NexT.utils.wrapTableWithBox();
+  NexT.utils.registerCodeblock();
   NexT.utils.registerTabsTag();
   NexT.utils.registerActiveMenuItem();
   NexT.utils.registerLangSelect();
   NexT.utils.registerSidebarTOC();
   NexT.utils.registerPostReward();
-  NexT.utils.wrapTableWithBox();
   NexT.utils.registerVideoIframe();
 };
 
