@@ -10,9 +10,9 @@
 <p>当然，好的不好的事情都会被吸引。</p>
 <p>很多名人、伟人或者说成功的人都知道或者用到（有意或者无意）这个法则。</p>
 <p>无法证实，也无法证伪。显然这不是科学，但是。。。</p>
-<hr>
-<p>总体来说这是一种暗示，同时也是一种计划。你想的越具体，新引力越大，其实就是你计划的越详细，你得到你想要的东西的概率越大。很容易理解。如果，自己都不知道自己想要什么，那么最终来到我们生活中的就会是”意外“；如果你很清楚自己想要什么，那么你的生活就少很多”意外“。因为你再向着目标努力，而吸引力法则告诉你：你想要的结果也会主动接近你。</p>
+<h2 id="我觉得"><a href="#我觉得" class="headerlink" title="我觉得"></a>我觉得</h2><p>总体来说这是一种暗示，同时也是一种计划。你想的越具体，新引力越大，其实就是你计划的越详细，你得到你想要的东西的概率越大。很容易理解。如果，自己都不知道自己想要什么，那么最终来到我们生活中的就会是”意外“；如果你很清楚自己想要什么，那么你的生活就少很多”意外“。因为你再向着目标努力，而吸引力法则告诉你：你想要的结果也会主动接近你。</p>
 <p>当你的情绪低落，你会吸引越来越多的负面情绪；反之亦然。</p>
+<h2 id="民科（褒义）"><a href="#民科（褒义）" class="headerlink" title="民科（褒义）"></a>民科（褒义）</h2><p>这本书几乎散发着民科的感觉（没有贬义），其中谈到的量子力学啊、震动啊、频率啊等等。作者试图用共振来解释<br>吸引力法则：你的思想有某种频率，而世界会跟你的思想频率互动，同频会相互吸引。</p>
 ]]></content>
       <categories>
         <category>Career</category>
@@ -1158,7 +1158,7 @@
 <p>密码朋克对任何针对密码学管制表示不满，因为加密本质上是一种私人行为。事实上，加密行为将信息从公共领域中删除。即使是反对密码学的法律也只能触及一个国家的边界和它的暴力武器。密码学将不可避免地传播到全球，随之而来的是它使匿名交易系统成为可能。</p>
 <p>为了让隐私广泛的得到任何，隐私必须是社会契约的一部分。人们必须一同部署这些软件。隐私只能在社会成员协作的基础上存在。我们会积极考虑各方面的声音和忧虑，否则我们就是自欺欺人。但是，我们不回应为任何人不同意我们的宣言就背弃密码朋克的原则。</p>
 <p>Cypherpunks 积极致力于使网络更安全，以保护隐私。让我们携手向前！</p>
-<p>Eric Hughes <a href="mailto:&#104;&#117;&#103;&#104;&#101;&#115;&#64;&#x73;&#111;&#100;&#97;&#46;&#98;&#x65;&#x72;&#x6b;&#x65;&#x6c;&#x65;&#121;&#46;&#101;&#100;&#117;">&#104;&#117;&#103;&#104;&#101;&#115;&#64;&#x73;&#111;&#100;&#97;&#46;&#98;&#x65;&#x72;&#x6b;&#x65;&#x6c;&#x65;&#121;&#46;&#101;&#100;&#117;</a></p>
+<p>Eric Hughes <a href="mailto:&#x68;&#x75;&#103;&#x68;&#101;&#115;&#64;&#x73;&#111;&#100;&#x61;&#46;&#98;&#101;&#114;&#107;&#x65;&#108;&#x65;&#x79;&#46;&#x65;&#x64;&#117;">&#x68;&#x75;&#103;&#x68;&#101;&#115;&#64;&#x73;&#111;&#100;&#x61;&#46;&#98;&#101;&#114;&#107;&#x65;&#108;&#x65;&#x79;&#46;&#x65;&#x64;&#117;</a></p>
 <p>1993 年 3 月 9 日。</p>
 ]]></content>
       <categories>
@@ -7154,8 +7154,8 @@
       <tags>
         <tag>Python</tag>
         <tag>Concurrent</tag>
-        <tag>Generator</tag>
         <tag>Async</tag>
+        <tag>Generator</tag>
       </tags>
   </entry>
   <entry>
@@ -7744,32 +7744,6 @@
       </tags>
   </entry>
   <entry>
-    <title>6.004 Basic of information</title>
-    <url>/2020/12/19/6004_1/</url>
-    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
-<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
-<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
-<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
-<p>the unit is bits, the number of bits required to encode the choice.</p>
-<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
-<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
-<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
-<p>Encoding as binary tree is a good way to think. </p>
-<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
-<p>If we do same algorithm but using multiple symbols, we can do better.</p>
-<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
-<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
-<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/">6.004</a></p>
-<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
-      <categories>
-        <category>Computing</category>
-      </categories>
-      <tags>
-        <tag>6.004</tag>
-        <tag>Information</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>6.004 The Digital Abstraction</title>
     <url>/2020/12/19/6004-2/</url>
     <content><![CDATA[<h1 id="The-Digital-Abstraction"><a href="#The-Digital-Abstraction" class="headerlink" title="The Digital Abstraction"></a>The Digital Abstraction</h1><p>Q: the physical representation of bits?</p>
@@ -7796,6 +7770,32 @@
 </blockquote>
 <p><img src="https://i.imgur.com/NMkOpar.png" alt=""></p>
 ]]></content>
+      <categories>
+        <category>Computing</category>
+      </categories>
+      <tags>
+        <tag>6.004</tag>
+        <tag>Information</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>6.004 Basic of information</title>
+    <url>/2020/12/19/6004_1/</url>
+    <content><![CDATA[<h1 id="6-004-Basic-of-information"><a href="#6-004-Basic-of-information" class="headerlink" title="6.004 Basic of information"></a>6.004 Basic of information</h1><p>Q: what is good representation of information?</p>
+<p>What is <strong>information</strong>? Information is data that resolves uncertainty about a particular fact.</p>
+<p>$X$ is discrete random variable, which has $N$ possible values ($x_i$) and associated probability $p_i$, Information received when learning that choice was $x_i$:</p>
+<p>$$I(x_i)=log_2(\frac{1}{p_i})$$</p>
+<p>the unit is bits, the number of bits required to encode the choice.</p>
+<p>The <strong>entropy</strong>, $H(X)$, of a discrete random variable $X$ is average amount of information received when learning the value of X:</p>
+<p>$$H(X)=E(I(X))=\sum_ilog_2(\frac{1}{p_i})$$</p>
+<p><strong>encoding</strong> is a unambiguous mapping between bits string to set of possible data.</p>
+<p>Encoding as binary tree is a good way to think. </p>
+<p>Huffman’s algorithm, given a set of symbols and their probability, constructs an optima variable-length encoding <strong>1 symbol per time</strong>.<br>Build encoding tree bottom up with lower probability.</p>
+<p>If we do same algorithm but using multiple symbols, we can do better.</p>
+<p><strong>Hamming distance</strong>: same length bits, how many different bits in the same position.</p>
+<p><strong>single-bit error</strong> detection and correction by add hamming distance of valid word encoding. </p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c1/c1s1/">6.004</a></p>
+<h6 id="tags-6-004-Information"><a href="#tags-6-004-Information" class="headerlink" title="tags: 6.004, Information"></a>tags: <code>6.004</code>, <code>Information</code></h6>]]></content>
       <categories>
         <category>Computing</category>
       </categories>
