@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="先设计，后编码 写”明显没有错误的“代码 学最激进的技术，用最简单的实现 把可变的东西隔离到配置数据中 多考虑意外情况，不要只实现 happy path 在设计阶段就开始考虑异常情况 复用的诀窍：只做一件事情 学习测试理论  先设计，后编码需求和设计阶段应该在软件开发的 60% 时间，而实现占 40%。没有事先规划，想哪写哪；结果被层出不穷的状况（还美其名曰需求变更）牵着鼻子、面多了加水水多了加">
 <meta property="og:type" content="article">
@@ -27,7 +27,7 @@
 <meta property="og:description" content="先设计，后编码 写”明显没有错误的“代码 学最激进的技术，用最简单的实现 把可变的东西隔离到配置数据中 多考虑意外情况，不要只实现 happy path 在设计阶段就开始考虑异常情况 复用的诀窍：只做一件事情 学习测试理论  先设计，后编码需求和设计阶段应该在软件开发的 60% 时间，而实现占 40%。没有事先规划，想哪写哪；结果被层出不穷的状况（还美其名曰需求变更）牵着鼻子、面多了加水水多了加">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-10-02T00:00:00.000Z">
-<meta property="article:modified_time" content="2023-09-26T15:17:24.109Z">
+<meta property="article:modified_time" content="2023-09-26T15:27:50.282Z">
 <meta property="article:author" content="FunCoder">
 <meta property="article:tag" content="Design">
 <meta name="twitter:card" content="summary">
@@ -231,7 +231,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-09-26 15:17:24" itemprop="dateModified" datetime="2023-09-26T15:17:24Z">2023-09-26</time>
+      <time title="Modified: 2023-09-26 15:27:50" itemprop="dateModified" datetime="2023-09-26T15:27:50Z">2023-09-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -243,6 +243,20 @@
         </span>
     </span>
 
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/10/02/design_habbit/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/10/02/design_habbit/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
   
     <span class="post-meta-break"></span>
     <span class="post-meta-item" title="Word count in article">
@@ -333,6 +347,11 @@
 
 
 
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
 </div>
   </main>
 
@@ -400,6 +419,8 @@
 
 
 
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"funcoder","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
 
 </body>
 </html>
