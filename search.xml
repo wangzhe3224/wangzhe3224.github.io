@@ -6,7 +6,13 @@
     <content><![CDATA[<blockquote>
 <p>读书：《The Secret》</p>
 </blockquote>
-<p>这个世界有个秘密叫做”吸引力法则“。</p>
+<p>这个世界有个秘密叫做”吸引力法则<a href="https://wiki.mbalib.com/wiki/%E5%90%B8%E5%BC%95%E5%8A%9B%E6%B3%95%E5%88%99">^1</a>。简单来说：你的思想会以某种方式影响物理世界，最终把你想到的事情，吸引到你周围。</p>
+<p>当然，好的不好的事情都会被吸引。</p>
+<p>很多名人、伟人或者说成功的人都知道或者用到（有意或者无意）这个法则。</p>
+<p>无法证实，也无法证伪。显然这不是科学，但是。。。</p>
+<hr>
+<p>总体来说这是一种暗示，同时也是一种计划。你想的越具体，新引力越大，其实就是你计划的越详细，你得到你想要的东西的概率越大。很容易理解。如果，自己都不知道自己想要什么，那么最终来到我们生活中的就会是”意外“；如果你很清楚自己想要什么，那么你的生活就少很多”意外“。因为你再向着目标努力，而吸引力法则告诉你：你想要的结果也会主动接近你。</p>
+<p>当你的情绪低落，你会吸引越来越多的负面情绪；反之亦然。</p>
 ]]></content>
       <categories>
         <category>Career</category>
@@ -1152,7 +1158,7 @@
 <p>密码朋克对任何针对密码学管制表示不满，因为加密本质上是一种私人行为。事实上，加密行为将信息从公共领域中删除。即使是反对密码学的法律也只能触及一个国家的边界和它的暴力武器。密码学将不可避免地传播到全球，随之而来的是它使匿名交易系统成为可能。</p>
 <p>为了让隐私广泛的得到任何，隐私必须是社会契约的一部分。人们必须一同部署这些软件。隐私只能在社会成员协作的基础上存在。我们会积极考虑各方面的声音和忧虑，否则我们就是自欺欺人。但是，我们不回应为任何人不同意我们的宣言就背弃密码朋克的原则。</p>
 <p>Cypherpunks 积极致力于使网络更安全，以保护隐私。让我们携手向前！</p>
-<p>Eric Hughes <a href="mailto:&#104;&#117;&#x67;&#104;&#101;&#115;&#64;&#115;&#x6f;&#x64;&#x61;&#46;&#x62;&#x65;&#x72;&#107;&#x65;&#x6c;&#x65;&#121;&#46;&#101;&#x64;&#117;">&#104;&#117;&#x67;&#104;&#101;&#115;&#64;&#115;&#x6f;&#x64;&#x61;&#46;&#x62;&#x65;&#x72;&#107;&#x65;&#x6c;&#x65;&#121;&#46;&#101;&#x64;&#117;</a></p>
+<p>Eric Hughes <a href="mailto:&#104;&#117;&#103;&#104;&#101;&#115;&#64;&#115;&#x6f;&#100;&#x61;&#x2e;&#98;&#x65;&#x72;&#x6b;&#x65;&#x6c;&#101;&#121;&#x2e;&#101;&#100;&#x75;">&#104;&#117;&#103;&#104;&#101;&#115;&#64;&#115;&#x6f;&#100;&#x61;&#x2e;&#98;&#x65;&#x72;&#x6b;&#x65;&#x6c;&#101;&#121;&#x2e;&#101;&#100;&#x75;</a></p>
 <p>1993 年 3 月 9 日。</p>
 ]]></content>
       <categories>
@@ -2081,8 +2087,8 @@
         <category>Career</category>
       </categories>
       <tags>
-        <tag>Hedge Fund</tag>
         <tag>Python</tag>
+        <tag>Hedge Fund</tag>
         <tag>Quant</tag>
       </tags>
   </entry>
@@ -6380,9 +6386,9 @@
         <category>Coding</category>
       </categories>
       <tags>
-        <tag>Concurrency</tag>
         <tag>Go</tag>
         <tag>Python</tag>
+        <tag>Concurrency</tag>
       </tags>
   </entry>
   <entry>
@@ -7830,9 +7836,9 @@
         <category>Coding</category>
       </categories>
       <tags>
+        <tag>Concurrency</tag>
         <tag>Erlang</tag>
         <tag>Distributed System</tag>
-        <tag>Concurrency</tag>
       </tags>
   </entry>
   <entry>
@@ -8846,8 +8852,8 @@
         <category>Quant</category>
       </categories>
       <tags>
-        <tag>Investing</tag>
         <tag>读书笔记</tag>
+        <tag>Investing</tag>
       </tags>
   </entry>
   <entry>
