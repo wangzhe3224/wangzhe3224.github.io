@@ -155,7 +155,7 @@ site_state: true
 # Key is the link label showing to end users.
 # Value before `||` delimiter is the target permalink, value after `||` delimiter is the name of Font Awesome icon.
 social:
-  #GitHub: https://github.com/yourname || fab fa-github
+  GitHub: https://github.com/wangzhe3224 || fab fa-github
   #E-Mail: mailto:yourname@gmail.com || fa fa-envelope
   #Weibo: https://weibo.com/yourname || fab fa-weibo
   #Twitter: https://twitter.com/yourname || fab fa-twitter
@@ -177,7 +177,11 @@ links_settings:
   layout: block
 
 links:
-  #Title: https://example.com
+  转码路线图: https://wangzhe3224.github.io/zhuan-ma/
+  FunCoder: https://funcoder.net/
+  BitcoinPro: https://wangzhe3224.github.io/bitcoin-pro/
+  QuantRoadmap: https://wangzhe3224.github.io/quant-roadmap/
+  QuantBox: https://quant.funcoder.net/
 
 # Table of Contents in the Sidebar
 # Front-matter variable (nonsupport wrap expand_all).
