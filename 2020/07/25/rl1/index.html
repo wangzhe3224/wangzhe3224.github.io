@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Reinforcement learning, RL is a framework that let an agent to make suitable  decisions to achieve best goal. Underneath math problem to solve is a  Markov Decision Process, MDP.  RL is different fro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Reinforment Learning Introduction 1 - 2">
+<meta property="og:url" content="http://yoursite.com/2020/07/25/rl1/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="Reinforcement learning, RL is a framework that let an agent to make suitable  decisions to achieve best goal. Underneath math problem to solve is a  Markov Decision Process, MDP.  RL is different fro">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://hackmd.io/EF3LjEjfQtCa-yEZlFNCmQ/badge">
+<meta property="article:published_time" content="2020-07-25T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-29T21:15:04.035Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Reinforcement Learning">
+<meta property="article:tag" content="n-arm bandit">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hackmd.io/EF3LjEjfQtCa-yEZlFNCmQ/badge">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/07/25/rl1/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2020/07/25/rl1/","path":"2020/07/25/rl1/","title":"Reinforment Learning Introduction 1 - 2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Reinforment Learning Introduction 1 - 2 | FunCoder</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Elements-of-RL"><span class="nav-number">1.</span> <span class="nav-text">Elements of RL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A-bit-history"><span class="nav-number">2.</span> <span class="nav-text">A bit history</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Simplest-problem-Multi-arm-Bandits"><span class="nav-number">3.</span> <span class="nav-text">Simplest problem: Multi-arm Bandits</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Action-Value-method"><span class="nav-number">3.1.</span> <span class="nav-text">Action Value method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Incremental-Implementation"><span class="nav-number">3.2.</span> <span class="nav-text">Incremental Implementation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nonstationary-Problem"><span class="nav-number">3.3.</span> <span class="nav-text">Nonstationary Problem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Upper-Confidence-Bound-Action-Selection"><span class="nav-number">3.4.</span> <span class="nav-text">Upper-Confidence-Bound Action Selection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-Bandits"><span class="nav-number">3.5.</span> <span class="nav-text">Gradient Bandits</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Different-Agents-of-Mult-arm-Bandits"><span class="nav-number">4.</span> <span class="nav-text">Different Agents of Mult-arm Bandits</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Random-Agent"><span class="nav-number">4.1.</span> <span class="nav-text">Random Agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Greedy-Agent"><span class="nav-number">4.2.</span> <span class="nav-text">Greedy Agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epsilon-Greedy-Agent"><span class="nav-number">4.3.</span> <span class="nav-text">$\epsilon$-Greedy Agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reinforce-Agent"><span class="nav-number">4.4.</span> <span class="nav-text">Reinforce Agent</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Full-RL-Problem"><span class="nav-number">5.</span> <span class="nav-text">Full RL Problem</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bandit-Env-Code-Attached"><span class="nav-number">6.</span> <span class="nav-text">Bandit Env Code Attached</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/zhuan-ma/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;zhuan-ma&#x2F;" rel="noopener" target="_blank">转码路线图</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/awesome-systematic-trading/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;awesome-systematic-trading&#x2F;" rel="noopener" target="_blank">SystematicTrading</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://funcoder.net/" title="https:&#x2F;&#x2F;funcoder.net&#x2F;" rel="noopener" target="_blank">FunCoder</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/bitcoin-pro/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;bitcoin-pro&#x2F;" rel="noopener" target="_blank">BitcoinPro</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/quant-roadmap/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;quant-roadmap&#x2F;" rel="noopener" target="_blank">QuantRoadmap</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://quant.funcoder.net/" title="https:&#x2F;&#x2F;quant.funcoder.net&#x2F;" rel="noopener" target="_blank">QuantBox</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/25/rl1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Reinforment Learning Introduction 1 - 2 | FunCoder">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Reinforment Learning Introduction 1 - 2
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-07-25 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-25T00:00:00Z">2020-07-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-09-29 21:15:04" itemprop="dateModified" datetime="2023-09-29T21:15:04Z">2023-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Quant/" itemprop="url" rel="index"><span itemprop="name">Quant</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/07/25/rl1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/25/rl1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>9.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>9 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><a target="_blank" rel="noopener" href="https://hackmd.io/EF3LjEjfQtCa-yEZlFNCmQ"><img src="https://hackmd.io/EF3LjEjfQtCa-yEZlFNCmQ/badge" alt="hackmd-github-sync-badge"></a></p>
+<p>Reinforcement learning, RL is a framework that let an agent to make suitable  decisions to achieve best goal. Underneath math problem to solve is a  Markov Decision Process, MDP.  RL is different from both supervised and unsupervised learning. </p>
+<h1 id="Elements-of-RL"><a href="#Elements-of-RL" class="headerlink" title="Elements of RL"></a>Elements of RL</h1><p>Apart from Agent and Environment, following elements also play central<br>roles: Policy, Reward Signal, Value Function, and Model of environment. </p>
+<p>Policy, is a map from current states to actions to take. It might be<br>deterministic or stochastic.</p>
+<p>Reword signal, defines the goal of RL. At each step, environment will<br>give agent a single number, a reward.</p>
+<p>Value function, specifies what is good in the long run. The estimation<br>of value is in the central part of RL.</p>
+<p>Model, is what the agent think the environment will behave. Basically by<br>building a model of env, the agent can do planning better. But model env<br>sometime is very hard.</p>
+<p>Not all RL model need full set of above. But a good value function does<br>help to make a better decision.In the end, evolutionary and value function methods both search the space of policies, but learning a value function takes advantage of information available during the course of play.</p>
+<h1 id="A-bit-history"><a href="#A-bit-history" class="headerlink" title="A bit history"></a>A bit history</h1><p>There are two threads of RL histories. One thread concerns learning by trial and error that started in the psychology of animal learning. The other thread concerns the problem of optimal control and its solution using value functions and dynamic programming. </p>
+<p>Although the two threads have been largely independent, the exceptions revolve around a third, less distinct thread concerning temporal-difference methods</p>
+<h1 id="Simplest-problem-Multi-arm-Bandits"><a href="#Simplest-problem-Multi-arm-Bandits" class="headerlink" title="Simplest problem: Multi-arm Bandits"></a>Simplest problem: Multi-arm Bandits</h1><p>The most important feature distinguishing reinforcement learning from other types of learning is that it uses training information that evaluates the actions taken rather than instructs by giving correct actions.</p>
+<p>Consider the following learning problem. You are faced repeatedly with a choice among n different options, or actions. After each choice you receive a numerical reward chosen from a stationary probability distribution that depends on the action you selected. Your objective is to maximize the expected total reward over some time period, for example, over 1000 action selections, or time steps.</p>
+<h2 id="Action-Value-method"><a href="#Action-Value-method" class="headerlink" title="Action Value method"></a>Action Value method</h2><p>Assume $q(a)$ is the true value of action a, and the estimation on t step is $Q_t(a)$. Then the simplest idea is average: </p>
+<p>$$Q_t(a) = \frac {R_1+ R_2 + … + R_{N_t(a)}}{N_t(a)}$$</p>
+<p>Once we have $Q_t(a)$, we can then select the action with highest estimated action value. The <em>greedy</em> action selection method can be written as</p>
+<p>$$A_t = argmax Q_t(a)$$</p>
+<p>Greedy means that action selection always <strong>exploits</strong> currently knowledge to max immediate reward. A simple alternative is to behave greedily most of the time, but, <strong>explore</strong> new actions sometimes.</p>
+<h2 id="Incremental-Implementation"><a href="#Incremental-Implementation" class="headerlink" title="Incremental Implementation"></a>Incremental Implementation</h2><p>$$Q_{k+1} = Q_k + \frac {1}{k}[R_k - Q_k]$$</p>
+<p>So esentially, update previous estimation with adjustment of new update.</p>
+<p>$$NewEstimate \leftarrow OldEstimate + StepSize * [Target - OldEstimate]$$</p>
+<h2 id="Nonstationary-Problem"><a href="#Nonstationary-Problem" class="headerlink" title="Nonstationary Problem"></a>Nonstationary Problem</h2><p>For non-stationary problem, it makes more sense to has more weights on recent result.</p>
+<p>$$Q_{k+1} = Q_k + \alpha [R_k - Q_k]$$</p>
+<p>$$Q_{k+1} = (1-\alpha)^kQ_1 + \sum_{i=1}^k\alpha(1-\alpha)^{k-i}R_i$$</p>
+<h2 id="Upper-Confidence-Bound-Action-Selection"><a href="#Upper-Confidence-Bound-Action-Selection" class="headerlink" title="Upper-Confidence-Bound Action Selection"></a>Upper-Confidence-Bound Action Selection</h2><p>$$A_t = argmax_a\Big[Q_t(a) + c\sqrt{\frac{ln t}{N_t(a)}}\Big]$$</p>
+<p>The idea here is to add exploration more wisely. So if an action is not selected for a long time, it is more likely to be selected, and if an action has been selected a lot of time, it is more likely to be selected (stick with optimal action, i.e. exploiate. )</p>
+<h2 id="Gradient-Bandits"><a href="#Gradient-Bandits" class="headerlink" title="Gradient Bandits"></a>Gradient Bandits</h2><p>we can also learn a preference of each action, $H_t(a)$. The more preference, the more change to take that action. But preference is a relative value.</p>
+<p>$$\pi_{t}(a) = P{A_t=a} = \frac {e^{H_t(a)}}{\sum_{b=1}^{n}e^{H_t(b)}}$$</p>
+<p>So action is a softmax of preferences. We want to learn the preference of each actions.</p>
+<p>Initially, all preference is 0.</p>
+<p>So the learning/updating process is:</p>
+<p>$$H_{t+1}(A_t) = H_t(A_t) + \alpha(R_t - \bar{R_t})(1 - \pi_{t}(A_t))$$</p>
+<p>$$H_{t+1}(a) = H_t(a) - \alpha(R_t - \bar{R_t}\pi_t(a), \forall{a} \ne A_t$$</p>
+<p>Above is a stochastic approximation to gradient ascent:</p>
+<p>$$H_{t+1}(a) = H_t(a) + \alpha \frac {\partial {E[R_t]}} {\partial {H_t(a)}}$$</p>
+<p>where, $E[R_t] = \sum_{b}\pi_t(b)q(b)$</p>
+<h1 id="Different-Agents-of-Mult-arm-Bandits"><a href="#Different-Agents-of-Mult-arm-Bandits" class="headerlink" title="Different Agents of Mult-arm Bandits"></a>Different Agents of Mult-arm Bandits</h1><h2 id="Random-Agent"><a href="#Random-Agent" class="headerlink" title="Random Agent"></a>Random Agent</h2><p>The agent pick action randomly from action space, <code>number_of_arms</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Random</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">  <span class="string">&quot;&quot;&quot;A random agent.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  This agent returns an action between 0 and &#x27;number_of_arms&#x27;, </span></span><br><span class="line"><span class="string">  uniformly at random. The &#x27;previous_action&#x27; argument of &#x27;step&#x27;</span></span><br><span class="line"><span class="string">  is ignored.</span></span><br><span class="line"><span class="string">  &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, number_of_arms</span>):</span></span><br><span class="line">    self._number_of_arms = number_of_arms</span><br><span class="line">    self.name = <span class="string">&#x27;random&#x27;</span></span><br><span class="line">    self.reset()</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">step</span>(<span class="params">self, previous_action, reward</span>):</span></span><br><span class="line">    <span class="keyword">return</span> np.random.randint(self._number_of_arms)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">reset</span>(<span class="params">self</span>):</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Greedy-Agent"><a href="#Greedy-Agent" class="headerlink" title="Greedy Agent"></a>Greedy Agent</h2><p>The agent pick action that has most big expected value.</p>
+<p>So pick action as following:</p>
+<p>$$A_t = argmax Q_t(a)$$</p>
+<p>Every step, update Q value of previous actions and counter of actions:</p>
+<p>$$N(A_{t-1}) = N(A_{t-1}) + 1$$<br>$$Q(A_{t-1}) = Q(A_{t-1}) + \alpha(R_t - Q(A_{t-1}))$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Greedy</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, number_of_arms</span>):</span></span><br><span class="line">    self._number_of_arms = number_of_arms</span><br><span class="line">    self.name = <span class="string">&#x27;greedy&#x27;</span></span><br><span class="line">    self.reset()</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">step</span>(<span class="params">self, previous_action, reward</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(previous_action) == <span class="built_in">type</span>(<span class="literal">None</span>):</span><br><span class="line">      <span class="keyword">return</span> np.random.randint(self._number_of_arms)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      <span class="comment"># update values</span></span><br><span class="line">      self.N[previous_action] += <span class="number">1</span></span><br><span class="line">      lr = <span class="number">1.</span>/self.N[previous_action]</span><br><span class="line">      error = reward - self.Q[previous_action]</span><br><span class="line">      self.Q[previous_action] += lr*error</span><br><span class="line">      </span><br><span class="line">      <span class="comment"># get new actions</span></span><br><span class="line">      <span class="keyword">return</span> np.argmax(self.Q)</span><br><span class="line">    </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">reset</span>(<span class="params">self</span>):</span></span><br><span class="line">    self.Q = np.zeros((self._number_of_arms,),dtype=<span class="string">&#x27;float32&#x27;</span>)</span><br><span class="line">    self.N = np.zeros((self._number_of_arms,),dtype=<span class="string">&#x27;float32&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="epsilon-Greedy-Agent"><a href="#epsilon-Greedy-Agent" class="headerlink" title="$\epsilon$-Greedy Agent"></a>$\epsilon$-Greedy Agent</h2><p>The issue of pure greedy agent is that it may stuck in some false action and never explore. So we add a small change to select action which does not have best q value, but just to explore to gather more information.</p>
+<p>The update process is as same as Greedy agent. But the way we choose actions changed:</p>
+<p>$$A_t = argmax Q, rand &gt; \epsilon$$<br>$$A_t = random action, rand &lt;= \epsilon$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EpsilonGreedy</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, number_of_arms, epsilon=<span class="number">0.1</span></span>):</span></span><br><span class="line">    self._number_of_arms = number_of_arms</span><br><span class="line">    self._epsilon = epsilon</span><br><span class="line">    self.name = <span class="string">&#x27;epsilon-greedy epsilon:&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(epsilon)</span><br><span class="line">    self.reset()</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">step</span>(<span class="params">self, previous_action, reward</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(previous_action) == <span class="built_in">type</span>(<span class="literal">None</span>):</span><br><span class="line">      <span class="keyword">return</span> np.random.randint(self._number_of_arms)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      <span class="comment"># update values</span></span><br><span class="line">      self.N[previous_action] += <span class="number">1</span></span><br><span class="line">      lr = <span class="number">1.</span>/self.N[previous_action]</span><br><span class="line">      error = reward - self.Q[previous_action]</span><br><span class="line">      self.Q[previous_action] += lr*error</span><br><span class="line"></span><br><span class="line">      <span class="comment"># get new actions</span></span><br><span class="line">      ra = <span class="built_in">bool</span>( np.random.random() &lt; self._epsilon )</span><br><span class="line">      <span class="keyword">return</span> (<span class="keyword">not</span> ra) * np.argmax(self.Q) + (ra) * np.random.randint(self._number_of_arms)</span><br><span class="line">      </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">reset</span>(<span class="params">self</span>):</span></span><br><span class="line">    self.Q = np.zeros((self._number_of_arms,),dtype=<span class="string">&#x27;float32&#x27;</span>)</span><br><span class="line">    self.N = np.zeros((self._number_of_arms,),dtype=<span class="string">&#x27;float32&#x27;</span>)</span><br><span class="line">````</span><br><span class="line"></span><br><span class="line"><span class="comment">## UCB Agent</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UCB</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, number_of_arms</span>):</span></span><br><span class="line">    self._number_of_arms = number_of_arms</span><br><span class="line">    self.name = <span class="string">&#x27;ucb&#x27;</span></span><br><span class="line">    self.reset()</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">step</span>(<span class="params">self, previous_action, reward</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(previous_action) == <span class="built_in">type</span>(<span class="literal">None</span>):</span><br><span class="line">      <span class="keyword">return</span> np.random.randint(self._number_of_arms)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      self.t += <span class="number">1</span></span><br><span class="line">      <span class="comment"># update values</span></span><br><span class="line">      self.N[previous_action] += <span class="number">1</span></span><br><span class="line">      lr = <span class="number">1.</span>/self.N[previous_action]</span><br><span class="line">      error = reward - self.Q[previous_action]</span><br><span class="line">      self.Q[previous_action] += lr*error</span><br><span class="line">      </span><br><span class="line">      <span class="comment"># here is the extra bit</span></span><br><span class="line">      U = np.sqrt(np.log(self.t)/<span class="number">1.</span>/(self.N+<span class="number">1.</span>))</span><br><span class="line">      </span><br><span class="line">      <span class="comment"># get new actions</span></span><br><span class="line">      <span class="keyword">return</span> np.argmax(self.Q+U)</span><br><span class="line">      </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">reset</span>(<span class="params">self</span>):</span></span><br><span class="line">    self.Q = np.zeros((self._number_of_arms,),dtype=<span class="string">&#x27;float32&#x27;</span>)</span><br><span class="line">    self.N = np.zeros((self._number_of_arms,),dtype=<span class="string">&#x27;float32&#x27;</span>)</span><br><span class="line">    self.t = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Reinforce-Agent"><a href="#Reinforce-Agent" class="headerlink" title="Reinforce Agent"></a>Reinforce Agent</h2><p>Base line will not affect mean, but will change the variance of the estimation. </p>
+<p>After we have the policy, we can sample an action from the policy.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Reinforce</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, number_of_arms, step_size=<span class="number">0.1</span>, baseline=<span class="literal">False</span></span>):</span></span><br><span class="line">    self._number_of_arms = number_of_arms</span><br><span class="line">    self._lr = step_size</span><br><span class="line">    self.name = <span class="string">&#x27;reinforce, baseline: &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(baseline)</span><br><span class="line">    self._baseline = baseline</span><br><span class="line">    self.reset()</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">step</span>(<span class="params">self, previous_action, reward</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(previous_action) == <span class="built_in">type</span>(<span class="literal">None</span>):</span><br><span class="line">      <span class="keyword">return</span> np.random.randint(self._number_of_arms)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      self.t += <span class="number">1</span></span><br><span class="line">      self.all_reward += reward</span><br><span class="line">      <span class="keyword">if</span> self._baseline:</span><br><span class="line">        base = self.all_reward / (self.t * <span class="number">1.</span>)</span><br><span class="line">      <span class="keyword">else</span>:</span><br><span class="line">        base = <span class="number">0</span></span><br><span class="line">      <span class="comment"># update preferences</span></span><br><span class="line">      <span class="comment"># this is H_a, reduce others preference</span></span><br><span class="line">      self.prob -= self._lr * (reward-base) * self.policy</span><br><span class="line">      <span class="comment"># this is H_A, increase current action preference</span></span><br><span class="line">      self.prob[previous_action] += self._lr * (reward-base)</span><br><span class="line">      x = self.prob</span><br><span class="line">      y = np.exp(x - np.<span class="built_in">max</span>(x))</span><br><span class="line">      self.policy = y / np.<span class="built_in">sum</span>(y)</span><br><span class="line">      <span class="comment"># get new actions</span></span><br><span class="line">      <span class="comment"># here we sample an action from the updated policy</span></span><br><span class="line">      <span class="keyword">import</span> bisect</span><br><span class="line">      acc = np.cumsum(self.policy)</span><br><span class="line">      <span class="keyword">return</span> bisect.bisect(acc, np.random.random())</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">reset</span>(<span class="params">self</span>):</span></span><br><span class="line">    self.policy = np.ones((self._number_of_arms,),dtype=<span class="string">&#x27;float32&#x27;</span>)/self._number_of_arms</span><br><span class="line">    self.prob = np.zeros((self._number_of_arms,),dtype=<span class="string">&#x27;float32&#x27;</span>)</span><br><span class="line">    self.t = <span class="number">0</span></span><br><span class="line">    self.all_reward = <span class="number">0</span> </span><br></pre></td></tr></table></figure>
+
+<h1 id="Full-RL-Problem"><a href="#Full-RL-Problem" class="headerlink" title="Full RL Problem"></a>Full RL Problem</h1><p>Above problem is not a full RL problem, because there is no association between action and different situations. Full RL problem needs to learn a policy that maps situations to actions.</p>
+<h1 id="Bandit-Env-Code-Attached"><a href="#Bandit-Env-Code-Attached" class="headerlink" title="Bandit Env Code Attached"></a>Bandit Env Code Attached</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BernoulliBandit</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">  <span class="string">&quot;&quot;&quot;A stationary multi-armed Bernoulli bandit.&quot;&quot;&quot;</span></span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, success_probabilities, success_reward=<span class="number">1.</span>, fail_reward=<span class="number">0.</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Constructor of a stationary Bernoulli bandit.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">      success_probabilities: A list or numpy array containing the probabilities,</span></span><br><span class="line"><span class="string">          for each of the arms, of providing a success reward.</span></span><br><span class="line"><span class="string">      success_reward: The reward on success (default: 1.)</span></span><br><span class="line"><span class="string">      fail_reward: The reward on failure (default: 0.)</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    self._probs = success_probabilities</span><br><span class="line">    self._number_of_arms = <span class="built_in">len</span>(self._probs)</span><br><span class="line">    self._s = success_reward</span><br><span class="line">    self._f = fail_reward</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">step</span>(<span class="params">self, action</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;The step function.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">      action: An integer or tf.int32 that specifies which arm to pull.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">      A sampled reward according to the success probability of the selected arm.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Raises:</span></span><br><span class="line"><span class="string">      ValueError: when the provided action is out of bounds.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> action &lt; <span class="number">0</span> <span class="keyword">or</span> action &gt;= self._number_of_arms:</span><br><span class="line">      <span class="keyword">raise</span> ValueError(<span class="string">&#x27;Action &#123;&#125; is out of bounds for a &#x27;</span></span><br><span class="line">                       <span class="string">&#x27;&#123;&#125;-armed bandit&#x27;</span>.<span class="built_in">format</span>(action, self._number_of_arms))</span><br><span class="line"></span><br><span class="line">    success = <span class="built_in">bool</span>(np.random.random() &lt; self._probs[action])</span><br><span class="line">    reward = success * self._s + (<span class="keyword">not</span> success) * self._f</span><br><span class="line">    <span class="keyword">return</span> reward</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Reinforcement-Learning/" rel="tag"># Reinforcement Learning</a>
+              <a href="/tags/n-arm-bandit/" rel="tag"># n-arm bandit</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/06/14/python_speedup/" rel="prev" title="Python无成本加速技巧">
+                  <i class="fa fa-angle-left"></i> Python无成本加速技巧
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/07/31/rl2/" rel="next" title="Reinforment Learning 3 Markov Decision Process">
+                  Reinforment Learning 3 Markov Decision Process <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">FunCoder</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">426k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:27</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/wangzhe3224" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"funcoder","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

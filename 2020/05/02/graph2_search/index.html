@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="When working with graph, search is an important topic. For example, search for connectivity, search for shortest path. There are two basic strategies to do search in graph: Depth-first(DFS) and Breadt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Graph Algorithms - Search">
+<meta property="og:url" content="http://yoursite.com/2020/05/02/graph2_search/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="When working with graph, search is an important topic. For example, search for connectivity, search for shortest path. There are two basic strategies to do search in graph: Depth-first(DFS) and Breadt">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-02T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-29T21:15:04.031Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Data Structure">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Graph">
+<meta property="article:tag" content="Algorithms">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/05/02/graph2_search/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2020/05/02/graph2_search/","path":"2020/05/02/graph2_search/","title":"Graph Algorithms - Search"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Graph Algorithms - Search | FunCoder</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#What-kind-of-problems-we-are-solving"><span class="nav-number">1.</span> <span class="nav-text">What kind of problems we are solving?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-Structure"><span class="nav-number">2.</span> <span class="nav-text">Data Structure</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Search-strategy"><span class="nav-number">3.</span> <span class="nav-text">Search strategy</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Depth-first-search"><span class="nav-number">3.1.</span> <span class="nav-text">Depth-first search</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Breadth-first-search"><span class="nav-number">3.2.</span> <span class="nav-text">Breadth-first search</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/zhuan-ma/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;zhuan-ma&#x2F;" rel="noopener" target="_blank">转码路线图</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/awesome-systematic-trading/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;awesome-systematic-trading&#x2F;" rel="noopener" target="_blank">SystematicTrading</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://funcoder.net/" title="https:&#x2F;&#x2F;funcoder.net&#x2F;" rel="noopener" target="_blank">FunCoder</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/bitcoin-pro/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;bitcoin-pro&#x2F;" rel="noopener" target="_blank">BitcoinPro</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/quant-roadmap/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;quant-roadmap&#x2F;" rel="noopener" target="_blank">QuantRoadmap</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://quant.funcoder.net/" title="https:&#x2F;&#x2F;quant.funcoder.net&#x2F;" rel="noopener" target="_blank">QuantBox</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/02/graph2_search/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Graph Algorithms - Search | FunCoder">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Graph Algorithms - Search
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-05-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-02T00:00:00Z">2020-05-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-09-29 21:15:04" itemprop="dateModified" datetime="2023-09-29T21:15:04Z">2023-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/05/02/graph2_search/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/02/graph2_search/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>4.6k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>When working with graph, search is an important topic. For example, search for connectivity, search for shortest path. There are two basic strategies to do search in graph: Depth-first(DFS) and Breadth-first(BFS). <strong>Note that in this blog, all the discussions are based on undirected graph</strong>. But the strategy can be used to all kind of graphs given they share similar data structures.</p>
+<h1 id="What-kind-of-problems-we-are-solving"><a href="#What-kind-of-problems-we-are-solving" class="headerlink" title="What kind of problems we are solving?"></a>What kind of problems we are solving?</h1><p>The basic idea of search in general is to walk through the data structure and collection information we need. In terms of Graph, only two elements matters: nodes (vertices) and edges. Walking through a graph, really means iterating the nodes in a way.</p>
+<h1 id="Data-Structure"><a href="#Data-Structure" class="headerlink" title="Data Structure"></a>Data Structure</h1><p>The next questions to ask is that how can I solve a question by looping through the least nodes? Well to answer this question, we need to decide a data structure to represent graph. </p>
+<p>Here we select a straight forward way: adjacent list. Completed code can be found <a target="_blank" rel="noopener" href="https://github.com/wangzhe3224/pygraph/blob/master/pygraph/entities/graph.py">here</a></p>
+<p>Essentially, we use dict of dict to represent nodes, and dict of dict of dict to represent adjacent list. I know.. it is not a list at all. But the idea is the same, the benefit of using a dict is that it is very easy to embed meta data to either nodes or edges. And it is an easy way to extend this data structure to other types of graph, say weighted graph. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UndirectedGraph</span>(<span class="params">Graph</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;&quot;&quot;&quot;</span></span><br><span class="line">    dict_dict_dict = <span class="built_in">dict</span></span><br><span class="line">    dict_dict = <span class="built_in">dict</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;&quot;&quot;&quot;</span></span><br><span class="line">        self.__adj = self.dict_dict_dict()  <span class="comment"># dict of dict of dict</span></span><br><span class="line">        self.__nodes = self.dict_dict()  <span class="comment"># dict of dict</span></span><br></pre></td></tr></table></figure>
+
+<p>And.. in the end, dict (hash map) is just a list with hashable index instead of int as index. Or in another words, dict is just a generalized list… alright.. too far away. :smirk: </p>
+<p>For example, we can represent graph: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 - 2 - 3</span><br><span class="line">    |</span><br><span class="line">    4</span><br></pre></td></tr></table></figure>
+
+<p>with following:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__adj &#x3D; &#123;1: &#123;2: &#123;&#125;&#125;, 2:&#123;3:&#123;&#125;, 4:&#123;&#125;&#125;, 3:&#123;2:&#123;&#125;&#125;, 4:&#123;2:&#123;&#125;&#125;&#125;</span><br><span class="line">__nodes &#x3D; &#123;1:&#123;&#125;, 2:&#123;&#125;, 3:&#123;&#125;, 4:&#123;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Search-strategy"><a href="#Search-strategy" class="headerlink" title="Search strategy"></a>Search strategy</h1><p>Ok, we got our little dict(s), the next question is how can we search or walk through this structure? Well when we meet the first node, there are two obvious ways: 1. go to one of its adjacent node and go even deeper via that node. 2. go to all of its adjacent nodes and do the same for other nodes. </p>
+<p>The first way is called depth-first, the second is called breadth-first.</p>
+<p>Apperently they have different properties.</p>
+<h2 id="Depth-first-search"><a href="#Depth-first-search" class="headerlink" title="Depth-first search"></a>Depth-first search</h2><p>For detailed code, please go <a target="_blank" rel="noopener" href="https://github.com/wangzhe3224/pygraph/blob/master/pygraph/algos/dfs.py">https://github.com/wangzhe3224/pygraph/blob/master/pygraph/algos/dfs.py</a></p>
+<p>We can prove that DFS marks all the nodes connected to a given node in time proportional to the sum of their degrees.</p>
+<p>Recall <code>degree of a node</code> is the number of nodes connected to it directly. </p>
+<p>This strategy is efficient in may problems:</p>
+<ul>
+<li>Given a graph, are two given nodes are connected? This question, is equivalent to ask, given two nodes, is there a path from node a to b? if so, find me the path (in terms of sequence of nodes of course)!</li>
+<li>How many connected components does the graph have?</li>
+</ul>
+<p>All right, let’s try to solve a find path problem using DFS.</p>
+<p>Here is one question: given a graph, node a, calculate <em>one</em> path between a and the rest of the nodes, if no path, return None.</p>
+<p>So let’s start with a recursive way, which is the nature of DFS. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">path_view</span>(<span class="params">nodes, edge_to: <span class="built_in">dict</span>, source</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; convert edge_to to path view &quot;&quot;&quot;</span></span><br><span class="line">    _paths = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> node <span class="keyword">in</span> nodes:</span><br><span class="line">        <span class="keyword">if</span> node <span class="keyword">in</span> edge_to:  <span class="comment"># has a path</span></span><br><span class="line">            path = []</span><br><span class="line">            _<span class="built_in">next</span> = node</span><br><span class="line">            <span class="keyword">while</span> _<span class="built_in">next</span> != source:</span><br><span class="line">                path.append(_<span class="built_in">next</span>)</span><br><span class="line">                _<span class="built_in">next</span> = edge_to[_<span class="built_in">next</span>]</span><br><span class="line">            path.append(source)</span><br><span class="line">            _paths[node] = path</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            _paths[node] = <span class="literal">None</span>   <span class="comment"># no path</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> _path</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs_path</span>(<span class="params">graph, source</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; get paths from source to other nodes.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    edge_to is a parent-link representation of the tree which has source as root.</span></span><br><span class="line"><span class="string">    Note: not all the path, but one of the path if exist</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param graph: Graph</span></span><br><span class="line"><span class="string">    :param source: the source node</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &#123;target: [source, x, x, node2]&#125;</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    visited = <span class="built_in">set</span>()</span><br><span class="line">    edge_to = &#123;&#125;  <span class="comment"># magic path..</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_dfs_path</span>(<span class="params">graph, start</span>):</span></span><br><span class="line">        <span class="keyword">for</span> _node <span class="keyword">in</span> graph[start]:  <span class="comment"># all its neighbour</span></span><br><span class="line">            <span class="keyword">if</span> _node <span class="keyword">in</span> visited:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            visited.add(_node)</span><br><span class="line">            edge_to[_node] = start</span><br><span class="line">            _dfs_path(graph, _node)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># DFS</span></span><br><span class="line">    _dfs_path(graph, source)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> path_view(graph.nodes, edge_to, source)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Breadth-first-search"><a href="#Breadth-first-search" class="headerlink" title="Breadth-first search"></a>Breadth-first search</h2><p>Breadth-first search use a different strategy from depth-first search. It will search all the connected nodes and do the same process to sub-nodes. While depth search will go down a path to the end.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bfs_path</span>(<span class="params">graph, source</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; a breadth first search for paths. These suppose to be the shortest paths.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    edge_to is a parent-link representation of the tree which has source as root.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Reference</span></span><br><span class="line"><span class="string">    ---------</span></span><br><span class="line"><span class="string">    &lt;Algorithms 4th edition&gt; by Robert Sedgewick. P540</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param source: a source node</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    _queue = deque([])</span><br><span class="line">    _visited = <span class="built_in">set</span>()</span><br><span class="line">    _queue.append(source)</span><br><span class="line">    _edge_to = &#123;source: source&#125;</span><br><span class="line">    <span class="keyword">while</span> _queue:</span><br><span class="line">        cur_node = _queue.popleft()</span><br><span class="line">        <span class="keyword">for</span> child <span class="keyword">in</span> graph[cur_node]:</span><br><span class="line">            <span class="keyword">if</span> child <span class="keyword">in</span> _visited:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            _visited.add(cur_node)</span><br><span class="line">            _edge_to[child] = cur_node</span><br><span class="line">            _queue.append(child)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> path_view(graph.nodes, _edge_to, source</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Data-Structure/" rel="tag"># Data Structure</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Graph/" rel="tag"># Graph</a>
+              <a href="/tags/Algorithms/" rel="tag"># Algorithms</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/04/25/graph1/" rel="prev" title="Graph basics - 1 Concepts">
+                  <i class="fa fa-angle-left"></i> Graph basics - 1 Concepts
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/05/09/graph3_digraph/" rel="next" title="Graph - DiGraph">
+                  Graph - DiGraph <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">FunCoder</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">426k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:27</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/wangzhe3224" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"funcoder","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="CSAPP 6 存储的层次本书之前讨论的模型注重CPU执行程序的过程和方式，而其中内存被当做一个简单的byte array，可以实现O(1)访问。但是，这个内存模型是简化的，实际计算的内存是一个层状模型，每一层都有不同的承载力和访问开销。 LocalityTemporal Locality：一个内存地址如果被引用了一次，那么它很可能在将来还会被引用。Spatial Locality：一个地址如果被">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSAPP 6 存储的层次">
+<meta property="og:url" content="http://yoursite.com/2021/04/24/csapp_6/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="CSAPP 6 存储的层次本书之前讨论的模型注重CPU执行程序的过程和方式，而其中内存被当做一个简单的byte array，可以实现O(1)访问。但是，这个内存模型是简化的，实际计算的内存是一个层状模型，每一层都有不同的承载力和访问开销。 LocalityTemporal Locality：一个内存地址如果被引用了一次，那么它很可能在将来还会被引用。Spatial Locality：一个地址如果被">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/8BRKwX4.png">
+<meta property="article:published_time" content="2021-04-24T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-29T21:15:04.027Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="CSAPP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/8BRKwX4.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2021/04/24/csapp_6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2021/04/24/csapp_6/","path":"2021/04/24/csapp_6/","title":"CSAPP 6 存储的层次"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CSAPP 6 存储的层次 | FunCoder</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSAPP-6-%E5%AD%98%E5%82%A8%E7%9A%84%E5%B1%82%E6%AC%A1"><span class="nav-number">1.</span> <span class="nav-text">CSAPP 6 存储的层次</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Locality"><span class="nav-number">1.1.</span> <span class="nav-text">Locality</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%9A%84%E5%B1%82%E6%AC%A1"><span class="nav-number">1.2.</span> <span class="nav-text">存储的层次</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%BC%93%E5%AD%98"><span class="nav-number">1.3.</span> <span class="nav-text">内存缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Problem-6-10"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">Problem 6.10</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E6%98%A0%E5%B0%84%E7%BC%93%E5%AD%98"><span class="nav-number">1.3.1.</span> <span class="nav-text">直接映射缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Problem-6-11"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">Problem 6.11</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Problem-6-13"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">Problem 6.13</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Problem-6-14"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">Problem 6.14</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Problem-6-15"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">Problem 6.15</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E5%85%A5%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.2.</span> <span class="nav-text">写入缓存的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#i-cache-%E5%92%8C-d-cache"><span class="nav-number">1.3.3.</span> <span class="nav-text">i-cache 和 d-cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E5%8F%82%E6%95%B0%E5%AF%B9%E6%80%A7%E8%83%BD%E5%BD%B1%E5%93%8D%E6%8C%87%E6%A0%87"><span class="nav-number">1.3.4.</span> <span class="nav-text">缓存参数对性能影响指标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8%E7%BC%93%E5%AD%98%E7%89%B9%E6%80%A7%E5%86%99%E6%9B%B4%E5%BF%AB%E7%9A%84%E7%A8%8B%E5%BA%8F%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">如何利用缓存特性写更快的程序？</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#tags-CSAPP"><span class="nav-number">1.4.0.0.0.1.</span> <span class="nav-text">tags: CSAPP</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/zhuan-ma/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;zhuan-ma&#x2F;" rel="noopener" target="_blank">转码路线图</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/awesome-systematic-trading/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;awesome-systematic-trading&#x2F;" rel="noopener" target="_blank">SystematicTrading</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://funcoder.net/" title="https:&#x2F;&#x2F;funcoder.net&#x2F;" rel="noopener" target="_blank">FunCoder</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/bitcoin-pro/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;bitcoin-pro&#x2F;" rel="noopener" target="_blank">BitcoinPro</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/quant-roadmap/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;quant-roadmap&#x2F;" rel="noopener" target="_blank">QuantRoadmap</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://quant.funcoder.net/" title="https:&#x2F;&#x2F;quant.funcoder.net&#x2F;" rel="noopener" target="_blank">QuantBox</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/24/csapp_6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="CSAPP 6 存储的层次 | FunCoder">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSAPP 6 存储的层次
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-04-24 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-24T00:00:00Z">2021-04-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-09-29 21:15:04" itemprop="dateModified" datetime="2023-09-29T21:15:04Z">2023-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computing/" itemprop="url" rel="index"><span itemprop="name">Computing</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/04/24/csapp_6/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/24/csapp_6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>3.6k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="CSAPP-6-存储的层次"><a href="#CSAPP-6-存储的层次" class="headerlink" title="CSAPP 6 存储的层次"></a>CSAPP 6 存储的层次</h1><p>本书之前讨论的模型注重CPU执行程序的过程和方式，而其中内存被当做一个简单的byte array，可以实现O(1)访问。但是，这个内存模型是简化的，实际计算的内存是一个层状模型，每一层都有不同的承载力和访问开销。</p>
+<h2 id="Locality"><a href="#Locality" class="headerlink" title="Locality"></a>Locality</h2><p><strong>Temporal Locality</strong>：一个内存地址如果被引用了一次，那么它很可能在将来还会被引用。<strong>Spatial Locality</strong>：一个地址如果被引用，那么它周围的地址也能被引用。</p>
+<p>现代计算机和操作系统都会做上述假设，如果程序可以满足上述假设，那么程序的运行速度就会提升。</p>
+<p>因此：</p>
+<ul>
+<li>反复访问同一个内存地址效率更高</li>
+<li>多维数组row基更快，因为内存连续</li>
+<li>多维数组，<code>a[][][]</code> 将最后一个index作为变化最快的index</li>
+<li>循环最好是大量的短代码块</li>
+</ul>
+<p><strong>Problem 6.9</strong></p>
+<p>定义如下结构体，注意结构体在C中其实也是一段连续的内存，循环赋值的时候如果关注效率，应该采用<code>clear1</code>的方法。结构体其实相当于多维数组，只不过第二维度是一个field，而不是index。因此 j 应该是变化最快的index，而且不宜把vel和acc放在同一个loop里面，这样写起来方便，但是 Locality 不好。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 1000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> vel[<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">int</span> acc[<span class="number">3</span>];</span><br><span class="line">&#125; point;</span><br><span class="line"></span><br><span class="line">point p[N];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">clear1</span><span class="params">(point *p, <span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i, j;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;n; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;<span class="number">3</span>; j++)</span><br><span class="line">            p[i].vel[j] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;<span class="number">3</span>; j++)</span><br><span class="line">            p[i].acc[j] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="存储的层次"><a href="#存储的层次" class="headerlink" title="存储的层次"></a>存储的层次</h2><p>从寄存器到硬盘，再到网络服务器，计算机系统的存储系统是一个层状结构。越往上读写速度越快，但是价格也越高，相应的存储空间也越小。所以上一层的内存通常是作为下一层内存的<strong>缓存（Cache）</strong> 使用。</p>
+<p><img src="https://i.imgur.com/8BRKwX4.png" alt=""></p>
+<p>通常k和k+1的缓存关系具有固定的block大小。如果程序想要读取k+1的信息，会搜索k中k+1的缓存block，如果找到（cache hit）读取，如果没找到（cache miss）则会从K+1读取，并放入k层缓存，不过放入缓存的具体方式跟不同的缓存策略有关。</p>
+<p>Cache hit 大家都开心，如果出现 Cache miss，我们需要分析原因。一般miss可以分成：</p>
+<ul>
+<li>cold miss</li>
+<li>confilt miss</li>
+<li>capacity miss</li>
+</ul>
+<p>既然每一层都是下一层的缓存，那么谁来负责管理每一层之间的数据流动呢？存储的最顶层是寄存器，这部分内存由编译器负责管理；而L1-3缓存则是由硬件负责管理；而主内存，在有虚拟内存的情况下，是有操作系统和硬件共同完成管理的，</p>
+<p>正是因为存储的这种层状缓存关系，程序的Locality才对提升性能格外重要：</p>
+<ul>
+<li>Temporal Locality，可以提高cache hit</li>
+<li>Spatial Locality，可以提高一个block空间的利用率</li>
+</ul>
+<h2 id="内存缓存"><a href="#内存缓存" class="headerlink" title="内存缓存"></a>内存缓存</h2><p>如果系统的地址宽度为$m$ bits，则系统可以寻址$M=s^m$，那么缓存一般被划分成 $S=2^s$ 个缓存集（Cache set），每一个缓存集包含 $E$ 调缓存记录，而每一个缓存记录的宽度恰好是系统地址宽度 $m$。每个缓存记录包含：</p>
+<ul>
+<li>数据块，$B=2^b$ 字节；</li>
+<li>valid bit，1 bit，用来表明该记录是否存有可用信息；</li>
+<li>Tag，$t=m-(b+s)$，这部分是当前内存块地址的一个子集。</li>
+</ul>
+<p>由此得出缓存的大小：$C=B<em>E</em>S$，我们可以用一个4维元组定义一个缓存：$(S, E, B, m)$。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set 0, cache line 0</span><br><span class="line"></span><br><span class="line">| valid bit | -- t bits -- | --  b blocks  -- |</span><br><span class="line">   Valid          Tag          B &#x3D; 2^b bytes</span><br></pre></td></tr></table></figure>
+
+<p>那么缓存是如何寻址的呢？假设我们要看缓存是否包含地址A对应的数据。首先我们把地址划分成三个部分：</p>
+<ul>
+<li>tag</li>
+<li>set index</li>
+<li>block offset</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">         m-1                                    0</span><br><span class="line">address: |-- t bits --|-- s bits --|-- b bits --|</span><br><span class="line">              tag       set index   block offset</span><br></pre></td></tr></table></figure>
+
+<p>首先，set index 部分指明缓存集（cache set）位置，然后 Tag 部分会指明那个缓存记录包含该地址的内容；最后，通过 block offset 找到读取的缓存的最终位置。</p>
+<h4 id="Problem-6-10"><a href="#Problem-6-10" class="headerlink" title="Problem 6.10"></a>Problem 6.10</h4><ul>
+<li>$S = C / (B * E)$</li>
+<li>$s = log_2(S)$</li>
+<li>$b = log_2(B)$</li>
+<li>$t = m - (s+b)$</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Cache</th>
+<th>m</th>
+<th>C</th>
+<th>B</th>
+<th>E</th>
+<th>S</th>
+<th>t</th>
+<th>s</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.</td>
+<td>32</td>
+<td>1024</td>
+<td>4</td>
+<td>1</td>
+<td>256</td>
+<td>22</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2.</td>
+<td>32</td>
+<td>1024</td>
+<td>8</td>
+<td>4</td>
+<td>32</td>
+<td>24</td>
+<td>5</td>
+<td>3</td>
+</tr>
+<tr>
+<td>3.</td>
+<td>32</td>
+<td>1024</td>
+<td>32</td>
+<td>32</td>
+<td>1</td>
+<td>27</td>
+<td>0</td>
+<td>5</td>
+</tr>
+</tbody></table>
+<h3 id="直接映射缓存"><a href="#直接映射缓存" class="headerlink" title="直接映射缓存"></a>直接映射缓存</h3><p>直接映射缓存就是 $E=1$ 的缓存，即每一个缓存集只有一条缓存记录。缓存的读取分成三部：</p>
+<ul>
+<li>选取set</li>
+<li>匹配line</li>
+<li>抽取word</li>
+</ul>
+<p>跟上上面练习的表格，可以知道 s 的宽度是 5 比特，也就是我们需要抽取读取地址中的5位，换算成无符号整数，作为cache set索引。比如如下示意，我们的地址中 s 的部分是<code>00001</code>就会对应cache set索引1。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">m-1                                        0</span><br><span class="line">|--  t bits -- | 0 0 0 0 1 | --  b bits -- |</span><br></pre></td></tr></table></figure>
+
+<p>找到 cache set 的位置后，我们需要找到对应的 cache line，由于选择了E=1，每一个 cache set 都只有一个 cache line，这一步就没什么好选择的了。</p>
+<p>最后一步就是抽取数据。</p>
+<ol>
+<li>检查 vilid bit 是否是1，</li>
+<li>检查 tag 部分（0110）是否与缓存tag部分相等，</li>
+<li>继续读取offset的部分（本例子中是二进制100，即十进制4）找到对应的数据。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Cache set 的结构</span><br><span class="line"></span><br><span class="line">| valid bit | Tag | Block </span><br><span class="line">    &#x3D;1 ?     0110   </span><br><span class="line">    </span><br><span class="line">m-1                                        0</span><br><span class="line">|--  t bits -- | 0 0 0 0 1 | --  b bits -- |</span><br><span class="line">|   0 1 1 0    |     i     |     1 0 0     |</span><br></pre></td></tr></table></figure>
+
+<p>如果步骤1、2都满足，成为 cache hit，即命中。否则为cache miss，这时系统需要继续访问内存读取数据，然后将数据按照规则写入cache。这时候，如果缓存已经满了，就需要一些evicted策略。对于直接映射缓存，情况比较简单，就是直接用新的数据替换该cache line。</p>
+<p><strong>值得注意的是，如果一个cache line出现cache miss，系统会直接读取所有的block进入缓存，而不是只读取请求的部分。</strong></p>
+<p><strong>由于缓存较小，同一个cache line会被映射到不同的内存地址，这就可能导致Conflit miss，即一个cache line被返回的清除，或交替出现cache miss</strong>。</p>
+<p><strong>为什么采用中间的bit作为set索引，而不是高位的bit？因为我们希望连续的内存被映射到不同的set区间，增加连续访问的cache hit</strong></p>
+<h4 id="Problem-6-11"><a href="#Problem-6-11" class="headerlink" title="Problem 6.11"></a>Problem 6.11</h4><p>padding后，75%的访问会命中。</p>
+<h4 id="Problem-6-13"><a href="#Problem-6-13" class="headerlink" title="Problem 6.13"></a>Problem 6.13</h4><table>
+<thead>
+<tr>
+<th>Cache</th>
+<th>m</th>
+<th>C</th>
+<th>B</th>
+<th>E</th>
+<th>S</th>
+<th>t</th>
+<th>s</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.</td>
+<td>13</td>
+<td>32</td>
+<td>4</td>
+<td>1</td>
+<td>8</td>
+<td>8</td>
+<td>3</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Tag: 8 bit</span><br><span class="line">index: 3 bits</span><br><span class="line">offset: 2 bits</span><br></pre></td></tr></table></figure>
+
+<h4 id="Problem-6-14"><a href="#Problem-6-14" class="headerlink" title="Problem 6.14"></a>Problem 6.14</h4><p><code>0x0E34</code> -&gt; <code>0111000110100</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Cache block offset (CO)   0x00</span><br><span class="line">Cache set index (CI)      0x05</span><br><span class="line">Cache tag (CT)            0x71</span><br><span class="line">Cache Hit?                Yes</span><br><span class="line">Cache byte return         0x0B</span><br></pre></td></tr></table></figure>
+
+<h4 id="Problem-6-15"><a href="#Problem-6-15" class="headerlink" title="Problem 6.15"></a>Problem 6.15</h4><p><code>0x0DD5</code> -&gt; <code>110111010101</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Cache block offset (CO)   0x01</span><br><span class="line">Cache set index (CI)      0x05</span><br><span class="line">Cache tag (CT)            0x6E</span><br><span class="line">Cache Hit?                No</span><br><span class="line">Cache byte return         -</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="写入缓存的问题"><a href="#写入缓存的问题" class="headerlink" title="写入缓存的问题"></a>写入缓存的问题</h3><p>上述方法用于读取缓存没有问题，当程序想要向缓存写入数据的时候，系统需要考虑不同的方案。我们有两种情况：Write hit 和 Write miss。</p>
+<p>Write hit 的情况下，我们有两种方案：<code>write-though</code>和<code>write-back</code>。前一种方案会在写入缓存的同事，更新对应的内存空间；后一种方案，只有在该缓存被清除的时候，才会向对应内存写入更新的数值。</p>
+<p>Write miss 的情况下，也是两种方案：<code>write-allocate</code>和<code>no-write-allocate</code>。前一种方案会读取数据到缓存，然后写入缓存；后一种会直接写入内存或下一层缓存。</p>
+<h3 id="i-cache-和-d-cache"><a href="#i-cache-和-d-cache" class="headerlink" title="i-cache 和 d-cache"></a>i-cache 和 d-cache</h3><p>缓存不仅会存储数据，也会存储CPU指令。</p>
+<h3 id="缓存参数对性能影响指标"><a href="#缓存参数对性能影响指标" class="headerlink" title="缓存参数对性能影响指标"></a>缓存参数对性能影响指标</h3><p>我们有如下指标评估缓存的性能：</p>
+<ul>
+<li>Miss Rate</li>
+<li>Hit Rate</li>
+<li>Hit time</li>
+<li>Miss penalty</li>
+</ul>
+<h2 id="如何利用缓存特性写更快的程序？"><a href="#如何利用缓存特性写更快的程序？" class="headerlink" title="如何利用缓存特性写更快的程序？"></a>如何利用缓存特性写更快的程序？</h2><ol>
+<li>让公共代码跑的更快</li>
+<li>减少内层循环的cache miss</li>
+<li>再循环中不断访问局部变量（编译器会优化到寄存器）</li>
+<li>把变化最快层放在最内层索引</li>
+</ol>
+<p>概念上：</p>
+<ul>
+<li>关注程序的最内层循环</li>
+<li>为了最大化空间局部性，stride 1 模式读取对象</li>
+<li>为了最大化临时局部性，反复使用已经从内存读取的对象</li>
+</ul>
+<h6 id="tags-CSAPP"><a href="#tags-CSAPP" class="headerlink" title="tags: CSAPP"></a>tags: <code>CSAPP</code></h6>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CSAPP/" rel="tag"># CSAPP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/04/24/leetcode_graph/" rel="prev" title="1192 Critical Connections in a Network">
+                  <i class="fa fa-angle-left"></i> 1192 Critical Connections in a Network
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/04/27/leetcode_robot/" rel="next" title="874. Walking Robot Simulation">
+                  874. Walking Robot Simulation <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">FunCoder</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">426k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:27</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/wangzhe3224" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"funcoder","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

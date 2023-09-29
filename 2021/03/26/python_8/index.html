@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="重新认识 Python（8）PyObject 开发环境设置和入门请看：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;358690339  本片主要介绍 Python 对象的内存构成，以及如何组织对象的方法。更多内容可以看： https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F; PyObject 和 PyTypeObjectPyObject 可说是 CPython 最核心的数据结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重新认识 Python（8）PyObject">
+<meta property="og:url" content="http://yoursite.com/2021/03/26/python_8/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="重新认识 Python（8）PyObject 开发环境设置和入门请看：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;358690339  本片主要介绍 Python 对象的内存构成，以及如何组织对象的方法。更多内容可以看： https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F; PyObject 和 PyTypeObjectPyObject 可说是 CPython 最核心的数据结">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/qBt3pvW.png">
+<meta property="og:image" content="https://i.imgur.com/D3euvFc.png">
+<meta property="og:image" content="https://i.imgur.com/LxvTRK4.png">
+<meta property="article:published_time" content="2021-03-26T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-29T21:15:04.031Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="CPython">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/qBt3pvW.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2021/03/26/python_8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2021/03/26/python_8/","path":"2021/03/26/python_8/","title":"重新认识 Python（8）PyObject"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>重新认识 Python（8）PyObject | FunCoder</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%A4%E8%AF%86-Python%EF%BC%888%EF%BC%89PyObject"><span class="nav-number">1.</span> <span class="nav-text">重新认识 Python（8）PyObject</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PyObject-%E5%92%8C-PyTypeObject"><span class="nav-number">1.1.</span> <span class="nav-text">PyObject 和 PyTypeObject</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tuple-%E7%B1%BB"><span class="nav-number">1.2.</span> <span class="nav-text">tuple 类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96-type"><span class="nav-number">1.3.</span> <span class="nav-text">实例化 type</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">实例化自定义类型</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/zhuan-ma/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;zhuan-ma&#x2F;" rel="noopener" target="_blank">转码路线图</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/awesome-systematic-trading/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;awesome-systematic-trading&#x2F;" rel="noopener" target="_blank">SystematicTrading</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://funcoder.net/" title="https:&#x2F;&#x2F;funcoder.net&#x2F;" rel="noopener" target="_blank">FunCoder</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/bitcoin-pro/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;bitcoin-pro&#x2F;" rel="noopener" target="_blank">BitcoinPro</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/quant-roadmap/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;quant-roadmap&#x2F;" rel="noopener" target="_blank">QuantRoadmap</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://quant.funcoder.net/" title="https:&#x2F;&#x2F;quant.funcoder.net&#x2F;" rel="noopener" target="_blank">QuantBox</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/26/python_8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="重新认识 Python（8）PyObject | FunCoder">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          重新认识 Python（8）PyObject
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-03-26 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-26T00:00:00Z">2021-03-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-09-29 21:15:04" itemprop="dateModified" datetime="2023-09-29T21:15:04Z">2023-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/03/26/python_8/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/26/python_8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>5.3k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>5 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="重新认识-Python（8）PyObject"><a href="#重新认识-Python（8）PyObject" class="headerlink" title="重新认识 Python（8）PyObject"></a>重新认识 Python（8）PyObject</h1><blockquote>
+<p>开发环境设置和入门请看：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/358690339">https://zhuanlan.zhihu.com/p/358690339</a></p>
+</blockquote>
+<p>本片主要介绍 Python 对象的内存构成，以及如何组织对象的方法。更多内容可以看： <a target="_blank" rel="noopener" href="https://wangzhe3224.github.io/">https://wangzhe3224.github.io/</a></p>
+<h2 id="PyObject-和-PyTypeObject"><a href="#PyObject-和-PyTypeObject" class="headerlink" title="PyObject 和 PyTypeObject"></a><code>PyObject</code> 和 <code>PyTypeObject</code></h2><p><code>PyObject</code> 可说是 CPython 最核心的数据结构了，在 Python 的世界里，几乎任何元素都是 PyObject 的指针（注意这里是指针，不是实际内存空间）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Include/object.h</span></span><br><span class="line"><span class="comment">/* Define pointers to support a doubly-linked list of all live heap objects. */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _PyObject_HEAD_EXTRA            \</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> _<span class="title">object</span> *_<span class="title">ob_next</span>;</span>           \</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> _<span class="title">object</span> *_<span class="title">ob_prev</span>;</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">object</span> &#123;</span></span><br><span class="line">    _PyObject_HEAD_EXTRA</span><br><span class="line">    Py_ssize_t ob_refcnt;</span><br><span class="line">    PyTypeObject *ob_type;</span><br><span class="line">&#125; PyObject;</span><br></pre></td></tr></table></figure>
+
+<p>所有分配在堆内存中的python对象都具有上述结构：</p>
+<ul>
+<li><code>_PyObject_HEAD_EXTRA</code> 包含两个指向前后对象的指针，这样堆内存中的对象就会连接成为链表，以便进行内存管理。</li>
+<li><code>ob_refcnt</code> 是对象的引用计数器，是GC的一部分，refcnt归零，该对象内存被回收。<code>Py_INCREF</code> 和 <code>Py_DECREF</code> 两个宏操作。</li>
+<li><code>*ob_type</code> 是对象的类型指针，决定了这个对象是什么类型，比如 int 或者 其他自定义类型。</li>
+</ul>
+<p>实际上，<strong>所有</strong> Python 在内存中的头部都是一个 <code>PyObject</code> 结构，如下图所示。</p>
+<p><img src="https://i.imgur.com/qBt3pvW.png" alt="对象的内存分布"></p>
+<p>让我们继续看 <code>PyTypeObject</code> 这个结构体，内部定义了类型支持的操作的<em>指针</em>。举个例子，<code>*tp_as_number</code> 是一个指向 <code>PyNumberMethod</code> 结构体的指针。这个结构体包含了一系列函数指针，这些函数就是数字类型支持的计算，比如 <code>nb_add</code>, <code>nb_and</code> 等等。这里也包含了指向魔法函数的指针，比如 <code>tp_new</code> 指向的就是 <code>__new__</code> 的函数代码。这个类型结构体囊括了python类型可能支持的所有功能，其中有些其他类型是强制必须实现的，比如 <code>tp_new</code>，有些则是可选的，比如 <code>tp_init</code> 。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Include/cpython/object.h</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">typeobject</span> &#123;</span></span><br><span class="line">    PyObject_VAR_HEAD</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *tp_name; <span class="comment">/* For printing, in format &quot;&lt;module&gt;.&lt;name&gt;&quot; */</span></span><br><span class="line">    Py_ssize_t tp_basicsize, tp_itemsize; <span class="comment">/* For allocation */</span></span><br><span class="line"></span><br><span class="line">    destructor tp_dealloc;</span><br><span class="line">    Py_ssize_t tp_vectorcall_offset;</span><br><span class="line">    getattrfunc tp_getattr;</span><br><span class="line">    setattrfunc tp_setattr;</span><br><span class="line">    PyAsyncMethods *tp_as_async; <span class="comment">/* formerly known as tp_compare (Python 2)</span></span><br><span class="line"><span class="comment">                                    or tp_reserved (Python 3) */</span></span><br><span class="line">    reprfunc tp_repr;</span><br><span class="line">    </span><br><span class="line">    PyNumberMethods *tp_as_number;</span><br><span class="line">    PySequenceMethods *tp_as_sequence;</span><br><span class="line">    PyMappingMethods *tp_as_mapping;</span><br><span class="line"></span><br><span class="line">    hashfunc tp_hash;</span><br><span class="line">    ternaryfunc tp_call;</span><br><span class="line">    reprfunc tp_str;</span><br><span class="line">    getattrofunc tp_getattro;</span><br><span class="line">    setattrofunc tp_setattro;</span><br><span class="line">    <span class="comment">//。。。</span></span><br><span class="line">    <span class="comment">//此处省略</span></span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    binaryfunc nb_add;</span><br><span class="line">    binaryfunc nb_subtract;</span><br><span class="line">    binaryfunc nb_multiply;</span><br><span class="line">    binaryfunc nb_remainder;</span><br><span class="line">    binaryfunc nb_divmod;</span><br><span class="line">    ternaryfunc nb_power;</span><br><span class="line">    <span class="comment">//。。。。</span></span><br><span class="line">    <span class="comment">//此处省略</span></span><br><span class="line">    &#125; PyNumberMethods;</span><br></pre></td></tr></table></figure>
+
+<p>你可能已经发现，<code>PyTypeObject</code> 其实就是定义一个接口，所有对象必须满足这个接口。其中有几个值得注意的子接口：</p>
+<ul>
+<li><code>PyNumberMethods</code>，定义了数字相关的结构，比如 +,-,&gt;，等等。换句话说，一个类型要向支持这些运算符，就必须实现这个接口</li>
+<li><code>PySequenceMethods</code>，定义了序列相关的函数，比如 len, in 等等</li>
+<li><code>PyMappingMethods</code>，定义了一些字典类的函数</li>
+</ul>
+<p>总结一下 Python 内存中的对都拥有类似的头部和组织结构：</p>
+<p><img src="https://i.imgur.com/D3euvFc.png" alt=""></p>
+<h2 id="tuple-类"><a href="#tuple-类" class="headerlink" title="tuple 类"></a><code>tuple</code> 类</h2><p>我们来看一个具体的例子，<code>tuple</code>。这里先介绍语言的内建类型，对于自定义类型（自己写的类）的说明，放在后面说。</p>
+<p><code>PyTuple_Type</code> 就是 <code>PyTypeObject</code> 的一个实例：</p>
+<p>首先，第一个 field 是 tuple 的基类：<code>PyType_Type</code>，其实在 python 解释器中就是 <code>type</code> 。第二个 field 是这个类打印出来的名字，这里就是 tuple，也就是解释器中 <code>type(a_tuple)</code> 的返回值。接下来就是tuple对象的大小和其内部元素的大小。注意到其中很多 0，这就表示这个类型没有实现哪些接口。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">PyTypeObject PyTuple_Type = &#123;</span><br><span class="line">    PyVarObject_HEAD_INIT(&amp;PyType_Type, <span class="number">0</span>)</span><br><span class="line">    <span class="string">&quot;tuple&quot;</span>,</span><br><span class="line">    <span class="keyword">sizeof</span>(PyTupleObject) - <span class="keyword">sizeof</span>(PyObject *),</span><br><span class="line">    <span class="keyword">sizeof</span>(PyObject *),</span><br><span class="line">    (destructor)tupledealloc,                   <span class="comment">/* tp_dealloc */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_vectorcall_offset */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_getattr */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_setattr */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_as_async */</span></span><br><span class="line">    (reprfunc)tuplerepr,                        <span class="comment">/* tp_repr */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_as_number */</span></span><br><span class="line">    &amp;tuple_as_sequence,                         <span class="comment">/* tp_as_sequence */</span></span><br><span class="line">    &amp;tuple_as_mapping,                          <span class="comment">/* tp_as_mapping */</span></span><br><span class="line">    (hashfunc)tuplehash,                        <span class="comment">/* tp_hash */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_call */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_str */</span></span><br><span class="line">    PyObject_GenericGetAttr,                    <span class="comment">/* tp_getattro */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_setattro */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_as_buffer */</span></span><br><span class="line">    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |</span><br><span class="line">        Py_TPFLAGS_BASETYPE | Py_TPFLAGS_TUPLE_SUBCLASS |</span><br><span class="line">        _Py_TPFLAGS_MATCH_SELF,               <span class="comment">/* tp_flags */</span></span><br><span class="line">    tuple_new__doc__,                           <span class="comment">/* tp_doc */</span></span><br><span class="line">    (traverseproc)tupletraverse,                <span class="comment">/* tp_traverse */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_clear */</span></span><br><span class="line">    tuplerichcompare,                           <span class="comment">/* tp_richcompare */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_weaklistoffset */</span></span><br><span class="line">    tuple_iter,                                 <span class="comment">/* tp_iter */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_iternext */</span></span><br><span class="line">    tuple_methods,                              <span class="comment">/* tp_methods */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_members */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_getset */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_base */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_dict */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_descr_get */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_descr_set */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_dictoffset */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_init */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_alloc */</span></span><br><span class="line">    tuple_new,                                  <span class="comment">/* tp_new */</span></span><br><span class="line">    PyObject_GC_Del,                            <span class="comment">/* tp_free */</span></span><br><span class="line">    .tp_vectorcall = tuple_vectorcall,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="实例化-type"><a href="#实例化-type" class="headerlink" title="实例化 type"></a>实例化 type</h2><p>接下来我们看当我们在python里创建一个 tuple 的时候发生了什么？构造函数会被调用，比如 <code>tuple_new</code>。也就是 pytype 里面的 <code>tp_new</code> 指针指向的函数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Objects/tupleobject.c</span></span><br><span class="line"><span class="keyword">static</span> PyObject *</span><br><span class="line">tuple_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)</span><br><span class="line">&#123;</span><br><span class="line">    PyObject *return_value = <span class="literal">NULL</span>;</span><br><span class="line">    PyObject *iterable = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((type == &amp;PyTuple_Type) &amp;&amp;</span><br><span class="line">        !_PyArg_NoKeywords(<span class="string">&quot;tuple&quot;</span>, kwargs)) &#123;</span><br><span class="line">        <span class="keyword">goto</span> <span class="built_in">exit</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!_PyArg_CheckPositional(<span class="string">&quot;tuple&quot;</span>, PyTuple_GET_SIZE(args), <span class="number">0</span>, <span class="number">1</span>)) &#123;</span><br><span class="line">        <span class="keyword">goto</span> <span class="built_in">exit</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (PyTuple_GET_SIZE(args) &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">goto</span> skip_optional;</span><br><span class="line">    &#125;</span><br><span class="line">    iterable = PyTuple_GET_ITEM(args, <span class="number">0</span>);</span><br><span class="line">skip_optional:</span><br><span class="line">    return_value = tuple_new_impl(type, iterable);</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span>:</span><br><span class="line">    <span class="keyword">return</span> return_value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而这个构造函数会返回一个 <code>PyTupleObject</code>，正是这个结构包含了一个指向 tuple 内部真正元素的指针。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    PyObject_VAR_HEAD</span><br><span class="line">    <span class="comment">/* ob_item contains space for &#x27;ob_size&#x27; elements.</span></span><br><span class="line"><span class="comment">       Items must normally not be NULL, except during construction when</span></span><br><span class="line"><span class="comment">       the tuple is not yet visible outside the function that builds it. */</span></span><br><span class="line">    PyObject *ob_item[<span class="number">1</span>];</span><br><span class="line">&#125; PyTupleObject;</span><br></pre></td></tr></table></figure>
+
+<p><strong>这里需要注意</strong>：<code>PyTupleObject</code> 是实际被分配在堆内存的对象，我们可以创建很多对象，但是他们对应的函数都被包含在 <code>PyTuple_Type</code> 中，而这个对象是唯一的，所有 tuple 对象都会指向他。</p>
+<p><img src="https://i.imgur.com/LxvTRK4.png" alt=""></p>
+<h2 id="实例化自定义类型"><a href="#实例化自定义类型" class="headerlink" title="实例化自定义类型"></a>实例化自定义类型</h2><p>那么当我们实例化自定义类型的时候，发生了什么？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line">a = A()</span><br></pre></td></tr></table></figure>
+
+<p>这里 A 是我们的自定义类，它默认继承了 <code>type</code>。当我们写 <code>()</code> 这个语法的时候，实际上会触发 <code>tp_call</code> 指向的函数，即 type 的 call 方法。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> PyObject *</span><br><span class="line">type_call(PyTypeObject *type, PyObject *args, PyObject *kwds)</span><br><span class="line">&#123;</span><br><span class="line">    PyObject *obj;</span><br><span class="line">    PyThreadState *tstate = _PyThreadState_GET();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 省略代码</span></span><br><span class="line"></span><br><span class="line">    obj = type-&gt;tp_new(type, args, kwds);  <span class="comment">// 注意这里调用了 new 方法</span></span><br><span class="line">    obj = _Py_CheckFunctionResult(tstate, (PyObject*)type, obj, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span> (obj == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* If the returned object is not an instance of type,</span></span><br><span class="line"><span class="comment">       it won&#x27;t be initialized. */</span></span><br><span class="line">    <span class="keyword">if</span> (!PyType_IsSubtype(Py_TYPE(obj), type))</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line"></span><br><span class="line">    type = Py_TYPE(obj);</span><br><span class="line">    <span class="keyword">if</span> (type-&gt;tp_init != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> res = type-&gt;tp_init(obj, args, kwds);</span><br><span class="line">        <span class="keyword">if</span> (res &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            assert(_PyErr_Occurred(tstate));</span><br><span class="line">            Py_DECREF(obj);</span><br><span class="line">            obj = <span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            assert(!_PyErr_Occurred(tstate));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/CPython/" rel="tag"># CPython</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/25/go_study_1/" rel="prev" title="Go 学习笔记 1">
+                  <i class="fa fa-angle-left"></i> Go 学习笔记 1
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/28/go_2/" rel="next" title="Go 学习笔记2 语法、语义">
+                  Go 学习笔记2 语法、语义 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">FunCoder</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">426k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:27</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/wangzhe3224" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"funcoder","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

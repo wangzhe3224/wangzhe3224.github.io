@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="原文地址：https:&#x2F;&#x2F;papers.ssrn.com&#x2F;sol3&#x2F;papers.cfm?abstract_id&#x3D;4124576  这篇论文是由全球最大的上市对冲基金公司英仕曼集团为主撰写的，其中两位作者来自旗下系统化交易公司 Man AHL。截止 2022 年 6 月，英仕曼集团管理超过 1500 亿美金的资产。 这篇论文从专业机构用户的角度审视了比特币和加密货币市场，给出了一些专业的观点和事">
+<meta property="og:type" content="article">
+<meta property="og:title" content="英仕曼集团 - 加密货币投资指南 2022-06 - 译">
+<meta property="og:url" content="http://yoursite.com/2022/07/25/think_bitcoin_9/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="原文地址：https:&#x2F;&#x2F;papers.ssrn.com&#x2F;sol3&#x2F;papers.cfm?abstract_id&#x3D;4124576  这篇论文是由全球最大的上市对冲基金公司英仕曼集团为主撰写的，其中两位作者来自旗下系统化交易公司 Man AHL。截止 2022 年 6 月，英仕曼集团管理超过 1500 亿美金的资产。 这篇论文从专业机构用户的角度审视了比特币和加密货币市场，给出了一些专业的观点和事">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/eZVA3sj.png">
+<meta property="og:image" content="https://i.imgur.com/ailUMuF.png">
+<meta property="og:image" content="https://i.imgur.com/v1E9VL7.png">
+<meta property="og:image" content="https://i.imgur.com/pEF9T8c.png">
+<meta property="og:image" content="https://i.imgur.com/sZSo2aj.png">
+<meta property="og:image" content="https://i.imgur.com/I7xvHR7.png">
+<meta property="og:image" content="https://i.imgur.com/Wj17r0d.png">
+<meta property="og:image" content="https://i.imgur.com/l63ZmE5.png">
+<meta property="article:published_time" content="2022-07-25T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-29T21:15:04.035Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Bitcoin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/eZVA3sj.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2022/07/25/think_bitcoin_9/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2022/07/25/think_bitcoin_9/","path":"2022/07/25/think_bitcoin_9/","title":"英仕曼集团 - 加密货币投资指南 2022-06 - 译"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>英仕曼集团 - 加密货币投资指南 2022-06 - 译 | FunCoder</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B3%A1%E6%B2%AB%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是泡沫？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">加密货币的分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81%E5%AE%9A%E4%BB%B7%E7%9A%84%E6%8C%91%E6%88%98"><span class="nav-number">3.</span> <span class="nav-text">加密货币定价的挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%8F%E6%B5%8E%E5%AD%A6%E6%9C%BA%E5%88%B6"><span class="nav-number">3.1.</span> <span class="nav-text">经济学机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Metcalfe-%E5%AE%9A%E5%BE%8B"><span class="nav-number">3.1.1.</span> <span class="nav-text">Metcalfe 定律</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AF%94%E7%89%B9%E5%B8%81%E4%BD%9C%E4%B8%BA%E6%95%B0%E5%AD%97%E9%BB%84%E9%87%91"><span class="nav-number">3.1.2.</span> <span class="nav-text">比特币作为数字黄金</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%A5%E8%87%AA%E2%80%9C%E6%8C%96%E7%9F%BF%E2%80%9D%E7%9A%84%E6%88%90%E6%9C%AC"><span class="nav-number">3.1.3.</span> <span class="nav-text">来自“挖矿”的成本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%80%E7%BC%BA%E6%80%A7-Flow-vs-Stock"><span class="nav-number">3.1.4.</span> <span class="nav-text">稀缺性 - Flow vs Stock</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E4%BB%B7%E5%80%BC"><span class="nav-number">3.1.5.</span> <span class="nav-text">相对价值</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81%E7%9A%84%E9%A3%8E%E9%99%A9%E5%92%8C%E5%9B%9E%E6%8A%A5%E7%8E%87"><span class="nav-number">4.</span> <span class="nav-text">加密货币的风险和回报率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">5.</span> <span class="nav-text">结论</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/zhuan-ma/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;zhuan-ma&#x2F;" rel="noopener" target="_blank">转码路线图</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/awesome-systematic-trading/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;awesome-systematic-trading&#x2F;" rel="noopener" target="_blank">SystematicTrading</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://funcoder.net/" title="https:&#x2F;&#x2F;funcoder.net&#x2F;" rel="noopener" target="_blank">FunCoder</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/bitcoin-pro/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;bitcoin-pro&#x2F;" rel="noopener" target="_blank">BitcoinPro</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/quant-roadmap/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;quant-roadmap&#x2F;" rel="noopener" target="_blank">QuantRoadmap</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://quant.funcoder.net/" title="https:&#x2F;&#x2F;quant.funcoder.net&#x2F;" rel="noopener" target="_blank">QuantBox</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/07/25/think_bitcoin_9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="英仕曼集团 - 加密货币投资指南 2022-06 - 译 | FunCoder">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          英仕曼集团 - 加密货币投资指南 2022-06 - 译
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-07-25 00:00:00" itemprop="dateCreated datePublished" datetime="2022-07-25T00:00:00Z">2022-07-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-09-29 21:15:04" itemprop="dateModified" datetime="2023-09-29T21:15:04Z">2023-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Bitcoin/" itemprop="url" rel="index"><span itemprop="name">Bitcoin</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/07/25/think_bitcoin_9/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/25/think_bitcoin_9/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>原文地址：<a target="_blank" rel="noopener" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4124576">https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4124576</a></p>
+</blockquote>
+<p>这篇论文是由全球最大的上市对冲基金公司英仕曼集团为主撰写的，其中两位作者来自旗下系统化交易公司 Man AHL。截止 2022 年 6 月，英仕曼集团管理超过 1500 亿美金的资产。</p>
+<p>这篇论文从专业机构用户的角度审视了比特币和加密货币市场，给出了一些专业的观点和事实。列出如下。</p>
+<p><strong>注意，放在括号中的观点不是原作者的，而是我，笔者，的。</strong></p>
+<h2 id="什么是泡沫？"><a href="#什么是泡沫？" class="headerlink" title="什么是泡沫？"></a>什么是泡沫？</h2><blockquote>
+<p>We should not confuse bubbles with volatility</p>
+<p>我们不应该混淆泡沫和市场波动。</p>
+</blockquote>
+<p>泡沫的定义为：永久性的偏离其基本价值。对于比特币，他的基本价值（fundamental value）定义并不清晰（起码目前没有股票那么清晰）。但是，比特币过去 13 年价格运动与历史上经历的泡沫有显著区别：比特币的回撤都在短时间内恢复了。</p>
+<p><img src="https://i.imgur.com/eZVA3sj.png" alt="比特币的价格回撤"></p>
+<p>下面的表格展示了历史上著名的泡沫。其中 4 个从未从回撤中恢复，剩下两个经历了 20 多年才恢复。对比比特币，恢复周期大概只有几年。因此，<strong>我们不应该混淆泡沫和市场波动</strong>。</p>
+<p><img src="https://i.imgur.com/ailUMuF.png" alt="历史上的泡沫"></p>
+<h2 id="加密货币的分类"><a href="#加密货币的分类" class="headerlink" title="加密货币的分类"></a>加密货币的分类</h2><p>我们主要讲加密货币市场分成 6 类：交易型、智能合约、DEX、借贷、Web3、纪念币。这里忽略了一个重要的币种：稳定币。</p>
+<p><img src="https://i.imgur.com/v1E9VL7.png" alt="不同加密货币的历史表现"></p>
+<h2 id="加密货币定价的挑战"><a href="#加密货币定价的挑战" class="headerlink" title="加密货币定价的挑战"></a>加密货币定价的挑战</h2><h3 id="经济学机制"><a href="#经济学机制" class="headerlink" title="经济学机制"></a>经济学机制</h3><p>美元（脱离黄金后的美金）的价值基于以下原因。首先，美元是美国的法定货币。其次，美国税收采用美元。最后，拒绝缴税是违法行为。在世界范围内，美元是各个国家的主要储备货币。就像所有的法币一样，美元有价值因为人们相信他有价值，如果信心降低，法币就会贬值。在极端情况下，国民可能会寻求使用其他法币，而放弃本国法币。</p>
+<p>但是，为什么想比特币一样的加密货币会有价值呢？它们不是美国的法定货币，波动巨大，而且他们还会面临可能得合规风险。</p>
+<p>那么如何解释比特币的价值呢？目前学术圈有几个解释方法，但是似乎都难以服众。</p>
+<h4 id="Metcalfe-定律"><a href="#Metcalfe-定律" class="headerlink" title="Metcalfe 定律"></a>Metcalfe 定律</h4><p>如果把比特币网络看做是一个支付网络，那么根据 Metcalfe 定律，网络的价值取决于该网络中用户的总量。下图是各种加密货币的 Metcalfe 拟合曲线：</p>
+<p><img src="https://i.imgur.com/pEF9T8c.png" alt=""></p>
+<p>可以发现，比特币和以太坊的拟合值非常高，似乎 Metcalfe 定律解释了其基本价值。但是，我们忽略了比特币网络中的地址和用户并不是一一对应的，通常一个用户会拥有多个地址（而且比特币网络有一个地址只使用一次的文化）。</p>
+<h4 id="比特币作为数字黄金"><a href="#比特币作为数字黄金" class="headerlink" title="比特币作为数字黄金"></a>比特币作为数字黄金</h4><p>历史上，黄金一直都保持与法币相对独立的金融网络，黄金的工业用途非常有限，在有限的工业用途中，70%以上都是作为装饰品或者珠宝，他的价值主要来自于人们接受他作为跨国货币网络。另一方面，比特币，在这个背景下，也被称作数字黄金。因为比特币有一个写在代码中的总量：2100 万。</p>
+<p>（当然，比特币的 2100 万是一个共识上限，如果比特币网络中的大部分矿工决定运行一个修改上限的节点软件，并且保证他们总是提供最长的链，那么这个上限就可以被修改。但是，这么做目前看没有经济学刺激。）</p>
+<p>如果把比特币当做黄金来进行定价，目前黄金代表的世界总价值约为 15 万亿美金，假设比特币抢占黄金 10% 的份额，即1.5 万一，一个比特币的估值为 72000 美金。但是，问题在于，比特币到底可以占据多少黄金的比重？0%？5%？ 20%？还是 100% ？</p>
+<h4 id="来自“挖矿”的成本"><a href="#来自“挖矿”的成本" class="headerlink" title="来自“挖矿”的成本"></a>来自“挖矿”的成本</h4><p>如果黄金的定价假设可以被接受（即把比特币作为一种大宗商品，当然了只有 PoW 的链才可能有这个属性），我们就可以从另一个角度看待比特币的定价：开采成本。</p>
+<p>如下图所示，传统商品，比如是有、黄金、或者铜，他们的价格比成本的比值通常在 0.9 到 2.3 之间，但是比特币的比值远远高于这个数值。尽管，近几年我们已经看到比特币的比例在下降，但是仍然在 10 左右，远远高于普通商品。</p>
+<p>如果按照此方法定价，假设比特币的合理比值跟其他商品类似，为 1.5，那么比特币的价格应为：11000 美金。</p>
+<p><img src="https://i.imgur.com/sZSo2aj.png" alt="商品价格比开采成本"></p>
+<p>当然，这个模型有很多问题。比特币“挖矿”跟传统挖矿非常不同；另外，似乎没有人用这个比例来给传统商品定价。</p>
+<h4 id="稀缺性-Flow-vs-Stock"><a href="#稀缺性-Flow-vs-Stock" class="headerlink" title="稀缺性 - Flow vs Stock"></a>稀缺性 - Flow vs Stock</h4><p>还有另一个常见的定价模型，即用生产的速率除以商品的总量。目前比特币的这一比值非常低，远远低于其他法币或者加密货币。</p>
+<p><img src="https://i.imgur.com/I7xvHR7.png" alt=""></p>
+<h4 id="相对价值"><a href="#相对价值" class="headerlink" title="相对价值"></a>相对价值</h4><p>对比特币的绝对价值进行定价非常困难，我们可以考虑采用相对价值定价，即采用现货价格和期货价格定价。</p>
+<p>对于，法币，这种定价方式通常是通过利率的折现实现的。但是如何把这个应用到比特币呢？</p>
+<p>我们可以利用 DeFi 生态的数据。比如 2022年2月17日，12个月的比特币借贷利息为 6.2%，而美金的12月Libor利息为 1.3%，这就意味着比特币和美元的价差为 4.8%。假设现在比特币的价格为 42340，这就意味着远期的价格应为 40386，而当时的比特币期货价格为 47183。因此，在这一天比特币的期货的价值被高估了约 17%。</p>
+<p>当然，这种方式也有很多问题。比如 Defi 利率并不是无风险利率。</p>
+<h2 id="加密货币的风险和回报率"><a href="#加密货币的风险和回报率" class="headerlink" title="加密货币的风险和回报率"></a>加密货币的风险和回报率</h2><p>下图是 buy and hold 和 buy and hold + 波动率调整：</p>
+<p><img src="https://i.imgur.com/Wj17r0d.png" alt=""></p>
+<p>下图是趋势策略的表现：</p>
+<p><img src="https://i.imgur.com/l63ZmE5.png" alt=""></p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>首先，再过去的很多年，比特币以及其他加密货币并没有机构用户重视，然而近几年比特币已经走进了各大机构投资人的视野。</p>
+<p>第二，比特币的波动率非常高。但是我们有非常成熟的方法控制波动率，我们甚至证明趋势跟踪策略对比特币有效。</p>
+<p>第三，比特币与其他金融产品的相关性，在正常市场很低，但是在熊市较高。</p>
+<p>第四，机构用户进行比特币交易还应该考虑其它问题，比如 Custody。</p>
+<p>最后，面对比特币，监管部门还需要做很多探索。</p>
+<p>关于未来：</p>
+<p>比特币和加密货币很可能在将来进入主流投资领域，另外代币化可能将一些传统意义上流动性不好的物品，比如艺术品，变得更加流动。</p>
+<p>如果，越来越多的机构用户进入这个领域提供更加庞大的流动性，比特币的波动性可能会降低。</p>
+<p>最后，监管对比特币来说还是未知的风险。</p>
+<p>最后的一点思考：一个投资组合中没有数字货币不代表没有风险敞口。因为，投资组合中的产品可能被某种加密货币取代，因此承受负 beta 敞口。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Bitcoin/" rel="tag"># Bitcoin</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/06/21/cypherpunk/" rel="prev" title="Cypherpunk 宣言">
+                  <i class="fa fa-angle-left"></i> Cypherpunk 宣言
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/08/02/thinking_bitcoin_12/" rel="next" title="比特币随想 - 十问">
+                  比特币随想 - 十问 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">FunCoder</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">426k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:27</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/wangzhe3224" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"funcoder","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="它利用了信息易于传播但难以扼杀的特性。—– 中本聪  从技术角度看，比特币就是什么东西？比特币白皮书中提到：比特币在已有技术的基础上，解决了点对点网络的“双花”问题，及重复执行交易。 摘要一个点对点版本的电子现金应该实现点对点直接线上支付，而不需要金融机构介入。数字签名提供了部分解决方案，但是数字签名方案仍然需要依赖第三方来避免“双花”问题。这篇文章提出了一个利用点对点网络解决双花问题的方案。该">
+<meta property="og:type" content="article">
+<meta property="og:title" content="比特币随想 - 白皮书译注">
+<meta property="og:url" content="http://yoursite.com/2022/05/27/thinking_bitcoin_4/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="它利用了信息易于传播但难以扼杀的特性。—– 中本聪  从技术角度看，比特币就是什么东西？比特币白皮书中提到：比特币在已有技术的基础上，解决了点对点网络的“双花”问题，及重复执行交易。 摘要一个点对点版本的电子现金应该实现点对点直接线上支付，而不需要金融机构介入。数字签名提供了部分解决方案，但是数字签名方案仍然需要依赖第三方来避免“双花”问题。这篇文章提出了一个利用点对点网络解决双花问题的方案。该">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/UC35MD9.png">
+<meta property="og:image" content="https://i.imgur.com/uGX4F10.png">
+<meta property="og:image" content="https://i.imgur.com/Ki3KoZD.png">
+<meta property="og:image" content="https://i.imgur.com/DVpudtX.png">
+<meta property="og:image" content="https://i.imgur.com/ZbNMdOT.png">
+<meta property="og:image" content="https://i.imgur.com/buymzsO.png">
+<meta property="og:image" content="https://i.imgur.com/BtKtnw5.png">
+<meta property="og:image" content="https://i.imgur.com/1rKGzfK.png">
+<meta property="og:image" content="https://i.imgur.com/9W3Kv7h.png">
+<meta property="og:image" content="https://i.imgur.com/YfcfaoB.png">
+<meta property="og:image" content="https://i.imgur.com/t6xHRf7.png">
+<meta property="article:published_time" content="2022-05-27T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-29T21:15:04.035Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Bitcoin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/UC35MD9.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2022/05/27/thinking_bitcoin_4/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2022/05/27/thinking_bitcoin_4/","path":"2022/05/27/thinking_bitcoin_4/","title":"比特币随想 - 白皮书译注"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>比特币随想 - 白皮书译注 | FunCoder</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E6%98%93%E8%AE%B0%E5%BD%95"><span class="nav-number">3.</span> <span class="nav-text">交易记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">时间戳服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E8%AF%81%E6%98%8E"><span class="nav-number">5.</span> <span class="nav-text">工作证明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C"><span class="nav-number">6.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BF%80%E5%8A%B1"><span class="nav-number">7.</span> <span class="nav-text">激励</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E6%94%B6%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4"><span class="nav-number">8.</span> <span class="nav-text">回收硬盘空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E4%B8%8E%E6%8B%86%E5%88%86"><span class="nav-number">9.</span> <span class="nav-text">组合与拆分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%90%E7%A7%81"><span class="nav-number">10.</span> <span class="nav-text">隐私</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97"><span class="nav-number">11.</span> <span class="nav-text">计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">12.</span> <span class="nav-text">结论</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/zhuan-ma/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;zhuan-ma&#x2F;" rel="noopener" target="_blank">转码路线图</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/awesome-systematic-trading/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;awesome-systematic-trading&#x2F;" rel="noopener" target="_blank">SystematicTrading</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://funcoder.net/" title="https:&#x2F;&#x2F;funcoder.net&#x2F;" rel="noopener" target="_blank">FunCoder</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/bitcoin-pro/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;bitcoin-pro&#x2F;" rel="noopener" target="_blank">BitcoinPro</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/quant-roadmap/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;quant-roadmap&#x2F;" rel="noopener" target="_blank">QuantRoadmap</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://quant.funcoder.net/" title="https:&#x2F;&#x2F;quant.funcoder.net&#x2F;" rel="noopener" target="_blank">QuantBox</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/05/27/thinking_bitcoin_4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="比特币随想 - 白皮书译注 | FunCoder">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          比特币随想 - 白皮书译注
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-05-27 00:00:00" itemprop="dateCreated datePublished" datetime="2022-05-27T00:00:00Z">2022-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-09-29 21:15:04" itemprop="dateModified" datetime="2023-09-29T21:15:04Z">2023-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Bitcoin/" itemprop="url" rel="index"><span itemprop="name">Bitcoin</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/05/27/thinking_bitcoin_4/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/27/thinking_bitcoin_4/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>5.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>5 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>它利用了信息易于传播但难以扼杀的特性。<br>—– 中本聪</p>
+</blockquote>
+<p>从技术角度看，比特币就是什么东西？比特币<a target="_blank" rel="noopener" href="https://www.ussc.gov/sites/default/files/pdf/training/annual-national-training-seminar/2018/Emerging_Tech_Bitcoin_Crypto.pdf">白皮书</a>中提到：比特币在已有技术的基础上，解决了点对点网络的“双花”问题，及重复执行交易。</p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>一个点对点版本的电子现金应该实现点对点直接线上支付，而不需要金融机构介入。数字签名提供了部分解决方案，但是数字签名方案仍然需要依赖第三方来避免“双花”问题。这篇文章提出了一个利用点对点网络解决双花问题的方案。该网络通过将每笔交易哈希到一个不断增长的哈希工作证明链上，为其打上时间戳，这样修改一条记录的代价就是重新进行工作证明。最长的链不但证明了一些列有序的交易记录，也代表了他背后最大的CPU工作量（译者注：即电能）。只要主流的CPU工作量来自不会攻击网络的节点，他们就会生成最长的链并且抵御攻击。网络本身仅仅需要最基本的结构，信息广播基于最大努力，节点可以随时加入或者离开网络，当节点回到网络会使用最长的工作证明链作为基础。</p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>互联网经济依赖金融机构作为信任第三方来处理电子支付。对于大部分支付行为这个系统都可以胜任，但是它也继承了一些信任模型带来的缺点。比如因为金融机构无法避免仲裁行为，真正的完全不可逆交易并不能实现。仲裁也会提高交易费用、限制最小交易金额，不适合大量小额交易。（译者注：比特币网络并没有实现大量小额交易的目的，但是其二级网络闪电网络实现了该功能。）而且，无法对不可逆服务进行不可逆交易也有一定的成本。因为有回滚的风险，就需要信任。因此商家必须对他们的客户保持警惕，向他们索取比他们原本需要的更多信息。一定比例的欺诈也是不可避免的。这些成本和支付不确定性可以通过使用实物货币避免，但如今还不存在在没有受信任方的情况下进行支付的机制。</p>
+<p>我们需要的是一个基于密码学证明的电子支付系统，而不是一个基于信任的系统，该系统可以让交易双方直接进行交易，而不需要信任第三方。从计算复杂度角度看，交易的不可逆性可以保护买家免于欺诈，通过常规托管机制（译者注：不理解到底什么意思）也可以保护买家。在这篇文章中，我们提出了一种解决双花问题的方法，该方法使用一个点对点的时间戳服务器生成交易时间顺序的计算证明。只要诚实节点控制的CPU算力超过不诚实的节点，系统就是安全的。</p>
+<h2 id="交易记录"><a href="#交易记录" class="headerlink" title="交易记录"></a>交易记录</h2><p><strong>我们将电子货币定义为：一串数字签名。</strong> 电子货币的拥有者对前一个记录的哈希和目标拥有者的公钥进行数字签名，然后把这个数字签名添加到该货币的末端，这样就实现了货币的转移。被支付人可以通过验证支付人的签名来验证所有权链。</p>
+<p><img src="https://i.imgur.com/UC35MD9.png" alt=""></p>
+<p>虽然被支付人可以验证币的所有权，即支付拥有币，但是显然，被支付人无法证明支付人是否仅仅把币支付给自己一个人，即无法证明支付人是否双花。一般的办法是引入一个信任的第三方，或者叫铸币局，来验证每一笔交易是否双花。这样，每一笔交易后，币需要被返还铸币局，并发行一个新币，只有铸币局发行的货币是合法的并且保证没有双花问题。然而，这个方案最大的问题在于整个货币系统都会依赖铸币局，每一笔交易都要经过铸币局。换句话说，铸币局就是银行。</p>
+<blockquote>
+<p>译者：信任其实不可以被移除，而是转移。整个公钥密码学是强大的，如今整个互联网都依靠公钥密码学来实现秘钥传递和验证。公钥密码学解决了对称密码学的问题：私钥传递，但是问题变成了如何信任公钥？目前的解决方案跟银行差不多：CA，即证书机构。通过一个被信任的中心化组织分发信任的公钥。比特币系统其实把信任从银行转移到了工作证明，即最长公链消耗的能源。</p>
+</blockquote>
+<p>我们需要一个方法，让被支付人确认支付人之前没有为交易签名，即当前是支付人第一次为这个交易签名。因为，我们只在乎最早的交易，而不是后续的双花问题。确认交易没有发生唯一办法就是查验之前所有的交易。在铸币局方案中，铸币局知晓所有的交易，因此可以确定顺序。在没有第三方的情况下实现这一目的的方法就是将交易广播<a target="_blank" rel="noopener" href="http://www.weidai.com/bmoney.txt">^1</a>。因此我们需要一个系统来保证所有的参与者可以认可一个唯一的历史记录。被支付人需要证明在交易发生的时刻，绝大多数节点认可该笔交易第一次发生。</p>
+<h2 id="时间戳服务器"><a href="#时间戳服务器" class="headerlink" title="时间戳服务器"></a>时间戳服务器</h2><p>我们提出的方案首先需要一个时间戳服务器。时间戳服务器首先拿到一个准备加时间戳的区块的哈希值，然后广播这个哈希值，就好像报纸或者 Usenet<a target="_blank" rel="noopener" href="https://www.anf.es/pdf/Haber_Stornetta.pdf">^2</a>。时间戳可以证明数据在当时是存在的，这样他的哈希值才可能写入。每一个时间戳包含了前一个时间戳的哈希，这样就形成了一个链，后面的每一个时间戳都包含前面所有时间戳的部分信息。</p>
+<p><img src="https://i.imgur.com/uGX4F10.png" alt=""></p>
+<h2 id="工作证明"><a href="#工作证明" class="headerlink" title="工作证明"></a>工作证明</h2><p>为了实现一个基于点对点网络的分布式时间戳服务器，我们需要一个类似 Adam Back 的 Hashcash <a target="_blank" rel="noopener" href="http://www.hashcash.org/papers/hashcash.pdf">^4</a> 中的工作证明系统，而不是报纸或者 Usenet。工作证明会检查哈希值（比如 SHA-256）是不是以若干 0 比特开头。找到这样一个哈希的平均时间与需要 0 比特的位数呈指数关系，但是验证过程只需要执行一次哈希算法。</p>
+<p>为了实现上一节提到的时间戳服务器，我们通过一个区块中递增的整数（nonce）实现工作证明，直到找到一个整数刚好使区块的哈希值以若干 0 比特位开头。一旦已经花费了CPU算力得到了满足工作证明的哈希，这个区块就无法被改变，除非重做工作证明（译者：即重新投入一次CPU资源）。</p>
+<p><img src="https://i.imgur.com/Ki3KoZD.png" alt=""></p>
+<p>工作量证明解决了在多数决策中确定代表的问题。如果多数决策采用“一个地址一票”的方式，任何掌握多个 IP 地址的组织都可以破坏规则。工作量证明本质上是“一个CPU一票”。（译者：其实不完全是，本质上是一度电一票，这就是物理世界和数字世界的连接点）多数决策的代表就是最长的工作量证明链，也就是投入工作量最多的链。如果大部分的 CPU 资源被诚实节点控制，诚信的链就会变得最长且可以抵御攻击。为了修改一个区块，黑客需要重做该区块的工作量证明以及改区块后续的所有区块的工作量证明，并且追赶且超过诚实的节点。我们后面会证明，一个慢的黑客实现这种攻击的成功几率会随着诚实链的增长成指数级降低。</p>
+<p>为了应对硬件速度和节点数量的增加，工作量证明的难度（译者：即 0 比特的位数）会随着出块时间进行调整。基本上确保网络每小时出相同多的区块（译者：6个每小时）。如果区块增加速度过快，难度会相应提升。</p>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><p>运行比特币网络的步骤如下：</p>
+<ul>
+<li>新的交易被广播到所有节点（译者：尽可能多的）</li>
+<li>每个节点（译者：矿工）选择准备打包新区块的新的交易</li>
+<li>每个节点（译者：矿工）开始工作量证明（译者：即寻找整数）</li>
+<li>当一个节点发现了整数，它会把这个区块广播到所有节点（译者：尽可能多的）</li>
+<li>节点（译者：全节点？还是矿工）会检查新快的所有交易是不是合法以及是否存在双花，一切正常就接受该块</li>
+<li>节点（译者：矿工）接受新区块后会在此块基础上继续工作量证明</li>
+</ul>
+<p>节点永远采纳最长的链作为“正确”的链，并且在此基础上继续增加区块。如果两个节点同时（译者：延迟意义上的）广播了不同的区块，有些节点会接受前一个，有些则接受后一个。这种情况下，他们会在第一个接受的链上工作，并存储第二个链，以备第二个链变得更长时，以第二个链作为基础工作（译者：就是舍弃之前工作的链）。这种僵局一般会在新的区块被发现，导致某个链变得更长时打破；所有再短链上工作的链都会转向新的更长的链。</p>
+<p>新的交易记录不必广播到所有节点，只要他们可以被送达一些节点即可，不久他们就会被加区块。区块的广播也对信息丢失不敏感。如果一个节点没有接到区块，他会请求区块，当他收到新的区块后，就会发现之前错过的区块。</p>
+<h2 id="激励"><a href="#激励" class="headerlink" title="激励"></a>激励</h2><p>按照惯例，每个区块的第一个交易记录是一个特别的交易（译者：Coinbase），这个交易的拥有者（译者：第一个拥有者）是这个区块的创建者（译者：即成功破解工作量证明的地址）。这样就提供了节点运行而维持网络的激励，并且提供了初始的代币分发，因为比特币网络没有中心机构决定代币的分发（译者：太美妙了）。这种持续的代币增发机制类似有金矿，金矿会投入资源开采更多的黄金加入流通。比特币网络中，CPU 时间和电力就是开采的成本。</p>
+<p>另一个激励机制就是交易费。如果一个交易的输出比输入小，差价就是交易费，该交易费就会被包含在包含该交易的区块中。一旦所有预订的代币全部进入流通（译者：2千1百万），交易费将会是唯一的激励机制。换句话说，代币没有通胀问题（译者：通缩这么办？）。</p>
+<p>激励机制鼓励诚实的节点。如果一个贪婪的黑客聚集了比诚实节点更多的 CPU 资源，他需要选择作弊，或者成为诚实的节点获取区块奖励（译者：coinbase 或者 交易费）。他应该发现遵守规则更有利可图，这些规则使他获得的新硬币比其他人的总和还要多，而不是破坏系统和他自己财富的有效性。</p>
+<h2 id="回收硬盘空间"><a href="#回收硬盘空间" class="headerlink" title="回收硬盘空间"></a>回收硬盘空间</h2><p>在不运行全节点的情况，我们也可以验证支付。用户只需要存储最长工作量证明链的区块头信息，该信息可以通过查询网络中的其他节点获得，知道它确认自己拿到了最长的链。然后，他可以获得 Merkle 分支（译者：Merkle 是一种数据结构），该分支连接了这笔交易和他被加入时间戳的区块。他不能查看自己的交易，但是通过上述连接，他可以看到网络中有节点已经接受了他的交易，然后他可以查看最长公链后续的区块来确保网络已经确认了他的交易。</p>
+<p><img src="https://i.imgur.com/DVpudtX.png" alt=""></p>
+<p>只要诚实节点控制网络，他就是可以确认这个验证是有效的，但是这种验证会相对不可靠，如果网络被黑客的节点控制。虽然网络节点可以自己验证交易，但只要攻击者能够继续控制网络，这种简化的方法就会被攻击者伪造的交易所欺骗。防止这种情况的一种策略是在网络节点检测到无效块时接受来自网络节点的警报，提示用户的软件下载完整的块并警告交易以确认不一致。当然，运行自己的节点是实现更独立的安全性和更快的验证的最佳方案。</p>
+<h2 id="组合与拆分"><a href="#组合与拆分" class="headerlink" title="组合与拆分"></a>组合与拆分</h2><p>尽管我们可以独立地处理每一个代币，为每一笔交易创建一个记录也是不明智的。为了实现交易的组合和拆分，一个交易记录可以包含多个输入和输出。一般情况下，通常会有来自较大先前交易的单个输入或组合较小金额的多个输入，并且最多两个输出：一个用于支付，另一个将零钱（如果有的话）返回给发送者。</p>
+<p><img src="https://i.imgur.com/ZbNMdOT.png" alt=""></p>
+<p>需要注意的是，扇出（fan-out）并不是问题。一个交易依赖于多个交易，而这些交易依赖于更多交易。因为我们不需提取交易历史的完整独立副本。</p>
+<h2 id="隐私"><a href="#隐私" class="headerlink" title="隐私"></a>隐私</h2><p>传统银行是通过控制信息的访问权限实现隐私的。尽管比特币网络会广播所有的交易，仍然可以保证隐私。因为公钥是匿名的。大众可以看到一个地址向另一个地址转账，但是这笔交易不会跟任何人产生联系。这跟股票交易所的信息披露有些像，每笔交易的时间和大小都会被记录并且公开，但是不会公开交易双方的身份。（译者：有意思，中本聪似乎了解股票市场的运作）。</p>
+<p><img src="https://i.imgur.com/buymzsO.png" alt=""></p>
+<p>另一个保护隐私的方法：每一笔交易都可以使用一个新的钥匙对（译者：公钥跟私钥），这样就无法把这些交易联系到同一个人。当然，对于多输入交易，一些联系是无法避免的，因为输入的持有人可能会泄漏一些信息。风险在于，如果一个人的公钥与身份链接泄漏，可能会影响该持有人后续交易的隐私性。</p>
+<h2 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h2><p>现在我们假设一个攻击者试图更快的生成一条不同于诚实链的链。即使这种情况发生了，也不会让系统面临一些随机的变化，比如凭空创造一个代币或者获取从来不属于攻击者的代币。节点（译者：全节点）不会接受非法交易记录，诚实节点也不会接受包含这样交易的区块。攻击者只能改变自己的交易记录，收回他之前支付的代币。</p>
+<p>攻击者节点和诚实节点之间的竞争可以用 Binomial Random Walk 模型模拟。诚实节点成功添加一个区块，增加 +1；或者攻击者节点增加一个区块，-1。</p>
+<p>攻击者成功修改记录并且赶上诚实链的几率与赌徒的破产问题（译者：一个拥有有限赌本的赌徒玩一场公平的游戏（即每次游戏双方的期望值都是零），在一个拥有无限赌本的对手面前，最终将破产。）类似。攻击者节点赶上诚实节点的概率计算如下：</p>
+<ul>
+<li><p>$p$ 诚实节点找到下一个区块的概率</p>
+</li>
+<li><p>$q$ 攻击者节点找到下一个区块的概率</p>
+</li>
+<li><p>$q_z$ 攻击者节点赶上诚实链的概率</p>
+</li>
+<li><p>$q_z = 1$ 如果 $p &lt;= q$</p>
+</li>
+<li><p>$q_z = (q/p)^z$ 如果 $p &gt; q$</p>
+</li>
+</ul>
+<p>我们应假设 p &gt; q，攻击者追赶诚实链的几率呈指数下降。在对攻击者不利的情况下，如果他没有足够幸运，那么他会进一步落后，他的机会就会变得微乎其微。</p>
+<p>现在我们来分析一个收款人需要等多久才能确认他的交易不会被改变。我们假设攻击这是付款人，他想要让收款人相信他一直完成支付，然后一段时间后他通过攻击改变这笔交易。如果该情况发生，收款人回收到警报，而攻击者希望攻击已经完成。</p>
+<p>收款人生成了一个新的钥匙对，仅在交易发生前，把公钥给了发款人（攻击者）。这可以防止攻击者提前准备一个区块链，然后是不断地处理它，直到他幸运地领先足够远，然后在那个时刻执行交易（译者：然后才公布他的链，在此之前网络不知道这条链的存在）。一旦交易发出，攻击者开始秘密的在另外一个链进行工作量证明，而这条链包含了一个被改变的交易（译者：他自己的交易，大概率是降低支付金额）。</p>
+<p>收款人等到他的交易被加入区块并且$z$个此后的区块已经被加入公链。他并不知道攻击者的秘密连已经进行了多少，但是他可以假设诚实的区块需要平均时间加入（译者：10分钟），黑客可能的进度可用比松分布模拟：</p>
+<p>$$\lambda = z * (q/p)$$</p>
+<p>我们将泊松密度乘以赶上公链的概率：</p>
+<p><img src="https://i.imgur.com/BtKtnw5.png" alt=""></p>
+<p>整理：</p>
+<p><img src="https://i.imgur.com/1rKGzfK.png" alt=""></p>
+<p>该公式的 C 语言代码：</p>
+<p><img src="https://i.imgur.com/9W3Kv7h.png" alt=""></p>
+<p>运行结果如下：</p>
+<p><img src="https://i.imgur.com/YfcfaoB.png" alt=""></p>
+<p>如果求解 p &lt; 0.001 的情况：</p>
+<p><img src="https://i.imgur.com/t6xHRf7.png" alt=""></p>
+<p>（译者：可以看到，在攻击者出块概率为 10% 的情况下，等待 5 个区块，黑客成功的概率仅为 0.1%）</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>我们提出了一个不需要第三方的电子支付系统。首先，我们介绍了常见的数字签名方法，该方法有利的解决了资产的所有权问题，但是却无法解决双花问题。为了解决双花问题，我们提出了一个采用工作量证明的点对点网络来记录交易历史，而且该记录让攻击者难以改变，只要网络有大部分诚实节点控制。比特币网络的稳定性来源于他非结构化的简单性（译者：多么美妙，如今区块链发展越来越复杂，但是这岂不是丢掉了区块链的核心，即稳定性）。节点完全自主独立的运行，几乎不需要同步。他们不需要被识别，因为信息并不是分发到某个特定的节点，而是任何节点。节点可以随时加入或者退出网络，然后接受最长工作量证明链作为离开期间的历史。他们通过 CPU 资源进行投票，表达他们接受或者拒接区块的意愿。任何规则和激励措施都可以通过这种共识机制来执行。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Bitcoin/" rel="tag"># Bitcoin</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/05/26/thinking_bitcoin_3/" rel="prev" title="比特币随想 - Proof of What?">
+                  <i class="fa fa-angle-left"></i> 比特币随想 - Proof of What?
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/05/27/think_bitcoin_3/" rel="next" title="比特币随想 - Altcoin 去哪了？">
+                  比特币随想 - Altcoin 去哪了？ <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">FunCoder</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">426k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:27</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/wangzhe3224" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"funcoder","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

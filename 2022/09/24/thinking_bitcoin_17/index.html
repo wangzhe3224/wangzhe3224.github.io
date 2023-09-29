@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="2022 年 9 月，以太坊完成“融合”，共识算法顺利迁移权益证明（Proof of Stake，POS）。从这一时刻开始，比特币成为唯一有影响力的工作量证明（Proof of Work，POW）公链。 在这个特殊的节点上，我决定再看工作量证明。附之前的几个文章：   比特币随想 - 重拾 Proof of Work   比特币随想 - Proof of What?   比特币随想 - 比特币工作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="比特币随想 - 再看工作量证明">
+<meta property="og:url" content="http://yoursite.com/2022/09/24/thinking_bitcoin_17/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="2022 年 9 月，以太坊完成“融合”，共识算法顺利迁移权益证明（Proof of Stake，POS）。从这一时刻开始，比特币成为唯一有影响力的工作量证明（Proof of Work，POW）公链。 在这个特殊的节点上，我决定再看工作量证明。附之前的几个文章：   比特币随想 - 重拾 Proof of Work   比特币随想 - Proof of What?   比特币随想 - 比特币工作">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/H5XYDSO.png">
+<meta property="og:image" content="https://i.imgur.com/H5XYDSO.png">
+<meta property="article:published_time" content="2022-09-24T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-29T21:15:04.035Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Bitcoin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/H5XYDSO.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2022/09/24/thinking_bitcoin_17/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2022/09/24/thinking_bitcoin_17/","path":"2022/09/24/thinking_bitcoin_17/","title":"比特币随想 - 再看工作量证明"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>比特币随想 - 再看工作量证明 | FunCoder</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在最前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POW%EF%BC%8CPOS-%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%8B%E5%A5%BD"><span class="nav-number">2.</span> <span class="nav-text">POW，POS 和环境友好</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD-1%EF%BC%9APOS-%E4%B8%8D%E8%83%BD%E5%BD%A2%E6%88%90%E8%B7%9F-POW-%E4%B8%80%E6%A0%B7%E7%9A%84%E5%AE%89%E5%85%A8%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">可能 1：POS 不能形成跟 POW 一样的安全模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD-2%EF%BC%9APOS-%E5%8F%AF%E4%BB%A5%E8%83%BD%E5%BD%A2%E6%88%90%E8%B7%9F-POW-%E4%B8%80%E6%A0%B7%E7%9A%84%E5%AE%89%E5%85%A8%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">可能 2：POS 可以能形成跟 POW 一样的安全模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E8%AE%BA%E5%93%AA%E7%A7%8D%E5%81%87%E8%AE%BE"><span class="nav-number">2.3.</span> <span class="nav-text">无论哪种假设</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POW-%E6%8C%96%E7%9F%BF-%E5%92%8C-POS-%E9%AA%8C%E8%AF%81%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.</span> <span class="nav-text">POW 挖矿 和 POS 验证的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POW-%E9%BC%93%E5%8A%B1%E8%83%BD%E6%BA%90%E5%88%9B%E6%96%B0"><span class="nav-number">4.</span> <span class="nav-text">POW 鼓励能源创新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Refs"><span class="nav-number">5.</span> <span class="nav-text">Refs</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/zhuan-ma/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;zhuan-ma&#x2F;" rel="noopener" target="_blank">转码路线图</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/awesome-systematic-trading/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;awesome-systematic-trading&#x2F;" rel="noopener" target="_blank">SystematicTrading</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://funcoder.net/" title="https:&#x2F;&#x2F;funcoder.net&#x2F;" rel="noopener" target="_blank">FunCoder</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/bitcoin-pro/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;bitcoin-pro&#x2F;" rel="noopener" target="_blank">BitcoinPro</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/quant-roadmap/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;quant-roadmap&#x2F;" rel="noopener" target="_blank">QuantRoadmap</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://quant.funcoder.net/" title="https:&#x2F;&#x2F;quant.funcoder.net&#x2F;" rel="noopener" target="_blank">QuantBox</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/09/24/thinking_bitcoin_17/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="比特币随想 - 再看工作量证明 | FunCoder">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          比特币随想 - 再看工作量证明
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-09-24 00:00:00" itemprop="dateCreated datePublished" datetime="2022-09-24T00:00:00Z">2022-09-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-09-29 21:15:04" itemprop="dateModified" datetime="2023-09-29T21:15:04Z">2023-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Bitcoin/" itemprop="url" rel="index"><span itemprop="name">Bitcoin</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/09/24/thinking_bitcoin_17/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/09/24/thinking_bitcoin_17/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>2022 年 9 月，以太坊完成“融合”，共识算法顺利迁移权益证明（Proof of Stake，POS）。从这一时刻开始，比特币成为唯一有影响力的工作量证明（Proof of Work，POW）公链。</p>
+<p>在这个特殊的节点上，我决定再看工作量证明。附之前的几个文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://wangzhe3224.github.io/2022/06/04/thinking_bitcoin_7/"> 比特币随想 - 重拾 Proof of Work </a></li>
+<li><a target="_blank" rel="noopener" href="https://wangzhe3224.github.io/2022/05/26/thinking_bitcoin_3/"> 比特币随想 - Proof of What? </a></li>
+<li><a target="_blank" rel="noopener" href="https://wangzhe3224.github.io/2022/08/28/thinking_bitcoin_15/"> 比特币随想 - 比特币工作量证明用了多少电？ </a></li>
+</ul>
+<h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><p>POW 或者 POS 都是共识实现的工程选择，工程选择问题一定会有取舍，所以并没有明确的好坏之分。</p>
+<p>但是，由于工程性质不同，会让比特币和以太坊成为两个截然不同的平台。重申，本文不会比较比特币与以太坊谁好谁坏。</p>
+<p>当然，对我而言，比特币最大的创新点就在于工作量证明。<strong>不是比特币定义了工作量证明，而是工作量证明定义了比特币</strong>。</p>
+<h2 id="POW，POS-和环境友好"><a href="#POW，POS-和环境友好" class="headerlink" title="POW，POS 和环境友好"></a>POW，POS 和环境友好</h2><p>在《Economic in One Lesson by Henry Hazlitt》这本书中，作者这样总结到：</p>
+<blockquote>
+<p>经济学的艺术在于两个方面：</p>
+<ol>
+<li>对于一个政策不仅仅考虑短期效应，还需要考虑中期、长期影响。</li>
+<li>对于一个政策不仅仅考虑对某个人群的影响，还需要考虑对不同人群的影响。</li>
+</ol>
+<p>Henry Hazlitt @ 1946 年</p>
+</blockquote>
+<p>作者之后用 20 多个例子说明上述两个要点，以及历史上人们在经济学政策方面，因为忽略其中的一点或者两点而犯下的错误。有意思的是，作者也指出，有时候人们犯错误并不是没有意识到正在犯错误，而是为了利益或者便利有意为之。</p>
+<p>有了以上的背景，我们来看一下以太坊融合后的官宣：<a target="_blank" rel="noopener" href="https://blog.ethereum.org/2021/05/18/country-power-no-more">POS 会降低以太坊 99% 的能源消耗</a>。</p>
+<p>我觉得这刚好违背了 Hazlitt 提出的两个要点：仅仅考虑了短期利益，特别是仅仅考虑了一小部分人的影响。</p>
+<p>【观点】<a target="_blank" rel="noopener" href="https://download.wpsoftware.net/bitcoin/pos.pdf">不可能在不消耗外部能量的前提下达到共识</a></p>
+<p>如果我们承认上述观点，那么，如果说 POS 跟 POW 实现了同样的安全模型，那么 POS 的能量耗散在哪里？</p>
+<p>这里有两种可能：</p>
+<ol>
+<li>POS 不能形成跟 POW 一样的安全模型，POS 是另一种的模型</li>
+<li>POS 可以形成类似的安全模型，那么其能量耗散应该跟 POW 一致</li>
+</ol>
+<h3 id="可能-1：POS-不能形成跟-POW-一样的安全模型"><a href="#可能-1：POS-不能形成跟-POW-一样的安全模型" class="headerlink" title="可能 1：POS 不能形成跟 POW 一样的安全模型"></a>可能 1：POS 不能形成跟 POW 一样的安全模型</h3><p>如果这个假设成立，那么 POW 跟 POS 基本不存在可比性了，因为他们想要实现不同的安全模型。<a target="_blank" rel="noopener" href="https://download.wpsoftware.net/bitcoin/pos.pdf">关于这点这篇论文进行了详细的论述</a>。这论文的主要论证观点：</p>
+<blockquote>
+<p>如果人们可以轻易修改历史，那么这个共识系统已经坏掉了。因为如果一方或者多方可以轻易的修改历史，那么他们就可以创造足够多的历史，然后选择对自己有利的一个。</p>
+</blockquote>
+<p>虽然分布式共识问题是一个非常困难的问题，但是共识问题却不是。共识问题可以轻易地解决，而且可以比分布式系统效率高上十万倍的解决，那就是通过信任的第三方签名。因此，任何加入第三方验证的“分布式”系统，哪怕是一点点第三方的加入，所形成的安全模型都可以被其他模型轻松取代，比如现有的银行体系。<strong>换句话说，分布式只有是和不是两个模型，没有中间模型。</strong></p>
+<h3 id="可能-2：POS-可以能形成跟-POW-一样的安全模型"><a href="#可能-2：POS-可以能形成跟-POW-一样的安全模型" class="headerlink" title="可能 2：POS 可以能形成跟 POW 一样的安全模型"></a>可能 2：POS 可以能形成跟 POW 一样的安全模型</h3><p>我个人倾向不相信这个假设。但是即使这个假设成立，那就意味着 POS 模型不能是“节约能源”的系统。</p>
+<p>那么，按照这个思路，能源耗散在哪里了呢？</p>
+<p>POW 模型下，能源耗散非常明确：哈希率消耗的电能。POS 似乎把能源耗散抹除了。这不科学，难道是免费的午餐吗？</p>
+<p>不，我们只看到了矿工的消失，取而代之的是验证节点昂贵的服务器，但是他们消耗的电能几乎可以忽略。</p>
+<p>为了理解这个问题，我举一个极端一点的例子：我们现在的记账系统 - 银行。银行没有矿工挖矿，但是银行记账的成本是 0 吗？不是。银行需要购置办公楼、办公设备、需要支付人员工资、开设门店等等。银行的碳排放是 0 吗？宅一看，是，但是按照我们之前提到的经济学原则，我们需要看的更远一些：</p>
+<p>银行的员工收到额外的工资（如果他没有这份工作就没有这部分工资）购买了一部汽油跑车。</p>
+<p>我想说的是，不消耗电能，不代表没有能量消耗，不代表没有碳排放。</p>
+<p><strong>免费午餐的模型，注定是错的</strong>。</p>
+<p>POS 需要更加专业的矿池，后面我会讲 POW 矿池和 POS 矿池的本质区别，这些矿池需要更多人工维护，其实这些矿池本传统的银行没有太多区别。</p>
+<p><img src="https://i.imgur.com/H5XYDSO.png" alt=""></p>
+<h3 id="无论哪种假设"><a href="#无论哪种假设" class="headerlink" title="无论哪种假设"></a>无论哪种假设</h3><p>POW 就像工业革命时代通过重复的机器代替人的重复劳动一样，用重复的哈希算法完成了记账的工作，把人从无聊的记账工作中解放出来。</p>
+<h2 id="POW-挖矿-和-POS-验证的区别"><a href="#POW-挖矿-和-POS-验证的区别" class="headerlink" title="POW 挖矿 和 POS 验证的区别"></a>POW 挖矿 和 POS 验证的区别</h2><p>无论 POW 挖矿，还是 POS 验证，都是一种决定出块的机制，换句话说，决定谁来提出下一个区块的内容。POW 的世界里，出块通常是“矿池”完成的；POS 的世界里，是验证节点。</p>
+<p>POW 矿池多数是自发形成的松散组织，矿机匿名加入某个矿池，可以随意离开，矿机持有自己的私钥，持有自己的设备，可以自己选择任何合理的能源（这一点我们下一节展开）。</p>
+<p>POS 矿池是公司运行托管模式，因为一个验证节点至少需要持有 32 个以太坊，节点服务器需要满足一定的硬件要求。散户与公司签订协议，通过质押自己的以太坊加入矿池。</p>
+<p>这种区别导致：</p>
+<ul>
+<li>POW 矿池的实际节点分布更加广泛，矿机配置相对动态，更加自由</li>
+<li>POS 矿池的实际节点分布更加集中，质押配置相对静态，更加约束</li>
+</ul>
+<h2 id="POW-鼓励能源创新"><a href="#POW-鼓励能源创新" class="headerlink" title="POW 鼓励能源创新"></a>POW 鼓励能源创新</h2><p>刚才提到，无法实现 0 能耗记账功能。POS 和 POW 的能耗体现形式不同而已。</p>
+<p>由于 POW 的机制，矿工会尽可能寻找廉价能源，甚至清洁能源，因为只有这样才有更大的经济动力，这也是为什么 POW 矿池运行在各种奇怪的能源供给上：风能、潮汐、地热等等。美国德州的矿工甚至于电网合作，因为电能一旦被生产很难存储，如果没有使用，就只能浪费掉，这些矿工使用这些无用的电能。一些油漆开采公司通常会持续燃烧弃用的天然气，这些能源也被用来 POW。</p>
+<p>相对来说，POS 没有类似的经济学动力。POS 的能耗依然倾向于购买电能外的其他服务。</p>
+<p><img src="https://i.imgur.com/H5XYDSO.png" alt=""></p>
+<h2 id="Refs"><a href="#Refs" class="headerlink" title="Refs"></a>Refs</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://bitcoinmagazine.com/culture/bitcoin-and-teslas-peaceful-energy-vision">Bitcoin Embodies Nikola Tesla’s Vision For Peace And Energy Abundance</a></li>
+<li><a target="_blank" rel="noopener" href="https://bitcoinmagazine.com/culture/bitcoin-not-proof-of-stake-solves-energy">The Environmental Myth Of Proof Of Stake</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.tfcbooks.com/tesla/1926-01-30.htm">An interview with Nikola Tesla by John B.  Kennedy</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.truthcoin.info/blog/pow-cheapest/">Nothing is Cheaper than Proof of Work</a></li>
+<li><a target="_blank" rel="noopener" href="https://download.wpsoftware.net/bitcoin/pos.pdf">On Stake and Consensus - paper 2015</a></li>
+<li><a target="_blank" rel="noopener" href="https://download.wpsoftware.net/bitcoin/asic-faq.pdf">ASICs and Decentralization FAQ</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Bitcoin/" rel="tag"># Bitcoin</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/18/thinking_bitcoin_16/" rel="prev" title="比特币随想 - 我不讨厌以太坊！">
+                  <i class="fa fa-angle-left"></i> 比特币随想 - 我不讨厌以太坊！
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/25/thinking_bitcoin_18/" rel="next" title="ASICs 和去中心化常见问答 - 译">
+                  ASICs 和去中心化常见问答 - 译 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">FunCoder</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">426k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:27</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/wangzhe3224" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"funcoder","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

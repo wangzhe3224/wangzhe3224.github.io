@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="重新认识 Python（7）CPython初探CPython 是 Python 社区的标准，其他版本的 Python，比如 pypy，都会遵行 CPython 的标准API实现。想要更深入的认识 Python，就需要了解 CPython 实现。这一期，我就带大家认识一下 CPython 源代码，为日后改造 Python 做准备。首先，展示如何本地编译最新的 CPython代码。然后，展示如何 de">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重新认识 Python（7）CPython初探">
+<meta property="og:url" content="http://yoursite.com/2021/03/20/python_6/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="重新认识 Python（7）CPython初探CPython 是 Python 社区的标准，其他版本的 Python，比如 pypy，都会遵行 CPython 的标准API实现。想要更深入的认识 Python，就需要了解 CPython 实现。这一期，我就带大家认识一下 CPython 源代码，为日后改造 Python 做准备。首先，展示如何本地编译最新的 CPython代码。然后，展示如何 de">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-03-20T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-29T21:15:04.031Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="CPython">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2021/03/20/python_6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2021/03/20/python_6/","path":"2021/03/20/python_6/","title":"重新认识 Python（7）CPython初探"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>重新认识 Python（7）CPython初探 | FunCoder</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%A4%E8%AF%86-Python%EF%BC%887%EF%BC%89CPython%E5%88%9D%E6%8E%A2"><span class="nav-number">1.</span> <span class="nav-text">重新认识 Python（7）CPython初探</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%93%E6%88%91%E4%BB%AC%E5%86%8D%E8%AF%B4-Python%EF%BC%8C%E6%88%91%E4%BB%AC%E5%9C%A8%E8%AF%B4%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">当我们再说 Python，我们在说什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91-CPython"><span class="nav-number">1.2.</span> <span class="nav-text">编译 CPython</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug-CPython"><span class="nav-number">1.3.</span> <span class="nav-text">Debug CPython</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E5%8A%A0%E6%B3%95%EF%BC%81"><span class="nav-number">1.4.</span> <span class="nav-text">简单的加法！</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/zhuan-ma/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;zhuan-ma&#x2F;" rel="noopener" target="_blank">转码路线图</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/awesome-systematic-trading/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;awesome-systematic-trading&#x2F;" rel="noopener" target="_blank">SystematicTrading</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://funcoder.net/" title="https:&#x2F;&#x2F;funcoder.net&#x2F;" rel="noopener" target="_blank">FunCoder</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/bitcoin-pro/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;bitcoin-pro&#x2F;" rel="noopener" target="_blank">BitcoinPro</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/quant-roadmap/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;quant-roadmap&#x2F;" rel="noopener" target="_blank">QuantRoadmap</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://quant.funcoder.net/" title="https:&#x2F;&#x2F;quant.funcoder.net&#x2F;" rel="noopener" target="_blank">QuantBox</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/20/python_6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="重新认识 Python（7）CPython初探 | FunCoder">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          重新认识 Python（7）CPython初探
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-03-20 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-20T00:00:00Z">2021-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-09-29 21:15:04" itemprop="dateModified" datetime="2023-09-29T21:15:04Z">2023-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Coding/" itemprop="url" rel="index"><span itemprop="name">Coding</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/03/20/python_6/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/20/python_6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>7.6k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="重新认识-Python（7）CPython初探"><a href="#重新认识-Python（7）CPython初探" class="headerlink" title="重新认识 Python（7）CPython初探"></a>重新认识 Python（7）CPython初探</h1><p>CPython 是 Python 社区的标准，其他版本的 Python，比如 pypy，都会遵行 CPython 的标准API实现。想要更深入的认识 Python，就需要了解 CPython 实现。这一期，我就带大家认识一下 CPython 源代码，为日后改造 Python 做准备。首先，展示如何本地编译最新的 CPython代码。然后，展示如何 debug 编译好的解释器。最后我们会利用 CPython 实现简单的函数调用。</p>
+<p>本文会为你揭开 CPython 的面纱，带你进入 C + Python 的世界。文章的最后，你也会对 Python 中最重要的概念：一切皆对象（object）有更深刻的认识；你还会发现一点点线索，为什么Python用起来比其他语言，比如 C 慢很多。</p>
+<p>请打开编辑器和命令行，我们开始。（本文主要使用MacOS，Windows 不一定可以直接实现）。</p>
+<h2 id="当我们再说-Python，我们在说什么？"><a href="#当我们再说-Python，我们在说什么？" class="headerlink" title="当我们再说 Python，我们在说什么？"></a>当我们再说 Python，我们在说什么？</h2><p>在我还是小小白的时候，我经常会想：当我们说 Python 的时候，我们到底在说什么？后来当我学了编译原理，我变成了一个小白，我知道了，当我们说 Python 的时候，我们其实再说两个东西：语言的语法和语言的运行时。</p>
+<p>语法主要规定了如何表达程序，比如我们写 <code>a = 1</code> 是合法的，且有语义；而当我写 <code>for i in 1:</code> 的时候，是不合法的，语义也就无法确定。运行时（run time）是指运行我们写好的代码的另一个“程序”。也就是当我们输入 <code>python test.py</code> 的时候，这里面的 python 就是我们的“程序”，这个运行时负责执行我们的代码。</p>
+<p>而这个 runtime，可以有很多不同的实现，比如 CPython 实现就是一个用 C 语言实现运行时，而 pypy 则是用 RPython 实现的运行时等等。这个 runtime 可以理解我们写的 python 代码，并且把它编译成 python 的字节码，然后执行。比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(a)</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码在屏幕打印1。如何实现的呢？其实是我们的运行时“程序” <code>python</code> 实现的。首先，python 会把上面的源代码翻译成字节码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import dis</span><br><span class="line"></span><br><span class="line">dis.dis(&quot;a&#x3D;1;print(1)&quot;)  # 这一行会把源代码编译成字节码，就是 python 认识的操作。</span><br><span class="line"></span><br><span class="line">## 结果</span><br><span class="line">  1           0 LOAD_CONST               0 (1)</span><br><span class="line">              2 STORE_NAME               0 (a)</span><br><span class="line">              4 LOAD_NAME                1 (print)</span><br><span class="line">              6 LOAD_NAME                0 (a)</span><br><span class="line">              8 CALL_FUNCTION            1</span><br><span class="line">             10 POP_TOP</span><br><span class="line">             12 LOAD_CONST               1 (None)</span><br><span class="line">             14 RETURN_VALUE</span><br></pre></td></tr></table></figure>
+
+<p>上面的字节码，背后就是 python 程序提供的一些基本操作。比如 <code>LOAD_CONST</code>，加载常数 1 进入内存。你可以在<a target="_blank" rel="noopener" href="https://github.com/python/cpython/blob/master/Include/opcode.h">这里</a>找到所有的字节码。</p>
+<p>一句话总结，<code>CPython</code> 就是一个可以执行你写的python代码的另一个由 C 语言写的程序。</p>
+<h2 id="编译-CPython"><a href="#编译-CPython" class="headerlink" title="编译 CPython"></a>编译 CPython</h2><p>首先，我们要去 github fork CPython 的代码到自己的账户下：<a target="_blank" rel="noopener" href="https://github.com/python/cpython">https://github.com/python/cpython</a> 。然后我们作如下操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">xcode-select --install</span><br><span class="line">brew install git</span><br><span class="line">brew install openssl</span><br><span class="line">brew install readline</span><br><span class="line"></span><br><span class="line"><span class="comment"># mac 需要 xcode 才能编译</span></span><br><span class="line">git <span class="built_in">clone</span> git@github.com:&#123;你的账户。。&#125;/cpython.git</span><br><span class="line"><span class="built_in">cd</span> cpython</span><br><span class="line">git remote add upstream git@github.com:python/cpython.git</span><br><span class="line"><span class="comment"># 把原始仓库加入</span></span><br><span class="line"><span class="comment"># 编译 python，加入debug选项，方便我们后面进一步探索。</span></span><br><span class="line">PKG_CONFIG_PATH=<span class="string">&quot;<span class="subst">$(brew --prefix openssl)</span>/lib/pkgconfig&quot;</span> \</span><br><span class="line">CPPFLAGS=<span class="string">&quot;-I<span class="subst">$(brew --prefix readline)</span>/include&quot;</span> \</span><br><span class="line">LDFLAGS=<span class="string">&quot;-L<span class="subst">$(brew --prefix readline)</span>/lib&quot;</span> \</span><br><span class="line">./configure --with-pydebug \</span><br><span class="line">&amp;&amp; make</span><br></pre></td></tr></table></figure>
+
+<p>很快编译就会成功，此时你的当前目录下会出现一个 <code>python.exe</code> 的可执行文件，这就是我们编译好的 Python！</p>
+<p>输入 <code>./python.exe</code> 就会看见熟悉的python解释器了提示符了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Python 3.10.0a6+ (heads&#x2F;master:f00e82f8b8, Mar 13 2021, 23:26:48) [Clang 11.0.3 (clang-1103.0.32.59)] on darwin</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Debug-CPython"><a href="#Debug-CPython" class="headerlink" title="Debug CPython"></a>Debug CPython</h2><p>编译完成后，我们就可以来看看 CPython 内部的“秘密”了。这里我用的 <code>lldb</code> 因为 Mac 的安装 gdb 比较复杂。基本步骤是一样的。</p>
+<p>输入 <code>lldb python.ext</code>。接下来，我们需要在 <code>Programs/python.c</code> 的 main 函数处设置一个断点。这个函数就整个解释器的入口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(lldb) b main</span><br><span class="line">Breakpoint 1: where &#x3D; python.exe&#96;main + 22 at python.c:15:25, address &#x3D; 0x0000000100000856</span><br><span class="line">(lldb) r</span><br><span class="line">Process 43373 launched: &#39;&#x2F;Users&#x2F;zhewang&#x2F;Projects&#x2F;cpython&#x2F;python.exe&#39; (x86_64)</span><br><span class="line">Process 43373 stopped</span><br><span class="line">* thread #1, queue &#x3D; &#39;com.apple.main-thread&#39;, stop reason &#x3D; breakpoint 1.1</span><br><span class="line">    frame #0: 0x0000000100000856 python.exe&#96;main(argc&#x3D;1, argv&#x3D;0x00007ffeefbff330) at python.c:15:25</span><br><span class="line">   12  	int</span><br><span class="line">   13  	main(int argc, char **argv)</span><br><span class="line">   14  	&#123;</span><br><span class="line">-&gt; 15  	    return Py_BytesMain(argc, argv);</span><br><span class="line">   16  	&#125;</span><br><span class="line">   17  	#endif</span><br></pre></td></tr></table></figure>
+
+<p>好，现在我们就停留在了 CPython 世界的入口了！</p>
+<h2 id="简单的加法！"><a href="#简单的加法！" class="headerlink" title="简单的加法！"></a>简单的加法！</h2><p>现在我们在 debug 环境下，用 CPython 来实现一个整数的加法。</p>
+<p>首先，我们来看一下 int 这个 object。我把部分 int object 的代码放在下面。可以看出，python 里面连最基本的 int 对象都别有洞天！要知道python运行的时候，每一个整数在内存里其实都包含了下面结构体所有的变量。具体文件可以在 <code>Objects/longobject.c</code> 找到。</p>
+<p><code>PyVarObject_HEAD_INIT</code> 定义了 int 的类型，int 的类型其实叫 <code>PyLong_Type</code>，他的基类是一个叫 <code>PyType_Type</code> 的类型。比如在python中，<code>type(1)</code> 会返回 <code>int</code>，即下面的 tp_name，而 <code>type(type(1))</code> 则返回 <code>type</code>，即<code>PyType_Type</code>。当然 python 的整数做的这么复杂主要是为了保持所有对象类型协调统一，即无论是复杂的类型还是简单的类型，他们的内存结构都是样的！（ 这里插一嘴，python的int是long，也就是说可以是任意大的整数，不会溢出！）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">PyTypeObject PyLong_Type = &#123;</span><br><span class="line">    PyVarObject_HEAD_INIT(&amp;PyType_Type, <span class="number">0</span>)</span><br><span class="line">    <span class="string">&quot;int&quot;</span>,                                      <span class="comment">/* tp_name */</span></span><br><span class="line">    offsetof(PyLongObject, ob_digit),           <span class="comment">/* tp_basicsize */</span></span><br><span class="line">    <span class="keyword">sizeof</span>(digit),                              <span class="comment">/* tp_itemsize */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_dealloc */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_vectorcall_offset */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_getattr */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_setattr */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_as_async */</span></span><br><span class="line">    long_to_decimal_string,                     <span class="comment">/* tp_repr */</span></span><br><span class="line">    &amp;long_as_number,                            <span class="comment">/* tp_as_number */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_as_sequence */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_as_mapping */</span></span><br><span class="line">    (hashfunc)long_hash,                        <span class="comment">/* tp_hash */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_call */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_str */</span></span><br><span class="line">    PyObject_GenericGetAttr,                    <span class="comment">/* tp_getattro */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_setattro */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_as_buffer */</span></span><br><span class="line">    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |</span><br><span class="line">        Py_TPFLAGS_LONG_SUBCLASS |</span><br><span class="line">        _Py_TPFLAGS_MATCH_SELF,               <span class="comment">/* tp_flags */</span></span><br><span class="line">    long_doc,                                   <span class="comment">/* tp_doc */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_traverse */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_clear */</span></span><br><span class="line">    long_richcompare,                           <span class="comment">/* tp_richcompare */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_weaklistoffset */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_iter */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_iternext */</span></span><br><span class="line">    long_methods,                               <span class="comment">/* tp_methods */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_members */</span></span><br><span class="line">    long_getset,                                <span class="comment">/* tp_getset */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_base */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_dict */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_descr_get */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_descr_set */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_dictoffset */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_init */</span></span><br><span class="line">    <span class="number">0</span>,                                          <span class="comment">/* tp_alloc */</span></span><br><span class="line">    long_new,                                   <span class="comment">/* tp_new */</span></span><br><span class="line">    PyObject_Del,                               <span class="comment">/* tp_free */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>我们现在在debug 环境里面可以尝试创造一个 int 对象！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">(lldb) b pymain_import_readline</span><br><span class="line">Breakpoint 1: where &#x3D; python.exe&#96;pymain_import_readline + 12 at main.c:205:9, address &#x3D; 0x000000010032ad1c</span><br><span class="line">(lldb) r</span><br><span class="line">Process 54697 launched: &#39;&#x2F;Users&#x2F;zhewang&#x2F;Projects&#x2F;cpython&#x2F;python.exe&#39; (x86_64)</span><br><span class="line">Python 3.10.0a6+ (heads&#x2F;master:f00e82f8b8, Mar 20 2021, 21:50:27) [Clang 11.0.3 (clang-1103.0.32.59)] on darwin</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">Process 54697 stopped</span><br><span class="line">* thread #1, queue &#x3D; &#39;com.apple.main-thread&#39;, stop reason &#x3D; breakpoint 1.1</span><br><span class="line">    frame #0: 0x000000010032ad1c python.exe&#96;pymain_import_readline(config&#x3D;0x00000001007503d0) at main.c:205:9</span><br><span class="line">   202 	static void</span><br><span class="line">   203 	pymain_import_readline(const PyConfig *config)</span><br><span class="line">   204 	&#123;</span><br><span class="line">-&gt; 205 	    if (config-&gt;isolated) &#123;</span><br><span class="line">   206 	        return;</span><br><span class="line">   207 	    &#125;</span><br><span class="line">   208 	    if (!config-&gt;inspect &amp;&amp; config_run_code(config))</span><br></pre></td></tr></table></figure>
+
+<p>我们停在这里，Python已经完成一些初始化设置，但是还没有进入 &gt;&gt;&gt; 交互环境。这时，我们使用 CPython 的底层函数创建两个 int 对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(lldb) call PyLong_FromLong(10)</span><br><span class="line">(PyObject *) $0 &#x3D; 0x00000001007a8500</span><br><span class="line">(lldb) call PyLong_FromLong(20)</span><br><span class="line">(PyObject *) $1 &#x3D; 0x00000001007a8780</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，返回的是一个指向 <code>PyObject</code> 的指针。其实这个就是一切皆对象中的对象啦，就是这个 <code>PyObject</code>，Python中所有类型实例化后都是这个这个 PyObject。来看一下这两对象的内存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(lldb) p *$0</span><br><span class="line">(PyObject) $2 &#x3D; &#123;</span><br><span class="line">  ob_refcnt &#x3D; 10</span><br><span class="line">  ob_type &#x3D; 0x00000001004936f0</span><br><span class="line">&#125;</span><br><span class="line">(lldb) p *$1</span><br><span class="line">(PyObject) $3 &#x3D; &#123;</span><br><span class="line">  ob_refcnt &#x3D; 8</span><br><span class="line">  ob_type &#x3D; 0x00000001004936f0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，他们有两个field，一个是 refcnt 用来管理垃圾回收，另一个是 ob_type 指向对象类型的内存。通过访问 ob_type 可以看到该类型的内存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(lldb) p *$1-&gt;ob_type</span><br><span class="line">(PyTypeObject) $5 &#x3D; &#123;</span><br><span class="line">  ob_base &#x3D; &#123;</span><br><span class="line">    ob_base &#x3D; &#123;</span><br><span class="line">      ob_refcnt &#x3D; 68</span><br><span class="line">      ob_type &#x3D; 0x000000010049a620</span><br><span class="line">    &#125;</span><br><span class="line">    ob_size &#x3D; 0</span><br><span class="line">  &#125;</span><br><span class="line">  tp_name &#x3D; 0x0000000100407b51 &quot;int&quot;</span><br><span class="line">  tp_basicsize &#x3D; 24</span><br><span class="line">  tp_itemsize &#x3D; 4</span><br><span class="line">  tp_dealloc &#x3D; 0x00000001001707c0 (python.exe&#96;object_dealloc at typeobject.c:4062)</span><br><span class="line">  tp_vectorcall_offset &#x3D; 0</span><br><span class="line">  。。。省略</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们看看我们的 PyLong_Type 支持哪些运算：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(lldb) p *PyLong_Type-&gt;tp_as_number</span><br><span class="line">(PyNumberMethods) $9 &#x3D; &#123;</span><br><span class="line">  nb_add &#x3D; 0x000000010011b180 (python.exe&#96;long_add at longobject.c:3065)</span><br><span class="line">  nb_subtract &#x3D; 0x000000010011ae00 (python.exe&#96;long_sub at longobject.c:3099)</span><br><span class="line">  nb_multiply &#x3D; 0x000000010011dac0 (python.exe&#96;long_mul at longobject.c:3533)</span><br><span class="line">  nb_remainder &#x3D; 0x000000010011dda0 (python.exe&#96;long_mod at longobject.c:3966)</span><br><span class="line">  nb_divmod &#x3D; 0x000000010011dee0 (python.exe&#96;long_divmod at longobject.c:3982)</span><br><span class="line">  nb_power &#x3D; 0x000000010011e0b0 (python.exe&#96;long_pow at longobject.c:4098)</span><br><span class="line">  nb_negative &#x3D; 0x000000010011aca0 (python.exe&#96;long_neg at longobject.c:4318)</span><br><span class="line">  nb_positive &#x3D; 0x000000010011c570 (python.exe&#96;long_long at longobject.c:4692)</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+<p>我们来试一下加法！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(lldb) p *PyLong_Typp.tp_as_number-&gt;nb_add</span><br><span class="line">(PyObject *(*)(PyObject *, PyObject *)) $10 &#x3D; 0x000000010011b180 (python.exe&#96;long_add at longobject.c:3065)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，加法的函数签名是：<code>(PyObject *(*)(PyObject *, PyObject *))</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(lldb) p PyLong_Type.tp_as_number-&gt;nb_add((PyObject *) 0x00000001007a8500,(PyObject *) 0x00000001007a8780)</span><br><span class="line">(PyObject *) $15 &#x3D; 0x00000001007a8a00</span><br></pre></td></tr></table></figure>
+
+<p>我们得到了另一个 PyObject 的指针，0x00000001007a8a00。这个理论上就是 10+20 的结果，30。我们来验证一下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(lldb) p *(PyLongObject *) 0x00000001007a8a00</span><br><span class="line">(PyLongObject) $30 &#x3D; &#123;</span><br><span class="line">  ob_base &#x3D; &#123;</span><br><span class="line">    ob_base &#x3D; &#123;</span><br><span class="line">      ob_refcnt &#x3D; 8</span><br><span class="line">      ob_type &#x3D; 0x00000001004936f0</span><br><span class="line">    &#125;</span><br><span class="line">    ob_size &#x3D; 1</span><br><span class="line">  &#125;</span><br><span class="line">  ob_digit &#x3D; ([0] &#x3D; 30)  # &lt;--- 这里就是我们的答案。。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这一篇 CPython 初探就到这里，我们学会了如何编译、debug我们的Python解释器，用CPython的API实现了简答的加法。有了这些基础知识我们就可以开始进一步探索CPython的世界了！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/CPython/" rel="tag"># CPython</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/11/python_5/" rel="prev" title="重新认识 Python（5）再谈并发">
+                  <i class="fa fa-angle-left"></i> 重新认识 Python（5）再谈并发
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/21/python_spped/" rel="next" title="让 Python 加速飞">
+                  让 Python 加速飞 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">FunCoder</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">426k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:27</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/wangzhe3224" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"funcoder","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

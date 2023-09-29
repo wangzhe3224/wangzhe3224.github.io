@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="回溯，DFS 46. Permutations 47. Permutations II 1466. Reorder Routes to Make All Paths Lead to the City Zero 679. 24 Game 282. Expression Add Operators  46. Permutations问题  Given an array nums of distinct">
+<meta property="og:type" content="article">
+<meta property="og:title" content="回溯 DFS">
+<meta property="og:url" content="http://yoursite.com/2021/04/18/leetcode_dfs/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="回溯，DFS 46. Permutations 47. Permutations II 1466. Reorder Routes to Make All Paths Lead to the City Zero 679. 24 Game 282. Expression Add Operators  46. Permutations问题  Given an array nums of distinct">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-18T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-29T21:15:04.031Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="DFS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2021/04/18/leetcode_dfs/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2021/04/18/leetcode_dfs/","path":"2021/04/18/leetcode_dfs/","title":"回溯 DFS"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>回溯 DFS | FunCoder</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9E%E6%BA%AF%EF%BC%8CDFS"><span class="nav-number">1.</span> <span class="nav-text">回溯，DFS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#46-Permutations"><span class="nav-number">1.1.</span> <span class="nav-text">46. Permutations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#47-Permutations-II"><span class="nav-number">1.2.</span> <span class="nav-text">47. Permutations II</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#466-Reorder-Routes-to-Make-All-Paths-Lead-to-the-City-Zero"><span class="nav-number">1.3.</span> <span class="nav-text">466. Reorder Routes to Make All Paths Lead to the City Zero</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#679-24-Game"><span class="nav-number">1.4.</span> <span class="nav-text">679. 24 Game</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#tags-Leetcode-DFS"><span class="nav-number">1.4.0.0.0.1.</span> <span class="nav-text">tags: Leetcode DFS</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#282-Expression-Add-Operators"><span class="nav-number">1.5.</span> <span class="nav-text">282. Expression Add Operators</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/zhuan-ma/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;zhuan-ma&#x2F;" rel="noopener" target="_blank">转码路线图</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/awesome-systematic-trading/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;awesome-systematic-trading&#x2F;" rel="noopener" target="_blank">SystematicTrading</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://funcoder.net/" title="https:&#x2F;&#x2F;funcoder.net&#x2F;" rel="noopener" target="_blank">FunCoder</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/bitcoin-pro/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;bitcoin-pro&#x2F;" rel="noopener" target="_blank">BitcoinPro</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/quant-roadmap/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;quant-roadmap&#x2F;" rel="noopener" target="_blank">QuantRoadmap</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://quant.funcoder.net/" title="https:&#x2F;&#x2F;quant.funcoder.net&#x2F;" rel="noopener" target="_blank">QuantBox</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/18/leetcode_dfs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="回溯 DFS | FunCoder">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          回溯 DFS
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-04-18 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-18T00:00:00Z">2021-04-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-09-29 21:15:04" itemprop="dateModified" datetime="2023-09-29T21:15:04Z">2023-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Leetcode/" itemprop="url" rel="index"><span itemprop="name">Leetcode</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/04/18/leetcode_dfs/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/18/leetcode_dfs/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>5.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>5 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="回溯，DFS"><a href="#回溯，DFS" class="headerlink" title="回溯，DFS"></a>回溯，DFS</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/permutations/">46. Permutations</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/permutations-ii/">47. Permutations II</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/">1466. Reorder Routes to Make All Paths Lead to the City Zero</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/24-game/submissions/">679. 24 Game</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/expression-add-operators/">282. Expression Add Operators</a></li>
+</ul>
+<h2 id="46-Permutations"><a href="#46-Permutations" class="headerlink" title="46. Permutations"></a>46. Permutations</h2><p><strong>问题</strong></p>
+<blockquote>
+<p>Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.</p>
+</blockquote>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Example 1:</span><br><span class="line"></span><br><span class="line">Input: nums &#x3D; [1,2,3]</span><br><span class="line">Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]</span><br><span class="line">Example 2:</span><br><span class="line"></span><br><span class="line">Input: nums &#x3D; [0,1]</span><br><span class="line">Output: [[0,1],[1,0]]</span><br><span class="line">Example 3:</span><br><span class="line"></span><br><span class="line">Input: nums &#x3D; [1]</span><br><span class="line">Output: [[1]]</span><br></pre></td></tr></table></figure>
+
+<p><strong>思路</strong></p>
+<p>还是从简单的思考过程出发，假设给出 <code>[1,2,3]</code> 我们如何写出全排列呢？一个方法可以是：<code>1 ? ?？</code>，第一个？可以选择2或者3，然后会影响？？的选择。这种思路是典型的回溯，即穷举每一个位置的可能性，然后继续下一个选择，直到结束，回退一层，换一个选择。</p>
+<p>实现起来就是一个深度优先搜索，但是所搜一层结束后，要回档当前层的状态。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">permute</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        res = []</span><br><span class="line">        track = []</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">backtrack</span>(<span class="params">nums, track</span>):</span></span><br><span class="line">            <span class="comment"># end condition</span></span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(nums) == <span class="built_in">len</span>(track):</span><br><span class="line">                res.append(track[:])  <span class="comment"># take a copy...</span></span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> n <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="comment"># 穷举</span></span><br><span class="line">                <span class="keyword">if</span> n <span class="keyword">in</span> track:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                <span class="comment"># 选择</span></span><br><span class="line">                track.append(n)</span><br><span class="line">                <span class="comment"># 递归进入下一层选择</span></span><br><span class="line">                backtrack(nums, track)</span><br><span class="line">                <span class="comment"># 回档</span></span><br><span class="line">                track.pop()</span><br><span class="line">                </span><br><span class="line">        backtrack(nums, track)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="47-Permutations-II"><a href="#47-Permutations-II" class="headerlink" title="47. Permutations II"></a>47. Permutations II</h2><p><strong>问题</strong></p>
+<blockquote>
+<p>Given a collection of numbers, nums, that might contain duplicates, return all possible unique permutations in any order.</p>
+</blockquote>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Example 1:</span><br><span class="line"></span><br><span class="line">Input: nums &#x3D; [1,1,2]</span><br><span class="line">Output:</span><br><span class="line">[[1,1,2],</span><br><span class="line"> [1,2,1],</span><br><span class="line"> [2,1,1]]</span><br><span class="line"> </span><br><span class="line">Example 2:</span><br><span class="line"></span><br><span class="line">Input: nums &#x3D; [1,2,3]</span><br><span class="line">Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]</span><br></pre></td></tr></table></figure>
+
+<p><strong>思路</strong></p>
+<p>此题与上一题的思路是一致的，只不过由于重复的存在，我们需要穷举不同的数字，而且应该记录该数字当前可用的数量（这只一个状态），并且在回档的时候记得补回使用的数量。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">permuteUnique</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]:</span></span><br><span class="line">        result = []</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">backtrack</span>(<span class="params">path, counter</span>):</span></span><br><span class="line">            <span class="comment"># 结束条件</span></span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(path) == <span class="built_in">len</span>(nums):</span><br><span class="line">                res.append(path[:])</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">                </span><br><span class="line">            <span class="keyword">for</span> num <span class="keyword">in</span> counter:</span><br><span class="line">                <span class="keyword">if</span> counter[num] &gt; <span class="number">0</span>:</span><br><span class="line">                    <span class="comment"># 增加路径</span></span><br><span class="line">                    path.append(num)</span><br><span class="line">                    <span class="comment"># 改变状态</span></span><br><span class="line">                    counter[num] -= <span class="number">1</span></span><br><span class="line">                    <span class="comment"># DFS</span></span><br><span class="line">                    backtrack(path, counter)</span><br><span class="line">                    <span class="comment"># 回滚</span></span><br><span class="line">                    path.pop()</span><br><span class="line">                    counter[num] += <span class="number">1</span></span><br><span class="line">                    </span><br><span class="line">        backtrack([], Counter(nums))</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="466-Reorder-Routes-to-Make-All-Paths-Lead-to-the-City-Zero"><a href="#466-Reorder-Routes-to-Make-All-Paths-Lead-to-the-City-Zero" class="headerlink" title="466. Reorder Routes to Make All Paths Lead to the City Zero"></a>466. Reorder Routes to Make All Paths Lead to the City Zero</h2><p><strong>问题</strong></p>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/">1466. Reorder Routes to Make All Paths Lead to the City Zero</a></li>
+</ul>
+</blockquote>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: n &#x3D; 6, connections &#x3D; [[0,1],[1,3],[2,3],[4,0],[4,5]]</span><br><span class="line">Output: 3</span><br><span class="line">Explanation: Change the direction of edges show in red such that each node can reach the node 0 (capital).</span><br></pre></td></tr></table></figure>
+
+<p><strong>思路</strong></p>
+<p>首先把图改造成 undirected，同时标记那些路径是新加入的，那些是原有的。然后从0点出发做 DFS 搜索，如果途中经历了原有的路线，计数器加一。因为这些路线是需要改造的路线。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minReorder</span>(<span class="params">self, n: <span class="built_in">int</span>, connections: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        <span class="comment"># 转化成 undirected graph，并记录那些路径是原始路径，0，那些是增加路径，+1</span></span><br><span class="line">        graph = defaultdict(<span class="built_in">list</span>)</span><br><span class="line">        <span class="comment"># 构造无方向图</span></span><br><span class="line">        <span class="keyword">for</span> s, d <span class="keyword">in</span> connections:</span><br><span class="line">            graph[s].append((d, <span class="number">1</span>))  <span class="comment"># 这是s-&gt;d的原有路线，需要+1</span></span><br><span class="line">            graph[d].append((s, <span class="number">0</span>))</span><br><span class="line">            </span><br><span class="line">        <span class="comment"># dfs</span></span><br><span class="line">        visited = <span class="built_in">set</span>()</span><br><span class="line">        self.res = <span class="number">0</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">cur, parent, graph</span>):</span></span><br><span class="line">            <span class="keyword">for</span> node, cost <span class="keyword">in</span> graph[cur]:</span><br><span class="line">                <span class="comment"># node != parent 为了防止往回走。。</span></span><br><span class="line">                <span class="keyword">if</span> node <span class="keyword">not</span> <span class="keyword">in</span> visited <span class="keyword">and</span> node != parent:</span><br><span class="line">                    self.res += cost</span><br><span class="line">                    visited.add(node)</span><br><span class="line">                    dfs(node, cur, graph)</span><br><span class="line">                    </span><br><span class="line">        dfs(<span class="number">0</span>, -<span class="number">1</span>, graph) </span><br><span class="line">        <span class="keyword">return</span> self.res</span><br></pre></td></tr></table></figure>
+
+<p>当然这题也可以用 BFS</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minReorder</span>(<span class="params">self, n: <span class="built_in">int</span>, connections: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">int</span>:</span></span><br><span class="line">        graph = defaultdict(<span class="built_in">list</span>)</span><br><span class="line">        <span class="comment"># 构造无方向图</span></span><br><span class="line">        <span class="keyword">for</span> s, d <span class="keyword">in</span> connections:</span><br><span class="line">            graph[s].append((d, <span class="number">1</span>))  <span class="comment"># 这是s-&gt;d的原有路线，需要+1</span></span><br><span class="line">            graph[d].append((s, <span class="number">0</span>))</span><br><span class="line">            </span><br><span class="line">        res = <span class="number">0</span></span><br><span class="line">        queue = [<span class="number">0</span>]</span><br><span class="line">        visited = <span class="built_in">set</span>([<span class="number">0</span>])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> queue:</span><br><span class="line">            node = queue.popleft()</span><br><span class="line">            <span class="keyword">for</span> n, cost <span class="keyword">in</span> graph[node]:</span><br><span class="line">                <span class="keyword">if</span> n <span class="keyword">not</span> <span class="keyword">in</span> visted:</span><br><span class="line">                    visited.add(n)</span><br><span class="line">                    res += cost</span><br><span class="line">                    queue.append(n)</span><br><span class="line">                    </span><br><span class="line">       <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="679-24-Game"><a href="#679-24-Game" class="headerlink" title="679. 24 Game"></a>679. 24 Game</h2><p><strong>问题</strong></p>
+<blockquote>
+<p>You have 4 cards each containing a number from 1 to 9. You need to judge whether they could operated through *, /, +, -, (, ) to get the value of 24.</p>
+</blockquote>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Example 1:</span><br><span class="line">Input: [4, 1, 8, 7]</span><br><span class="line">Output: True</span><br><span class="line">Explanation: (8-4) * (7-1) &#x3D; 24</span><br><span class="line"></span><br><span class="line">Example 2:</span><br><span class="line">Input: [1, 2, 1, 2]</span><br><span class="line">Output: False</span><br></pre></td></tr></table></figure>
+
+<p><strong>思路</strong></p>
+<p>基本问题是给出四个数和四则运算，搜索满足条件的数字组合。典型的搜索问题。对于没两个数字，我们需要尝试四种运算，得到结果A，然后再A和剩下的三个数字里继续搜索。</p>
+<p>这题被划分成困难，但是其实代码非常简单和清楚，就是典型的DFS通过递归实现。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">judgePoint24</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">bool</span>:</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(nums)==<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">round</span>(nums[<span class="number">0</span>], <span class="number">4</span>) == <span class="number">24</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)-<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>, <span class="built_in">len</span>(nums)):</span><br><span class="line">                first, second = nums[i], nums[j]</span><br><span class="line">                left = nums[:i] + nums[i+<span class="number">1</span>: j] + nums[j+<span class="number">1</span>: ]</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> self.judgePoint24(left+[first+second]):</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> self.judgePoint24(left+[first*second]):</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> self.judgePoint24(left+[first-second]):</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> self.judgePoint24(left+[second-first]):</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> second <span class="keyword">and</span> self.judgePoint24(left+[first/second]):</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> first <span class="keyword">and</span> self.judgePoint24(left+[second/first]):</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+
+<h6 id="tags-Leetcode-DFS"><a href="#tags-Leetcode-DFS" class="headerlink" title="tags: Leetcode DFS"></a>tags: <code>Leetcode</code> <code>DFS</code></h6><h2 id="282-Expression-Add-Operators"><a href="#282-Expression-Add-Operators" class="headerlink" title="282. Expression Add Operators"></a>282. Expression Add Operators</h2><p><strong>问题</strong></p>
+<blockquote>
+<p>Given a string num that contains only digits and an integer target, return all possibilities to add the binary operators ‘+’, ‘-‘, or ‘*’ between the digits of num so that the resultant expression evaluates to the target value.</p>
+</blockquote>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Example 1:</span><br><span class="line"></span><br><span class="line">Input: num &#x3D; &quot;123&quot;, target &#x3D; 6</span><br><span class="line">Output: [&quot;1*2*3&quot;,&quot;1+2+3&quot;]</span><br><span class="line">Example 2:</span><br><span class="line"></span><br><span class="line">Input: num &#x3D; &quot;232&quot;, target &#x3D; 8</span><br><span class="line">Output: [&quot;2*3+2&quot;,&quot;2+3*2&quot;]</span><br><span class="line">Example 3:</span><br><span class="line"></span><br><span class="line">Input: num &#x3D; &quot;105&quot;, target &#x3D; 5</span><br><span class="line">Output: [&quot;1*0+5&quot;,&quot;10-5&quot;]</span><br><span class="line">Example 4:</span><br><span class="line"></span><br><span class="line">Input: num &#x3D; &quot;00&quot;, target &#x3D; 0</span><br><span class="line">Output: [&quot;0*0&quot;,&quot;0+0&quot;,&quot;0-0&quot;]</span><br><span class="line">Example 5:</span><br><span class="line"></span><br><span class="line">Input: num &#x3D; &quot;3456237490&quot;, target &#x3D; 9191</span><br><span class="line">Output: []ing</span><br></pre></td></tr></table></figure>
+
+<p><strong>思路</strong></p>
+<p>此题显然是一个搜索问题，或者说回溯问题。基本思路是深度优先搜索，从左向右读取字符，组成数字（不同位数），然后分别尝试三种运算，并组合得出可以得到target的组合字符串。递归是写起来最方便的方法了，下一步就是确定递归携带的状态参数。</p>
+<p>首先，我们需要记录当前截取的字符串位置，需要两个参数：<code>l</code>和<code>r</code>，分别代表当前截取的左右索引值；然后，需要记录当前的表达式，<code>expr</code>，即当前路径上目前的表达式；当前的计算结果，<code>cur</code>；上一步的计算结果，<code>last</code>；最后需要记录已经取得的结果，<code>res</code>，这是一个结果表达式的列表。</p>
+<p>搜索过程是：从左边的0开始不断向右r搜索，终结条件是：</p>
+<ul>
+<li>l == r，即已经搜索了全部字符串</li>
+<li>cur == target，即结果等于目标值</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">num = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span>(<span class="params">l, r, expr, cur, last, res</span>):</span></span><br><span class="line">    <span class="comment"># 结束条件</span></span><br><span class="line">    <span class="keyword">if</span> l == r <span class="keyword">and</span> cur == target:</span><br><span class="line">        res.append(expr)</span><br><span class="line">        <span class="keyword">return</span> </span><br><span class="line">        </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(l+<span class="number">1</span>, r+<span class="number">1</span>): <span class="comment"># why l+1? r+1?</span></span><br><span class="line">        <span class="keyword">if</span> i == l+<span class="number">1</span> <span class="keyword">or</span> (i &gt; l+<span class="number">1</span> <span class="keyword">and</span> num[l] != <span class="string">&quot;0&quot;</span>):  <span class="comment"># avoid start with 0</span></span><br><span class="line">            s, x = num[l:i], <span class="built_in">int</span>(num[l:i])  <span class="comment"># from l to i !</span></span><br><span class="line">            <span class="keyword">if</span> last <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                dfs(i, r, s, x, x, res)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dfs(i, r, expr + <span class="string">&quot;+&quot;</span> + s, cur+x, x, res)</span><br><span class="line">                dfs(i, r, expr + <span class="string">&quot;-&quot;</span> + s, cur-x, -x, res)</span><br><span class="line">                dfs(i, r, expr + <span class="string">&quot;*&quot;</span> + s, cur-last+last*x, res)</span><br></pre></td></tr></table></figure>
+
+<p>如果没有乘法，即不改变结合优先级，我们不需要<code>last</code>状态来复原。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DFS/" rel="tag"># DFS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/04/18/leetcode_heap1/" rel="prev" title="Heap 使用">
+                  <i class="fa fa-angle-left"></i> Heap 使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/04/19/parser/" rel="next" title="一个简单的算术 LL1 Parser">
+                  一个简单的算术 LL1 Parser <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">FunCoder</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">426k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:27</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/wangzhe3224" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"funcoder","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

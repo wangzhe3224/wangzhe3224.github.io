@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="先设计，后编码 写”明显没有错误的“代码 学最激进的技术，用最简单的实现 把可变的东西隔离到配置数据中 多考虑意外情况，不要只实现 happy path 在设计阶段就开始考虑异常情况 复用的诀窍：只做一件事情 学习测试理论  先设计，后编码需求和设计阶段应该在软件开发的 60% 时间，而实现占 40%。没有事先规划，想哪写哪；结果被层出不穷的状况（还美其名曰需求变更）牵着鼻子、面多了加水水多了加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一些软件设计原则">
+<meta property="og:url" content="http://yoursite.com/2022/10/02/design_habbit/index.html">
+<meta property="og:site_name" content="FunCoder">
+<meta property="og:description" content="先设计，后编码 写”明显没有错误的“代码 学最激进的技术，用最简单的实现 把可变的东西隔离到配置数据中 多考虑意外情况，不要只实现 happy path 在设计阶段就开始考虑异常情况 复用的诀窍：只做一件事情 学习测试理论  先设计，后编码需求和设计阶段应该在软件开发的 60% 时间，而实现占 40%。没有事先规划，想哪写哪；结果被层出不穷的状况（还美其名曰需求变更）牵着鼻子、面多了加水水多了加">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-10-02T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-29T21:15:04.027Z">
+<meta property="article:author" content="FunCoder">
+<meta property="article:tag" content="Design">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2022/10/02/design_habbit/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://yoursite.com/2022/10/02/design_habbit/","path":"2022/10/02/design_habbit/","title":"一些软件设计原则"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>一些软件设计原则 | FunCoder</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">FunCoder</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">FunCoder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E8%AE%BE%E8%AE%A1%EF%BC%8C%E5%90%8E%E7%BC%96%E7%A0%81"><span class="nav-number">1.</span> <span class="nav-text">先设计，后编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E2%80%9D%E6%98%8E%E6%98%BE%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E7%9A%84%E2%80%9C%E4%BB%A3%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">写”明显没有错误的“代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E6%9C%80%E6%BF%80%E8%BF%9B%E7%9A%84%E6%8A%80%E6%9C%AF%EF%BC%8C%E7%94%A8%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">学最激进的技术，用最简单的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%8A%E5%8F%AF%E5%8F%98%E7%9A%84%E4%B8%9C%E8%A5%BF%E9%9A%94%E7%A6%BB%E5%88%B0%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E4%B8%AD"><span class="nav-number">4.</span> <span class="nav-text">把可变的东西隔离到配置数据中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E8%80%83%E8%99%91%E6%84%8F%E5%A4%96%E6%83%85%E5%86%B5%EF%BC%8C%E4%B8%8D%E8%A6%81%E5%8F%AA%E5%AE%9E%E7%8E%B0-happy-path"><span class="nav-number">5.</span> <span class="nav-text">多考虑意外情况，不要只实现 happy path</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E8%AE%BE%E8%AE%A1%E9%98%B6%E6%AE%B5%E5%B0%B1%E5%BC%80%E5%A7%8B%E8%80%83%E8%99%91%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5"><span class="nav-number">6.</span> <span class="nav-text">在设计阶段就开始考虑异常情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E7%94%A8%E7%9A%84%E8%AF%80%E7%AA%8D%EF%BC%9A%E5%8F%AA%E5%81%9A%E4%B8%80%E4%BB%B6%E4%BA%8B%E6%83%85"><span class="nav-number">7.</span> <span class="nav-text">复用的诀窍：只做一件事情</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E6%B5%8B%E8%AF%95%E7%90%86%E8%AE%BA"><span class="nav-number">8.</span> <span class="nav-text">学习测试理论</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">FunCoder</p>
+  <div class="site-description" itemprop="description">Youtube / 小红书 / 知乎 同名</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangzhe3224" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangzhe3224" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UCewwgakV1SB1IKu8305Hgsg" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UCewwgakV1SB1IKu8305Hgsg" rel="noopener me" target="_blank"><i class="fab fa-youtube fa-fw"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/wangzhetju" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;wangzhetju" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/zhuan-ma/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;zhuan-ma&#x2F;" rel="noopener" target="_blank">转码路线图</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/awesome-systematic-trading/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;awesome-systematic-trading&#x2F;" rel="noopener" target="_blank">SystematicTrading</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://funcoder.net/" title="https:&#x2F;&#x2F;funcoder.net&#x2F;" rel="noopener" target="_blank">FunCoder</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/bitcoin-pro/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;bitcoin-pro&#x2F;" rel="noopener" target="_blank">BitcoinPro</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://wangzhe3224.github.io/quant-roadmap/" title="https:&#x2F;&#x2F;wangzhe3224.github.io&#x2F;quant-roadmap&#x2F;" rel="noopener" target="_blank">QuantRoadmap</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://quant.funcoder.net/" title="https:&#x2F;&#x2F;quant.funcoder.net&#x2F;" rel="noopener" target="_blank">QuantBox</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/10/02/design_habbit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="FunCoder">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FunCoder">
+      <meta itemprop="description" content="Youtube / 小红书 / 知乎 同名">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="一些软件设计原则 | FunCoder">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一些软件设计原则
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-10-02 00:00:00" itemprop="dateCreated datePublished" datetime="2022-10-02T00:00:00Z">2022-10-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-09-29 21:15:04" itemprop="dateModified" datetime="2023-09-29T21:15:04Z">2023-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Software-Engineering/" itemprop="url" rel="index"><span itemprop="name">Software Engineering</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/10/02/design_habbit/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/10/02/design_habbit/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>1.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><ul>
+<li><a href="#先设计后编码">先设计，后编码</a></li>
+<li><a href="#写明显没有错误的代码">写”明显没有错误的“代码</a></li>
+<li><a href="#学最激进的技术用最简单的实现">学最激进的技术，用最简单的实现</a></li>
+<li><a href="#把可变的东西隔离到配置数据中">把可变的东西隔离到配置数据中</a></li>
+<li><a href="#多考虑意外情况不要只实现-happy-path">多考虑意外情况，不要只实现 happy path</a></li>
+<li><a href="#在设计阶段就开始考虑异常情况">在设计阶段就开始考虑异常情况</a></li>
+<li><a href="#复用的诀窍只做一件事情">复用的诀窍：只做一件事情</a></li>
+<li><a href="#学习测试理论">学习测试理论</a></li>
+</ul>
+<h2 id="先设计，后编码"><a href="#先设计，后编码" class="headerlink" title="先设计，后编码"></a>先设计，后编码</h2><p>需求和设计阶段应该在软件开发的 60% 时间，而实现占 40%。没有事先规划，想哪写哪；结果被层出不穷的状况（还美其名曰需求变更）牵着鼻子、面多了加水水多了加面：这就是绝大多数软件开发时间冗长、状况不断、无疾而终的根本原因。</p>
+<h2 id="写”明显没有错误的“代码"><a href="#写”明显没有错误的“代码" class="headerlink" title="写”明显没有错误的“代码"></a>写”明显没有错误的“代码</h2><p>而不是”没有明显错误“的代码。</p>
+<p>除非你真的做了设计，否则你的代码一定没有什么”设计感“。用心设计，才能找到达到目标的路径中最短最快的那一条。<br>做到这一点，才能把代码写的简单，让人一眼看出意图、明显没有缺陷。</p>
+<p>把复杂的功能写简单、写的让人一眼看懂、且知道是不是有错误，需要深厚的功底。</p>
+<h2 id="学最激进的技术，用最简单的实现"><a href="#学最激进的技术，用最简单的实现" class="headerlink" title="学最激进的技术，用最简单的实现"></a>学最激进的技术，用最简单的实现</h2><h2 id="把可变的东西隔离到配置数据中"><a href="#把可变的东西隔离到配置数据中" class="headerlink" title="把可变的东西隔离到配置数据中"></a>把可变的东西隔离到配置数据中</h2><p>换句话说，程序最好只写不变的部分，如果需要变化，用最抽象的实现（元编程）。</p>
+<p>“开闭原则”说的其实就是，程序代码写出来就不用再动了，这叫对修改封闭；但随便你需要什么样的功能，都可以借助既有的代码完成，这叫“对扩展开放”。<br>真正做到了“对修改封闭”，表现是“不需要动”“不要去怀疑”“可以增加功能，但没必要触动已有代码”</p>
+<h2 id="多考虑意外情况，不要只实现-happy-path"><a href="#多考虑意外情况，不要只实现-happy-path" class="headerlink" title="多考虑意外情况，不要只实现 happy path"></a>多考虑意外情况，不要只实现 happy path</h2><p>Happy path 就是完全不考虑出错、不考虑数据竞争、不考虑操作提交时条件不满足、假定世界是完美的、按顺序来一切都能解决的这么一个执行流。</p>
+<p>当然，happy path也是必须先找出来的。</p>
+<p>先把happy path找出来，再一点点添加——这里可能出现意外，出现意外怎么办……逐渐添加、丰富下去，正确的设计稿就出来了。</p>
+<h2 id="在设计阶段就开始考虑异常情况"><a href="#在设计阶段就开始考虑异常情况" class="headerlink" title="在设计阶段就开始考虑异常情况"></a>在设计阶段就开始考虑异常情况</h2><p>首先，要把异常分为几类。</p>
+<p>然后，对确定来源的异常应设计正常处理流程——它是正常流程的一部分，是设计之初就应该考虑好的，可不是什么异常。</p>
+<p>之后，对未知来路的奇怪错误，不要姑息——见到了，就让程序崩掉。</p>
+<p>最终，如果我们的程序的确有极高可靠性要求的话，我们需要设计一个机制，及早发现程序崩溃并自动拉起新的实例。</p>
+<p>如此反复，最终就是：一出错就马上抛异常崩溃掉的程序，出错的机率越来越低、渐至于怎么折腾都不会崩溃、甚至单实例都能7x24小时可靠运行；而使劲容错、绝不崩溃的程序，它几乎每时每刻都在出错、逼得用户不得不“重启下说不定就好了”“这破系统用十分钟就得重启，不然丢数据……不是丢新数据，旧数据都会被破坏……”</p>
+<h2 id="复用的诀窍：只做一件事情"><a href="#复用的诀窍：只做一件事情" class="headerlink" title="复用的诀窍：只做一件事情"></a>复用的诀窍：只做一件事情</h2><p>其实一点也不难：只做一件事，把一件事做好，这玩意儿就天然是方便复用的。</p>
+<p>这很容易理解。玩过积木吧？什么样的积木摆什么造型都用得上？</p>
+<p>方块，对吧。</p>
+<p>为什么方块这么容易复用？因为它最简单。</p>
+<p>这实际上也是我前面说过的：把可变的东西隔离到数据中，程序只提供一组元规则！程序越简洁，就越是可以随意的拼起来、拼出千变万化五彩缤纷的大千世界。</p>
+<h2 id="学习测试理论"><a href="#学习测试理论" class="headerlink" title="学习测试理论"></a>学习测试理论</h2><p>嗯，不可否认，的确“总会有我们意想不到的状况”；但绝大多数情况，我们是可以预想到的。</p>
+<p>作者：invalid s<br>链接：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/32255673/answer/2325523343">https://www.zhihu.com/question/32255673/answer/2325523343</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Design/" rel="tag"># Design</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/25/thinking_bitcoin_18/" rel="prev" title="ASICs 和去中心化常见问答 - 译">
+                  <i class="fa fa-angle-left"></i> ASICs 和去中心化常见问答 - 译
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/10/03/quant_dev_5/" rel="next" title="Quant Dev 4 - 数据库">
+                  Quant Dev 4 - 数据库 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">FunCoder</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">426k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6:27</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/wangzhe3224" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"funcoder","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
