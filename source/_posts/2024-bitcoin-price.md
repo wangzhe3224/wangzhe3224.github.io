@@ -47,6 +47,21 @@ tags: [Bitcoin]
 
 ![20240815095444](https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20240815095444.png)
 
+## 如果比特币是。。。
+
+还有一种定价方式就是类比。
+
+![20240816100343](https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20240816100343.png)
+
+目前比特币是世界第十大资产类别，市值 1.1 万亿美金，如果比特币达到黄金的体量，市值会达到 16 万亿。
+
+如果比特币的价值存储属性得到认可，我们可以假设比特币占据世界总财富的一部分。根据 UBS 2024 的世界财富报告[^3]，2022 年世界总财富为 489 万亿。
+
+![20240816104004](https://raw.githubusercontent.com/wangzhe3224/pic_repo/master/images/20240816104004.png)
+
+假设比特币存储了 5% 的世界财富，它的市值约为 22 万亿，也就是1百万美金每个。
+
 
 [^1]: https://www.mdpi.com/1911-8074/13/11/263
 [^2]: https://www.sciencedirect.com/science/article/pii/S0160791X23001252
+[^3]: https://www.ubs.com/content/dam/assets/wm/global/insights/doc/global-wealth-report.pdf
