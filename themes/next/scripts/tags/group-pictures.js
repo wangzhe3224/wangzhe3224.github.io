@@ -80,7 +80,7 @@ function groupBy(group, data) {
 
 const templates = {
 
-  dispatch: function(pictures, group, layout) {
+  dispatch(pictures, group, layout) {
     const rule = LAYOUTS[group] ? LAYOUTS[group][layout] : null;
     return rule ? this.getHTML(groupBy(rule, pictures)) : this.defaults(pictures);
   },
@@ -94,7 +94,7 @@ const templates = {
    *
    * @param pictures
    */
-  defaults: function(pictures) {
+  defaults(pictures) {
     const ROW_SIZE = 3;
     const rows = pictures.length / ROW_SIZE;
     const pictureArr = [];
@@ -106,13 +106,13 @@ const templates = {
     return this.getHTML(pictureArr);
   },
 
-  getHTML: function(rows) {
+  getHTML(rows) {
     return rows.map(row => {
       return `<div class="group-picture-row">${this.getColumnHTML(row)}</div>`;
     }).join('');
   },
 
-  getColumnHTML: function(pictures) {
+  getColumnHTML(pictures) {
     return pictures.map(picture => {
       return `<div class="group-picture-column">${picture}</div>`;
     }).join('');
@@ -120,9 +120,10 @@ const templates = {
 };
 
 module.exports = ctx => function(args, content) {
-  args = args[0].split('-');
-  const group = parseInt(args[0], 10);
-  const layout = parseInt(args[1], 10);
+  let group, layout;
+  if (args[0]) {
+    [group, layout] = args[0].split('-');
+  }
 
   content = ctx.render.renderSync({ text: content, engine: 'markdown' });
 

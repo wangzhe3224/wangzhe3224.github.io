@@ -4,21 +4,20 @@ NexT.motion = {};
 
 NexT.motion.integrator = {
   queue: [],
-  init : function() {
+  init() {
     this.queue = [];
     return this;
   },
-  add: function(fn) {
+  add(fn) {
     const sequence = fn();
-    if (CONFIG.motion.async) this.queue.push(sequence);
-    else this.queue = this.queue.concat(sequence);
+    this.queue.push(sequence);
     return this;
   },
-  bootstrap: function() {
-    if (!CONFIG.motion.async) this.queue = [this.queue];
+  bootstrap() {
+    if (!CONFIG.motion.async) this.queue = [this.queue.flat()];
     this.queue.forEach(sequence => {
       const timeline = window.anime.timeline({
-        duration: 200,
+        duration: CONFIG.motion?.duration ?? 200,
         easing  : 'linear'
       });
       sequence.forEach(item => {
@@ -30,7 +29,7 @@ NexT.motion.integrator = {
 };
 
 NexT.motion.middleWares = {
-  header: function() {
+  header() {
     const sequence = [];
 
     function getMistLineSettings(targets) {
@@ -73,7 +72,7 @@ NexT.motion.middleWares = {
     return sequence;
   },
 
-  subMenu: function() {
+  subMenu() {
     const subMenuItem = document.querySelectorAll('.sub-menu .menu-item');
     if (subMenuItem.length > 0) {
       subMenuItem.forEach(element => {
@@ -83,7 +82,7 @@ NexT.motion.middleWares = {
     return [];
   },
 
-  postList: function() {
+  postList() {
     const sequence = [];
     const { post_block, post_header, post_body, coll_header } = CONFIG.motion.transition;
 
@@ -114,12 +113,12 @@ NexT.motion.middleWares = {
     return sequence;
   },
 
-  sidebar: function() {
+  sidebar() {
     const sequence = [];
     const sidebar = document.querySelectorAll('.sidebar-inner');
     const sidebarTransition = CONFIG.motion.transition.sidebar;
-    // Only for Pisces | Gemini.
-    if (sidebarTransition && (CONFIG.scheme === 'Pisces' || CONFIG.scheme === 'Gemini')) {
+    // Only for desktop of Pisces | Gemini.
+    if (sidebarTransition && (CONFIG.scheme === 'Pisces' || CONFIG.scheme === 'Gemini') && window.innerWidth >= 992) {
       sidebar.forEach(targets => {
         sequence.push({
           targets,
@@ -131,7 +130,7 @@ NexT.motion.middleWares = {
     return sequence;
   },
 
-  footer: function() {
+  footer() {
     return [{
       targets: document.querySelector('.footer'),
       opacity: 1

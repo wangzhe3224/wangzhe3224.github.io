@@ -1,6 +1,5 @@
 'use strict';
 
-require('chai').should();
 
 const { escapeHTML } = require('hexo-util');
 
@@ -13,9 +12,11 @@ describe('mermaid', () => {
   const mermaid = require('../../scripts/tags/mermaid');
 
   it('default', () => {
-    mermaid(['graph', 'TD'], result).should.eql(`<pre class="mermaid">
+    mermaid(['graph', 'TD'], result).should.eql(`<pre>
+<code class="mermaid">
 graph TD
 ${escapeHTML(result)}
+</code>
 </pre>`);
   });
 });

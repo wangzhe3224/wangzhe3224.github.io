@@ -1,14 +1,16 @@
 {%- include 'vendors.njk' -%}
 
-{{- next_js('comments.js') }}
+{%- if theme.injects.comment.length > 1 %}
+  {{- next_js('comments.js') }}
+{%- endif %}
 
 {{- next_js('utils.js') }}
 {%- if theme.motion.enable %}
   {{- next_js('motion.js') }}
 {%- endif %}
 
-{%- if theme.scheme === 'Muse' or theme.scheme === 'Mist' %}
-  {{- next_js('schemes/muse.js') }}
+{%- if theme.sidebar.display !== 'remove' %}
+  {{- next_js('sidebar.js') }}
 {%- endif %}
 
 {{- next_js('next-boot.js') }}

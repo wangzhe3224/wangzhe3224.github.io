@@ -75,6 +75,14 @@ figure.highlight {
   overflow: auto;
   position: relative;
 
+  color-scheme: light;
+
+  if (hexo-config('darkmode')) {
+    @media (prefers-color-scheme: dark) {
+      color-scheme: dark;
+    }
+  }
+
   pre {
     border: 0;
     margin: 0;
@@ -120,7 +128,7 @@ figure.highlight {
 }
 
 // See https://github.com/hexojs/hexo-util/pull/229
-pre .caption, pre figcaption {
+pre .caption {
   @extend $figcaption;
   margin-bottom: 10px;
 }

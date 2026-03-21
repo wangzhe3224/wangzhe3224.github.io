@@ -6,6 +6,7 @@ NexT.boot.registerEvents = function() {
 
   NexT.utils.registerScrollPercent();
   NexT.utils.registerCanIUseTag();
+  NexT.utils.updateFooterPosition();
 
   // Mobile top menu bar.
   document.querySelector('.site-nav-toggle .toggle').addEventListener('click', event => {
@@ -26,7 +27,7 @@ NexT.boot.registerEvents = function() {
     const tHash = location.hash;
     if (tHash !== '' && !tHash.match(/%\S{2}/)) {
       const target = document.querySelector(`.tabs ul.nav-tabs li a[href="${tHash}"]`);
-      target && target.click();
+      target?.click();
     }
   });
 
@@ -46,7 +47,18 @@ NexT.boot.refresh = function() {
     background: 'var(--content-bg-color)'
   });
   CONFIG.lazyload && window.lozad('.post-body img').observe();
-  CONFIG.pangu && window.pangu.spacingPage();
+  if (CONFIG.pangu) {
+    // Polyfill for requestIdleCallback if not supported
+    if (!window.requestIdleCallback) {
+      window.requestIdleCallback = function(cb) {
+        cb({
+          didTimeout   : false,
+          timeRemaining: () => 100
+        });
+      };
+    }
+    [...document.getElementsByTagName('main')].forEach(e => window.pangu.spacingNode(e));
+  }
 
   CONFIG.exturl && NexT.utils.registerExtURL();
   NexT.utils.wrapTableWithBox();
@@ -64,8 +76,8 @@ NexT.boot.motion = function() {
   if (CONFIG.motion.enable) {
     NexT.motion.integrator
       .add(NexT.motion.middleWares.header)
-      .add(NexT.motion.middleWares.postList)
       .add(NexT.motion.middleWares.sidebar)
+      .add(NexT.motion.middleWares.postList)
       .add(NexT.motion.middleWares.footer)
       .bootstrap();
   }

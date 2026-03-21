@@ -13,17 +13,13 @@ HTMLElement.prototype.wrap = function(wrapper) {
     })
   );
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('readystatechange', onPageLoaded, { once: true });
-  } else {
-    onPageLoaded();
-  }
+  document.addEventListener('DOMContentLoaded', onPageLoaded);
   document.addEventListener('pjax:success', onPageLoaded);
 })();
 
 NexT.utils = {
 
-  registerExtURL: function() {
+  registerExtURL() {
     document.querySelectorAll('span.exturl').forEach(element => {
       const link = document.createElement('a');
       // https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
@@ -39,15 +35,48 @@ NexT.utils = {
     });
   },
 
-  registerCodeblock: function(element) {
+  registerCopyButton(target, element, code = '') {
+    // One-click copy code support.
+    target.insertAdjacentHTML('beforeend', '<div class="copy-btn"><i class="fa fa-copy fa-fw"></i></div>');
+    const button = target.querySelector('.copy-btn');
+    button.addEventListener('click', async () => {
+      if (!code) {
+        const lines = element.querySelector('.code') || element.querySelector('code');
+        code = lines.innerText;
+      }
+      if (navigator.clipboard) {
+        // https://caniuse.com/mdn-api_clipboard_writetext
+        try {
+          await navigator.clipboard.writeText(code);
+          button.querySelector('i').className = 'fa fa-check-circle fa-fw';
+        } catch {
+          button.querySelector('i').className = 'fa fa-times-circle fa-fw';
+        }
+      } else {
+        button.querySelector('i').className = 'fa fa-times-circle fa-fw';
+      }
+    });
+    // If copycode.style is not mac, element is larger than target
+    // So we need to accept both of them as parameters
+    element.addEventListener('mouseleave', () => {
+      setTimeout(() => {
+        button.querySelector('i').className = 'fa fa-copy fa-fw';
+      }, 300);
+    });
+  },
+
+  registerCodeblock(element) {
     const inited = !!element;
-    let figure = (inited ? element : document).querySelectorAll('figure.highlight');
-    let isHljsWithWrap = true;
-    if (figure.length === 0) {
-      figure = document.querySelectorAll('pre:not(.mermaid)');
-      isHljsWithWrap = false;
+    let figure;
+    if (CONFIG.hljswrap) {
+      figure = (inited ? element : document).querySelectorAll('figure.highlight');
+    } else {
+      figure = document.querySelectorAll('pre');
     }
     figure.forEach(element => {
+      // Skip pre > .mermaid for folding and copy button
+      if (element.querySelector('.mermaid')) return;
+      const languageName = [...element.classList].find(cls => cls !== 'highlight');
       if (!inited) {
         let span = element.querySelectorAll('.code .line span');
         if (span.length === 0) {
@@ -60,11 +89,11 @@ NexT.utils = {
           });
         });
       }
-      const height = parseInt(window.getComputedStyle(element).height.replace('px', ''), 10);
-      const needFold = CONFIG.fold.enable && (height > CONFIG.fold.height);
-      if (!needFold && !CONFIG.copycode.enable) return;
+      const height = parseInt(window.getComputedStyle(element).height, 10);
+      const needFold = CONFIG.codeblock.fold.enable && (height > CONFIG.codeblock.fold.height);
+      if (!needFold && !CONFIG.codeblock.copy_button.enable && !CONFIG.codeblock.language) return;
       let target;
-      if (isHljsWithWrap && CONFIG.copycode.style === 'mac') {
+      if (CONFIG.hljswrap && CONFIG.codeblock.copy_button.style === 'mac') {
         target = element;
       } else {
         let box = element.querySelector('.code-container');
@@ -75,6 +104,9 @@ NexT.utils = {
           box = document.createElement('div');
           box.className = 'code-container';
           container.wrap(box);
+
+          // add "notranslate" to prevent Google Translate from translating it, which also completely messes up the layout
+          box.classList.add('notranslate');
         }
         target = box;
       }
@@ -86,47 +118,19 @@ NexT.utils = {
           target.classList.add('unfold');
         });
       }
-      if (inited || !CONFIG.copycode.enable) return;
-      // One-click copy code support.
-      target.insertAdjacentHTML('beforeend', '<div class="copy-btn"><i class="fa fa-copy fa-fw"></i></div>');
-      const button = target.querySelector('.copy-btn');
-      button.addEventListener('click', () => {
-        const lines = element.querySelector('.code') || element.querySelector('code');
-        const code = lines.innerText;
-        if (navigator.clipboard) {
-          // https://caniuse.com/mdn-api_clipboard_writetext
-          navigator.clipboard.writeText(code).then(() => {
-            button.querySelector('i').className = 'fa fa-check-circle fa-fw';
-          }, () => {
-            button.querySelector('i').className = 'fa fa-times-circle fa-fw';
-          });
-        } else {
-          const ta = document.createElement('textarea');
-          ta.style.top = window.scrollY + 'px'; // Prevent page scrolling
-          ta.style.position = 'absolute';
-          ta.style.opacity = '0';
-          ta.readOnly = true;
-          ta.value = code;
-          document.body.append(ta);
-          ta.select();
-          ta.setSelectionRange(0, code.length);
-          ta.readOnly = false;
-          const result = document.execCommand('copy');
-          button.querySelector('i').className = result ? 'fa fa-check-circle fa-fw' : 'fa fa-times-circle fa-fw';
-          ta.blur(); // For iOS
-          button.blur();
-          document.body.removeChild(ta);
-        }
-      });
-      element.addEventListener('mouseleave', () => {
-        setTimeout(() => {
-          button.querySelector('i').className = 'fa fa-copy fa-fw';
-        }, 300);
-      });
+      if (!inited && CONFIG.codeblock.copy_button.enable) {
+        this.registerCopyButton(target, element);
+      }
+      if (!inited && CONFIG.codeblock.language && languageName) {
+        const lang = document.createElement('div');
+        lang.className = 'code-lang';
+        lang.innerText = languageName.toUpperCase();
+        target.insertAdjacentElement('afterbegin', lang);
+      }
     });
   },
 
-  wrapTableWithBox: function() {
+  wrapTableWithBox() {
     document.querySelectorAll('table').forEach(element => {
       const box = document.createElement('div');
       box.className = 'table-container';
@@ -134,7 +138,7 @@ NexT.utils = {
     });
   },
 
-  registerVideoIframe: function() {
+  registerVideoIframe() {
     document.querySelectorAll('iframe').forEach(element => {
       const supported = [
         'www.youtube.com',
@@ -156,20 +160,20 @@ NexT.utils = {
     });
   },
 
-  updateActiveNav: function() {
-    if (!Array.isArray(NexT.utils.sections)) return;
-    let index = NexT.utils.sections.findIndex(element => {
-      return element && element.getBoundingClientRect().top > 10;
+  updateActiveNav() {
+    if (!Array.isArray(this.sections)) return;
+    let index = this.sections.findIndex(element => {
+      return element?.getBoundingClientRect().top > 10;
     });
     if (index === -1) {
-      index = NexT.utils.sections.length - 1;
+      index = this.sections.length - 1;
     } else if (index > 0) {
       index--;
     }
     this.activateNavByIndex(index);
   },
 
-  registerScrollPercent: function() {
+  registerScrollPercent() {
     const backToTop = document.querySelector('.back-to-top');
     const readingProgressBar = document.querySelector('.reading-progress-bar');
     // For init back to top in sidebar if page was scrolled after page refresh.
@@ -188,7 +192,7 @@ NexT.utils = {
       this.updateActiveNav();
     }, { passive: true });
 
-    backToTop && backToTop.addEventListener('click', () => {
+    backToTop?.addEventListener('click', () => {
       window.anime({
         targets  : document.scrollingElement,
         duration : 500,
@@ -201,7 +205,7 @@ NexT.utils = {
   /**
    * Tabs tag listener (without twitter bootstrap).
    */
-  registerTabsTag: function() {
+  registerTabsTag() {
     // Binding `nav-tabs` & `tab-content` by real time permalink changing.
     document.querySelectorAll('.tabs ul.nav-tabs .tab').forEach(element => {
       element.addEventListener('click', event => {
@@ -216,9 +220,9 @@ NexT.utils = {
         // Comment system selection tab does not contain .active class.
         const activeTab = tabContent.querySelector('.active') || tabContent.firstElementChild;
         // Hight might be `auto`.
-        const prevHeight = parseInt(window.getComputedStyle(activeTab).height.replace('px', ''), 10) || 0;
-        const paddingTop = parseInt(window.getComputedStyle(activeTab).paddingTop.replace('px', ''), 10);
-        const marginBottom = parseInt(window.getComputedStyle(activeTab.firstElementChild).marginBottom.replace('px', ''), 10);
+        const prevHeight = parseInt(window.getComputedStyle(activeTab).height, 10) || 0;
+        const paddingTop = parseInt(window.getComputedStyle(activeTab).paddingTop, 10);
+        const marginBottom = parseInt(window.getComputedStyle(activeTab.firstElementChild).marginBottom, 10);
         tabContent.style.height = prevHeight + paddingTop + marginBottom + 'px';
         // Add & Remove active class on `nav-tabs` & `tab-content`.
         [...nav.children].forEach(target => {
@@ -235,7 +239,7 @@ NexT.utils = {
         }));
         // Get the height of `tab-pane` which is activated now.
         const hasScrollBar = document.body.scrollHeight > (window.innerHeight || document.documentElement.clientHeight);
-        const currHeight = parseInt(window.getComputedStyle(tabContent.querySelector('.active')).height.replace('px', ''), 10);
+        const currHeight = parseInt(window.getComputedStyle(tabContent.querySelector('.active')).height, 10);
         // Reset the height of `tab-content` and see the animation.
         tabContent.style.height = currHeight + paddingTop + marginBottom + 'px';
         // Change the height of `tab-content` may cause scrollbar show / disappear, which may result in the change of the `tab-pane`'s height
@@ -243,7 +247,7 @@ NexT.utils = {
           if ((document.body.scrollHeight > (window.innerHeight || document.documentElement.clientHeight)) !== hasScrollBar) {
             tabContent.style.transition = 'height 0.3s linear';
             // After the animation, we need reset the height of `tab-content` again.
-            const currHeightAfterScrollBarChange = parseInt(window.getComputedStyle(tabContent.querySelector('.active')).height.replace('px', ''), 10);
+            const currHeightAfterScrollBarChange = parseInt(window.getComputedStyle(tabContent.querySelector('.active')).height, 10);
             tabContent.style.height = currHeightAfterScrollBarChange + paddingTop + marginBottom + 'px';
           }
           // Remove all the inline styles, and let the height be adaptive again.
@@ -266,7 +270,7 @@ NexT.utils = {
     window.dispatchEvent(new Event('tabs:register'));
   },
 
-  registerCanIUseTag: function() {
+  registerCanIUseTag() {
     // Get responsive height passed from iframe.
     window.addEventListener('message', ({ data }) => {
       if (typeof data === 'string' && data.includes('ciu_embed')) {
@@ -277,7 +281,7 @@ NexT.utils = {
     }, false);
   },
 
-  registerActiveMenuItem: function() {
+  registerActiveMenuItem() {
     document.querySelectorAll('.menu-item a[href]').forEach(target => {
       const isSamePath = target.pathname === location.pathname || target.pathname === location.pathname.replace('index.html', '');
       const isSubPath = !CONFIG.root.startsWith(target.pathname) && location.pathname.startsWith(target.pathname);
@@ -285,7 +289,7 @@ NexT.utils = {
     });
   },
 
-  registerLangSelect: function() {
+  registerLangSelect() {
     const selects = document.querySelectorAll('.lang-select');
     selects.forEach(sel => {
       sel.value = CONFIG.page.lang;
@@ -300,7 +304,7 @@ NexT.utils = {
     });
   },
 
-  registerSidebarTOC: function() {
+  registerSidebarTOC() {
     this.sections = [...document.querySelectorAll('.post-toc:not(.placeholder-toc) li a.nav-link')].map(element => {
       const target = document.getElementById(decodeURI(element.getAttribute('href')).replace('#', ''));
       // TOC item animation navigate.
@@ -322,7 +326,7 @@ NexT.utils = {
     this.updateActiveNav();
   },
 
-  registerPostReward: function() {
+  registerPostReward() {
     const button = document.querySelector('.reward-container button');
     if (!button) return;
     button.addEventListener('click', () => {
@@ -330,7 +334,7 @@ NexT.utils = {
     });
   },
 
-  activateNavByIndex: function(index) {
+  activateNavByIndex(index) {
     const nav = document.querySelector('.post-toc:not(.placeholder-toc) .nav');
     if (!nav) return;
 
@@ -371,7 +375,7 @@ NexT.utils = {
     });
   },
 
-  updateSidebarPosition: function() {
+  updateSidebarPosition() {
     if (window.innerWidth < 1200 || CONFIG.scheme === 'Pisces' || CONFIG.scheme === 'Gemini') return;
     // Expand sidebar on post detail page by default, when post has a toc.
     const hasTOC = document.querySelector('.post-toc:not(.placeholder-toc)');
@@ -385,7 +389,7 @@ NexT.utils = {
     }
   },
 
-  activateSidebarPanel: function(index) {
+  activateSidebarPanel(index) {
     const sidebar = document.querySelector('.sidebar-inner');
     const activeClassNames = ['sidebar-toc-active', 'sidebar-overview-active'];
     if (sidebar.classList.contains(activeClassNames[index])) return;
@@ -412,7 +416,32 @@ NexT.utils = {
     sidebar.classList.replace(activeClassNames[1 - index], activeClassNames[index]);
   },
 
-  getScript: function(src, options = {}, legacyCondition) {
+  updateFooterPosition() {
+    if (CONFIG.scheme === 'Pisces' || CONFIG.scheme === 'Gemini') return;
+    function updateFooterPosition() {
+      const footer = document.querySelector('.footer');
+      const containerHeight = document.querySelector('.main').offsetHeight + footer.offsetHeight;
+      footer.classList.toggle('footer-fixed', containerHeight <= window.innerHeight);
+    }
+
+    updateFooterPosition();
+    window.addEventListener('resize', updateFooterPosition);
+    window.addEventListener('scroll', updateFooterPosition, { passive: true });
+  },
+
+  /**
+   * Sets the CSS variable '--dialog-scrollgutter' to the specified gap value.
+   * If no gap is provided, it calculates the gap as the difference between
+   * the window's inner width and the document body's client width.
+   *
+   * @param {string} [gap] - The gap value to be set. If not provided, the
+   *                         default gap is calculated automatically.
+   */
+  setGutter(gap) {
+    document.body.style.setProperty('--dialog-scrollgutter', gap || `${window.innerWidth - document.body.clientWidth}px`);
+  },
+
+  getScript(src, options = {}, legacyCondition) {
     if (typeof options === 'function') {
       return this.getScript(src, {
         condition: legacyCondition
@@ -422,7 +451,6 @@ NexT.utils = {
       condition = false,
       attributes: {
         id = '',
-        async = false,
         defer = false,
         crossOrigin = '',
         dataset = {},
@@ -430,6 +458,7 @@ NexT.utils = {
       } = {},
       parentNode = null
     } = options;
+    const async = options.async ?? false;
     return new Promise((resolve, reject) => {
       if (condition) {
         resolve();
@@ -463,7 +492,7 @@ NexT.utils = {
     });
   },
 
-  loadComments: function(selector, legacyCallback) {
+  loadComments(selector, legacyCallback) {
     if (legacyCallback) {
       return this.loadComments(selector).then(legacyCallback);
     }
@@ -482,5 +511,14 @@ NexT.utils = {
       });
       intersectionObserver.observe(element);
     });
+  },
+
+  debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
   }
 };

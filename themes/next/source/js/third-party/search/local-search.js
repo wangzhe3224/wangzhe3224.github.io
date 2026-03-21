@@ -1,4 +1,4 @@
-/* global CONFIG, pjax, LocalSearch */
+/* global CONFIG, NexT, pjax, LocalSearch */
 
 document.addEventListener('DOMContentLoaded', () => {
   if (!CONFIG.path) {
@@ -13,22 +13,20 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const input = document.querySelector('.search-input');
+  const container = document.querySelector('.search-result-container');
 
   const inputEventFunction = () => {
     if (!localSearch.isfetched) return;
     const searchText = input.value.trim().toLowerCase();
     const keywords = searchText.split(/[-\s]+/);
-    const container = document.querySelector('.search-result-container');
     let resultItems = [];
     if (searchText.length > 0) {
       // Perform local searching
       resultItems = localSearch.getResultItems(keywords);
     }
     if (keywords.length === 1 && keywords[0] === '') {
-      container.classList.add('no-result');
       container.innerHTML = '<div class="search-result-icon"><i class="fa fa-search fa-5x"></i></div>';
     } else if (resultItems.length === 0) {
-      container.classList.add('no-result');
       container.innerHTML = '<div class="search-result-icon"><i class="far fa-frown fa-5x"></i></div>';
     } else {
       resultItems.sort((left, right) => {
@@ -41,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const stats = CONFIG.i18n.hits.replace('${hits}', resultItems.length);
 
-      container.classList.remove('no-result');
       container.innerHTML = `<div class="search-stats">${stats}</div>
         <hr>
         <ul class="search-result-list">${resultItems.map(result => result.item).join('')}</ul>`;
@@ -54,21 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
     localSearch.fetchData();
   }
 
-  if (CONFIG.localsearch.trigger === 'auto') {
-    input.addEventListener('input', inputEventFunction);
-  } else {
-    document.querySelector('.search-icon').addEventListener('click', inputEventFunction);
-    input.addEventListener('keypress', event => {
-      if (event.key === 'Enter') {
-        inputEventFunction();
-      }
-    });
-  }
+  input.addEventListener('input', inputEventFunction);
   window.addEventListener('search:loaded', inputEventFunction);
 
   // Handle and trigger popup window
   document.querySelectorAll('.popup-trigger').forEach(element => {
     element.addEventListener('click', () => {
+      NexT.utils.setGutter();
       document.body.classList.add('search-active');
       // Wait for search-popup animation to complete
       setTimeout(() => input.focus(), 500);
@@ -78,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Monitor main search box
   const onPopupClose = () => {
+    NexT.utils.setGutter('0');
     document.body.classList.remove('search-active');
   };
 
@@ -90,6 +80,15 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('pjax:success', () => {
     localSearch.highlightSearchWords(document.querySelector('.post-body'));
     onPopupClose();
+  });
+  window.addEventListener('keydown', event => {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+      event.preventDefault();
+      NexT.utils.setGutter();
+      document.body.classList.add('search-active');
+      setTimeout(() => input.focus(), 500);
+      if (!localSearch.isfetched) localSearch.fetchData();
+    }
   });
   window.addEventListener('keyup', event => {
     if (event.key === 'Escape') {
